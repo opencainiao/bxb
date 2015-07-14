@@ -1,0 +1,11 @@
+eclipse.preferences.version=1
+encoding//WebContent/WEB-INF/jsp/update_brower.jsp=UTF-8
+encoding//src/com/bxb/common/globalobj/PageVO.java=gbk
+encoding//src/com/bxb/common/util/ValCodeGenerator.java=UTF-8
+encoding//src/com/bxb/modules/global/controller/UsermailController.java=UTF-8
+encoding//src/com/bxb/modules/global/controller/ValidateCodeController.java=UTF-8
+encoding//src/com/bxb/modules/user/controller/AdminLoginController.java=UTF-8
+encoding//src/com/bxb/modules/user/controller/PasswordController.java=UTF-8
+encoding//src/com/bxb/modules/user/controller/UserLoginController.java=UTF-8
+encoding//src/com/bxb/modules/user/controller/UserRegisterController.java=UTF-8
+encoding/<project>=UTF-8
