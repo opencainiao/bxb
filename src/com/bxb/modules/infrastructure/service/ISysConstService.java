@@ -1,5 +1,7 @@
 package com.bxb.modules.infrastructure.service;
 
+import java.util.List;
+
 import com.bxb.common.globalobj.PageVO;
 import com.bxb.modules.infrastructure.model.SysConst;
 import com.mongodb.DBObject;
@@ -92,5 +94,13 @@ public interface ISysConstService {
 	 * @return
 	 */
 	public boolean isExistSameConstDispval(SysConst sysconst);
+
+	/****
+	 * 查询常量类型下的所有常量
+	 * 
+	 * @param typecode
+	 * @return
+	 */
+	public List<DBObject> findAllConstBySysconstTypecode(String typecode);
 
 }

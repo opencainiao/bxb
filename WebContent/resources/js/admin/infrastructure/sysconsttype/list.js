@@ -32,6 +32,17 @@ var data_manage_functions = {
 			}, data),
 			dataType : 'json',
 			success : function(data) {
+				
+				 if (data['success'] == 'n') {
+	                 if (data['brErrors']) {
+	                    $.showBRErrors_mou_abs(data['brErrors'], $("#add_div"));
+	                 } else {
+	                  	$.alertError(data['message']);
+	                 }
+	                 
+	                 return;
+	             } 
+				 
 				data_manage.gridsetting.params = [ {
 					name : 'reload',
 					value : true
@@ -219,7 +230,7 @@ var data_manage = {
 				r_name : 'del',
 				text : '删除',
 				callback : data_manage_functions.delOne,
-				paramConfig : [ "_id_m" ],
+				paramConfig : [ "_id_m" ,"typecode"],
 				css : "btn btn-xs btn-danger"
 			}, {
 				r_name : 'toEdit',

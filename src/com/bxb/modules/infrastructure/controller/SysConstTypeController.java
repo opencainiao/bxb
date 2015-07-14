@@ -1,5 +1,6 @@
 package com.bxb.modules.infrastructure.controller;
 
+import java.util.List;
 import java.util.regex.Pattern;
 
 import javax.annotation.Resource;
@@ -24,6 +25,7 @@ import com.bxb.common.util.HttpServletRequestUtil;
 import com.bxb.common.util.RegexPatternUtil;
 import com.bxb.modules.base.BaseController;
 import com.bxb.modules.infrastructure.model.SysConstType;
+import com.bxb.modules.infrastructure.service.ISysConstService;
 import com.bxb.modules.infrastructure.service.ISysConstTypeService;
 import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
@@ -44,6 +46,9 @@ public class SysConstTypeController extends BaseController {
 
 	@Resource(name = "sysConstTypeService")
 	private ISysConstTypeService sysConstTypeService;
+
+	@Resource(name = "sysConstService")
+	private ISysConstService sysConstService;
 
 	/****
 	 * 进入常量类型的常量值管理页面
@@ -299,10 +304,20 @@ public class SysConstTypeController extends BaseController {
 	 */
 	@RequestMapping(value = "/{_id}/delete", method = RequestMethod.POST)
 	@ResponseBody
-	public Object delete(@PathVariable String _id, HttpServletRequest request) {
+	public Object delete(@PathVariable String _id, String typecode,
+			HttpServletRequest request) {
 
 		try {
 
+			// 1.如果有常量值，不允许删除
+			List<DBObject> sysconsts = this.sysConstService
+					.findAllConstBySysconstTypecode(typecode);
+
+			if (sysconsts != null && !sysconsts.isEmpty()) {
+				return this.handleValidateFalse("常量类型下有常量值，不允许删除！");
+			}
+
+			// 2.删除常量类型
 			this.sysConstTypeService.RemoveOneByIdLogic(_id);
 
 			RequestResult rr = new RequestResult();

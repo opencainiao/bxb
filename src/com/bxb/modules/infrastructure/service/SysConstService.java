@@ -1,6 +1,10 @@
 package com.bxb.modules.infrastructure.service;
 
+import java.util.List;
+
 import javax.annotation.Resource;
+
+import mou.mongodb.FindBatchUtil;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -110,9 +114,9 @@ public class SysConstService extends BaseService implements ISysConstService {
 		queryCondition.put("val", sysconst.getVal());// 常量值
 		queryCondition.put("useflg", "1");
 		String _id = sysconst.get_id_str();
-		if (StringUtil.isNotEmpty(_id)){
-			queryCondition.put("_id",
-					new BasicDBObject("$ne", new ObjectId(_id)));
+		if (StringUtil.isNotEmpty(_id)) {
+			queryCondition.put("_id", new BasicDBObject("$ne",
+					new ObjectId(_id)));
 		}
 
 		DBObject result = this.sysconstdao.findOneByConditionPart(
@@ -137,9 +141,9 @@ public class SysConstService extends BaseService implements ISysConstService {
 		queryCondition.put("dspval", sysconst.getDspval());// 常量显示值
 		queryCondition.put("useflg", "1");
 		String _id = sysconst.get_id_str();
-		if (StringUtil.isNotEmpty(_id)){
-			queryCondition.put("_id",
-					new BasicDBObject("$ne", new ObjectId(_id)));
+		if (StringUtil.isNotEmpty(_id)) {
+			queryCondition.put("_id", new BasicDBObject("$ne",
+					new ObjectId(_id)));
 		}
 
 		DBObject result = this.sysconstdao.findOneByConditionPart(
@@ -152,4 +156,15 @@ public class SysConstService extends BaseService implements ISysConstService {
 		return false;
 	}
 
+	@Override
+	public List<DBObject> findAllConstBySysconstTypecode(String typecode) {
+
+		DBObject queryCondition = new BasicDBObject();
+		queryCondition.put("typecode", typecode);
+
+		DBObject sort = new BasicDBObject();
+		sort.put("valordernum", 1);
+		
+		return this.sysconstdao.batchSearch(queryCondition, sort, null);
+	}
 }
