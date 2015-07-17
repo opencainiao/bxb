@@ -23,6 +23,24 @@ public class HttpServletRequestUtil {
 			.getLogger(HttpServletRequestUtil.class);
 
 	/****
+	 * 取参数的trim后的值
+	 * 
+	 * @param request
+	 * @param key
+	 * @return
+	 */
+	public static String getTrimParameter(HttpServletRequest request, String key) {
+		
+		String value = request.getParameter(key);
+		
+		if (StringUtil.isNotEmpty(value)) {
+			value = value.trim();
+		}
+
+		return value;
+	}
+
+	/****
 	 * 获取远程客户端的信息
 	 * 
 	 * @param request
@@ -34,15 +52,16 @@ public class HttpServletRequestUtil {
 
 		String agent = request.getHeader("user-agent");
 		logger.info("useragent == null!");
-		logger.info("agent\n{}",agent);
+		logger.info("agent\n{}", agent);
 		UserAgent useragent = UserAgentUtil.getUserAgent(agent);
-		
-		if (useragent == null){
+
+		if (useragent == null) {
 			logger.info("useragent == null!");
-			logger.info("agent\n{}",agent);
+			logger.info("agent\n{}", agent);
 		}
 
-		if (useragent != null && StringUtil.isNotEmpty(useragent.getBrowserType())) {
+		if (useragent != null
+				&& StringUtil.isNotEmpty(useragent.getBrowserType())) {
 			resultMap.put("userbrowser", useragent.getBrowserType());
 			resultMap.put("userbrowser_version", useragent.getBrowserVersion());
 			resultMap.put("useros", useragent.getPlate_type_series());
@@ -50,7 +69,7 @@ public class HttpServletRequestUtil {
 		} else {
 			resultMap.put("userbrowser", "");
 		}
-	
+
 		resultMap.put("userip", getClientIp(request));
 
 		return resultMap;
@@ -195,8 +214,7 @@ public class HttpServletRequestUtil {
 
 		return sb.toString();
 	}
-	
-	
+
 	/****
 	 * 获取uri和controller<br>
 	 * [uri,controller,controllerhead]<br>

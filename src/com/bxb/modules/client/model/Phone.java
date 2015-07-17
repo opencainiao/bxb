@@ -10,29 +10,13 @@ import com.bxb.modules.base.BaseModel;
  */
 public class Phone extends BaseModel {
 
-	private String owner_user_id; // 所属用户id
+	private String owner_id; // 所有者id（可能是客户，也可能是用户）
 
-	private String phone_type_id; // 电话类型的mongodbId
-	private String phone_type_name; // 电话类型名称
+	private String type_value; // 电话类型值(枚举值)
+	private String type_name; // 电话类型名称
 	private String phone_number; // 联系电话
 
 	private String mainflg; // 是否主要联系电话 1-是，0-否
-
-	public String getPhone_type_id() {
-		return phone_type_id;
-	}
-
-	public void setPhone_type_id(String phone_type_id) {
-		this.phone_type_id = phone_type_id;
-	}
-
-	public String getPhone_type_name() {
-		return phone_type_name;
-	}
-
-	public void setPhone_type_name(String phone_type_name) {
-		this.phone_type_name = phone_type_name;
-	}
 
 	public String getPhone_number() {
 		return phone_number;
@@ -50,12 +34,28 @@ public class Phone extends BaseModel {
 		this.mainflg = mainflg;
 	}
 
-	public String getOwner_user_id() {
-		return owner_user_id;
+	public String getOwner_id() {
+		return owner_id;
 	}
 
-	public void setOwner_user_id(String owner_user_id) {
-		this.owner_user_id = owner_user_id;
+	public void setOwner_id(String owner_id) {
+		this.owner_id = owner_id;
+	}
+
+	public String getType_value() {
+		return type_value;
+	}
+
+	public void setType_value(String type_value) {
+		this.type_value = type_value;
+	}
+
+	public String getType_name() {
+		return type_name;
+	}
+
+	public void setType_name(String type_name) {
+		this.type_name = type_name;
 	}
 
 }

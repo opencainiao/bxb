@@ -29,27 +29,27 @@
 	            </div>
 	        </div>
 	        <div class="form-group ">
-		            <label for="address_type_value" class="col-sm-3 control-label">
+		            <label for="type_value" class="col-sm-3 control-label">
 		                地址类型值
 		            </label>
 		            <div class="col-sm-8">
-		                <input type="text" class="form-control" id="address_type_value" name="address_type_value" value="${addresstype.address_type_value}"  >
+		                <input type="text" class="form-control" id="type_value" name="type_value" value="${addresstype.type_value}"  >
 		            </div>
 		        </div>
   			<div class="form-group ">
-	            <label for="address_type_name" class="col-sm-3 control-label">
+	            <label for="type_name" class="col-sm-3 control-label">
 	                地址类型名称
 	            </label>
 	            <div class="col-sm-8">
-	                <input type="text" class="form-control" id="address_type_name" name="address_type_name" value="${addresstype.address_type_name}"  placeholder="" >
+	                <input type="text" class="form-control" id="type_name" name="type_name" value="${addresstype.type_name}"  placeholder="" >
 	            </div>
 	        </div>
   			<div class="form-group ">
-	            <label for="address_type_character" class="col-sm-3 control-label">
+	            <label for="type_character" class="col-sm-3 control-label">
 	                地址类型性质
 	            </label>
 	            <div class="col-sm-8">
-	                <input type="text" class="form-control" id="address_type_character" name="address_type_character" value="${addresstype.address_type_character}"  placeholder=""  readonly>
+	                <input type="text" class="form-control" id="type_character" name="type_character" value="${addresstype.type_character}"  placeholder=""  readonly>
 	            </div>
 	        </div>
       	<br>

@@ -34,27 +34,27 @@
 	            </div>
 	        </div>
 	        <div class="form-group ">
-	            <label for="address_type_value" class="col-sm-2 control-label">
+	            <label for="type_value" class="col-sm-2 control-label">
 	                地址类型值
 	            </label>
 	            <div class="col-sm-5">
-	                <input type="text" class="form-control" id="address_type_value" name="address_type_value" placeholder="" >
+	                <input type="text" class="form-control" id="type_value" name="type_value" placeholder="" >
 	            </div>
 	        </div>
       		<div class="form-group ">
-	            <label for="address_type_name" class="col-sm-2 control-label">
+	            <label for="type_name" class="col-sm-2 control-label">
 	                地址类型名称
 	            </label>
 	            <div class="col-sm-5">
-	                <input type="text" class="form-control" id="address_type_name" name="address_type_name" placeholder="" >
+	                <input type="text" class="form-control" id="type_name" name="type_name" placeholder="" >
 	            </div>
 	        </div>
       		<div class="form-group hide">
-	            <label for="address_type_character" class="col-sm-2 control-label">
+	            <label for="type_character" class="col-sm-2 control-label">
 	                地址类型性质
 	            </label>
 	            <div class="col-sm-5">
-	                <input type="text" class="form-control" id="address_type_character" name="address_type_character" placeholder="" >
+	                <input type="text" class="form-control" id="type_character" name="type_character" placeholder="" >
 	            </div>
 	        </div>
         

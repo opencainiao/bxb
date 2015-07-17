@@ -1,5 +1,7 @@
 package com.bxb.modules.client.model;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 import com.bxb.modules.base.BaseModel;
 
 /****
@@ -10,34 +12,21 @@ import com.bxb.modules.base.BaseModel;
  */
 public class Address extends BaseModel {
 
-	private String owner_user_id; // 所属用户id
+	private String owner_id; // 所有者id（可能是客户，也可能是用户）
 
-	private String address_type_id; // 地址类型的mongodbId
-	private String address_type_value; // 地址类型值(枚举值)
-	private String address_type_name; // 地址类型名称
+	private String type_value; // 地址类型值(枚举值)
+	private String type_name; // 地址类型名称
 	private String province; // 省
+	private String province_name; // 省
 	private String city; // 市
+	private String city_name; // 市
 	private String district; // 区
+	private String district_name; // 区
 	private String detail_address; // 详细地址
 
 	private String mainflg; // 是否主要地址 1-是，0-否
 
-	public String getAddress_type_id() {
-		return address_type_id;
-	}
-
-	public void setAddress_type_id(String address_type_id) {
-		this.address_type_id = address_type_id;
-	}
-
-	public String getAddress_type_name() {
-		return address_type_name;
-	}
-
-	public void setAddress_type_name(String address_type_name) {
-		this.address_type_name = address_type_name;
-	}
-
+	@NotEmpty(message = "省代码不能为空")
 	public String getProvince() {
 		return province;
 	}
@@ -46,6 +35,7 @@ public class Address extends BaseModel {
 		this.province = province;
 	}
 
+	@NotEmpty(message = "市代码不能为空")
 	public String getCity() {
 		return city;
 	}
@@ -62,6 +52,7 @@ public class Address extends BaseModel {
 		this.district = district;
 	}
 
+	@NotEmpty(message = "详细地址不能为空")
 	public String getDetail_address() {
 		return detail_address;
 	}
@@ -78,20 +69,55 @@ public class Address extends BaseModel {
 		this.mainflg = mainflg;
 	}
 
-	public String getAddress_type_value() {
-		return address_type_value;
+	@NotEmpty(message = "所有者不能为空")
+	public String getOwner_id() {
+		return owner_id;
 	}
 
-	public void setAddress_type_value(String address_type_value) {
-		this.address_type_value = address_type_value;
+	public void setOwner_id(String owner_id) {
+		this.owner_id = owner_id;
 	}
 
-	public String getOwner_user_id() {
-		return owner_user_id;
+	@NotEmpty(message = "类型值不能为空")
+	public String getType_value() {
+		return type_value;
 	}
 
-	public void setOwner_user_id(String owner_user_id) {
-		this.owner_user_id = owner_user_id;
+	public void setType_value(String type_value) {
+		this.type_value = type_value;
+	}
+
+	@NotEmpty(message = "类型名不能为空")
+	public String getType_name() {
+		return type_name;
+	}
+
+	public void setType_name(String type_name) {
+		this.type_name = type_name;
+	}
+
+	public String getProvince_name() {
+		return province_name;
+	}
+
+	public void setProvince_name(String province_name) {
+		this.province_name = province_name;
+	}
+
+	public String getCity_name() {
+		return city_name;
+	}
+
+	public void setCity_name(String city_name) {
+		this.city_name = city_name;
+	}
+
+	public String getDistrict_name() {
+		return district_name;
+	}
+
+	public void setDistrict_name(String district_name) {
+		this.district_name = district_name;
 	}
 
 }

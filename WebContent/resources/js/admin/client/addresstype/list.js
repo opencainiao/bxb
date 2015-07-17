@@ -69,7 +69,7 @@ var data_manage_functions = {
 	closeEditWindow : function() {
 		$.closeWindow("edit", $("#data_manage"));
 	},
-	refreshPage:function(){
+	refreshPage : function() {
 		data_manage.search();
 	}
 };
@@ -111,7 +111,7 @@ var data_manage = {
 		$("#list").flexigrid(data_manage.gridsetting);
 
 		data_manage.pageLayout();
-		
+
 		$("#data_manage").attr("s_times", 1);
 	},
 	pageLayout : function() {
@@ -156,27 +156,27 @@ var data_manage = {
 			width : 150,
 			hide : false,
 			callback : data_manage_functions.toDetail
-		}, 
-			{
-				display : '所属用户id',
-				name : 'owner_user_id',
-				width : 120
+		}, {
+			display : '所属用户id',
+			name : 'owner_user_id',
+			width : 120
 		}, {
 			display : '地址类型值',
-			name : 'address_type_value',
+			name : 'type_value',
 			width : 120
-		},
-        {
-				display : '地址类型名称',
-				name : 'address_type_name',
-				width : 120
-		},
-			{
-				display : '地址类型性质',
-				name : 'address_type_character',
-				width : 120
-		},
-		{
+		}, {
+			display : '地址类型名称',
+			name : 'type_name',
+			width : 120
+		}, {
+			display : '地址类型性质',
+			name : 'type_character',
+			width : 120,
+			condition : {
+				'1' : '系统内置',
+				'2' : '用户自定义',
+			}
+		}, {
 			display : '启用状态',
 			name : 'useflg',
 			width : 120,

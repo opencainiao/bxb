@@ -23,7 +23,7 @@ import com.bxb.common.globalobj.RequestResult;
 import com.bxb.common.util.HttpServletRequestUtil;
 import com.bxb.common.util.RegexPatternUtil;
 import com.bxb.modules.base.BaseController;
-import com.bxb.modules.client.model.AddressType;
+import com.bxb.modules.client.model.CommonType;
 import com.bxb.modules.client.service.IAddressTypeService;
 import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
@@ -51,7 +51,7 @@ public class AddressTypeController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
-	public String add(@ModelAttribute("addresstype") AddressType addresstype,
+	public String add(@ModelAttribute("addresstype") CommonType addresstype,
 			HttpServletRequest request) {
 
 		// 开启modelDriven
@@ -65,7 +65,7 @@ public class AddressTypeController extends BaseController {
 	 */
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	@ResponseBody
-	public Object add(@Validated AddressType addresstype, BindingResult br,
+	public Object add(@Validated CommonType addresstype, BindingResult br,
 			HttpServletRequest request) {
 
 		HttpServletRequestUtil.debugParams(request);
@@ -80,28 +80,27 @@ public class AddressTypeController extends BaseController {
 
 			if (StringUtil.isEmpty(userid)) {
 				addresstype.setOwner_user_id("system");
-				addresstype.setAddress_type_character("1");
+				addresstype.setType_character("1");
 			} else {
 				addresstype.setOwner_user_id(userid);
-				addresstype.setAddress_type_character("2");
+				addresstype.setType_character("2");
 			}
 
 			// 1.校验是否已存在相同的类型码
 			boolean isExist = this.addressTypeService.isExistSameTypename(
-					addresstype.getAddress_type_name(),
-					addresstype.getOwner_user_id());
+					addresstype.getType_name(), addresstype.getOwner_user_id());
 			if (isExist) {
 				RequestResult rr = new RequestResult();
 				rr.setSuccess(false);
-				rr.setMessage("已经存在名为【"
-						+ addresstype.getAddress_type_name().trim() + "】的地址类型!");
+				rr.setMessage("已经存在名为【" + addresstype.getType_name().trim()
+						+ "】的地址类型!");
 				return rr;
 			}
 
 			// 1.校验是否已存在相同的类型值
 			DBObject queryCondition = new BasicDBObject();
 			queryCondition.put("address_type_value", addresstype
-					.getAddress_type_value().trim());
+					.getType_value().trim());
 
 			BasicDBList values = new BasicDBList();
 
@@ -114,14 +113,14 @@ public class AddressTypeController extends BaseController {
 			values.add(queryConditioncommon);
 			queryCondition.put("$or", values);
 
-			AddressType atInsystem = this.addressTypeService
+			CommonType atInsystem = this.addressTypeService
 					.findOneByWhere(queryCondition);
 
 			if (atInsystem != null) {
 				RequestResult rr = new RequestResult();
 				rr.setSuccess(false);
-				rr.setMessage("已经存在值为【"
-						+ addresstype.getAddress_type_value().trim() + "】的地址类型!");
+				rr.setMessage("已经存在值为【" + addresstype.getType_value().trim()
+						+ "】的地址类型!");
 				return rr;
 			}
 
@@ -188,7 +187,7 @@ public class AddressTypeController extends BaseController {
 			query.put("useflg", "1");
 
 			DBObject sort = new BasicDBObject();
-			sort.put("address_type_value", 1);
+			sort.put("type_value", 1);
 			DBObject returnFields = null;
 
 			return this.addressTypeService.batchSearchPage(query, sort,
@@ -209,8 +208,7 @@ public class AddressTypeController extends BaseController {
 	@RequestMapping(value = "/{_id}", method = RequestMethod.GET)
 	public String detail(@PathVariable String _id, Model model) {
 
-		AddressType addresstype = this.addressTypeService
-				.findOneByIdObject(_id);
+		CommonType addresstype = this.addressTypeService.findOneByIdObject(_id);
 
 		model.addAttribute("addresstype", addresstype);
 
@@ -227,8 +225,7 @@ public class AddressTypeController extends BaseController {
 	@RequestMapping(value = "/{_id}/update", method = RequestMethod.GET)
 	public String update(@PathVariable String _id, Model model) {
 
-		AddressType addresstype = this.addressTypeService
-				.findOneByIdObject(_id);
+		CommonType addresstype = this.addressTypeService.findOneByIdObject(_id);
 
 		model.addAttribute("addresstype", addresstype);
 
@@ -249,30 +246,30 @@ public class AddressTypeController extends BaseController {
 	@RequestMapping(value = "/{_id}/update", method = RequestMethod.POST)
 	@ResponseBody
 	public Object update(@PathVariable String _id,
-			@Validated AddressType addresstype, BindingResult br,
+			@Validated CommonType addresstype, BindingResult br,
 			HttpServletRequest request) {
 
 		if (br.hasErrors()) {
 			return ErrorHandler.getRequestResultFromBindingResult(br);
 		}
 
-		String name = addresstype.getAddress_type_name();
+		String name = addresstype.getType_name();
 		if (StringUtil.isEmpty(name)) {
 			return handleValidateFalse("地址类型名称不能为空");
 		}
 
 		name = name.trim();
 
-		String type_value = addresstype.getAddress_type_value();
+		String type_value = addresstype.getType_value();
 		if (StringUtil.isEmpty(type_value)) {
 			return handleValidateFalse("地址类型值不能为空");
 		}
 		type_value = type_value.trim();
 
-		AddressType sysconsttypeori = this.addressTypeService
+		CommonType sysconsttypeori = this.addressTypeService
 				.findOneByIdObject(_id);
-		String nameOri = sysconsttypeori.getAddress_type_name();
-		String type_value_ori = sysconsttypeori.getAddress_type_value();
+		String nameOri = sysconsttypeori.getType_name();
+		String type_value_ori = sysconsttypeori.getType_value();
 
 		if (name.equals(nameOri) && type_value.equals(type_value_ori)) {
 			RequestResult rr = new RequestResult();
@@ -282,10 +279,9 @@ public class AddressTypeController extends BaseController {
 		}
 
 		String userid = this.getUserId();
-		// 1.校验是否已存在相同的类型码
+		// 1.校验是否已存在相同的类型名
 		boolean isExist = this.addressTypeService.isExistSameTypename(
-				addresstype.getAddress_type_name(), userid, _id);
-
+				addresstype.getType_name(), userid, _id);
 		if (isExist) {
 			RequestResult rr = new RequestResult();
 			rr.setSuccess(false);
@@ -330,5 +326,18 @@ public class AddressTypeController extends BaseController {
 		} catch (Exception e) {
 			return this.handleException(e);
 		}
+	}
+
+	/*--------------------------------------------------------------------------------*/
+	/****
+	 * 查看所有系统地址类型参照
+	 * 
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/addresstype_reference", method = RequestMethod.GET)
+	public String addresstype_reference(Model model) {
+
+		return "admin/client/addresstype/addresstype_reference";
 	}
 }

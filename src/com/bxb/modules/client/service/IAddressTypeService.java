@@ -1,7 +1,7 @@
 package com.bxb.modules.client.service;
 
 import com.bxb.common.globalobj.PageVO;
-import com.bxb.modules.client.model.AddressType;
+import com.bxb.modules.client.model.CommonType;
 import com.mongodb.DBObject;
 
 /****
@@ -11,14 +11,14 @@ import com.mongodb.DBObject;
  *
  */
 public interface IAddressTypeService {
-	
+
 	/****
 	 * 根据条件，查询一个对象
 	 * 
 	 * @param _id
 	 * @return
 	 */
-	public AddressType findOneByWhere(DBObject query);
+	public CommonType findOneByWhere(DBObject query);
 
 	/****
 	 * 根据id，查询一个对象
@@ -26,7 +26,7 @@ public interface IAddressTypeService {
 	 * @param _id
 	 * @return
 	 */
-	public AddressType findOneByIdObject(String _id);
+	public CommonType findOneByIdObject(String _id);
 
 	/****
 	 * 条件查询，分页
@@ -56,7 +56,7 @@ public interface IAddressTypeService {
 	 * @param addresstype
 	 * @return
 	 */
-	public String add(AddressType addresstype);
+	public String add(CommonType addresstype);
 
 	/****
 	 * 更新一条记录，返回更新后的结果，根据对象的主键ObjectId
@@ -65,7 +65,7 @@ public interface IAddressTypeService {
 	 * @param addresstype
 	 * @return
 	 */
-	public DBObject updatePart(DBObject returnFields, AddressType addresstype);
+	public DBObject updatePart(DBObject returnFields, CommonType addresstype);
 
 	/****
 	 * 查询并删除一条记录
@@ -86,24 +86,44 @@ public interface IAddressTypeService {
 	public DBObject RemoveOneByIdLogic(String _id);
 
 	/****
-	 * 是否存在相同名字的地址类型(_id不是_id)
+	 * 是否存在相同名字的类型(_id不是_id)
 	 * 
-	 * @param address_type_name
+	 * @param type_name
 	 * @param userid
 	 * @param _id
 	 * @return
 	 */
-	public boolean isExistSameTypename(String address_type_name, String userid,
+	public boolean isExistSameTypename(String type_name, String userid,
 			String _id);
 
 	/****
-	 * 是否存在相同名字的地址类型
+	 * 是否存在相同名字的类型
 	 * 
-	 * @param address_type_name
+	 * @param type_name
 	 * @param owner_user_id
 	 * @return
 	 */
-	public boolean isExistSameTypename(String address_type_name,
+	public boolean isExistSameTypename(String type_name,
 			String owner_user_id);
+
+	/****
+	 * 是否存在相同值的类型(_id不是_id)
+	 * 
+	 * @param type_value
+	 * @param owner_user_id
+	 * @param _id
+	 * @return
+	 */
+	boolean isExistSameTypeValue(String type_value, String owner_user_id,
+			String _id);
+
+	/****
+	 * 判断是否存在同样值的类型
+	 * 
+	 * @param type_value
+	 * @param owner_user_id
+	 * @return
+	 */
+	boolean isExistSameTypeValue(String type_value, String owner_user_id);
 
 }
