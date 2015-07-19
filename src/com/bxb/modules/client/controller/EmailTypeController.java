@@ -76,15 +76,7 @@ public class EmailTypeController extends BaseController {
 			return ErrorHandler.getRequestResultFromBindingResult(br);
 		}
 		try {
-			String userid = this.getUserId();
-
-			if (StringUtil.isEmpty(userid)) {
-				emailtype.setOwner_user_id("system");
-				emailtype.setType_character("1");
-			} else {
-				emailtype.setOwner_user_id(userid);
-				emailtype.setType_character("2");
-			}
+			emailtype.setOwnerInfo();
 
 			// 1.校验是否已存在相同的类型值
 			boolean isExist = this.emailTypeService.isExistSameTypeValue(

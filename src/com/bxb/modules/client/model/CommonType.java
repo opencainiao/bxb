@@ -1,6 +1,7 @@
 package com.bxb.modules.client.model;
 
 import org.hibernate.validator.constraints.NotEmpty;
+import org.mou.common.StringUtil;
 
 import com.bxb.modules.base.BaseModel;
 
@@ -49,5 +50,16 @@ public class CommonType extends BaseModel {
 
 	public void setType_character(String type_character) {
 		this.type_character = type_character;
+	}
+
+	public void setOwnerInfo() {
+
+		if (StringUtil.isEmpty(owner_user_id)) {
+			setOwner_user_id("system");
+			setType_character("1");
+		} else {
+			setOwner_user_id(owner_user_id);
+			setType_character("2");
+		}
 	}
 }

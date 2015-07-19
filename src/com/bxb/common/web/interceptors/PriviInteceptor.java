@@ -134,7 +134,7 @@ public class PriviInteceptor implements HandlerInterceptor {
 		ModelAndView mav = null;
 		if (sPublicData == null) {
 			if (controller_head.toLowerCase().equals("specificationitemadmin")) {
-				//mav = new ModelAndView("front/login/login");
+				// mav = new ModelAndView("front/login/login");
 				return null;
 			} else {
 				mav = new ModelAndView("admin/login/adminlogin");
@@ -142,8 +142,7 @@ public class PriviInteceptor implements HandlerInterceptor {
 		} else {
 			User user = sPublicData.getLoginUser();
 			// 如果已登录，但不是系统人员，则转回登录首页
-			if (user.getCharacter() == null
-					|| !user.getCharacter().equals(Constant.USER_CHARACTER_SYS)) {
+			if (!user.canLoginBackend()) {
 
 				mav = new ModelAndView("admin/login/adminlogin");
 			}

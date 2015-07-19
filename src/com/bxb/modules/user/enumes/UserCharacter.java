@@ -10,7 +10,8 @@ public enum UserCharacter {
 
 	BACKEND_MANAGER_USER("0", "后台管理用户"), //
 	NORMAL_REGIST_USER("1", "前端注册用户"), //
-	INVALID_USER("2", "无效用户");
+	BOTH_MANAGE_AND_FRONTUSER("2","前端用户/后端管理"),
+	INVALID_USER("3", "无效用户");
 
 	private String code;
 	private String name;

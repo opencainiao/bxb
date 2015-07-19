@@ -6,14 +6,14 @@ package com.bxb.modules.user.enumes;
  * @author NBQ
  *
  */
-public enum LoginAction {
+public enum LoginActionType {
 
 	IN("1", "登录"), OUT("0", "退出");
 
 	private String code;
 	private String name;
 
-	private LoginAction(String code, String name) {
+	private LoginActionType(String code, String name) {
 		this.code = code;
 		this.name = name;
 	}

@@ -76,15 +76,7 @@ public class PhoneTypeController extends BaseController {
 			return ErrorHandler.getRequestResultFromBindingResult(br);
 		}
 		try {
-			String userid = this.getUserId();
-
-			if (StringUtil.isEmpty(userid)) {
-				phonetype.setOwner_user_id("system");
-				phonetype.setType_character("1");
-			} else {
-				phonetype.setOwner_user_id(userid);
-				phonetype.setType_character("2");
-			}
+			phonetype.setOwnerInfo();
 
 			// 1.校验是否已存在相同的类型值
 			boolean isExist = this.phoneTypeService.isExistSameTypeValue(

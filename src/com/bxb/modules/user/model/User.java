@@ -224,8 +224,8 @@ public class User extends BaseModel {
 	 */
 	public boolean isValidUser() {
 
-		if (UserState.NOTACTIVE.equals(this.state)
-				|| UserState.ACTIVE.equals(this.state)) {
+		if (UserState.NOTACTIVE.getCode().equals(this.state)
+				|| UserState.ACTIVE.getCode().equals(this.state)) {
 			return true;
 		}
 
@@ -236,8 +236,22 @@ public class User extends BaseModel {
 		return sex;
 	}
 
-	public void setSex(String sex) {
-		this.sex = Sex.getSexByCode(sex).getCode();
+	public void setSex(Sex sex) {
+		this.sex = sex.getCode();
 	}
 
+	/****
+	 * 是否可以登陆后端
+	 * 
+	 * @return
+	 */
+	public boolean canLoginBackend() {
+
+		if (UserCharacter.BACKEND_MANAGER_USER.getCode().equals(this.character)
+				|| UserCharacter.BOTH_MANAGE_AND_FRONTUSER.getCode().equals(this.character)) {
+			return true;
+		}
+
+		return false;
+	}
 }

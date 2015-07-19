@@ -15,6 +15,21 @@
                 系统常量类型管理
             </a>
         </li>
+        <li >
+            <a href="#" data-link="backend/phonetype/list">
+                电话类型管理
+            </a>
+        </li>
+        <li >
+            <a href="#" data-link="backend/addresstype/list">
+                地址类型管理
+            </a>
+        </li>
+        <li >
+            <a href="#" data-link="backend/emailtype/list">
+                邮箱类型管理
+            </a>
+        </li>
         <li class="hide">
         	<a href="#" data-link="/backend/sysconst/list">
         	    系统常量管理

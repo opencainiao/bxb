@@ -9,7 +9,7 @@ import mou.mongodb.MongoObjectId;
  *
  */
 public class LoginUserInf {
-	
+
 	private MongoObjectId _id;// mongo主键
 
 	// 冗余字段(用户名)
@@ -17,6 +17,9 @@ public class LoginUserInf {
 
 	// 冗余字段(邮箱)
 	private String email;
+
+	// 冗余字段（手机）
+	private String phone;
 
 	// 用户信息
 	private User user;
@@ -45,8 +48,8 @@ public class LoginUserInf {
 	}
 
 	public void setUser(User user) {
-		
-		if (user != null){
+
+		if (user != null) {
 			this.username = user.getUsername();
 			this.email = user.getEmail();
 		}
@@ -60,7 +63,7 @@ public class LoginUserInf {
 	public void setLoginInf(LoginInf loginInf) {
 		this.loginInf = loginInf;
 	}
-	
+
 	public MongoObjectId get_id() {
 		return _id;
 	}
@@ -73,6 +76,14 @@ public class LoginUserInf {
 		MongoObjectId _idNew = new MongoObjectId();
 		_idNew.set$oid(_id);
 		this._id = _idNew;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
 
 }

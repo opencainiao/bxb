@@ -76,50 +76,26 @@ public class AddressTypeController extends BaseController {
 			return ErrorHandler.getRequestResultFromBindingResult(br);
 		}
 		try {
-			String userid = this.getUserId();
+			addresstype.setOwnerInfo();
 
-			if (StringUtil.isEmpty(userid)) {
-				addresstype.setOwner_user_id("system");
-				addresstype.setType_character("1");
-			} else {
-				addresstype.setOwner_user_id(userid);
-				addresstype.setType_character("2");
+			// 1.校验是否已存在相同的类型值
+			boolean isExist = this.addressTypeService.isExistSameTypeValue(
+					addresstype.getType_value(), addresstype.getOwner_user_id());
+			if (isExist) {
+				RequestResult rr = new RequestResult();
+				rr.setSuccess(false);
+				rr.setMessage("已经存在值为【" + addresstype.getType_value().trim()
+						+ "】的地址类型!");
+				return rr;
 			}
 
-			// 1.校验是否已存在相同的类型码
-			boolean isExist = this.addressTypeService.isExistSameTypename(
+			// 2.校验是否已存在相同的类型名
+			isExist = this.addressTypeService.isExistSameTypename(
 					addresstype.getType_name(), addresstype.getOwner_user_id());
 			if (isExist) {
 				RequestResult rr = new RequestResult();
 				rr.setSuccess(false);
 				rr.setMessage("已经存在名为【" + addresstype.getType_name().trim()
-						+ "】的地址类型!");
-				return rr;
-			}
-
-			// 1.校验是否已存在相同的类型值
-			DBObject queryCondition = new BasicDBObject();
-			queryCondition.put("address_type_value", addresstype
-					.getType_value().trim());
-
-			BasicDBList values = new BasicDBList();
-
-			DBObject queryConditioncommon = new BasicDBObject();
-			queryConditioncommon.put("owner_user_id", userid);
-			DBObject queryConditionpersonal = new BasicDBObject();
-			queryConditionpersonal.put("owner_user_id", "system");
-
-			values.add(queryConditionpersonal);
-			values.add(queryConditioncommon);
-			queryCondition.put("$or", values);
-
-			CommonType atInsystem = this.addressTypeService
-					.findOneByWhere(queryCondition);
-
-			if (atInsystem != null) {
-				RequestResult rr = new RequestResult();
-				rr.setSuccess(false);
-				rr.setMessage("已经存在值为【" + addresstype.getType_value().trim()
 						+ "】的地址类型!");
 				return rr;
 			}

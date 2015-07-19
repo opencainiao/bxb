@@ -24,7 +24,7 @@ import com.bxb.Constant;
 import com.bxb.common.globalobj.RequestResult;
 import com.bxb.common.util.HttpServletRequestUtil;
 import com.bxb.modules.global.model.SessionPublicData;
-import com.bxb.modules.user.enumes.LoginAction;
+import com.bxb.modules.user.enumes.LoginActionType;
 import com.bxb.modules.user.enumes.LoginState;
 import com.bxb.modules.user.model.LoginInf;
 import com.bxb.modules.user.model.LoginLogInf;
@@ -154,8 +154,8 @@ public class UserLoginController {
 
 			// 8.登记登陆日志
 			LoginLogInf logInf = new LoginLogInf();
-			logInf.setActioncode(LoginAction.IN.getCode());
-			logInf.setActionName(LoginAction.IN.getName());
+			logInf.setActioncode(LoginActionType.IN.getCode());
+			logInf.setActionName(LoginActionType.IN.getName());
 			logInf.setOpTime(logInTime);
 			logInf.setUsername(user.getUsername());
 			logInf.setIp(request.getRemoteAddr());
@@ -221,8 +221,8 @@ public class UserLoginController {
 
 					// 登记日志
 					LoginLogInf logInf = new LoginLogInf();
-					logInf.setActioncode(LoginAction.OUT.getCode());
-					logInf.setActionName(LoginAction.OUT.getName());
+					logInf.setActioncode(LoginActionType.OUT.getCode());
+					logInf.setActionName(LoginActionType.OUT.getName());
 					logInf.setOpTime(logOutTime);
 					logInf.setUsername(username);
 					logInf.setIp(request.getRemoteAddr());
