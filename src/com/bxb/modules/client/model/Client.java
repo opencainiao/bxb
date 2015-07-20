@@ -2,6 +2,8 @@ package com.bxb.modules.client.model;
 
 import java.util.List;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 import com.bxb.modules.base.BaseModel;
 
 public class Client extends BaseModel {
@@ -11,7 +13,7 @@ public class Client extends BaseModel {
 	private String sex; // 性别
 	private String id_number; // 身份证号
 	private String birth_date; // 生日
-	private String age; // 年龄
+	private int age; // 年龄
 
 	private List<Address> address_info; // 客户的地址信息
 	private List<Phone> phone_info; // 客户的电话信息
@@ -31,12 +33,12 @@ public class Client extends BaseModel {
 	private String job_level; // 职级
 	private String marital_status; // 婚姻状况
 	private String wedding_date; // 结婚日期
-	private String boy_num; // 男孩数
-	private String girl_num; // 女孩数
-	private String children_num; // 子女数
-	private String annual_income_personal; // 个人年收入
+	private int boy_num; // 男孩数
+	private int girl_num; // 女孩数
+	private int children_num; // 子女数
+	private double annual_income_personal; // 个人年收入
 	private String annual_income_personal_type; // （个人）年收入分类码
-	private String annual_income_family; // （家庭）年收入
+	private double annual_income_family; // （家庭）年收入
 	private String annual_income_family_type; // （家庭）年收入分类码
 	private String family_income_feature; // 家庭收入特点
 	private String family_financial_standing; // 财务状况码
@@ -59,6 +61,7 @@ public class Client extends BaseModel {
 	private List<String> interesting_service; // 关注的服务
 	private String service_served; // 已提供的服务
 
+	@NotEmpty(message = "归属用户主键不能为空")
 	public String getOwner_user_id() {
 		return owner_user_id;
 	}
@@ -67,6 +70,7 @@ public class Client extends BaseModel {
 		this.owner_user_id = owner_user_id;
 	}
 
+	@NotEmpty(message = "姓名不能为空")
 	public String getClient_name() {
 		return client_name;
 	}
@@ -75,6 +79,7 @@ public class Client extends BaseModel {
 		this.client_name = client_name;
 	}
 
+	@NotEmpty(message = "姓别不能为空")
 	public String getSex() {
 		return sex;
 	}
@@ -97,14 +102,6 @@ public class Client extends BaseModel {
 
 	public void setBirth_date(String birth_date) {
 		this.birth_date = birth_date;
-	}
-
-	public String getAge() {
-		return age;
-	}
-
-	public void setAge(String age) {
-		this.age = age;
 	}
 
 	public List<Address> getAddress_info() {
@@ -219,6 +216,7 @@ public class Client extends BaseModel {
 		this.job_level = job_level;
 	}
 
+	@NotEmpty(message = "婚姻状况不能为空")
 	public String getMarital_status() {
 		return marital_status;
 	}
@@ -235,38 +233,6 @@ public class Client extends BaseModel {
 		this.wedding_date = wedding_date;
 	}
 
-	public String getBoy_num() {
-		return boy_num;
-	}
-
-	public void setBoy_num(String boy_num) {
-		this.boy_num = boy_num;
-	}
-
-	public String getGirl_num() {
-		return girl_num;
-	}
-
-	public void setGirl_num(String girl_num) {
-		this.girl_num = girl_num;
-	}
-
-	public String getChildren_num() {
-		return children_num;
-	}
-
-	public void setChildren_num(String children_num) {
-		this.children_num = children_num;
-	}
-
-	public String getAnnual_income_personal() {
-		return annual_income_personal;
-	}
-
-	public void setAnnual_income_personal(String annual_income_personal) {
-		this.annual_income_personal = annual_income_personal;
-	}
-
 	public String getAnnual_income_personal_type() {
 		return annual_income_personal_type;
 	}
@@ -274,14 +240,6 @@ public class Client extends BaseModel {
 	public void setAnnual_income_personal_type(
 			String annual_income_personal_type) {
 		this.annual_income_personal_type = annual_income_personal_type;
-	}
-
-	public String getAnnual_income_family() {
-		return annual_income_family;
-	}
-
-	public void setAnnual_income_family(String annual_income_family) {
-		this.annual_income_family = annual_income_family;
 	}
 
 	public String getAnnual_income_family_type() {
@@ -443,4 +401,53 @@ public class Client extends BaseModel {
 	public void setService_served(String service_served) {
 		this.service_served = service_served;
 	}
+
+	public int getAge() {
+		return age;
+	}
+
+	public void setAge(int age) {
+		this.age = age;
+	}
+
+	public int getBoy_num() {
+		return boy_num;
+	}
+
+	public void setBoy_num(int boy_num) {
+		this.boy_num = boy_num;
+	}
+
+	public int getGirl_num() {
+		return girl_num;
+	}
+
+	public void setGirl_num(int girl_num) {
+		this.girl_num = girl_num;
+	}
+
+	public int getChildren_num() {
+		return children_num;
+	}
+
+	public void setChildren_num(int children_num) {
+		this.children_num = children_num;
+	}
+
+	public double getAnnual_income_personal() {
+		return annual_income_personal;
+	}
+
+	public void setAnnual_income_personal(double annual_income_personal) {
+		this.annual_income_personal = annual_income_personal;
+	}
+
+	public double getAnnual_income_family() {
+		return annual_income_family;
+	}
+
+	public void setAnnual_income_family(double annual_income_family) {
+		this.annual_income_family = annual_income_family;
+	}
+
 }

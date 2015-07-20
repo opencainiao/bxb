@@ -33,7 +33,7 @@ import com.bxb.modules.user.service.ILoginInfService;
 import com.bxb.modules.user.service.IUserService;
 
 /****
- * 登录控制器
+ * 后端管理登录控制器
  * 
  * @author NBQ
  * @date 2012-3-27

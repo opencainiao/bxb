@@ -13,6 +13,14 @@
 
 <jsp:include page="/WEB-INF/jsp/include/common_css.jsp"></jsp:include>
 <jsp:include page="/WEB-INF/jsp/include/common_js.jsp"></jsp:include>
+<link media="screen" type="text/css" rel="stylesheet"
+	href="<%=request.getContextPath()%>/resources/Flexigrid-master/css/flexigrid.css" />
+
+<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+<!--[if lte IE 9]>
+      <script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
 
 <style>
 .xubox_tab_main {
@@ -91,13 +99,33 @@
 <body>
 	<input type="hidden" name="ctx" value="<%=request.getContextPath()%>" />
 	
+	<jsp:include
+		page="/WEB-INF/jsp/include/common_navlogin_low_browser.jsp"></jsp:include>
+	<div class="Center-Container is-Inline" style="margin-top: 265px;">
+	
+		<div class="Center-Block">
+			<div class="input-group" style="width: 500px;">
+				<input  id="search_condition" name="search_condition"  type="text" class="form-control" placeholder="输入材料名称、别名或编号">
+				<span class="input-group-btn">
+					<button id="btn_search" class="btn btn-primary" type="button" style="padding-top: 7px; padding-bottom: 7px;!important">Go!</button>
+				</span>
+			</div>
+		</div>
+	</div>
+
+	<script type="text/javascript"
+		src="<%=request.getContextPath()%>/resources/Flexigrid-master/js/flexigrid.js"></script>
+	<script type="text/javascript"
+		src="<%=request.getContextPath()%>/resources/Flexigrid-master/js/mou.fleligrid.ux.js"></script>
+	<script type="text/javascript"
+		src="<%=request.getContextPath()%>/resources/js/mou_grid.js"></script>
 	<script type="text/javascript"
 		src="<%=request.getContextPath()%>/resources/js/front/login/login.js"></script>
 	
 	<script type="text/javascript"
 		src="<%=request.getContextPath()%>/resources/js/front/home/index.js"></script>
 	<script>
-		$.alertSuccess("成功测试","成功登陆系统");		
+		//$.alertSuccess("成功测试","11");		
 	</script>
 </body>
 </html>
