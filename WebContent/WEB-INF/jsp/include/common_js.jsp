@@ -10,16 +10,5 @@
 <script type="text/javascript" src="<%=request.getContextPath()%>/resources/layer/layer.min.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/resources/layer/extend/layer.ext.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/resources/js/jquery.nbq.ux.js"></script>
-<script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/resources/js/jquery_ux_select.js"></script>
 
-function check_low(){
-	
-	var url =  '<%=request.getContextPath()%>/toupdatebrowser';
-
-	if ($.isLowerBrowser()){
-		window.location.href = url;
-	}
-};
-
-window.onload= check_low;
-</script>

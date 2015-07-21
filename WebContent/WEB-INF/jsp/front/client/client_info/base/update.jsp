@@ -12,6 +12,8 @@
 <jsp:include page="/WEB-INF/jsp/include/common_css.jsp"></jsp:include>
 <jsp:include page="/WEB-INF/jsp/include/common_js.jsp"></jsp:include>
 
+<jsp:include page="/WEB-INF/jsp/include/common_datepicker.jsp"></jsp:include>
+
 </head>
 
 <body>
@@ -57,15 +59,7 @@
 	                生日
 	            </label>
 	            <div class="col-sm-8">
-	                <input type="text" class="form-control" id="birth_date" name="birth_date" value="${clientbaseinfo.birth_date}"  placeholder="" >
-	            </div>
-	        </div>
-  			<div class="form-group ">
-	            <label for="age" class="col-sm-3 control-label">
-	                年龄
-	            </label>
-	            <div class="col-sm-8">
-	                <input type="text" class="form-control" id="age" name="age" value="${clientbaseinfo.age}"  placeholder="" >
+	            	<input id="birth_date" name="birth_date" placeholder="请输入日期" class="laydate-icon form-control dateipt" value="${clientbaseinfo.birth_date}" onclick="laydate()">
 	            </div>
 	        </div>
   			<div class="form-group ">
@@ -94,19 +88,19 @@
 	        </div>
   			<div class="form-group ">
 	            <label for="region_code" class="col-sm-3 control-label">
-	                地区码
+	                地区
 	            </label>
-	            <div class="col-sm-8">
-	                <input type="text" class="form-control" id="region_code" name="region_code" value="${clientbaseinfo.region_code}"  placeholder="" >
-	            </div>
-	        </div>
-  			<div class="form-group ">
-	            <label for="region_name" class="col-sm-3 control-label">
-	                地区名
-	            </label>
-	            <div class="col-sm-8">
-	                <input type="text" class="form-control" id="region_name" name="region_name" value="${clientbaseinfo.region_name}"  placeholder="" >
-	            </div>
+	            <div class="col-md-4">
+					<div class="input-group">
+						<select id="province" name="province" class="form-control"></select>
+					</div>
+				</div>
+				
+				<div class="col-md-4">
+					<div class="input-group">
+						<select id="city" name="city" class="form-control"></select>
+					</div>
+				</div>
 	        </div>
   			<div class="form-group ">
 	            <label for="region_type" class="col-sm-3 control-label">
@@ -141,7 +135,96 @@
 </div>
 	
 <script>
+	
+	function iniProvince(){
+		
+		var url = $.getSitePath() + '/backend/city/list_by_pid';
+
+		$.ajax({
+            type: 'POST',
+            url: url,
+            data: {
+                ts: new Date().getTime()
+            },
+            type: 'POST',
+            dataType: 'json',
+            success: function(data) {
+            	
+            	//$.alertObjJson(data);
+            	var data_remote = data["rows"];
+
+                if (data['success'] == 'n') {
+                    
+                } else {
+               		var setting = {
+               			"text":"name",
+               			"value":"id"
+               		}
+                	
+                	$("#province").iniSelect_All(data_remote,setting);
+               		
+               		// 设置监听方法
+               		
+               		$('#province').change(function(){
+               			
+               			var text = $('#province').getSelectedText();
+               			var province_id = $('#province').getSelectedValue();
+               			
+               			//alert(text + "[---]"  + province_id);
+               			
+               			if (province_id =="-1"){
+               				$("#city").clearAll();
+               			}else {
+               				//初始化市的下拉列表
+                   			iniCity(province_id);
+               			}
+               		});
+                }
+            },
+            complete: function(XMLHttpRequest, textStatus) {
+                $.enableButton("btn_save");
+            }
+        });
+	}
+	
+	function iniCity(province_id){
+		
+		var url = $.getSitePath() + '/backend/city/list_by_pid?parent_id='+ province_id +'&ts=' + new Date().getTime();
+
+		$.ajax({
+            type: 'POST',
+            url: url,
+            data: {
+                ts: new Date().getTime()
+            },
+            type: 'POST',
+            dataType: 'json',
+            success: function(data) {
+            	
+            	//$.alertObjJson(data);
+            	var data_remote = data["rows"];
+
+                if (data['success'] == 'n') {
+                    
+                } else {
+               		var setting = {
+               			"text":"name",
+               			"value":"id"
+               		}
+                	
+                	$("#city").iniSelect_noAll(data_remote,setting);
+                }
+            },
+            complete: function(XMLHttpRequest, textStatus) {
+                $.enableButton("btn_save");
+            }
+        });
+	}
+	
     $().ready(function() {
+    	
+    	iniProvince();
+    	
         $("#btn_save").bind("click", save);
         
         document.onkeydown = function(event) {
@@ -149,6 +232,22 @@
     			return false;
     		}
     	}
+        
+        $("#choose_province").click(function(){
+			pupUpChoose_province();
+		});
+        
+        $("#choose_city").click(function(){
+        	
+        	var province = $("#province").val().trim();
+        	
+        	if (province == ""){
+        		$.alertError("请选择省");
+        		return;
+        	}
+        	
+        	pupUpChoose_city();
+		});
     });
 
     var closeEditWindow=function(){

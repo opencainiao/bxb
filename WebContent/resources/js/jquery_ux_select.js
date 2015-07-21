@@ -127,3 +127,24 @@ jQuery.fn.iniSelect_noAll = function(data, setting) {
 		dropdownList.addOptionLast(this[text], this[value]);
 	});
 };
+
+// 添加请选择
+jQuery.fn.iniSelect_All = function(data, setting) {
+
+	var text = "text";
+	var value = "value";
+
+	this.clearAll();
+	if (setting != null && setting != undefined) {
+		text = setting[text];
+		value = setting[value];
+	}
+	var dropdownList = this;
+	dropdownList.addOptionLast("请选择", "-1");
+	
+	$.each(data, function() {
+		dropdownList.addOptionLast(this[text], this[value]);
+	});
+	
+	
+};
