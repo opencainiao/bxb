@@ -30,6 +30,7 @@ import com.bxb.common.util.propertyeditor.CustomerIntegerEditor;
 import com.bxb.common.util.propertyeditor.CustomerListEditor;
 import com.bxb.modules.base.BaseController;
 import com.bxb.modules.client.model.Client;
+import com.bxb.modules.client.model.ClientBaseInfo;
 import com.bxb.modules.client.service.IClientService;
 import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
@@ -68,10 +69,10 @@ public class ClientController extends BaseController {
 			HttpServletRequest request, Model model) {
 
 		String userId = this.getUserId();
-		if (StringUtil.isEmpty(userId)){
+		if (StringUtil.isEmpty(userId)) {
 			userId = request.getParameter("owner_user_id");
 		}
-		
+
 		model.addAttribute("owner_user_id", userId);
 
 		// 开启modelDriven
@@ -202,6 +203,9 @@ public class ClientController extends BaseController {
 		Client client = this.clientService.findOneByIdObject(_id);
 
 		model.addAttribute("client", client);
+
+		model.addAttribute("base_prop_title", ClientBaseInfo.getTitles());
+		model.addAttribute("base_prop_name", ClientBaseInfo.getTitleNames());
 
 		return "front/client/client_info/full/detail";
 	}

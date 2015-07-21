@@ -1,6 +1,10 @@
 ;;
 (function($) {
 	$.extend({
+		
+		alertObjJson:function(obj){
+			alert(JSON.stringify(obj));
+		},
 		loadPage:function(url_to){
 			window.location.href = url_to;
 		},

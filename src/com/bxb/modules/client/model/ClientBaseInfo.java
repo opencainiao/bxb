@@ -1,5 +1,8 @@
 package com.bxb.modules.client.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.bxb.modules.base.BaseModel;
 
 public class ClientBaseInfo extends BaseModel {
@@ -129,5 +132,47 @@ public class ClientBaseInfo extends BaseModel {
 
 	public String getName_card_id() {
 		return name_card_id;
+	}
+
+	public static List<String> getTitles() {
+		List<String> titles = new ArrayList<String>();
+
+		titles.add("owner_user_id");
+		titles.add("client_name");
+		titles.add("sex");
+		titles.add("id_number");
+		titles.add("birth_date");
+		titles.add("age");
+		titles.add("email_info");
+		titles.add("phone_info");
+		titles.add("address_info");
+		titles.add("region_code");
+		titles.add("region_name");
+		titles.add("region_type");
+		titles.add("education_type");
+		titles.add("name_card_id");
+
+		return titles;
+	}
+	
+	public static List<String> getTitleNames() {
+		List<String> titleNames = new ArrayList<String>();
+
+		titleNames.add("归属用户id");
+		titleNames.add("姓名");
+		titleNames.add("性别");
+		titleNames.add("身份证");
+		titleNames.add("生日");
+		titleNames.add("年龄");
+		titleNames.add("邮箱");
+		titleNames.add("电话");
+		titleNames.add("地址");
+		titleNames.add("地区码");
+		titleNames.add("地区名");
+		titleNames.add("地区分类");
+		titleNames.add("教育程度");
+		titleNames.add("名片id");
+		
+		return titleNames;
 	}
 }

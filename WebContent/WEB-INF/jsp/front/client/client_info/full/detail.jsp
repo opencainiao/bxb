@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,6 +9,38 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <jsp:include page="/WEB-INF/jsp/include/common_css.jsp"></jsp:include>
+<jsp:include page="/WEB-INF/jsp/include/common_js.jsp"></jsp:include>
+
+<style>
+dl {
+    border-bottom: 1px solid #eee;
+    bottom: -1px;
+    position: relative;
+    margin-bottom: 8px!important;
+}
+
+dl dt {
+    clear: left;
+    color: #888;
+    float: left;
+    line-height: 1.5;
+    width: 150px;
+}
+
+dl dd {
+    line-height: 1.5;
+    margin-left: 60px;
+    min-height: 18px;
+    width: 320px;
+}
+
+.panel-heading button{
+	margin-top: -4px!important; 
+	padding-bottom: 3px!important; 
+	padding-top: 3px!important;"
+}
+
+</style>
 
 </head>
 
@@ -18,6 +50,87 @@
     <li class="active">客户信息</li>
 </ul>
 
+<script>
+
+var client = ${client};
+//$.alertObjJson(client);
+
+// 生成内容
+function genContent(client,title,name){
+	
+	var content = "";
+
+	for(var i=0;i<name.length;i++){
+		
+		var item_name =  name[i];
+		var item_title =  title[i];
+		
+		var item_value = client[item_title];
+		
+		if (item_value != undefined){
+			
+			var type_item = typeof(item_value);
+			
+			if (type_item == "string"){
+				
+				if (item_value != ""){
+					var item_str = "<dl><dt>" + item_name + "</dt><dd>" + item_value + "</dd></dl>";
+					
+					content = content + item_str;
+				}
+			}else{
+				var item_str = "<dl><dt>" + item_name + "</dt><dd>" + item_value + "</dd></dl>";
+				
+				content = content + item_str;
+			}
+		}
+	}
+	
+	return content;
+}
+
+var base_prop_title = [];
+<c:forEach var="title" items="${base_prop_title}">
+	base_prop_title.push("${title}");
+</c:forEach>
+//alert(base_prop_title.join("\n"));
+
+var base_prop_name = [];
+<c:forEach var="title_name" items="${base_prop_name}">
+	base_prop_name.push("${title_name}");
+</c:forEach>
+//$.alertObjJson(base_prop_name);
+
+// 生成基本模块内容
+function genBaseContent(client){
+	var content = genContent(client,base_prop_title,base_prop_name);
+	
+	$("#base_info_content").html(content);
+}
+
+function toEditBase(){
+	//alert("11");
+	
+	var url = $.getSitePath() + '/clientbaseinfo/' + $("#_id_m").val() + "/update";
+	
+	//alert(url);
+
+	$.popUpWindow("编辑客户基本信息", url, "85%", "80%", "edit", $("#edit_base"));
+}
+
+function initBase(){
+	genBaseContent(client);
+	$("#edit_base").bind("click", toEditBase);
+}
+
+$().ready(function() {
+	
+	initBase();
+});
+
+</script>
+<input type="hidden" name="ctx" value="<%=request.getContextPath()%>" />
+<input type='hidden' id="_id_m" value="${client._id }" />
 <div class="container-fluid">
   <div class="row">
    	<div class="col-md-6">
@@ -26,9 +139,8 @@
 		   		<div class="row">
 		   			<div class="col-md-9 col-md-offset-3">
 		   				<div class="panel panel-info">
-							<div class="panel-heading">基本信息</div>
-							<div class="panel-body">
-								<jsp:include page="/WEB-INF/jsp/front/client/client_info/base/detail.jsp" flush="true"/>
+							<div class="panel-heading">基本信息<button type="button" id="edit_base" class="btn btn-default pull-right">编辑</button></div>
+							<div class="panel-body" id="base_info_content">
 							</div>
 						</div>
 		   			</div>
