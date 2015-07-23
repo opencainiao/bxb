@@ -56,6 +56,23 @@ public class ClientBaseInfoController extends BaseController {
 	}
 
 	/****
+	 * 查看单个客户基本信息 信息
+	 * 
+	 * @param _id
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/{_id}", method = RequestMethod.POST)
+	@ResponseBody
+	public Object detail(@PathVariable String _id) {
+
+		ClientBaseInfo clientbaseinfo = this.clientBaseInfoService
+				.findOneByIdObject(_id);
+
+		return clientbaseinfo;
+	}
+
+	/****
 	 * 进入更新页面
 	 * 
 	 * @param zzdhid

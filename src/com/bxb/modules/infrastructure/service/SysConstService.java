@@ -4,8 +4,6 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import mou.mongodb.FindBatchUtil;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.bson.types.ObjectId;
@@ -164,7 +162,39 @@ public class SysConstService extends BaseService implements ISysConstService {
 
 		DBObject sort = new BasicDBObject();
 		sort.put("valordernum", 1);
-		
+
 		return this.sysconstdao.batchSearch(queryCondition, sort, null);
+	}
+
+	@Override
+	public Object findSysconstByConstTypeOnePage(String typecode,
+			DBObject sort, DBObject returnFields) {
+
+		DBObject queryCondition = new BasicDBObject();
+		queryCondition.put("typecode", typecode);
+
+		return this.batchSearchOnePage(queryCondition, sort, null);
+	}
+
+	@Override
+	public String findDispValByTypecodAndVal(String typecode, String val) {
+
+		DBObject returnFields = new BasicDBObject();
+		returnFields.put("_id", 0);
+		returnFields.put("dspval", 1);
+
+		DBObject queryCondition = new BasicDBObject();
+
+		queryCondition.put("typecode", typecode);// 常量类型
+		queryCondition.put("val", val);
+
+		DBObject dbo = this.sysconstdao.findOneByConditionPart(queryCondition,
+				returnFields);
+
+		if (dbo == null) {
+			return null;
+		}
+
+		return (String) dbo.get("dspval");
 	}
 }

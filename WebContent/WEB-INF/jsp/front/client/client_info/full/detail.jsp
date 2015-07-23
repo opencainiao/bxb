@@ -109,7 +109,7 @@ function genBaseContent(client){
 }
 
 function toEditBase(){
-	//alert("11");
+	
 	
 	var url = $.getSitePath() + '/clientbaseinfo/' + $("#_id_m").val() + "/update";
 	
@@ -118,9 +118,36 @@ function toEditBase(){
 	$.popUpWindow("编辑客户基本信息", url, "85%", "80%", "edit", $("#edit_base"));
 }
 
+function closeEditBase(){
+	
+	$.closeWindow("edit", $("#edit_base"));
+}
 function initBase(){
 	genBaseContent(client);
+	
+	$('#edit_base').unbind();
 	$("#edit_base").bind("click", toEditBase);
+}
+
+function refreshBase(){
+	
+	var url_to = $.getSitePath() + '/clientbaseinfo/${client._id }';
+	
+	 $.ajax({
+        type: 'POST',
+        url: url_to,
+        data: {
+            ts: new Date().getTime()
+        },
+        type: 'POST',
+        dataType: 'json',
+        success: function(data) {
+       	   client = data;
+       	   initBase();
+        },
+        complete: function(XMLHttpRequest, textStatus) {
+        }
+    });
 }
 
 $().ready(function() {

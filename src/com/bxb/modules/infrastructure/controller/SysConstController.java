@@ -317,4 +317,60 @@ public class SysConstController extends BaseController {
 			return this.handleException(e);
 		}
 	}
+	
+	/****
+	 * 查询系统常量值
+	 * 
+	 * @param model
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value = "/list_by_consttype", method = RequestMethod.POST)
+	@ResponseBody
+	public Object list_by_consttype(Model model, String typecode, String typename,
+			HttpServletRequest request) {
+
+		HttpServletRequestUtil.debugParams(request);
+		try {
+
+			HttpServletRequestUtil.debugParams(request);
+
+			String search_condition = request.getParameter("search_condition");
+			if (StringUtil.isNotEmpty(search_condition)) {
+				search_condition = search_condition.trim();
+			}
+
+			DBObject query = new BasicDBObject();
+
+			if (StringUtil.isNotEmpty(search_condition)) {
+				Pattern pattern = RegexPatternUtil
+						.getLikePattern(search_condition);
+
+				BasicDBList condList = new BasicDBList();
+
+				condList.add(new BasicDBObject("typename", pattern));
+				condList.add(new BasicDBObject("typecode", pattern));
+
+				query.put("$or", condList);
+			}
+			query.put("useflg", "1");
+			
+			if (StringUtil.isNotEmpty(typecode)){
+				typecode = typecode.trim();
+			}
+			
+			DBObject sort = new BasicDBObject();
+			sort.put("valordernum", 1);
+			sort.put("val", 1);
+			
+			DBObject returnFields = new BasicDBObject();
+			sort.put("val", 1);
+			sort.put("dspval", 1);
+			
+			return this.sysConstService.findSysconstByConstTypeOnePage(typecode, sort,
+					returnFields);
+		} catch (Exception e) {
+			return this.handleException(e);
+		}
+	}
 }

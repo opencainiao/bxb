@@ -103,4 +103,22 @@ public interface ISysConstService {
 	 */
 	public List<DBObject> findAllConstBySysconstTypecode(String typecode);
 
+	/****
+	 * 根据常量类型，查询下面所有的常量
+	 * 
+	 * @param typecode
+	 * @param sort
+	 * @param returnFields
+	 * @return
+	 */
+	public Object findSysconstByConstTypeOnePage(String typecode,
+			DBObject sort, DBObject returnFields);
+
+	/****
+	 * 根据类型和值，查询显示值
+	 * 
+	 * @return
+	 */
+	public String findDispValByTypecodAndVal(String typecode, String val);
+
 }

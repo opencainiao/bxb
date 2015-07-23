@@ -6,12 +6,15 @@ import javax.annotation.Resource;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.mou.common.StringUtil;
 import org.springframework.stereotype.Service;
 
 import com.bxb.common.util.AgeUtil;
 import com.bxb.modules.base.BaseService;
 import com.bxb.modules.client.dao.ClientBaseInfoDao;
 import com.bxb.modules.client.model.ClientBaseInfo;
+import com.bxb.modules.infrastructure.enums.SysConstTypeEnum;
+import com.bxb.modules.infrastructure.service.ISysConstService;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 
@@ -27,6 +30,9 @@ public class ClientBaseInfoService extends BaseService implements
 
 	@Resource(name = "clientbaseinfodao")
 	private ClientBaseInfoDao clientbaseinfodao;
+
+	@Resource(name = "sysConstService")
+	private ISysConstService sysConstService;
 
 	private static final Logger logger = LogManager
 			.getLogger(ClientBaseInfoService.class);
@@ -54,17 +60,33 @@ public class ClientBaseInfoService extends BaseService implements
 		updateSet.put("client_name", clientbaseinfo.getClient_name());
 		updateSet.put("sex", clientbaseinfo.getSex());
 		updateSet.put("id_number", clientbaseinfo.getId_number());
-		updateSet.put("birth_date", clientbaseinfo.getBirth_date());
-		try {
-			updateSet.put("age", AgeUtil.getAge(clientbaseinfo.getAge()));
-		} catch (ParseException e) {
-			e.printStackTrace();
+
+		String birth_date = clientbaseinfo.getBirth_date();
+		updateSet.put("birth_date", birth_date);
+
+		if (StringUtil.isEmpty(birth_date)) {
+			try {
+				updateSet.put("age",
+						AgeUtil.getAge(clientbaseinfo.getBirth_date()));
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
 		}
-		
+
 		updateSet.put("region_code", clientbaseinfo.getRegion_code());
 		updateSet.put("region_name", clientbaseinfo.getRegion_name());
 		updateSet.put("region_type", clientbaseinfo.getRegion_type());
-		updateSet.put("education_type", clientbaseinfo.getEducation_type());
+		
+		String education_type = clientbaseinfo.getEducation_type();
+		updateSet.put("education_type", education_type);
+		if (StringUtil.isNotEmpty(education_type)){
+			String education_type_name = sysConstService
+					.findDispValByTypecodAndVal(
+							SysConstTypeEnum.EDUCATION_TYPE.getCode(),
+							clientbaseinfo.getEducation_type());
+			updateSet.put("education_type_name", education_type_name);
+		}
+		
 		updateSet.put("name_card_id", clientbaseinfo.getName_card_id());
 
 		this.setModifyInfo(updateSet);

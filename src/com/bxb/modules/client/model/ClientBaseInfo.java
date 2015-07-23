@@ -20,6 +20,7 @@ public class ClientBaseInfo extends BaseModel {
 	private String region_name; // 地区名
 	private String region_type; // 地区分类
 	private String education_type; // 教育程度
+	private String education_type_name; // 教育程度
 	private String name_card_id; // 名片id
 
 	public void setOwner_user_id(String owner_user_id) {
@@ -134,6 +135,14 @@ public class ClientBaseInfo extends BaseModel {
 		return name_card_id;
 	}
 
+	public String getEducation_type_name() {
+		return education_type_name;
+	}
+
+	public void setEducation_type_name(String education_type_name) {
+		this.education_type_name = education_type_name;
+	}
+
 	public static List<String> getTitles() {
 		List<String> titles = new ArrayList<String>();
 
@@ -149,12 +158,13 @@ public class ClientBaseInfo extends BaseModel {
 		titles.add("region_code");
 		titles.add("region_name");
 		titles.add("region_type");
-		titles.add("education_type");
+		//titles.add("education_type");
+		titles.add("education_type_name");
 		titles.add("name_card_id");
 
 		return titles;
 	}
-	
+
 	public static List<String> getTitleNames() {
 		List<String> titleNames = new ArrayList<String>();
 
@@ -172,7 +182,7 @@ public class ClientBaseInfo extends BaseModel {
 		titleNames.add("地区分类");
 		titleNames.add("教育程度");
 		titleNames.add("名片id");
-		
+
 		return titleNames;
 	}
 }

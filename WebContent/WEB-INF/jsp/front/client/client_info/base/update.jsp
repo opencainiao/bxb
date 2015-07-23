@@ -115,7 +115,7 @@
 	                教育程度
 	            </label>
 	            <div class="col-sm-8">
-	                <input type="text" class="form-control" id="education_type" name="education_type" value="${clientbaseinfo.education_type}"  placeholder="" >
+	            	<select id="education_type" name="education_type" class="form-control" data-value="${clientbaseinfo.education_type}" ></select>
 	            </div>
 	        </div>
   			<div class="form-group ">
@@ -182,7 +182,6 @@
                 }
             },
             complete: function(XMLHttpRequest, textStatus) {
-                $.enableButton("btn_save");
             }
         });
 	}
@@ -216,14 +215,57 @@
                 }
             },
             complete: function(XMLHttpRequest, textStatus) {
-                $.enableButton("btn_save");
             }
         });
 	}
 	
+	
+	
+	
+	function iniEducationType(){
+		
+		var url = $.getSitePath() + '/backend/sysconst/list_by_consttype?typecode=00001';
+
+		$.ajax({
+            type: 'POST',
+            url: url,
+            data: {
+                ts: new Date().getTime()
+            },
+            type: 'POST',
+            dataType: 'json',
+            success: function(data) {
+            	
+            	//$.alertObjJson(data);
+            	var data_remote = data["rows"];
+
+                if (data['success'] == 'n') {
+                    
+                } else {
+               		var setting = {
+               			"text":"dspval",
+               			"value":"val"
+               		}
+               		
+                	$("#education_type").iniSelect_noAll(data_remote,setting);
+               		
+               		// 设置值
+               		var val = $("#education_type").attr("data-value");
+               		
+               		$("#education_type").setSelectedValue(val);
+                }
+            },
+            complete: function(XMLHttpRequest, textStatus) {
+            }
+        });
+	}
+	
+	
     $().ready(function() {
     	
     	iniProvince();
+    	
+        iniEducationType();
     	
         $("#btn_save").bind("click", save);
         
@@ -251,8 +293,8 @@
     });
 
     var closeEditWindow=function(){
-    	parent.data_manage_functions.refreshPage();
-    	parent.data_manage_functions.closeEditWindow();
+    	parent.refreshBase();
+    	parent.closeEditBase();
     }
     //保存
     var save = function() {

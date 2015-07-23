@@ -1,15 +1,21 @@
 package com.bxb.modules.client.service;
 
+import java.text.ParseException;
+
 import javax.annotation.Resource;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.mou.common.StringUtil;
 import org.springframework.stereotype.Service;
 
 import com.bxb.common.globalobj.PageVO;
+import com.bxb.common.util.AgeUtil;
 import com.bxb.modules.base.BaseService;
 import com.bxb.modules.client.dao.ClientDao;
 import com.bxb.modules.client.model.Client;
+import com.bxb.modules.infrastructure.enums.SysConstTypeEnum;
+import com.bxb.modules.infrastructure.service.ISysConstService;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 
@@ -20,11 +26,13 @@ import com.mongodb.DBObject;
  *
  */
 @Service("clientService")
-public class ClientService extends BaseService implements
-		IClientService {
-		
+public class ClientService extends BaseService implements IClientService {
+
 	@Resource(name = "clientdao")
-	private ClientDao  clientdao;
+	private ClientDao clientdao;
+
+	@Resource(name = "sysConstService")
+	private ISysConstService sysConstService;
 
 	private static final Logger logger = LogManager
 			.getLogger(ClientService.class);
@@ -45,22 +53,45 @@ public class ClientService extends BaseService implements
 	@Override
 	public PageVO batchSearchOnePage(DBObject query, DBObject sort,
 			DBObject returnFields) {
-		return this.clientdao.batchSearchOnePage(query, sort,
-				returnFields);
+		return this.clientdao.batchSearchOnePage(query, sort, returnFields);
 	}
 
 	@Override
 	public String add(Client client) {
+
+		setClientInf(client);
 		this.setCreateInfo(client);
 		return this.clientdao.insertObj(client);
+	}
+
+	private void setClientInf(Client client) {
+
+		String education_type = client.getEducation_type();
+		if (StringUtil.isNotEmpty(education_type)) {
+			String education_type_name = sysConstService
+					.findDispValByTypecodAndVal(
+							SysConstTypeEnum.EDUCATION_TYPE.getCode(),
+							education_type);
+
+			client.setEducation_type_name(education_type_name);
+		}
+
+		String birth_date = client.getBirth_date();
+		if (StringUtil.isEmpty(birth_date)) {
+			try {
+				client.setAge(AgeUtil.getAge(birth_date));
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	@Override
 	public DBObject updatePart(DBObject returnFields, Client client) {
 
 		DBObject toUpdate = makeUpdate(client);
-		return this.clientdao.updateOneById(client.get_id_str(),
-				returnFields, toUpdate);
+		return this.clientdao.updateOneById(client.get_id_str(), returnFields,
+				toUpdate);
 	}
 
 	/****
@@ -95,5 +126,5 @@ public class ClientService extends BaseService implements
 		this.setModifyInfo(updateSet);
 		return this.clientdao.findAndRemoveOneByIdLogic(_id, updateSet);
 	}
-	
+
 }

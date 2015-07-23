@@ -61,6 +61,8 @@ public class Client extends BaseModel {
 	private List<String> interesting_service; // 关注的服务
 	private String service_served; // 已提供的服务
 
+	private String education_type_name; // 教育程度
+
 	@NotEmpty(message = "归属用户主键不能为空")
 	public String getOwner_user_id() {
 		return owner_user_id;
@@ -448,6 +450,14 @@ public class Client extends BaseModel {
 
 	public void setAnnual_income_family(double annual_income_family) {
 		this.annual_income_family = annual_income_family;
+	}
+
+	public String getEducation_type_name() {
+		return education_type_name;
+	}
+
+	public void setEducation_type_name(String education_type_name) {
+		this.education_type_name = education_type_name;
 	}
 
 }
