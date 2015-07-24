@@ -22,7 +22,7 @@
 <div id="edit_div" class="onepage" style="margin-top: 30px">
     <input type="hidden" name="_id" value="${clientbaseinfo._id}"/>
     <sf:form modelAttribute="clientbaseinfo" class="form-horizontal center-block " style="width: 500px">
-  			<div class="form-group ">
+  			<div class="form-group form-group-sm  ">
 	            <label for="owner_user_id" class="col-sm-3 control-label">
 	                归属用户id
 	            </label>
@@ -30,7 +30,7 @@
 	                <input type="text" class="form-control" id="owner_user_id" name="owner_user_id" value="${clientbaseinfo.owner_user_id}"  placeholder="" >
 	            </div>
 	        </div>
-  			<div class="form-group ">
+  			<div class="form-group form-group-sm  ">
 	            <label for="client_name" class="col-sm-3 control-label">
 	                客户姓名
 	            </label>
@@ -38,7 +38,7 @@
 	                <input type="text" class="form-control" id="client_name" name="client_name" value="${clientbaseinfo.client_name}"  placeholder="" >
 	            </div>
 	        </div>
-  			<div class="form-group ">
+  			<div class="form-group form-group-sm  ">
 	            <label for="sex" class="col-sm-3 control-label">
 	                性别
 	            </label>
@@ -46,7 +46,7 @@
 	                <input type="text" class="form-control" id="sex" name="sex" value="${clientbaseinfo.sex}"  placeholder="" >
 	            </div>
 	        </div>
-  			<div class="form-group ">
+  			<div class="form-group form-group-sm  ">
 	            <label for="id_number" class="col-sm-3 control-label">
 	                身份证号
 	            </label>
@@ -54,7 +54,7 @@
 	                <input type="text" class="form-control" id="id_number" name="id_number" value="${clientbaseinfo.id_number}"  placeholder="" >
 	            </div>
 	        </div>
-  			<div class="form-group ">
+  			<div class="form-group form-group-sm  ">
 	            <label for="birth_date" class="col-sm-3 control-label">
 	                生日
 	            </label>
@@ -62,7 +62,7 @@
 	            	<input id="birth_date" name="birth_date" placeholder="请输入日期" class="laydate-icon form-control dateipt" value="${clientbaseinfo.birth_date}" onclick="laydate()">
 	            </div>
 	        </div>
-  			<div class="form-group ">
+  			<div class="form-group form-group-sm  ">
 	            <label for="email_info" class="col-sm-3 control-label">
 	                邮箱
 	            </label>
@@ -70,7 +70,7 @@
 	                <input type="text" class="form-control" id="email_info" name="email_info" value="${clientbaseinfo.email_info}"  placeholder="" >
 	            </div>
 	        </div>
-  			<div class="form-group ">
+  			<div class="form-group form-group-sm  ">
 	            <label for="phone_info" class="col-sm-3 control-label">
 	                电话
 	            </label>
@@ -78,7 +78,7 @@
 	                <input type="text" class="form-control" id="phone_info" name="phone_info" value="${clientbaseinfo.phone_info}"  placeholder="" >
 	            </div>
 	        </div>
-  			<div class="form-group ">
+  			<div class="form-group form-group-sm  ">
 	            <label for="address_info" class="col-sm-3 control-label">
 	                地址
 	            </label>
@@ -86,7 +86,7 @@
 	                <input type="text" class="form-control" id="address_info" name="address_info" value="${clientbaseinfo.address_info}"  placeholder="" >
 	            </div>
 	        </div>
-  			<div class="form-group ">
+  			<div class="form-group form-group-sm  ">
 	            <label for="region_code" class="col-sm-3 control-label">
 	                地区
 	            </label>
@@ -102,7 +102,7 @@
 					</div>
 				</div>
 	        </div>
-  			<div class="form-group ">
+  			<div class="form-group form-group-sm  ">
 	            <label for="region_type" class="col-sm-3 control-label">
 	                地区分类
 	            </label>
@@ -110,7 +110,7 @@
 	                <input type="text" class="form-control" id="region_type" name="region_type" value="${clientbaseinfo.region_type}"  placeholder="" >
 	            </div>
 	        </div>
-  			<div class="form-group ">
+  			<div class="form-group form-group-sm  ">
 	            <label for="education_type" class="col-sm-3 control-label">
 	                教育程度
 	            </label>
@@ -118,7 +118,7 @@
 	            	<select id="education_type" name="education_type" class="form-control" data-value="${clientbaseinfo.education_type}" ></select>
 	            </div>
 	        </div>
-  			<div class="form-group ">
+  			<div class="form-group form-group-sm  ">
 	            <label for="name_card_id" class="col-sm-3 control-label">
 	                名片id
 	            </label>
