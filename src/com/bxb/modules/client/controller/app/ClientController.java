@@ -1,4 +1,4 @@
-package com.bxb.modules.client.controller;
+package com.bxb.modules.client.controller.app;
 
 import java.util.List;
 import java.util.regex.Pattern;
@@ -15,7 +15,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -42,8 +41,8 @@ import com.mongodb.DBObject;
  * @author NBQ
  *
  */
-@Controller
-@RequestMapping("/front/client")
+@Controller("mobileclientcontrollers")
+@RequestMapping("/mobile/client")
 public class ClientController extends BaseController {
 
 	private static final Logger logger = LogManager
@@ -57,26 +56,6 @@ public class ClientController extends BaseController {
 		binder.registerCustomEditor(Integer.TYPE, new CustomerIntegerEditor());
 		binder.registerCustomEditor(Double.TYPE, new CustomerDoubleEditor());
 		binder.registerCustomEditor(List.class, new CustomerListEditor());
-	}
-
-	/****
-	 * 进入添加用户页面
-	 * 
-	 * @return
-	 */
-	@RequestMapping(value = "/add", method = RequestMethod.GET)
-	public String add(@ModelAttribute("client") Client client,
-			HttpServletRequest request, Model model) {
-
-		String userId = this.getUserId();
-		if (StringUtil.isEmpty(userId)) {
-			userId = request.getParameter("owner_user_id");
-		}
-
-		model.addAttribute("owner_user_id", userId);
-
-		// 开启modelDriven
-		return "front/client/client_info/full/add";
 	}
 
 	/****
@@ -128,18 +107,6 @@ public class ClientController extends BaseController {
 		} catch (Exception e) {
 			return this.handleException(e);
 		}
-	}
-
-	/****
-	 * 查看所有系统用户 信息
-	 * 
-	 * @param model
-	 * @return
-	 */
-	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public String list(Model model) {
-
-		return "front/client/client_info/full/list";
 	}
 
 	/****
@@ -211,25 +178,6 @@ public class ClientController extends BaseController {
 	}
 
 	/****
-	 * 进入更新页面
-	 * 
-	 * @param zzdhid
-	 * @param model
-	 * @return
-	 */
-	@RequestMapping(value = "/{_id}/update", method = RequestMethod.GET)
-	public String update(@PathVariable String _id, Model model) {
-
-		Client client = this.clientService.findOneByIdObject(_id);
-
-		model.addAttribute("client", client);
-
-		model.addAttribute("_id", _id);
-
-		return "front/client/client_info/full/update";
-	}
-
-	/****
 	 * 更新系统用户 信息，返回json给客户端
 	 * 
 	 * @param _id
@@ -284,8 +232,7 @@ public class ClientController extends BaseController {
 			return this.handleException(e);
 		}
 	}
-	
-	
+
 	/****
 	 * 查看单个客户基本信息 信息
 	 * 
@@ -297,8 +244,7 @@ public class ClientController extends BaseController {
 	@ResponseBody
 	public Object detail(@PathVariable String _id) {
 
-		Client clientinfo = this.clientService
-				.findOneByIdObject(_id);
+		Client clientinfo = this.clientService.findOneByIdObject(_id);
 
 		return clientinfo;
 	}

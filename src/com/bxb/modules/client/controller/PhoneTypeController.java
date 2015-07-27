@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.bxb.common.globalhandler.ErrorHandler;
 import com.bxb.common.globalobj.RequestResult;
+import com.bxb.common.globalobj.ValidResult;
 import com.bxb.common.util.HttpServletRequestUtil;
 import com.bxb.common.util.RegexPatternUtil;
 import com.bxb.modules.base.BaseController;
@@ -80,20 +81,18 @@ public class PhoneTypeController extends BaseController {
 
 			// 1.校验是否已存在相同的类型值
 			boolean isExist = this.phoneTypeService.isExistSameTypeValue(
-					phonetype.getType_value(),
-					phonetype.getOwner_user_id());
+					phonetype.getType_value(), phonetype.getOwner_user_id());
 			if (isExist) {
 				RequestResult rr = new RequestResult();
 				rr.setSuccess(false);
-				rr.setMessage("已经存在值为【"
-						+ phonetype.getType_value().trim() + "】的电话类型!");
+				rr.setMessage("已经存在值为【" + phonetype.getType_value().trim()
+						+ "】的电话类型!");
 				return rr;
 			}
 
 			// 2.校验是否已存在相同的类型名
 			isExist = this.phoneTypeService.isExistSameTypename(
-					phonetype.getType_name(),
-					phonetype.getOwner_user_id());
+					phonetype.getType_name(), phonetype.getOwner_user_id());
 			if (isExist) {
 				RequestResult rr = new RequestResult();
 				rr.setSuccess(false);
@@ -264,8 +263,7 @@ public class PhoneTypeController extends BaseController {
 		if (isExist) {
 			RequestResult rr = new RequestResult();
 			rr.setSuccess(false);
-			rr.setMessage("已经存在值为【" + phonetype.getType_value()
-					+ "】的电话类型!");
+			rr.setMessage("已经存在值为【" + phonetype.getType_value() + "】的电话类型!");
 			return rr;
 		}
 
@@ -318,7 +316,7 @@ public class PhoneTypeController extends BaseController {
 			return this.handleException(e);
 		}
 	}
-	
+
 	/*--------------------------------------------------------------------------------*/
 	/****
 	 * 查看所有系统地址类型参照
