@@ -31,10 +31,14 @@ public class SpecialCharacterFilter extends OncePerRequestFilter {
 		notFiltered.add("materialtypehome/update_detail");
 		notFiltered.add("materialtypehome/add_supplier");
 		notFiltered.add("materialtypehome/update_supplier");
-
 	}
 
 	private boolean noFilter(String controller) {
+		
+		// 来自移动端的请求，不过滤特殊字符
+		if (controller.contains("app/")){
+			return true;
+		}
 
 		String[] app = controller.split("/");
 

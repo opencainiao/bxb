@@ -63,7 +63,7 @@ public class Client extends BaseModel {
 
 	private String education_type_name; // 教育程度
 
-	@NotEmpty(message = "归属用户主键不能为空")
+	@NotEmpty(message = "归属用户_id不能为空")
 	public String getOwner_user_id() {
 		return owner_user_id;
 	}

@@ -2,6 +2,8 @@ package com.bxb.common.globalobj;
 
 import java.util.Map;
 
+import org.mou.common.JsonUtil;
+
 public class RequestResult {
 
 	private String success; // y-成功,n-失败
@@ -45,5 +47,10 @@ public class RequestResult {
 
 	public void setMessage(String message) {
 		this.message = message;
+	}
+	
+	@Override
+	public String toString() {
+		return JsonUtil.toJsonStr(this);
 	}
 }

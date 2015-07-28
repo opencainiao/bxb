@@ -1,6 +1,5 @@
 package com.bxb.modules.client.controller.app;
 
-import java.util.List;
 import java.util.regex.Pattern;
 
 import javax.annotation.Resource;
@@ -13,8 +12,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -22,11 +19,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.bxb.common.globalhandler.ErrorHandler;
 import com.bxb.common.globalobj.RequestResult;
+import com.bxb.common.globalobj.ValidResult;
 import com.bxb.common.util.HttpServletRequestUtil;
+import com.bxb.common.util.JSONHelper;
 import com.bxb.common.util.RegexPatternUtil;
-import com.bxb.common.util.propertyeditor.CustomerDoubleEditor;
-import com.bxb.common.util.propertyeditor.CustomerIntegerEditor;
-import com.bxb.common.util.propertyeditor.CustomerListEditor;
 import com.bxb.modules.base.BaseController;
 import com.bxb.modules.client.model.Client;
 import com.bxb.modules.client.model.ClientBaseInfo;
@@ -41,8 +37,8 @@ import com.mongodb.DBObject;
  * @author NBQ
  *
  */
-@Controller("mobileclientcontrollers")
-@RequestMapping("/mobile/client")
+@Controller("mclientcontroller")
+@RequestMapping("/app/client")
 public class ClientController extends BaseController {
 
 	private static final Logger logger = LogManager
@@ -51,11 +47,55 @@ public class ClientController extends BaseController {
 	@Resource(name = "clientService")
 	private IClientService clientService;
 
-	@InitBinder
-	protected void initBinder(WebDataBinder binder) {
-		binder.registerCustomEditor(Integer.TYPE, new CustomerIntegerEditor());
-		binder.registerCustomEditor(Double.TYPE, new CustomerDoubleEditor());
-		binder.registerCustomEditor(List.class, new CustomerListEditor());
+	/****
+	 * 添加客户信息<br>
+	 * 返回生成的主键，如果有错误，返回错误
+	 * 
+	 * @param client
+	 * @return
+	 */
+	private RequestResult addClient(Client client) {
+
+		ValidResult validResult = this.validate(client);
+		if (validResult.hasErrors()) {
+			return ErrorHandler.getRequestResultFromValidResult(validResult);
+		}
+
+		RequestResult rr = new RequestResult();
+		try {
+			// 1.新增
+			client.setUseflg("1");
+			String _id = this.clientService.add(client);
+
+			rr.setSuccess(true);
+			rr.setMessage(_id);
+
+			logger.debug("插入结果[{}]",rr);
+			return rr;
+		} catch (Exception e) {
+			return this.handleException(e);
+		}
+	}
+
+	/****
+	 * 添加一组客户<br>
+	 * 返回生成的主键，如果有错误，返回错误
+	 * 
+	 * @param clients
+	 * @return
+	 */
+	private RequestResult[] addBatch(Client[] clients) {
+
+		RequestResult[] rtnResult = new RequestResult[clients.length];
+
+		for (int i = 0; i < clients.length; ++i) {
+			Client client = clients[i];
+			RequestResult addResult = addClient(client);
+
+			rtnResult[i] = addResult;
+		}
+
+		return rtnResult;
 	}
 
 	/****
@@ -65,48 +105,13 @@ public class ClientController extends BaseController {
 	 */
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	@ResponseBody
-	public Object add(@Validated Client client, BindingResult br,
-			HttpServletRequest request) {
+	public Object add(HttpServletRequest request,String data) {
 
 		HttpServletRequestUtil.debugParams(request);
 
-		logger.debug("传入的用户对象\n{}", client);
+		Client[] clients = JSONHelper.parseArray(data, Client.class);
 
-		String userId = this.getUserId();
-		userId = "00";
-		if (StringUtil.isEmpty(userId)) {
-			return this.handleValidateFalse("所属用户id不能为空");
-		}
-
-		client.setOwner_user_id(userId);
-
-		if (br.hasErrors()) {
-			return ErrorHandler.getRequestResultFromBindingResult(br);
-		}
-		try {
-			// 1.校验是否已存在相同的类型码
-			// boolean isExist = this.clientService
-			// .isExistSameTypecode(client.getTypecode());
-			// if (isExist) {
-			// RequestResult rr = new RequestResult();
-			// rr.setSuccess(false);
-			// rr.setMessage("已经存在类型码【" + client.getTypecode().trim()
-			// + "】的用户!");
-			// return rr;
-			// }
-
-			// 2.新增
-			client.setUseflg("1");
-			String _id = this.clientService.add(client);
-
-			RequestResult rr = new RequestResult();
-			rr.setSuccess(true);
-			rr.setMessage(_id);
-
-			return rr;
-		} catch (Exception e) {
-			return this.handleException(e);
-		}
+		return addBatch(clients);
 	}
 
 	/****
