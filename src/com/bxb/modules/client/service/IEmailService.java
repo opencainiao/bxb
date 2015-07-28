@@ -3,42 +3,24 @@ package com.bxb.modules.client.service;
 import java.util.List;
 
 import com.bxb.common.globalobj.PageVO;
-import com.bxb.modules.client.model.Address;
+import com.bxb.modules.client.model.Email;
 import com.mongodb.DBObject;
 
 /****
- * 地址服务接口
+ * 邮箱服务接口
  * 
  * @author NBQ
  *
  */
-public interface IAddressService {
+public interface IEmailService {
 
-	/****
-	 * 查询一个人的所有地址信息
-	 * 
-	 * @param ownerId
-	 * @return
-	 */
-	public List<DBObject> findAllByOwnerId(String ownerId);
-
-	/****
-	 * 条件查询，1页，查询所有
-	 * 
-	 * @param query
-	 * @param sort
-	 * @param returnFields
-	 * @return
-	 */
-	public PageVO findAllOnePageByOwnerId(String ownerId);
-	
 	/****
 	 * 根据id，查询一个对象
 	 * 
 	 * @param _id
 	 * @return
 	 */
-	public Address findOneByIdObject(String _id);
+	public Email findOneByIdObject(String _id);
 
 	/****
 	 * 条件查询，分页
@@ -65,27 +47,19 @@ public interface IAddressService {
 	/****
 	 * 插入对象，返回插入后的生成的ObjectId
 	 * 
-	 * @param address
+	 * @param email
 	 * @return
 	 */
-	public String add(Address address);
-	
-	/****
-	 * 给用户插入一组地址信息
-	 * @param addresses
-	 * @param ownerId
-	 * @return
-	 */
-	public List<String> add(List<Address> addresses,String ownerId);
+	public String add(Email email);
 
 	/****
 	 * 更新一条记录，返回更新后的结果，根据对象的主键ObjectId
 	 * 
 	 * @param returnFields
-	 * @param address
+	 * @param email
 	 * @return
 	 */
-	public DBObject updatePart(DBObject returnFields, Address address);
+	public DBObject updatePart(DBObject returnFields, Email email);
 
 	/****
 	 * 查询并删除一条记录
@@ -104,5 +78,22 @@ public interface IAddressService {
 	 * @return
 	 */
 	public DBObject RemoveOneByIdLogic(String _id);
+
+	/****
+	 * 条件查询，1页，查询所有
+	 * 
+	 * @param owner_id
+	 * @return
+	 */
+	public Object findAllOnePageByOwnerId(String owner_id);
+
+	/****
+	 * 给客户添加一组邮箱信息
+	 * 
+	 * @param emails
+	 * @param client_id
+	 * @return
+	 */
+	public List<String> add(List<Email> emails, String client_id);
 
 }

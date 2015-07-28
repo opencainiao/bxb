@@ -1,5 +1,7 @@
 package com.bxb.modules.client.service;
 
+import java.util.List;
+
 import com.bxb.common.globalobj.PageVO;
 import com.bxb.modules.client.model.Phone;
 import com.mongodb.DBObject;
@@ -84,5 +86,14 @@ public interface IPhoneService {
 	 * @return
 	 */
 	public Object findAllOnePageByOwnerId(String owner_id);
+
+	/****
+	 * 给客户添加一组电话信息
+	 * 
+	 * @param phones
+	 * @param client_id
+	 * @return
+	 */
+	public List<String> add(List<Phone> phones, String client_id);
 
 }

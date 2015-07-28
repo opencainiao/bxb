@@ -51,6 +51,15 @@ public interface IClientService {
 	public String add(Client client);
 
 	/****
+	 * 根据客户名，取客户id
+	 * 
+	 * @param clientName
+	 * @param userId
+	 * @return
+	 */
+	public String getOidByClientName(String clientName, String userId);
+
+	/****
 	 * 更新一条记录，返回更新后的结果，根据对象的主键ObjectId
 	 * 
 	 * @param returnFields

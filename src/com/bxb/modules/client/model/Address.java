@@ -16,39 +16,39 @@ public class Address extends BaseModel {
 
 	private String type_value; // 地址类型值(枚举值)
 	private String type_name; // 地址类型名称
-	private String province; // 省
+	private Integer province; // 省
 	private String province_name; // 省
-	private String city; // 市
+	private Integer city; // 市
 	private String city_name; // 市
-	private String district; // 区
+	private Integer district; // 区
 	private String district_name; // 区
 	private String detail_address; // 详细地址
 
 	private String mainflg; // 是否主要地址 1-是，0-否
 
 	@NotEmpty(message = "省代码不能为空")
-	public String getProvince() {
+	public Integer getProvince() {
 		return province;
 	}
 
-	public void setProvince(String province) {
+	public void setProvince(Integer province) {
 		this.province = province;
 	}
 
 	@NotEmpty(message = "市代码不能为空")
-	public String getCity() {
+	public Integer getCity() {
 		return city;
 	}
 
-	public void setCity(String city) {
+	public void setCity(Integer city) {
 		this.city = city;
 	}
 
-	public String getDistrict() {
+	public Integer getDistrict() {
 		return district;
 	}
 
-	public void setDistrict(String district) {
+	public void setDistrict(Integer district) {
 		this.district = district;
 	}
 

@@ -1,5 +1,6 @@
 package com.bxb.modules.client.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -127,5 +128,19 @@ public class AddressService extends BaseService implements IAddressService {
 		sort.put("type_value", 1);
 
 		return batchSearchOnePage(queryCondition, sort, null);
+	}
+
+	@Override
+	public List<String> add(List<Address> addresses,String ownerId) {
+		List<String> ids = new ArrayList<String>();
+		
+		for(Address address:addresses){
+			address.setOwner_id(ownerId);
+			String addressid = this.add(address);
+			
+			ids.add(addressid);
+		}
+		
+		return ids;
 	}
 }

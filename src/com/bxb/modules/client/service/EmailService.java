@@ -11,8 +11,8 @@ import org.springframework.stereotype.Service;
 
 import com.bxb.common.globalobj.PageVO;
 import com.bxb.modules.base.BaseService;
-import com.bxb.modules.client.dao.PhoneDao;
-import com.bxb.modules.client.model.Phone;
+import com.bxb.modules.client.dao.EmailDao;
+import com.bxb.modules.client.model.Email;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 
@@ -22,45 +22,45 @@ import com.mongodb.DBObject;
  * @author NBQ
  *
  */
-@Service("phoneService")
-public class PhoneService extends BaseService implements IPhoneService {
+@Service("emailService")
+public class EmailService extends BaseService implements IEmailService {
 
-	@Resource(name = "phonedao")
-	private PhoneDao phonedao;
+	@Resource(name = "emaildao")
+	private EmailDao emaildao;
 
 	private static final Logger logger = LogManager
-			.getLogger(PhoneService.class);
+			.getLogger(EmailService.class);
 
 	@Override
-	public Phone findOneByIdObject(String _id) {
+	public Email findOneByIdObject(String _id) {
 
-		return this.phonedao.findOneByIdObject(_id, Phone.class);
+		return this.emaildao.findOneByIdObject(_id, Email.class);
 	}
 
 	@Override
 	public PageVO batchSearchPage(DBObject queryCondition, DBObject sort,
 			DBObject returnFields) {
-		return this.phonedao
+		return this.emaildao
 				.batchSearchPage(queryCondition, sort, returnFields);
 	}
 
 	@Override
 	public PageVO batchSearchOnePage(DBObject query, DBObject sort,
 			DBObject returnFields) {
-		return this.phonedao.batchSearchOnePage(query, sort, returnFields);
+		return this.emaildao.batchSearchOnePage(query, sort, returnFields);
 	}
 
 	@Override
-	public String add(Phone phone) {
-		this.setCreateInfo(phone);
-		return this.phonedao.insertObj(phone);
+	public String add(Email email) {
+		this.setCreateInfo(email);
+		return this.emaildao.insertObj(email);
 	}
 
 	@Override
-	public DBObject updatePart(DBObject returnFields, Phone phone) {
+	public DBObject updatePart(DBObject returnFields, Email email) {
 
-		DBObject toUpdate = makeUpdate(phone);
-		return this.phonedao.updateOneById(phone.get_id_str(), returnFields,
+		DBObject toUpdate = makeUpdate(email);
+		return this.emaildao.updateOneById(email.get_id_str(), returnFields,
 				toUpdate);
 	}
 
@@ -70,15 +70,15 @@ public class PhoneService extends BaseService implements IPhoneService {
 	 * @param update
 	 * @return
 	 */
-	private DBObject makeUpdate(Phone phone) {
+	private DBObject makeUpdate(Email email) {
 
 		DBObject update = new BasicDBObject();
 		DBObject updateSet = new BasicDBObject();
 
-		updateSet.put("type_value", phone.getType_value());
-		updateSet.put("type_name", phone.getType_name());
-		updateSet.put("phone_number", phone.getPhone_number());
-		updateSet.put("mainflg", phone.getMainflg());
+		updateSet.put("type_value", email.getType_value());
+		updateSet.put("type_name", email.getType_name());
+		updateSet.put("email", email.getEmail());
+		updateSet.put("mainflg", email.getMainflg());
 
 		this.setModifyInfo(updateSet);
 		update.put("$set", updateSet);
@@ -89,7 +89,7 @@ public class PhoneService extends BaseService implements IPhoneService {
 
 	@Override
 	public DBObject RemoveOneById(String _id) {
-		return this.phonedao.findAndRemoveOneById(_id);
+		return this.emaildao.findAndRemoveOneById(_id);
 	}
 
 	@Override
@@ -97,7 +97,7 @@ public class PhoneService extends BaseService implements IPhoneService {
 
 		DBObject updateSet = new BasicDBObject();
 		this.setModifyInfo(updateSet);
-		return this.phonedao.findAndRemoveOneByIdLogic(_id, updateSet);
+		return this.emaildao.findAndRemoveOneByIdLogic(_id, updateSet);
 	}
 
 	@Override
@@ -112,12 +112,12 @@ public class PhoneService extends BaseService implements IPhoneService {
 	}
 
 	@Override
-	public List<String> add(List<Phone> phones, String client_id) {
+	public List<String> add(List<Email> phones, String client_id) {
 		List<String> ids = new ArrayList<String>();
 
-		for (Phone phone : phones) {
-			phone.setOwner_id(client_id);
-			String addressid = this.add(phone);
+		for (Email email : phones) {
+			email.setOwner_id(client_id);
+			String addressid = this.add(email);
 
 			ids.add(addressid);
 		}

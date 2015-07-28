@@ -70,7 +70,7 @@ public class ClientController extends BaseController {
 			rr.setSuccess(true);
 			rr.setMessage(_id);
 
-			logger.debug("插入结果[{}]",rr);
+			logger.debug("插入结果[{}]", rr);
 			return rr;
 		} catch (Exception e) {
 			return this.handleException(e);
@@ -105,13 +105,17 @@ public class ClientController extends BaseController {
 	 */
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	@ResponseBody
-	public Object add(HttpServletRequest request,String data) {
+	public Object add(HttpServletRequest request, String data) {
 
 		HttpServletRequestUtil.debugParams(request);
 
-		Client[] clients = JSONHelper.parseArray(data, Client.class);
+		try {
+			Client[] clients = JSONHelper.parseArray(data, Client.class);
 
-		return addBatch(clients);
+			return addBatch(clients);
+		} catch (Exception e) {
+			return this.handleException(e);
+		}
 	}
 
 	/****
