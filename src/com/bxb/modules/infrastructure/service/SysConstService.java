@@ -159,7 +159,8 @@ public class SysConstService extends BaseService implements ISysConstService {
 
 		DBObject queryCondition = new BasicDBObject();
 		queryCondition.put("typecode", typecode);
-
+		queryCondition.put("useflg", "1");
+		
 		DBObject sort = new BasicDBObject();
 		sort.put("valordernum", 1);
 

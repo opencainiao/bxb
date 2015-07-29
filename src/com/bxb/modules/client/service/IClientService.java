@@ -16,9 +16,11 @@ public interface IClientService {
 	 * 根据id，查询一个对象
 	 * 
 	 * @param _id
+	 * @param isRedisplay
+	 *            true-进行回显 false-不回显
 	 * @return
 	 */
-	public Client findOneByIdObject(String _id);
+	public Client findOneByIdObject(String _id, boolean isRedisplay);
 
 	/****
 	 * 条件查询，分页

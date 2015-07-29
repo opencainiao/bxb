@@ -24,12 +24,12 @@
 <div id="add_div" class="onepage">
     <input type="hidden" name="_id" />
     <sf:form modelAttribute="sysconsttype" class="form-horizontal">
-        <div class="form-group hide">
-            <label for="type" class="col-sm-2 control-label">
+        <div class="form-group ">
+            <label for="typecode" class="col-sm-2 control-label">
                 类型编码
             </label>
             <div class="col-sm-5">
-                <input type="text" class="form-control" id="typecode" name="typecode" placeholder="" value="1">
+                <input type="text" class="form-control" id="typecode" name="typecode" placeholder="" >
             </div>
         </div>
         <div class="form-group "">

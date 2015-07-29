@@ -7,7 +7,6 @@ import javax.annotation.Resource;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.bson.types.ObjectId;
 import org.mou.common.StringUtil;
 import org.springframework.stereotype.Service;
 
@@ -52,9 +51,15 @@ public class ClientService extends BaseService implements IClientService {
 			.getLogger(ClientService.class);
 
 	@Override
-	public Client findOneByIdObject(String _id) {
+	public Client findOneByIdObject(String _id, boolean isRedisplay) {
 
-		return this.clientdao.findOneByIdObject(_id, Client.class);
+		Client client = this.clientdao.findOneByIdObject(_id, Client.class);
+		
+		if (client != null && isRedisplay){
+			reDisplay(client);
+		}
+
+		return client;
 	}
 
 	@Override
@@ -108,16 +113,6 @@ public class ClientService extends BaseService implements IClientService {
 	}
 
 	private void setClientInf(Client client) {
-
-		String education_type = client.getEducation_type();
-		if (StringUtil.isNotEmpty(education_type)) {
-			String education_type_name = sysConstService
-					.findDispValByTypecodAndVal(
-							SysConstTypeEnum.EDUCATION_TYPE.getCode(),
-							education_type);
-
-			client.setEducation_type_name(education_type_name);
-		}
 
 		String birth_date = client.getBirth_date();
 		if (StringUtil.isNotEmpty(birth_date)) {
@@ -190,6 +185,26 @@ public class ClientService extends BaseService implements IClientService {
 		}
 
 		return null;
+	}
+
+	/****
+	 * 设置回显信息
+	 * 
+	 * @param client
+	 */
+	private void reDisplay(Client client) {
+
+		// 教育类型
+		String education_type = client.getEducation_type();
+		if (StringUtil.isNotEmpty(education_type)) {
+			String education_type_name = sysConstService
+					.findDispValByTypecodAndVal(
+							SysConstTypeEnum.EDUCATION_TYPE.getCode(),
+							education_type);
+
+			client.setEducation_type_name(education_type_name);
+		}
+
 	}
 
 }

@@ -200,7 +200,7 @@ public class ClientController extends BaseController {
 	@RequestMapping(value = "/{_id}", method = RequestMethod.GET)
 	public String detail(@PathVariable String _id, Model model) {
 
-		Client client = this.clientService.findOneByIdObject(_id);
+		Client client = this.clientService.findOneByIdObject(_id, true);
 
 		model.addAttribute("client", client);
 
@@ -220,7 +220,7 @@ public class ClientController extends BaseController {
 	@RequestMapping(value = "/{_id}/update", method = RequestMethod.GET)
 	public String update(@PathVariable String _id, Model model) {
 
-		Client client = this.clientService.findOneByIdObject(_id);
+		Client client = this.clientService.findOneByIdObject(_id, true);
 
 		model.addAttribute("client", client);
 
@@ -284,8 +284,7 @@ public class ClientController extends BaseController {
 			return this.handleException(e);
 		}
 	}
-	
-	
+
 	/****
 	 * 查看单个客户基本信息 信息
 	 * 
@@ -297,8 +296,7 @@ public class ClientController extends BaseController {
 	@ResponseBody
 	public Object detail(@PathVariable String _id) {
 
-		Client clientinfo = this.clientService
-				.findOneByIdObject(_id);
+		Client clientinfo = this.clientService.findOneByIdObject(_id, true);
 
 		return clientinfo;
 	}

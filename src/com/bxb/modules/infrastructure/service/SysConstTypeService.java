@@ -4,7 +4,6 @@ import javax.annotation.Resource;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.mou.common.StringUtil;
 import org.springframework.stereotype.Service;
 
 import com.bxb.common.globalobj.PageVO;
@@ -56,10 +55,10 @@ public class SysConstTypeService extends BaseService implements
 	@Override
 	public String add(SysConstType sysconsttype) {
 
-		int id = this.autoIncreaserService
-				.getAutoIncreasedInteger("sysconsttypecode");
-		sysconsttype.setTypecode(StringUtil.addCharL(id, 5, "0"));
-
+		// int id = this.autoIncreaserService
+		// .getAutoIncreasedInteger("sysconsttypecode");
+		// sysconsttype.setTypecode(StringUtil.addCharL(id, 5, "0"));
+		 
 		this.setCreateInfo(sysconsttype);
 		return this.sysconsttypedao.insertObj(sysconsttype);
 	}

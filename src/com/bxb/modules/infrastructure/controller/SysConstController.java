@@ -168,7 +168,8 @@ public class SysConstController extends BaseController {
 			}
 
 			DBObject sort = new BasicDBObject();
-			sort.put("typename", 1);
+			sort.put("valordernum", 1);
+			sort.put("val", 1);
 			DBObject returnFields = null;
 
 			return this.sysConstService.batchSearchPage(query, sort,

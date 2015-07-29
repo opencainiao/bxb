@@ -64,7 +64,7 @@ public class ClientBaseInfoService extends BaseService implements
 		String birth_date = clientbaseinfo.getBirth_date();
 		updateSet.put("birth_date", birth_date);
 
-		if (StringUtil.isEmpty(birth_date)) {
+		if (StringUtil.isNotEmpty(birth_date)) {
 			try {
 				updateSet.put("age",
 						AgeUtil.getAge(clientbaseinfo.getBirth_date()));

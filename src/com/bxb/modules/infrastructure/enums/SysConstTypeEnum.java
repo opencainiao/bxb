@@ -3,7 +3,7 @@ package com.bxb.modules.infrastructure.enums;
 import com.bxb.modules.user.enumes.UserCharacter;
 
 public enum SysConstTypeEnum {
-	EDUCATION_TYPE("00001", "教育类型");//
+	EDUCATION_TYPE("EDUCATION_TYPE", "教育类型");//
 
 	private String code;
 	private String name;

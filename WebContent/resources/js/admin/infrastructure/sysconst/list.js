@@ -101,7 +101,7 @@ var data_manage = {
 		var params = [];
 		params.push(searchcondition);
 
-		data_manage.gridsetting.url = $.getSitePath() + '/backend/sysconst/list?ts=' + new Date().getTime();
+		data_manage.gridsetting.url = $.getSitePath() + '/backend/sysconst/list_by_consttype?ts=' + new Date().getTime();
 
 		if ($("#data_manage").attr("s_times")) {
 			params.push({
@@ -123,7 +123,7 @@ var data_manage = {
 	 */
 	init : function() {
 
-		var url = $.getSitePath() + '/backend/sysconst/list';
+		var url = $.getSitePath() + '/backend/sysconst/list_by_consttype';
 		
 		var params = [];
 		params.push("typecode=" + $("#typecode").val());
