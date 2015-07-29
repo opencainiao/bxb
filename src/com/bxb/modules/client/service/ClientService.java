@@ -206,7 +206,6 @@ public class ClientService extends BaseService implements IClientService {
 
 			client.setEducation_type_name(education_type_name);
 		}
-
 	}
 
 	@Override
@@ -234,5 +233,11 @@ public class ClientService extends BaseService implements IClientService {
 		}
 		
 		return client;
+	}
+
+	@Override
+	public DBObject findOneByConditionDBObj(DBObject query) {
+		
+		return this.clientdao.findOneByConditionPart(query, null);
 	}
 }

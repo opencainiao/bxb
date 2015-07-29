@@ -24,6 +24,13 @@ public interface IClientService {
 	public Client findOneByCondition(DBObject query, boolean isRedisplay);
 
 	/****
+	 * 根据条件，查询一个客户(不回显)
+	 * @param query
+	 * @return
+	 */
+	public DBObject findOneByConditionDBObj(DBObject query);
+
+	/****
 	 * 根据id，查询一个对象
 	 * 
 	 * @param _id

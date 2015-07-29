@@ -143,7 +143,7 @@ public class ClientController extends BaseController {
 	 * @param userId
 	 * @return
 	 */
-	@RequestMapping(value = "/list_by_userid", method = RequestMethod.POST)
+	@RequestMapping(value = "/list_by_userid", method = RequestMethod.GET)
 	@ResponseBody
 	public Object list_by_userid(Model model, HttpServletRequest request,
 			String user_id) {
@@ -199,7 +199,7 @@ public class ClientController extends BaseController {
 			query.put("owner_user_id", user_id);
 			query.put("_id", _id);
 
-			Client client = this.clientService.findOneByCondition(query, false);
+			DBObject client = this.clientService.findOneByConditionDBObj(query);
 
 			rr.setObject(client);
 			rr.setSuccess(true);

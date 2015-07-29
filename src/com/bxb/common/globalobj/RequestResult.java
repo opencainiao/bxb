@@ -5,6 +5,8 @@ import java.util.Map;
 
 import org.mou.common.JsonUtil;
 
+import com.mongodb.DBObject;
+
 @SuppressWarnings("rawtypes")
 public class RequestResult {
 
@@ -58,6 +60,12 @@ public class RequestResult {
 	}
 
 	public void setObject(Object object) {
+
+		if (object instanceof DBObject) {
+			((DBObject) object).put("_id_m", ((DBObject) object).get("_id")
+					.toString());
+		}
+
 		this.object = object;
 	}
 
@@ -66,6 +74,16 @@ public class RequestResult {
 	}
 
 	public void setObjects(List objects) {
+
+		if (objects != null && !objects.isEmpty()) {
+			for (Object obj : objects) {
+				if (obj instanceof DBObject) {
+					((DBObject) obj).put("_id_m", ((DBObject) obj).get("_id")
+							.toString());
+				}
+			}
+		}
+		
 		this.objects = objects;
 	}
 
