@@ -1,7 +1,5 @@
 package com.bxb.modules.client.controller.app;
 
-import java.util.regex.Pattern;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
@@ -22,12 +20,10 @@ import com.bxb.common.globalobj.RequestResult;
 import com.bxb.common.globalobj.ValidResult;
 import com.bxb.common.util.HttpServletRequestUtil;
 import com.bxb.common.util.JSONHelper;
-import com.bxb.common.util.RegexPatternUtil;
 import com.bxb.modules.base.BaseController;
 import com.bxb.modules.client.model.Client;
 import com.bxb.modules.client.model.ClientBaseInfo;
 import com.bxb.modules.client.service.IClientService;
-import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 
@@ -119,43 +115,31 @@ public class ClientController extends BaseController {
 	}
 
 	/****
-	 * 查询系统用户信息（条件查询，查询多笔，按照系统用户码或名称）
+	 * 查询系统客户信息
 	 * 
 	 * @param model
 	 * @param request
+	 * @param userId
 	 * @return
 	 */
-	@RequestMapping(value = "/list", method = RequestMethod.POST)
+	@RequestMapping(value = "/list_by_userid", method = RequestMethod.POST)
 	@ResponseBody
-	public Object list(Model model, HttpServletRequest request) {
+	public Object list_by_userid(Model model, HttpServletRequest request, String userId) {
 
 		HttpServletRequestUtil.debugParams(request);
+		
+		if (StringUtil.isEmpty(userId)){
+			return this.handleValidateFalse("userId不能为空");
+		}
+		
 		try {
 
-			HttpServletRequestUtil.debugParams(request);
-
-			String search_condition = request.getParameter("search_condition");
-			if (StringUtil.isNotEmpty(search_condition)) {
-				search_condition = search_condition.trim();
-			}
-
 			DBObject query = new BasicDBObject();
-
-			if (StringUtil.isNotEmpty(search_condition)) {
-				Pattern pattern = RegexPatternUtil
-						.getLikePattern(search_condition);
-
-				BasicDBList condList = new BasicDBList();
-
-				condList.add(new BasicDBObject("typename", pattern));
-				condList.add(new BasicDBObject("typecode", pattern));
-
-				query.put("$or", condList);
-			}
+			query.put("owner_user_id", userId);
 			query.put("useflg", "1");
 
 			DBObject sort = new BasicDBObject();
-			sort.put("typename", 1);
+			sort.put("client_name_full_py", 1);
 			DBObject returnFields = null;
 
 			return this.clientService

@@ -54,8 +54,8 @@ public class ClientService extends BaseService implements IClientService {
 	public Client findOneByIdObject(String _id, boolean isRedisplay) {
 
 		Client client = this.clientdao.findOneByIdObject(_id, Client.class);
-		
-		if (client != null && isRedisplay){
+
+		if (client != null && isRedisplay) {
 			reDisplay(client);
 		}
 
@@ -113,6 +113,8 @@ public class ClientService extends BaseService implements IClientService {
 	}
 
 	private void setClientInf(Client client) {
+
+		client.setPinYin();
 
 		String birth_date = client.getBirth_date();
 		if (StringUtil.isNotEmpty(birth_date)) {

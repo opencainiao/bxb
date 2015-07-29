@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
+import com.bxb.common.util.PinyinUtil;
 import com.bxb.modules.base.BaseModel;
 
 public class Client extends BaseModel {
@@ -62,6 +63,9 @@ public class Client extends BaseModel {
 	private String service_served; // 已提供的服务
 
 	private String education_type_name; // 教育程度
+
+	private String client_name_full_py; // 名称全拼
+	private String client_name_short_py; // 名称首字母拼音
 
 	@NotEmpty(message = "归属用户_id不能为空")
 	public String getOwner_user_id() {
@@ -460,4 +464,29 @@ public class Client extends BaseModel {
 		this.education_type_name = education_type_name;
 	}
 
+	public String getClient_name_full_py() {
+		return client_name_full_py;
+	}
+
+	public void setClient_name_full_py(String client_name_full_py) {
+		this.client_name_full_py = client_name_full_py;
+	}
+
+	public String getClient_name_short_py() {
+		return client_name_short_py;
+	}
+
+	public void setClient_name_short_py(String client_name_short_py) {
+		this.client_name_short_py = client_name_short_py;
+	}
+
+	public void setPinYin() {
+		// 关键字的全拼
+		String nameFullPy = PinyinUtil.str2Pinyin(client_name, null);
+		setClient_name_full_py(nameFullPy);
+
+		// 关键字的简拼
+		String nameShortPy = PinyinUtil.strFirst2Pinyin(client_name);
+		setClient_name_short_py(nameShortPy);
+	}
 }

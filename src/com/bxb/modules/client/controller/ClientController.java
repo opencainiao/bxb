@@ -1,7 +1,6 @@
 package com.bxb.modules.client.controller;
 
 import java.util.List;
-import java.util.regex.Pattern;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -24,7 +23,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.bxb.common.globalhandler.ErrorHandler;
 import com.bxb.common.globalobj.RequestResult;
 import com.bxb.common.util.HttpServletRequestUtil;
-import com.bxb.common.util.RegexPatternUtil;
 import com.bxb.common.util.propertyeditor.CustomerDoubleEditor;
 import com.bxb.common.util.propertyeditor.CustomerIntegerEditor;
 import com.bxb.common.util.propertyeditor.CustomerListEditor;
@@ -32,7 +30,6 @@ import com.bxb.modules.base.BaseController;
 import com.bxb.modules.client.model.Client;
 import com.bxb.modules.client.model.ClientBaseInfo;
 import com.bxb.modules.client.service.IClientService;
-import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 
@@ -151,35 +148,20 @@ public class ClientController extends BaseController {
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.POST)
 	@ResponseBody
-	public Object list(Model model, HttpServletRequest request) {
+	public Object list(Model model, HttpServletRequest request, String userId) {
 
 		HttpServletRequestUtil.debugParams(request);
 		try {
 
-			HttpServletRequestUtil.debugParams(request);
-
-			String search_condition = request.getParameter("search_condition");
-			if (StringUtil.isNotEmpty(search_condition)) {
-				search_condition = search_condition.trim();
-			}
-
 			DBObject query = new BasicDBObject();
-
-			if (StringUtil.isNotEmpty(search_condition)) {
-				Pattern pattern = RegexPatternUtil
-						.getLikePattern(search_condition);
-
-				BasicDBList condList = new BasicDBList();
-
-				condList.add(new BasicDBObject("typename", pattern));
-				condList.add(new BasicDBObject("typecode", pattern));
-
-				query.put("$or", condList);
+			if (StringUtil.isNotEmpty(userId)) {
+				query.put("owner_user_id", userId);
 			}
 			query.put("useflg", "1");
 
 			DBObject sort = new BasicDBObject();
-			sort.put("typename", 1);
+			sort.put("client_name_full_py", 1);
+			
 			DBObject returnFields = null;
 
 			return this.clientService
