@@ -164,7 +164,7 @@ public class SysConstService extends BaseService implements ISysConstService {
 		DBObject sort = new BasicDBObject();
 		sort.put("valordernum", 1);
 
-		return this.sysconstdao.batchSearch(queryCondition, sort, null);
+		return this.sysconstdao.findBatchDbOjbect(queryCondition, sort, null);
 	}
 
 	@Override

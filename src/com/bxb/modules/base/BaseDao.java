@@ -96,7 +96,7 @@ public abstract class BaseDao implements IBaseDao {
 	}
 
 	@Override
-	public List<DBObject> batchSearch(DBObject query, DBObject sort,
+	public List<DBObject> findBatchDbOjbect(DBObject query, DBObject sort,
 			DBObject returnFields) {
 		return FindBatchUtil.findBatchDBObject(getCollectionName(), query,
 				returnFields, sort);
@@ -138,7 +138,7 @@ public abstract class BaseDao implements IBaseDao {
 	public PageVO batchSearchOnePage(DBObject query, DBObject sort,
 			DBObject returnFields) {
 
-		List<DBObject> result = this.batchSearch(query, sort, returnFields);
+		List<DBObject> result = this.findBatchDbOjbect(query, sort, returnFields);
 
 		int resultCount = 0;
 

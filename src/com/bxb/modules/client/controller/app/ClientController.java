@@ -1,5 +1,8 @@
 package com.bxb.modules.client.controller.app;
 
+import java.util.Arrays;
+import java.util.List;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
@@ -22,7 +25,6 @@ import com.bxb.common.util.HttpServletRequestUtil;
 import com.bxb.common.util.JSONHelper;
 import com.bxb.modules.base.BaseController;
 import com.bxb.modules.client.model.Client;
-import com.bxb.modules.client.model.ClientBaseInfo;
 import com.bxb.modules.client.service.IClientService;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
@@ -80,18 +82,33 @@ public class ClientController extends BaseController {
 	 * @param clients
 	 * @return
 	 */
-	private RequestResult[] addBatch(Client[] clients) {
+	private RequestResult addBatch(Client[] clients) {
 
-		RequestResult[] rtnResult = new RequestResult[clients.length];
+		RequestResult rr = new RequestResult();
 
+		RequestResult[] addResults = new RequestResult[clients.length];
+
+		int falseTimes = 0;
 		for (int i = 0; i < clients.length; ++i) {
 			Client client = clients[i];
 			RequestResult addResult = addClient(client);
 
-			rtnResult[i] = addResult;
+			if (addResult.getSuccess().equals("n")) {
+				falseTimes++;
+			}
+
+			addResults[i] = addResult;
 		}
 
-		return rtnResult;
+		rr.setObjects(Arrays.asList(addResults));
+
+		if (falseTimes > 0) {
+			rr.setSuccess(false);
+		} else {
+			rr.setSuccess(true);
+		}
+
+		return rr;
 	}
 
 	/****
@@ -101,9 +118,13 @@ public class ClientController extends BaseController {
 	 */
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	@ResponseBody
-	public Object add(HttpServletRequest request, String data) {
+	public Object add(HttpServletRequest request, String data, String user_id) {
 
 		HttpServletRequestUtil.debugParams(request);
+
+		if (StringUtil.isEmpty(user_id)) {
+			return this.handleValidateFalse("user_id不能为空");
+		}
 
 		try {
 			Client[] clients = JSONHelper.parseArray(data, Client.class);
@@ -115,7 +136,7 @@ public class ClientController extends BaseController {
 	}
 
 	/****
-	 * 查询系统客户信息
+	 * 查询系统所有客户信息
 	 * 
 	 * @param model
 	 * @param request
@@ -124,26 +145,24 @@ public class ClientController extends BaseController {
 	 */
 	@RequestMapping(value = "/list_by_userid", method = RequestMethod.POST)
 	@ResponseBody
-	public Object list_by_userid(Model model, HttpServletRequest request, String userId) {
+	public Object list_by_userid(Model model, HttpServletRequest request,
+			String user_id) {
 
-		HttpServletRequestUtil.debugParams(request);
-		
-		if (StringUtil.isEmpty(userId)){
-			return this.handleValidateFalse("userId不能为空");
+		if (StringUtil.isEmpty(user_id)) {
+			return this.handleValidateFalse("user_id不能为空");
 		}
-		
+
+		RequestResult rr = new RequestResult();
+
 		try {
 
-			DBObject query = new BasicDBObject();
-			query.put("owner_user_id", userId);
-			query.put("useflg", "1");
+			List<DBObject> clients = this.clientService
+					.findAllClientsByUserId(user_id);
 
-			DBObject sort = new BasicDBObject();
-			sort.put("client_name_full_py", 1);
-			DBObject returnFields = null;
+			rr.setObjects(clients);
+			rr.setSuccess(true);
 
-			return this.clientService
-					.batchSearchPage(query, sort, returnFields);
+			return rr;
 
 		} catch (Exception e) {
 			return this.handleException(e);
@@ -158,16 +177,39 @@ public class ClientController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value = "/{_id}", method = RequestMethod.GET)
-	public String detail(@PathVariable String _id, Model model) {
+	@ResponseBody
+	public Object detail(@PathVariable String _id, Model model, String user_id) {
 
-		Client client = this.clientService.findOneByIdObject(_id, false);
+		if (StringUtil.isEmpty(user_id)) {
+			return this.handleValidateFalse("user_id不能为空");
+		}
 
-		model.addAttribute("client", client);
+		if (!this.isValidObjId(_id)) {
+			return this.handleValidateFalse("非法的客户主键");
+		}
 
-		model.addAttribute("base_prop_title", ClientBaseInfo.getTitles());
-		model.addAttribute("base_prop_name", ClientBaseInfo.getTitleNames());
+		if (!this.isValidObjId(user_id)) {
+			return this.handleValidateFalse("非法的用户");
+		}
 
-		return "front/client/client_info/full/detail";
+		RequestResult rr = new RequestResult();
+
+		try {
+			DBObject query = new BasicDBObject();
+			query.put("owner_user_id", user_id);
+			query.put("_id", _id);
+
+			Client client = this.clientService.findOneByCondition(query, false);
+
+			rr.setObject(client);
+			rr.setSuccess(true);
+
+			return rr;
+
+		} catch (Exception e) {
+			return this.handleException(e);
+		}
+
 	}
 
 	/****
@@ -211,34 +253,32 @@ public class ClientController extends BaseController {
 	 */
 	@RequestMapping(value = "/{_id}/delete", method = RequestMethod.POST)
 	@ResponseBody
-	public Object delete(@PathVariable String _id, HttpServletRequest request) {
+	public Object delete(@PathVariable String _id, HttpServletRequest request,
+			String user_id) {
+
+		if (!this.isValidObjId(_id)) {
+			return this.handleValidateFalse("非法的客户主键");
+		}
+
+		if (!this.isValidObjId(user_id)) {
+			return this.handleValidateFalse("非法的用户");
+		}
 
 		try {
 
-			this.clientService.RemoveOneByIdLogic(_id);
-
+			DBObject result = this.clientService.RemoveOneByIdLogic(_id);
 			RequestResult rr = new RequestResult();
-			rr.setSuccess(true);
-			rr.setMessage(_id);
-			return rr;
+			if (result == null) {
+				rr.setSuccess(false);
+				rr.setMessage("用户" + user_id + "不存在id为" + _id + "的客户");
+				return rr;
+			} else {
+				rr.setSuccess(true);
+				return rr;
+			}
 		} catch (Exception e) {
 			return this.handleException(e);
 		}
 	}
 
-	/****
-	 * 查看单个客户基本信息 信息
-	 * 
-	 * @param _id
-	 * @param model
-	 * @return
-	 */
-	@RequestMapping(value = "/{_id}", method = RequestMethod.POST)
-	@ResponseBody
-	public Object detail(@PathVariable String _id) {
-
-		Client clientinfo = this.clientService.findOneByIdObject(_id, false);
-
-		return clientinfo;
-	}
 }

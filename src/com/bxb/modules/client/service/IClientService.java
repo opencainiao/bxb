@@ -1,5 +1,7 @@
 package com.bxb.modules.client.service;
 
+import java.util.List;
+
 import com.bxb.common.globalobj.PageVO;
 import com.bxb.modules.client.model.Client;
 import com.mongodb.DBObject;
@@ -11,6 +13,15 @@ import com.mongodb.DBObject;
  *
  */
 public interface IClientService {
+
+	/****
+	 * 根据条件，查询一个客户
+	 * 
+	 * @param query
+	 * @param isRedisplay
+	 * @return
+	 */
+	public Client findOneByCondition(DBObject query, boolean isRedisplay);
 
 	/****
 	 * 根据id，查询一个对象
@@ -32,6 +43,14 @@ public interface IClientService {
 	 */
 	public PageVO batchSearchPage(DBObject queryCondition, DBObject sort,
 			DBObject returnFields);
+
+	/****
+	 * 查询用户的所有客户
+	 * 
+	 * @param userId
+	 * @return
+	 */
+	public List<DBObject> findAllClientsByUserId(String userId);
 
 	/****
 	 * 条件查询，1页，查询所有

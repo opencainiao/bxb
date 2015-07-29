@@ -80,11 +80,11 @@ public class ClientService extends BaseService implements IClientService {
 
 		// 如果有重名，则默认视为该客户，抛弃，返回同名客户的主键_id
 		String client_name = client.getClient_name().trim();
-		String _id = this.getOidByClientName(client_name,
-				client.getOwner_user_id());
-		if (StringUtil.isNotEmpty(_id)) {
-			return _id;
-		}
+		// String _id = this.getOidByClientName(client_name,
+		// client.getOwner_user_id());
+		// if (StringUtil.isNotEmpty(_id)) {
+		// return _id;
+		// }
 
 		client.setClient_name(client_name);
 		setClientInf(client);
@@ -209,4 +209,30 @@ public class ClientService extends BaseService implements IClientService {
 
 	}
 
+	@Override
+	public List<DBObject> findAllClientsByUserId(String userId) {
+
+		DBObject query = new BasicDBObject();
+		query.put("owner_user_id", userId);
+		query.put("useflg", "1");
+
+		DBObject sort = new BasicDBObject();
+		sort.put("client_name_full_py", 1);
+		DBObject returnFields = null;
+
+		return this.clientdao.findBatchDbOjbect(query, sort, returnFields);
+	}
+
+	@Override
+	public Client findOneByCondition(DBObject query, boolean isRedisplay) {
+
+		Client client = this.clientdao.findOneByConditionObject(query,
+				Client.class);
+		
+		if (client != null && isRedisplay){
+			this.reDisplay(client);
+		}
+		
+		return client;
+	}
 }

@@ -112,7 +112,7 @@ public class AddressService extends BaseService implements IAddressService {
 
 		// 2.设置返回结果
 
-		List<DBObject> allAddress = this.addressdao.batchSearch(queryCondition,
+		List<DBObject> allAddress = this.addressdao.findBatchDbOjbect(queryCondition,
 				null, null);
 
 		return allAddress;

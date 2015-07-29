@@ -85,7 +85,7 @@ public interface IBaseDao {
 	 * @param returnFields
 	 * @return
 	 */
-	public List<DBObject> batchSearch(DBObject query, DBObject sort,
+	public List<DBObject> findBatchDbOjbect(DBObject query, DBObject sort,
 			DBObject returnFields);
 
 	/****

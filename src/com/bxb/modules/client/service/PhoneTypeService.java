@@ -113,7 +113,7 @@ public class PhoneTypeService extends BaseService implements IPhoneTypeService {
 
 		DBObject returnFields = CommonTypeSearchUtil.getReturnFields();
 
-		List<DBObject> types = this.phonetypedao.batchSearch(queryCondition,
+		List<DBObject> types = this.phonetypedao.findBatchDbOjbect(queryCondition,
 				null, returnFields);
 
 		if (types == null || types.isEmpty()) {
@@ -131,7 +131,7 @@ public class PhoneTypeService extends BaseService implements IPhoneTypeService {
 
 		DBObject returnFields = CommonTypeSearchUtil.getReturnFields();
 
-		List<DBObject> types = this.phonetypedao.batchSearch(queryCondition,
+		List<DBObject> types = this.phonetypedao.findBatchDbOjbect(queryCondition,
 				null, returnFields);
 
 		if (types == null || types.isEmpty()) {
@@ -149,7 +149,7 @@ public class PhoneTypeService extends BaseService implements IPhoneTypeService {
 
 		DBObject returnFields = CommonTypeSearchUtil.getReturnFields();
 
-		List<DBObject> types = this.phonetypedao.batchSearch(queryCondition,
+		List<DBObject> types = this.phonetypedao.findBatchDbOjbect(queryCondition,
 				null, returnFields);
 
 		if (types == null || types.isEmpty()) {
@@ -168,7 +168,7 @@ public class PhoneTypeService extends BaseService implements IPhoneTypeService {
 
 		DBObject returnFields = CommonTypeSearchUtil.getReturnFields();
 
-		List<DBObject> types = this.phonetypedao.batchSearch(queryCondition,
+		List<DBObject> types = this.phonetypedao.findBatchDbOjbect(queryCondition,
 				null, returnFields);
 
 		if (types == null || types.isEmpty()) {

@@ -107,7 +107,7 @@ public class EmailTypeService extends BaseService implements IEmailTypeService {
 
 		DBObject returnFields = CommonTypeSearchUtil.getReturnFields();
 
-		List<DBObject> types = this.emailtypedao.batchSearch(queryCondition,
+		List<DBObject> types = this.emailtypedao.findBatchDbOjbect(queryCondition,
 				null, returnFields);
 
 		if (types == null || types.isEmpty()) {
@@ -125,7 +125,7 @@ public class EmailTypeService extends BaseService implements IEmailTypeService {
 
 		DBObject returnFields = CommonTypeSearchUtil.getReturnFields();
 
-		List<DBObject> types = this.emailtypedao.batchSearch(queryCondition,
+		List<DBObject> types = this.emailtypedao.findBatchDbOjbect(queryCondition,
 				null, returnFields);
 
 		if (types == null || types.isEmpty()) {
@@ -143,7 +143,7 @@ public class EmailTypeService extends BaseService implements IEmailTypeService {
 
 		DBObject returnFields = CommonTypeSearchUtil.getReturnFields();
 
-		List<DBObject> types = this.emailtypedao.batchSearch(queryCondition,
+		List<DBObject> types = this.emailtypedao.findBatchDbOjbect(queryCondition,
 				null, returnFields);
 
 		if (types == null || types.isEmpty()) {
@@ -162,7 +162,7 @@ public class EmailTypeService extends BaseService implements IEmailTypeService {
 
 		DBObject returnFields = CommonTypeSearchUtil.getReturnFields();
 
-		List<DBObject> types = this.emailtypedao.batchSearch(queryCondition,
+		List<DBObject> types = this.emailtypedao.findBatchDbOjbect(queryCondition,
 				null, returnFields);
 
 		if (types == null || types.isEmpty()) {

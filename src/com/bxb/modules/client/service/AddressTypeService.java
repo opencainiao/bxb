@@ -109,7 +109,7 @@ public class AddressTypeService extends BaseService implements
 
 		DBObject returnFields = CommonTypeSearchUtil.getReturnFields();
 
-		List<DBObject> types = this.addresstypedao.batchSearch(queryCondition,
+		List<DBObject> types = this.addresstypedao.findBatchDbOjbect(queryCondition,
 				null, returnFields);
 
 		if (types == null || types.isEmpty()) {
@@ -127,7 +127,7 @@ public class AddressTypeService extends BaseService implements
 
 		DBObject returnFields = CommonTypeSearchUtil.getReturnFields();
 
-		List<DBObject> types = this.addresstypedao.batchSearch(queryCondition,
+		List<DBObject> types = this.addresstypedao.findBatchDbOjbect(queryCondition,
 				null, returnFields);
 
 		if (types == null || types.isEmpty()) {
@@ -145,7 +145,7 @@ public class AddressTypeService extends BaseService implements
 
 		DBObject returnFields = CommonTypeSearchUtil.getReturnFields();
 
-		List<DBObject> types = this.addresstypedao.batchSearch(queryCondition,
+		List<DBObject> types = this.addresstypedao.findBatchDbOjbect(queryCondition,
 				null, returnFields);
 
 		if (types == null || types.isEmpty()) {
@@ -164,7 +164,7 @@ public class AddressTypeService extends BaseService implements
 
 		DBObject returnFields = CommonTypeSearchUtil.getReturnFields();
 
-		List<DBObject> types = this.addresstypedao.batchSearch(queryCondition,
+		List<DBObject> types = this.addresstypedao.findBatchDbOjbect(queryCondition,
 				null, returnFields);
 
 		if (types == null || types.isEmpty()) {
