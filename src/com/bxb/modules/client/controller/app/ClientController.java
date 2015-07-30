@@ -96,7 +96,7 @@ public class ClientController extends BaseController {
 		int successTimes = 0;
 		for (int i = 0; i < clients.length; ++i) {
 			Client client = clients[i];
-			
+
 			RequestResult addResult = addClient(client);
 
 			if (addResult.getSuccess().equals("n")) {
@@ -151,13 +151,15 @@ public class ClientController extends BaseController {
 	 * 
 	 * @param model
 	 * @param request
-	 * @param userId
+	 * @param user_id
+	 * @param last_op_time
+	 *            最后操作时间
 	 * @return
 	 */
 	@RequestMapping(value = "/list_by_userid", method = RequestMethod.GET)
 	@ResponseBody
 	public Object list_by_userid(Model model, HttpServletRequest request,
-			String user_id) {
+			String user_id, String last_op_time) {
 
 		if (StringUtil.isEmpty(user_id)) {
 			return this.handleValidateFalse("user_id不能为空");
@@ -167,11 +169,12 @@ public class ClientController extends BaseController {
 
 		try {
 
-			List<DBObject> clients = this.clientService
-					.findAllClientsByUserId(user_id);
+			List<DBObject> clients = this.clientService.findAllClientsByUserId(
+					user_id, last_op_time);
 
 			rr.setObjects(clients);
 			rr.setSuccess(true);
+			rr.setSuccess_num(clients != null ? clients.size() : 0);
 
 			return rr;
 

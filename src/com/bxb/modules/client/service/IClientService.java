@@ -25,6 +25,7 @@ public interface IClientService {
 
 	/****
 	 * 根据条件，查询一个客户(不回显)
+	 * 
 	 * @param query
 	 * @return
 	 */
@@ -55,9 +56,12 @@ public interface IClientService {
 	 * 查询用户的所有客户
 	 * 
 	 * @param userId
+	 * @param last_op_time
+	 *            最后操作时间 如果为空，则不加条件。否则查询该时间以后的
 	 * @return
 	 */
-	public List<DBObject> findAllClientsByUserId(String userId);
+	public List<DBObject> findAllClientsByUserId(String userId,
+			String last_op_time);
 
 	/****
 	 * 条件查询，1页，查询所有

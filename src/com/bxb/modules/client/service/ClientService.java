@@ -65,9 +65,9 @@ public class ClientService extends BaseService implements IClientService {
 	@Override
 	public PageVO batchSearchPage(DBObject queryCondition, DBObject sort,
 			DBObject returnFields) {
-		
+
 		queryCondition.put("delflg", "0");
-		
+
 		return this.clientdao.batchSearchPage(queryCondition, sort,
 				returnFields);
 	}
@@ -75,9 +75,9 @@ public class ClientService extends BaseService implements IClientService {
 	@Override
 	public PageVO batchSearchOnePage(DBObject query, DBObject sort,
 			DBObject returnFields) {
-		
+
 		query.put("delflg", "0");
-		
+
 		return this.clientdao.batchSearchOnePage(query, sort, returnFields);
 	}
 
@@ -180,7 +180,6 @@ public class ClientService extends BaseService implements IClientService {
 		queryCondition.put("useflg", "1");
 		queryCondition.put("delflg", "0");
 
-
 		DBObject result = this.clientdao.findOneByConditionPart(queryCondition,
 				returnFields);
 
@@ -211,11 +210,21 @@ public class ClientService extends BaseService implements IClientService {
 	}
 
 	@Override
-	public List<DBObject> findAllClientsByUserId(String userId) {
+	public List<DBObject> findAllClientsByUserId(String userId,
+			String last_op_time) {
 
 		DBObject query = new BasicDBObject();
 		query.put("owner_user_id", userId);
 		query.put("delflg", "0");
+
+		if (StringUtil.isNotEmpty(last_op_time)) {
+			last_op_time = last_op_time.trim();
+			if (last_op_time.length() >= 10) {
+				query.put("last_op_date", last_op_time.substring(0, 10));
+				query.put("last_op_time", new BasicDBObject("$gte",
+						last_op_time));
+			}
+		}
 
 		DBObject sort = new BasicDBObject();
 		sort.put("client_name_full_py", 1);
@@ -226,7 +235,7 @@ public class ClientService extends BaseService implements IClientService {
 
 	@Override
 	public Client findOneByCondition(DBObject query, boolean isRedisplay) {
-		
+
 		query.put("delflg", "0");
 
 		Client client = this.clientdao.findOneByConditionObject(query,
@@ -245,5 +254,9 @@ public class ClientService extends BaseService implements IClientService {
 		query.put("delflg", "0");
 
 		return this.clientdao.findOneByConditionPart(query, null);
+	}
+
+	public static void main(String[] args) {
+		System.out.println("2015-08-121".substring(0, 10));
 	}
 }
