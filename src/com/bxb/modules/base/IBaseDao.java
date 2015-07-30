@@ -201,4 +201,11 @@ public interface IBaseDao {
 	 */
 	public WriteResult removeByIdsLogic(List<String> _ids, DBObject updateSet);
 
+	/****
+	 * 根据条件删除(物理删除)
+	 * 
+	 * @param query
+	 * @return
+	 */
+	public WriteResult remove(DBObject query);
 }

@@ -3,6 +3,7 @@ package com.bxb.modules.client.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.bxb.common.util.PinyinUtil;
 import com.bxb.modules.base.BaseModel;
 
 public class ClientBaseInfo extends BaseModel {
@@ -12,16 +13,19 @@ public class ClientBaseInfo extends BaseModel {
 	private String sex; // 性别
 	private String id_number; // 身份证号
 	private String birth_date; // 生日
-	private String age; // 年龄
-	private String email_info; // 邮箱
-	private String phone_info; // 电话
-	private String address_info; // 地址
+	private int age; // 年龄
+	private List<Address> address_info; // 客户的地址信息
+	private List<Phone> phone_info; // 客户的电话信息
+	private List<Email> email_info; // 客户的邮箱信息
 	private String region_code; // 地区码
 	private String region_name; // 地区名
 	private String region_type; // 地区分类
 	private String education_type; // 教育程度
 	private String education_type_name; // 教育程度
 	private String name_card_id; // 名片id
+
+	private String client_name_full_py; // 名称全拼
+	private String client_name_short_py; // 名称首字母拼音
 
 	public void setOwner_user_id(String owner_user_id) {
 		this.owner_user_id = owner_user_id;
@@ -63,36 +67,12 @@ public class ClientBaseInfo extends BaseModel {
 		return birth_date;
 	}
 
-	public void setAge(String age) {
-		this.age = age;
-	}
-
-	public String getAge() {
+	public int getAge() {
 		return age;
 	}
 
-	public void setEmail_info(String email_info) {
-		this.email_info = email_info;
-	}
-
-	public String getEmail_info() {
-		return email_info;
-	}
-
-	public void setPhone_info(String phone_info) {
-		this.phone_info = phone_info;
-	}
-
-	public String getPhone_info() {
-		return phone_info;
-	}
-
-	public void setAddress_info(String address_info) {
-		this.address_info = address_info;
-	}
-
-	public String getAddress_info() {
-		return address_info;
+	public void setAge(int age) {
+		this.age = age;
 	}
 
 	public void setRegion_code(String region_code) {
@@ -143,6 +123,56 @@ public class ClientBaseInfo extends BaseModel {
 		this.education_type_name = education_type_name;
 	}
 
+	public List<Address> getAddress_info() {
+		return address_info;
+	}
+
+	public void setAddress_info(List<Address> address_info) {
+		this.address_info = address_info;
+	}
+
+	public List<Phone> getPhone_info() {
+		return phone_info;
+	}
+
+	public void setPhone_info(List<Phone> phone_info) {
+		this.phone_info = phone_info;
+	}
+
+	public List<Email> getEmail_info() {
+		return email_info;
+	}
+
+	public void setEmail_info(List<Email> email_info) {
+		this.email_info = email_info;
+	}
+
+	public void setPinYin() {
+		// 关键字的全拼
+		String nameFullPy = PinyinUtil.str2Pinyin(client_name, null);
+		setClient_name_full_py(nameFullPy);
+
+		// 关键字的简拼
+		String nameShortPy = PinyinUtil.strFirst2Pinyin(client_name);
+		setClient_name_short_py(nameShortPy);
+	}
+
+	public String getClient_name_full_py() {
+		return client_name_full_py;
+	}
+
+	public void setClient_name_full_py(String client_name_full_py) {
+		this.client_name_full_py = client_name_full_py;
+	}
+
+	public String getClient_name_short_py() {
+		return client_name_short_py;
+	}
+
+	public void setClient_name_short_py(String client_name_short_py) {
+		this.client_name_short_py = client_name_short_py;
+	}
+
 	public static List<String> getTitles() {
 		List<String> titles = new ArrayList<String>();
 
@@ -158,7 +188,7 @@ public class ClientBaseInfo extends BaseModel {
 		titles.add("region_code");
 		titles.add("region_name");
 		titles.add("region_type");
-		//titles.add("education_type");
+		// titles.add("education_type");
 		titles.add("education_type_name");
 		titles.add("name_card_id");
 

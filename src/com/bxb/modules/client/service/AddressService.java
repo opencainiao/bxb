@@ -132,6 +132,13 @@ public class AddressService extends BaseService implements IAddressService {
 
 	@Override
 	public List<String> add(List<Address> addresses,String ownerId) {
+		
+		// 1.删除已有的
+		DBObject queryCondition = new BasicDBObject();
+		queryCondition.put("owner_id", ownerId);
+		this.addressdao.remove(queryCondition);
+		
+		// 2.添加
 		List<String> ids = new ArrayList<String>();
 		
 		for(Address address:addresses){

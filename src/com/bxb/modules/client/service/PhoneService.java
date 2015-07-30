@@ -113,6 +113,12 @@ public class PhoneService extends BaseService implements IPhoneService {
 
 	@Override
 	public List<String> add(List<Phone> phones, String client_id) {
+
+		// 1.删除已有的
+		DBObject queryCondition = new BasicDBObject();
+		queryCondition.put("owner_id", client_id);
+		this.phonedao.remove(queryCondition);
+
 		List<String> ids = new ArrayList<String>();
 
 		for (Phone phone : phones) {

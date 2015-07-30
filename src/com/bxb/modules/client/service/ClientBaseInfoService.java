@@ -1,6 +1,7 @@
 package com.bxb.modules.client.service;
 
 import java.text.ParseException;
+import java.util.List;
 
 import javax.annotation.Resource;
 
@@ -12,7 +13,11 @@ import org.springframework.stereotype.Service;
 import com.bxb.common.util.AgeUtil;
 import com.bxb.modules.base.BaseService;
 import com.bxb.modules.client.dao.ClientBaseInfoDao;
+import com.bxb.modules.client.model.Address;
+import com.bxb.modules.client.model.Client;
 import com.bxb.modules.client.model.ClientBaseInfo;
+import com.bxb.modules.client.model.Email;
+import com.bxb.modules.client.model.Phone;
 import com.bxb.modules.infrastructure.enums.SysConstTypeEnum;
 import com.bxb.modules.infrastructure.service.ISysConstService;
 import com.mongodb.BasicDBObject;
@@ -34,6 +39,15 @@ public class ClientBaseInfoService extends BaseService implements
 	@Resource(name = "sysConstService")
 	private ISysConstService sysConstService;
 
+	@Resource(name = "addressService")
+	private IAddressService addressService;
+
+	@Resource(name = "phoneService")
+	private IPhoneService phoneService;
+
+	@Resource(name = "emailService")
+	private IEmailService emailService;
+
 	private static final Logger logger = LogManager
 			.getLogger(ClientBaseInfoService.class);
 
@@ -42,8 +56,30 @@ public class ClientBaseInfoService extends BaseService implements
 			ClientBaseInfo clientbaseinfo) {
 
 		DBObject toUpdate = makeUpdate(clientbaseinfo);
-		return this.clientbaseinfodao.updateOneById(
+		DBObject updatedResult = this.clientbaseinfodao.updateOneById(
 				clientbaseinfo.get_id_str(), returnFields, toUpdate);
+
+		String client_id = clientbaseinfo.get_id_str();
+
+		// 地址信息
+		List<Address> addresses = clientbaseinfo.getAddress_info();
+		if (addresses != null && !addresses.isEmpty()) {
+			this.addressService.add(addresses, client_id);
+		}
+
+		// 电话信息
+		List<Phone> phones = clientbaseinfo.getPhone_info();
+		if (phones != null && !phones.isEmpty()) {
+			this.phoneService.add(phones, client_id);
+		}
+
+		// 邮件信息
+		List<Email> emails = clientbaseinfo.getEmail_info();
+		if (emails != null && !emails.isEmpty()) {
+			this.emailService.add(emails, client_id);
+		}
+
+		return updatedResult;
 	}
 
 	/****
@@ -61,34 +97,27 @@ public class ClientBaseInfoService extends BaseService implements
 		updateSet.put("sex", clientbaseinfo.getSex());
 		updateSet.put("id_number", clientbaseinfo.getId_number());
 
-		String birth_date = clientbaseinfo.getBirth_date();
-		updateSet.put("birth_date", birth_date);
-
-		if (StringUtil.isNotEmpty(birth_date)) {
-			try {
-				updateSet.put("age",
-						AgeUtil.getAge(clientbaseinfo.getBirth_date()));
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
-		}
+		updateSet.put("birth_date", clientbaseinfo.getBirth_date());
+		setClientInf(clientbaseinfo);
 
 		updateSet.put("region_code", clientbaseinfo.getRegion_code());
 		updateSet.put("region_name", clientbaseinfo.getRegion_name());
 		updateSet.put("region_type", clientbaseinfo.getRegion_type());
-		
+
 		String education_type = clientbaseinfo.getEducation_type();
 		updateSet.put("education_type", education_type);
-		if (StringUtil.isNotEmpty(education_type)){
+		if (StringUtil.isNotEmpty(education_type)) {
 			String education_type_name = sysConstService
 					.findDispValByTypecodAndVal(
 							SysConstTypeEnum.EDUCATION_TYPE.getCode(),
 							clientbaseinfo.getEducation_type());
 			updateSet.put("education_type_name", education_type_name);
 		}
-		
-		updateSet.put("name_card_id", clientbaseinfo.getName_card_id());
 
+		updateSet.put("address_info", clientbaseinfo.getAddress_info());
+		updateSet.put("phone_info", clientbaseinfo.getPhone_info());
+		updateSet.put("email_info", clientbaseinfo.getEmail_info());
+		
 		this.setModifyInfo(updateSet);
 		update.put("$set", updateSet);
 
@@ -96,10 +125,30 @@ public class ClientBaseInfoService extends BaseService implements
 		return update;
 	}
 
+	private void setClientInf(ClientBaseInfo clientbaseinfo) {
+
+		clientbaseinfo.setPinYin();
+
+		String birth_date = clientbaseinfo.getBirth_date();
+		if (StringUtil.isNotEmpty(birth_date)) {
+			try {
+				clientbaseinfo.setAge(AgeUtil.getAge(birth_date));
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
 	@Override
 	public ClientBaseInfo findOneByIdObject(String _id) {
 
 		return this.clientbaseinfodao.findOneByIdObject(_id,
 				ClientBaseInfo.class);
+	}
+
+	@Override
+	public DBObject updatePart(DBObject returnFields, Client client) {
+
+		return this.updatePart(returnFields, client.getBaseInf());
 	}
 }

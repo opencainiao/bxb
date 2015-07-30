@@ -113,6 +113,12 @@ public class EmailService extends BaseService implements IEmailService {
 
 	@Override
 	public List<String> add(List<Email> phones, String client_id) {
+
+		// 1.删除已有的
+		DBObject queryCondition = new BasicDBObject();
+		queryCondition.put("owner_id", client_id);
+		this.emaildao.remove(queryCondition);
+
 		List<String> ids = new ArrayList<String>();
 
 		for (Email email : phones) {

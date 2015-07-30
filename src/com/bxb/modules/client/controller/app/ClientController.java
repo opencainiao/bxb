@@ -8,11 +8,10 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.json.JSONException;
 import org.mou.common.StringUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -24,7 +23,9 @@ import com.bxb.common.globalobj.ValidResult;
 import com.bxb.common.util.HttpServletRequestUtil;
 import com.bxb.common.util.JSONHelper;
 import com.bxb.modules.base.BaseController;
+import com.bxb.modules.client.enumes.PartFlgEnum;
 import com.bxb.modules.client.model.Client;
+import com.bxb.modules.client.service.IClientBaseInfoService;
 import com.bxb.modules.client.service.IClientService;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
@@ -44,6 +45,9 @@ public class ClientController extends BaseController {
 
 	@Resource(name = "clientService")
 	private IClientService clientService;
+
+	@Resource(name = "clientBaseInfoService")
+	private IClientBaseInfoService clientBaseInfoService;
 
 	/****
 	 * 添加客户信息<br>
@@ -213,39 +217,6 @@ public class ClientController extends BaseController {
 	}
 
 	/****
-	 * 更新系统用户 信息，返回json给客户端
-	 * 
-	 * @param _id
-	 * @param client
-	 * @param br
-	 * @param request
-	 * @return
-	 */
-	@RequestMapping(value = "/{_id}/update", method = RequestMethod.POST)
-	@ResponseBody
-	public Object update(@PathVariable String _id, @Validated Client client,
-			BindingResult br, HttpServletRequest request) {
-
-		if (br.hasErrors()) {
-			return ErrorHandler.getRequestResultFromBindingResult(br);
-		}
-
-		try {
-			client.set_id(_id);
-			DBObject updateResult = this.clientService.updatePart(null, client);
-
-			logger.debug("更新后的结果[{}]", updateResult);
-
-			RequestResult rr = new RequestResult();
-			rr.setSuccess(true);
-			rr.setMessage(_id);
-			return rr;
-		} catch (Exception e) {
-			return this.handleException(e);
-		}
-	}
-
-	/****
 	 * 删除一条记录
 	 * 
 	 * @param zzdhid
@@ -281,4 +252,71 @@ public class ClientController extends BaseController {
 		}
 	}
 
+	/****
+	 * 更新系统客户 信息，返回json给客户端
+	 * 
+	 * @param _id
+	 * @param data
+	 * @param user_id
+	 * @param request
+	 * @param part_flg
+	 * 
+	 * @return
+	 */
+	@RequestMapping(value = "/{_id}/update", method = RequestMethod.POST)
+	@ResponseBody
+	public Object update(@PathVariable String _id, String data, String user_id,
+			HttpServletRequest request, String part_flg) {
+
+		if (!this.isValidObjId(_id)) {
+			return this.handleValidateFalse("非法的客户主键");
+		}
+
+		if (!this.isValidObjId(user_id)) {
+			return this.handleValidateFalse("非法的用户");
+		}
+
+		if (!PartFlgEnum.isValidPartFlg(part_flg)) {
+			return this.handleValidateFalse("非法的更新参数part_flg");
+		}
+
+		Client client;
+		try {
+			client = JSONHelper.parseObject(data, Client.class);
+			client.set_id(_id);
+		} catch (JSONException e) {
+			return this.handleException(e);
+		}
+
+		try {
+			DBObject updateResult = null;
+
+			if (part_flg.equals(PartFlgEnum.BASE.getCode())) {
+				updateResult = clientBaseInfoService.updatePart(null, client);
+			} else if (part_flg.equals(PartFlgEnum.FAMILLY.getCode())) {
+				return true;
+			} else if (part_flg.equals(PartFlgEnum.WORK.getCode())) {
+				return true;
+			} else if (part_flg.equals(PartFlgEnum.INCOME.getCode())) {
+				return true;
+			} else if (part_flg.equals(PartFlgEnum.SOURCE.getCode())) {
+				return true;
+			} else if (part_flg.equals(PartFlgEnum.XG.getCode())) {
+				return true;
+			} else if (part_flg.equals(PartFlgEnum.SERVICE.getCode())) {
+				return true;
+			} else if (part_flg.equals(PartFlgEnum.OTHER.getCode())) {
+				return true;
+			}
+
+			logger.debug("更新后的结果[{}]", updateResult);
+
+			RequestResult rr = new RequestResult();
+			rr.setSuccess(true);
+			rr.setMessage(_id);
+			return rr;
+		} catch (Exception e) {
+			return this.handleException(e);
+		}
+	}
 }

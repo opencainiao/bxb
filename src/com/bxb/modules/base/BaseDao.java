@@ -271,4 +271,15 @@ public abstract class BaseDao implements IBaseDao {
 
 		return MongoCollectionUtil.removeByIds(getCollectionName(), _ids);
 	}
+	
+	public WriteResult remove(DBObject query) {
+
+		DBCollection collection = MongoClientManager
+				.getCollection(getCollectionName());
+		
+		WriteResult removeResult = collection.remove(query);
+		
+		return removeResult;
+	}
+
 }

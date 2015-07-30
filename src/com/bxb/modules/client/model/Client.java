@@ -489,4 +489,27 @@ public class Client extends BaseModel {
 		String nameShortPy = PinyinUtil.strFirst2Pinyin(client_name);
 		setClient_name_short_py(nameShortPy);
 	}
+	
+	public ClientBaseInfo getBaseInf(){
+		
+		ClientBaseInfo clientBaseInfo = new ClientBaseInfo();
+		
+		clientBaseInfo.set_id(this.get_id());
+		clientBaseInfo.setOwner_user_id(this.getOwner_user_id());
+		clientBaseInfo.setClient_name(this.getClient_name());
+		
+		clientBaseInfo.setSex(this.getSex());
+		clientBaseInfo.setId_number(this.getId_number());
+		clientBaseInfo.setBirth_date(birth_date);
+		clientBaseInfo.setEmail_info(email_info);
+		clientBaseInfo.setAddress_info(address_info);
+		clientBaseInfo.setPhone_info(phone_info);
+		clientBaseInfo.setRegion_code(region_code);
+		clientBaseInfo.setRegion_name(region_name);
+		clientBaseInfo.setRegion_type(region_type);
+		clientBaseInfo.setEducation_type(education_type);
+		clientBaseInfo.setEducation_type_name(education_type_name);
+		
+		return clientBaseInfo;
+	}
 }
