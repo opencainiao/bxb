@@ -17,7 +17,7 @@ public enum PartFlgEnum {
 	SOURCE("4", "来源"), //
 	XG("5", "性格相关"), //
 	SERVICE("6", "服务"), //
-	OTHER("7", "服务"); //
+	OTHER("7", "其他"); //
 
 	private String code;
 	private String name;

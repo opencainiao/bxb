@@ -148,6 +148,8 @@ var data_manage = {
 		data_manage.gridsetting.url = $.getSitePath() + '/backend/sysconsttype/list';
 		// alert(data_manage.gridsetting.url);
 		$("#list").flexigrid(data_manage.gridsetting);
+		
+		$("#data_manage").attr("s_times", 1);
 
 		data_manage.pageLayout();
 	},

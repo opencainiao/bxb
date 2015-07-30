@@ -58,7 +58,7 @@ public class SysConstTypeService extends BaseService implements
 		// int id = this.autoIncreaserService
 		// .getAutoIncreasedInteger("sysconsttypecode");
 		// sysconsttype.setTypecode(StringUtil.addCharL(id, 5, "0"));
-		 
+		sysconsttype.setTypecode(sysconsttype.getTypecode().toUpperCase());
 		this.setCreateInfo(sysconsttype);
 		return this.sysconsttypedao.insertObj(sysconsttype);
 	}
@@ -154,8 +154,8 @@ public class SysConstTypeService extends BaseService implements
 		queryCondition.put("typecode", typecode);
 		queryCondition.put("useflg", "1");
 
-		SysConstType sysconsttype = this.sysconsttypedao.findOneByConditionObject(
-				queryCondition, SysConstType.class);
+		SysConstType sysconsttype = this.sysconsttypedao
+				.findOneByConditionObject(queryCondition, SysConstType.class);
 
 		return sysconsttype;
 	}
