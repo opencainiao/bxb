@@ -65,6 +65,9 @@ public class ClientService extends BaseService implements IClientService {
 	@Override
 	public PageVO batchSearchPage(DBObject queryCondition, DBObject sort,
 			DBObject returnFields) {
+		
+		queryCondition.put("delflg", "0");
+		
 		return this.clientdao.batchSearchPage(queryCondition, sort,
 				returnFields);
 	}
@@ -72,6 +75,9 @@ public class ClientService extends BaseService implements IClientService {
 	@Override
 	public PageVO batchSearchOnePage(DBObject query, DBObject sort,
 			DBObject returnFields) {
+		
+		query.put("delflg", "0");
+		
 		return this.clientdao.batchSearchOnePage(query, sort, returnFields);
 	}
 
@@ -88,26 +94,20 @@ public class ClientService extends BaseService implements IClientService {
 
 		client.setClient_name(client_name);
 		setClientInf(client);
-		this.setCreateInfo(client);
+		this.setCreateInfoWithUserId(client, client.getOwner_user_id());
 		String client_id = this.clientdao.insertObj(client);
 
 		// 地址信息
 		List<Address> addresses = client.getAddress_info();
-		if (addresses != null && !addresses.isEmpty()) {
-			this.addressService.add(addresses, client_id);
-		}
+		this.addressService.add(addresses, client_id);
 
 		// 电话信息
 		List<Phone> phones = client.getPhone_info();
-		if (phones != null && !phones.isEmpty()) {
-			this.phoneService.add(phones, client_id);
-		}
+		this.phoneService.add(phones, client_id);
 
 		// 邮件信息
 		List<Email> emails = client.getEmail_info();
-		if (emails != null && !emails.isEmpty()) {
-			this.emailService.add(emails, client_id);
-		}
+		this.emailService.add(emails, client_id);
 
 		return client_id;
 	}
@@ -130,7 +130,7 @@ public class ClientService extends BaseService implements IClientService {
 	public DBObject updatePart(DBObject returnFields, Client client) {
 
 		DBObject toUpdate = makeUpdate(client);
-		return this.clientdao.updateOneById(client.get_id_str(), returnFields,
+		return this.clientdao.updateOneById(client.get_id_m(), returnFields,
 				toUpdate);
 	}
 
@@ -147,7 +147,7 @@ public class ClientService extends BaseService implements IClientService {
 
 		// updateSet.put("typename", client.getTypename());
 
-		this.setModifyInfo(updateSet);
+		this.setModifyInfoWithUserId(updateSet, client.getOwner_user_id());
 		update.put("$set", updateSet);
 
 		logger.debug("更新的对象信息\n{}", update);
@@ -178,6 +178,8 @@ public class ClientService extends BaseService implements IClientService {
 		queryCondition.put("owner_user_id", userId);// 常量类型
 		queryCondition.put("client_name", clientName);// 常量值
 		queryCondition.put("useflg", "1");
+		queryCondition.put("delflg", "0");
+
 
 		DBObject result = this.clientdao.findOneByConditionPart(queryCondition,
 				returnFields);
@@ -213,7 +215,7 @@ public class ClientService extends BaseService implements IClientService {
 
 		DBObject query = new BasicDBObject();
 		query.put("owner_user_id", userId);
-		query.put("useflg", "1");
+		query.put("delflg", "0");
 
 		DBObject sort = new BasicDBObject();
 		sort.put("client_name_full_py", 1);
@@ -224,20 +226,24 @@ public class ClientService extends BaseService implements IClientService {
 
 	@Override
 	public Client findOneByCondition(DBObject query, boolean isRedisplay) {
+		
+		query.put("delflg", "0");
 
 		Client client = this.clientdao.findOneByConditionObject(query,
 				Client.class);
-		
-		if (client != null && isRedisplay){
+
+		if (client != null && isRedisplay) {
 			this.reDisplay(client);
 		}
-		
+
 		return client;
 	}
 
 	@Override
 	public DBObject findOneByConditionDBObj(DBObject query) {
-		
+
+		query.put("delflg", "0");
+
 		return this.clientdao.findOneByConditionPart(query, null);
 	}
 }

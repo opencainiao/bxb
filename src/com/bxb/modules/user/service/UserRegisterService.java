@@ -74,7 +74,8 @@ public class UserRegisterService implements IUserRegisterService {
 		String date = DateUtil.getCurdate();
 		registeruser.setCdate(date);
 		registeruser.setCtime(time);
-		registeruser.setLastoptime(time);
+		registeruser.setLast_op_date(date);
+		registeruser.setLast_op_time(time);
 
 		// 持久化数据
 		String _id = userdao.insertObj(registeruser);
@@ -113,7 +114,7 @@ public class UserRegisterService implements IUserRegisterService {
 		}
 
 		if (user.isNotActive()) {
-			this.userService.updatestatus(user.get_id_str(), UserState.ACTIVE,
+			this.userService.updatestatus(user.get_id_m(), UserState.ACTIVE,
 					time);
 		}
 

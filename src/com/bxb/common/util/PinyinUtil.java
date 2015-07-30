@@ -41,7 +41,7 @@ public class PinyinUtil {
 					isCn = false;
 				}
 			}
-			return sb.toString();
+			return sb.toString().toUpperCase();
 		} catch (BadHanyuPinyinOutputFormatCombination e) {
 			e.printStackTrace();
 		}
@@ -58,9 +58,36 @@ public class PinyinUtil {
 					sb.append(PinyinHelper.toHanyuPinyinStringArray(c, format)[0]
 							.charAt(0));
 				} else {
+					sb.append(c);
 				}
 			}
-			return sb.toString();
+			return sb.toString().toUpperCase();
+		} catch (BadHanyuPinyinOutputFormatCombination e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	/****
+	 * 首字母
+	 * 
+	 * @param str
+	 * @return
+	 */
+	public static String str2PinyinHeaderFirst(String str) {
+		try {
+			StringBuffer sb = new StringBuffer();
+			for (int i = 0; i < str.length(); i++) {
+				char c = str.charAt(i);
+				// 1、判断c是不是中文
+				if (c >= '\u4e00' && c <= '\u9fa5') {
+					sb.append(PinyinHelper.toHanyuPinyinStringArray(c, format)[0]
+							.charAt(0));
+				} else {
+					sb.append(c);
+				}
+			}
+			return sb.toString().toUpperCase().substring(0, 1);
 		} catch (BadHanyuPinyinOutputFormatCombination e) {
 			e.printStackTrace();
 		}

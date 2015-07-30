@@ -60,7 +60,7 @@ public class PhoneService extends BaseService implements IPhoneService {
 	public DBObject updatePart(DBObject returnFields, Phone phone) {
 
 		DBObject toUpdate = makeUpdate(phone);
-		return this.phonedao.updateOneById(phone.get_id_str(), returnFields,
+		return this.phonedao.updateOneById(phone.get_id_m(), returnFields,
 				toUpdate);
 	}
 

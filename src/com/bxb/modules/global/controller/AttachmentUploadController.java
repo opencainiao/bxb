@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import com.bxb.common.globalhandler.FileUploadHandler;
 import com.bxb.modules.base.BaseController;
 import com.bxb.modules.global.model.Attachment;
 import com.bxb.modules.global.service.IFileUpload;

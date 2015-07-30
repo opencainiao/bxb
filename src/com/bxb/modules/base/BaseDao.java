@@ -153,14 +153,8 @@ public abstract class BaseDao implements IBaseDao {
 	@Override
 	public String insertObj(Object obj) {
 
-		WriteResult wr = MongoCollectionUtil
+		return MongoCollectionUtil
 				.insertObj(getCollectionName(), obj);
-
-		if (wr == null || wr.getUpsertedId() == null) {
-			return null;
-		}
-
-		return wr.getUpsertedId().toString();
 	}
 
 	@Override
@@ -174,9 +168,12 @@ public abstract class BaseDao implements IBaseDao {
 	@Override
 	public DBObject updateOneByCondition(DBObject query, DBObject returnFields,
 			DBObject update, boolean upsert) {
+		
+		query.put("delflg", "0");
+		
 		DBCollection collection = MongoClientManager
 				.getCollection(getCollectionName());
-
+		
 		return collection.findAndModify(query, returnFields, null, false,
 				update, true, upsert);
 	}
@@ -194,6 +191,7 @@ public abstract class BaseDao implements IBaseDao {
 
 		DBObject query = new BasicDBObject();
 		query.put("_id", new ObjectId(_id));
+		query.put("delflg", "0");
 
 		return collection.findAndModify(query, returnFields, null, false,
 				update, true, false);

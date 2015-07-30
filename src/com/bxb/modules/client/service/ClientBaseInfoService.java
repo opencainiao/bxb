@@ -11,14 +11,13 @@ import org.mou.common.StringUtil;
 import org.springframework.stereotype.Service;
 
 import com.bxb.common.util.AgeUtil;
+import com.bxb.common.util.MongoUpListUtil;
 import com.bxb.modules.base.BaseService;
 import com.bxb.modules.client.dao.ClientBaseInfoDao;
 import com.bxb.modules.client.model.Address;
 import com.bxb.modules.client.model.Client;
-import com.bxb.modules.client.model.ClientBaseInfo;
 import com.bxb.modules.client.model.Email;
 import com.bxb.modules.client.model.Phone;
-import com.bxb.modules.infrastructure.enums.SysConstTypeEnum;
 import com.bxb.modules.infrastructure.service.ISysConstService;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
@@ -52,32 +51,26 @@ public class ClientBaseInfoService extends BaseService implements
 			.getLogger(ClientBaseInfoService.class);
 
 	@Override
-	public DBObject updatePart(DBObject returnFields,
-			ClientBaseInfo clientbaseinfo) {
+	public DBObject updatePart(DBObject returnFields, Client client) {
 
-		DBObject toUpdate = makeUpdate(clientbaseinfo);
+		DBObject toUpdate = makeUpdate(client);
 		DBObject updatedResult = this.clientbaseinfodao.updateOneById(
-				clientbaseinfo.get_id_str(), returnFields, toUpdate);
+				client.get_id_m(), returnFields, toUpdate);
 
-		String client_id = clientbaseinfo.get_id_str();
-
+		String client_id = client.get_id_m();
 		// 地址信息
-		List<Address> addresses = clientbaseinfo.getAddress_info();
-		if (addresses != null && !addresses.isEmpty()) {
-			this.addressService.add(addresses, client_id);
-		}
+		List<Address> addresses = client.getAddress_info();
+		this.addressService.add(addresses, client_id);
+
+		System.out.println(addresses.toString());
 
 		// 电话信息
-		List<Phone> phones = clientbaseinfo.getPhone_info();
-		if (phones != null && !phones.isEmpty()) {
-			this.phoneService.add(phones, client_id);
-		}
+		List<Phone> phones = client.getPhone_info();
+		this.phoneService.add(phones, client_id);
 
 		// 邮件信息
-		List<Email> emails = clientbaseinfo.getEmail_info();
-		if (emails != null && !emails.isEmpty()) {
-			this.emailService.add(emails, client_id);
-		}
+		List<Email> emails = client.getEmail_info();
+		this.emailService.add(emails, client_id);
 
 		return updatedResult;
 	}
@@ -88,67 +81,70 @@ public class ClientBaseInfoService extends BaseService implements
 	 * @param update
 	 * @return
 	 */
-	private DBObject makeUpdate(ClientBaseInfo clientbaseinfo) {
+	private DBObject makeUpdate(Client client) {
 
 		DBObject update = new BasicDBObject();
 		DBObject updateSet = new BasicDBObject();
 
-		updateSet.put("client_name", clientbaseinfo.getClient_name());
-		updateSet.put("sex", clientbaseinfo.getSex());
-		updateSet.put("id_number", clientbaseinfo.getId_number());
+		updateSet.put("client_name", client.getClient_name());
+		updateSet.put("sex", client.getSex());
+		updateSet.put("id_number", client.getId_number());
+		updateSet.put("birth_date", client.getBirth_date());
+		updateSet.put("region_code", client.getRegion_code());
+		updateSet.put("region_name", client.getRegion_name());
+		updateSet.put("region_type", client.getRegion_type());
+		updateSet.put("education_type", client.getEducation_type());
 
-		updateSet.put("birth_date", clientbaseinfo.getBirth_date());
-		setClientInf(clientbaseinfo);
-
-		updateSet.put("region_code", clientbaseinfo.getRegion_code());
-		updateSet.put("region_name", clientbaseinfo.getRegion_name());
-		updateSet.put("region_type", clientbaseinfo.getRegion_type());
-
-		String education_type = clientbaseinfo.getEducation_type();
-		updateSet.put("education_type", education_type);
-		if (StringUtil.isNotEmpty(education_type)) {
-			String education_type_name = sysConstService
-					.findDispValByTypecodAndVal(
-							SysConstTypeEnum.EDUCATION_TYPE.getCode(),
-							clientbaseinfo.getEducation_type());
-			updateSet.put("education_type_name", education_type_name);
+		if (client.getAddress_info() != null) {
+			updateSet.put("address_info",
+					MongoUpListUtil.getUpObject(client.getAddress_info()));
+		} else {
+			updateSet.put("address_info", null);
 		}
 
-		updateSet.put("address_info", clientbaseinfo.getAddress_info());
-		updateSet.put("phone_info", clientbaseinfo.getPhone_info());
-		updateSet.put("email_info", clientbaseinfo.getEmail_info());
-		
-		this.setModifyInfo(updateSet);
+		if (client.getPhone_info() != null) {
+			updateSet.put("phone_info",
+					MongoUpListUtil.getUpObject(client.getPhone_info()));
+		} else {
+			updateSet.put("phone_info", null);
+		}
+
+		if (client.getEmail_info() != null) {
+			updateSet.put("email_info",
+					MongoUpListUtil.getUpObject(client.getEmail_info()));
+		} else {
+			updateSet.put("email_info", null);
+		}
+
+		// updateSet.put("address_info", client.getAddress_info());
+		// updateSet.put("phone_info", client.getPhone_info());
+		// updateSet.put("email_info", client.getEmail_info());
+
+		setClientInf(client, updateSet);
+
+		this.setModifyInfoWithUserId(updateSet, client.getOwner_user_id());
 		update.put("$set", updateSet);
 
 		logger.debug("更新的对象信息\n{}", update);
 		return update;
 	}
 
-	private void setClientInf(ClientBaseInfo clientbaseinfo) {
+	private void setClientInf(Client client, DBObject updateSet) {
 
-		clientbaseinfo.setPinYin();
+		client.setPinYin();
 
-		String birth_date = clientbaseinfo.getBirth_date();
+		updateSet.put("pinyin_name", client.getPinyin_name());
+		updateSet.put("first_char_header", client.getFirst_char_header());
+		updateSet.put("all_char_header", client.getAll_char_header());
+
+		String birth_date = client.getBirth_date();
 		if (StringUtil.isNotEmpty(birth_date)) {
 			try {
-				clientbaseinfo.setAge(AgeUtil.getAge(birth_date));
+				updateSet.put("age", AgeUtil.getAge(birth_date));
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
 		}
 	}
 
-	@Override
-	public ClientBaseInfo findOneByIdObject(String _id) {
-
-		return this.clientbaseinfodao.findOneByIdObject(_id,
-				ClientBaseInfo.class);
-	}
-
-	@Override
-	public DBObject updatePart(DBObject returnFields, Client client) {
-
-		return this.updatePart(returnFields, client.getBaseInf());
-	}
 }

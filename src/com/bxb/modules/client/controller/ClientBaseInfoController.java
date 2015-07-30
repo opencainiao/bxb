@@ -17,8 +17,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.bxb.common.globalhandler.ErrorHandler;
 import com.bxb.common.globalobj.RequestResult;
 import com.bxb.modules.base.BaseController;
-import com.bxb.modules.client.model.ClientBaseInfo;
+import com.bxb.modules.client.model.Client;
 import com.bxb.modules.client.service.IClientBaseInfoService;
+import com.bxb.modules.client.service.IClientService;
 import com.mongodb.DBObject;
 
 /****
@@ -37,6 +38,9 @@ public class ClientBaseInfoController extends BaseController {
 	@Resource(name = "clientBaseInfoService")
 	private IClientBaseInfoService clientBaseInfoService;
 
+	@Resource(name = "clientService")
+	private IClientService clientService;
+
 	/****
 	 * 查看单个客户基本信息 信息
 	 * 
@@ -47,10 +51,9 @@ public class ClientBaseInfoController extends BaseController {
 	@RequestMapping(value = "/{_id}", method = RequestMethod.GET)
 	public String detail(@PathVariable String _id, Model model) {
 
-		ClientBaseInfo clientbaseinfo = this.clientBaseInfoService
-				.findOneByIdObject(_id);
+		Client client = this.clientService.findOneByIdObject(_id, true);
 
-		model.addAttribute("clientbaseinfo", clientbaseinfo);
+		model.addAttribute("clientbaseinfo", client);
 
 		return "front/client/client_info/base/detail";
 	}
@@ -66,10 +69,9 @@ public class ClientBaseInfoController extends BaseController {
 	@ResponseBody
 	public Object detail(@PathVariable String _id) {
 
-		ClientBaseInfo clientbaseinfo = this.clientBaseInfoService
-				.findOneByIdObject(_id);
+		Client client = this.clientService.findOneByIdObject(_id, true);
 
-		return clientbaseinfo;
+		return client;
 	}
 
 	/****
@@ -82,10 +84,9 @@ public class ClientBaseInfoController extends BaseController {
 	@RequestMapping(value = "/{_id}/update", method = RequestMethod.GET)
 	public String update(@PathVariable String _id, Model model) {
 
-		ClientBaseInfo clientbaseinfo = this.clientBaseInfoService
-				.findOneByIdObject(_id);
+		Client client = this.clientService.findOneByIdObject(_id, true);
 
-		model.addAttribute("clientbaseinfo", clientbaseinfo);
+		model.addAttribute("clientbaseinfo", client);
 
 		model.addAttribute("_id", _id);
 
@@ -103,18 +104,17 @@ public class ClientBaseInfoController extends BaseController {
 	 */
 	@RequestMapping(value = "/{_id}/update", method = RequestMethod.POST)
 	@ResponseBody
-	public Object update(@PathVariable String _id,
-			@Validated ClientBaseInfo clientbaseinfo, BindingResult br,
-			HttpServletRequest request) {
+	public Object update(@PathVariable String _id, @Validated Client client,
+			BindingResult br, HttpServletRequest request) {
 
 		if (br.hasErrors()) {
 			return ErrorHandler.getRequestResultFromBindingResult(br);
 		}
 
 		try {
-			clientbaseinfo.set_id(_id);
+			client.set_id(_id);
 			DBObject updateResult = this.clientBaseInfoService.updatePart(null,
-					clientbaseinfo);
+					client);
 
 			logger.debug("更新后的结果[{}]", updateResult);
 

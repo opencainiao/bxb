@@ -54,4 +54,24 @@ public interface IBaseService {
 	 * @param dbObject
 	 */
 	public void setModifyInfo(DBObject dbObject);
+
+	/****
+	 * 设置更新信息
+	 */
+	public void setModifyInfoWithUserId(DBObject dbObject, String user_id);
+
+	/****
+	 * 设置对象创建信息
+	 * 
+	 * @param model
+	 */
+	public void setCreateInfoWithUserId(BaseModel model, String user_id);
+
+	/****
+	 * 设置对象创建信息
+	 * 
+	 * @param model
+	 */
+	public void setCreateInfoWithUserId(BaseModel model, String time,
+			String user_id);
 }

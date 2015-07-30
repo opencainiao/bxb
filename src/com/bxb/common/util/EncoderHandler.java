@@ -1,7 +1,6 @@
 package com.bxb.common.util;
 
 import java.security.MessageDigest;
-import java.util.Date;
 
 import org.mou.common.StringUtil;
 import org.mou.common.security.EncryptMou;

@@ -3,6 +3,7 @@ package com.bxb.modules.client.model;
 import java.util.List;
 
 import org.hibernate.validator.constraints.NotEmpty;
+import org.mou.common.StringUtil;
 
 import com.bxb.common.util.PinyinUtil;
 import com.bxb.modules.base.BaseModel;
@@ -64,8 +65,9 @@ public class Client extends BaseModel {
 
 	private String education_type_name; // 教育程度
 
-	private String client_name_full_py; // 名称全拼
-	private String client_name_short_py; // 名称首字母拼音
+	private String pinyin_name;// 姓名拼音， 比如：ZHANGSAN
+	private String first_char_header;// 姓名拼音第一个首字母， 比如：Z
+	private String all_char_header;// 姓名拼音首字母， 比如：ZS
 
 	@NotEmpty(message = "归属用户_id不能为空")
 	public String getOwner_user_id() {
@@ -222,7 +224,6 @@ public class Client extends BaseModel {
 		this.job_level = job_level;
 	}
 
-	@NotEmpty(message = "婚姻状况不能为空")
 	public String getMarital_status() {
 		return marital_status;
 	}
@@ -464,40 +465,64 @@ public class Client extends BaseModel {
 		this.education_type_name = education_type_name;
 	}
 
-	public String getClient_name_full_py() {
-		return client_name_full_py;
+	public String getPinyin_name() {
+		return pinyin_name;
 	}
 
-	public void setClient_name_full_py(String client_name_full_py) {
-		this.client_name_full_py = client_name_full_py;
+	public void setPinyin_name(String pinyin_name) {
+		this.pinyin_name = pinyin_name;
 	}
 
-	public String getClient_name_short_py() {
-		return client_name_short_py;
+	public String getFirst_char_header() {
+		return first_char_header;
 	}
 
-	public void setClient_name_short_py(String client_name_short_py) {
-		this.client_name_short_py = client_name_short_py;
+	public void setFirst_char_header(String first_char_header) {
+		this.first_char_header = first_char_header;
+	}
+
+	public String getAll_char_header() {
+		return all_char_header;
+	}
+
+	public void setAll_char_header(String all_char_header) {
+		this.all_char_header = all_char_header;
 	}
 
 	public void setPinYin() {
-		// 关键字的全拼
-		String nameFullPy = PinyinUtil.str2Pinyin(client_name, null);
-		setClient_name_full_py(nameFullPy);
 
-		// 关键字的简拼
-		String nameShortPy = PinyinUtil.strFirst2Pinyin(client_name);
-		setClient_name_short_py(nameShortPy);
+		if (StringUtil.isEmpty(this.pinyin_name)) {
+			// 关键字的全拼
+			String nameFullPy = PinyinUtil.str2Pinyin(client_name, null);
+			setPinyin_name(nameFullPy);
+		}
+
+		if (StringUtil.isEmpty(this.all_char_header)) {
+			// 关键字的简拼
+			String nameShortPy = PinyinUtil.strFirst2Pinyin(client_name);
+			setAll_char_header(nameShortPy);
+		}
+
+		if (StringUtil.isEmpty(this.first_char_header)) {
+			// 首字母
+			if (StringUtil.isNotEmpty(this.pinyin_name)) {
+				setFirst_char_header(this.pinyin_name.substring(0, 1));
+			} else {
+				String headerFirst = PinyinUtil
+						.str2PinyinHeaderFirst(client_name);
+				setFirst_char_header(headerFirst);
+			}
+		}
 	}
-	
-	public ClientBaseInfo getBaseInf(){
-		
+
+	public ClientBaseInfo getBaseInf() {
+
 		ClientBaseInfo clientBaseInfo = new ClientBaseInfo();
-		
+
 		clientBaseInfo.set_id(this.get_id());
 		clientBaseInfo.setOwner_user_id(this.getOwner_user_id());
 		clientBaseInfo.setClient_name(this.getClient_name());
-		
+
 		clientBaseInfo.setSex(this.getSex());
 		clientBaseInfo.setId_number(this.getId_number());
 		clientBaseInfo.setBirth_date(birth_date);
@@ -509,7 +534,7 @@ public class Client extends BaseModel {
 		clientBaseInfo.setRegion_type(region_type);
 		clientBaseInfo.setEducation_type(education_type);
 		clientBaseInfo.setEducation_type_name(education_type_name);
-		
+
 		return clientBaseInfo;
 	}
 }

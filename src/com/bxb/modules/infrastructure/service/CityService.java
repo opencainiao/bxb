@@ -56,7 +56,7 @@ public class CityService extends BaseService implements ICityService {
 	public DBObject updatePart(DBObject returnFields, City city) {
 
 		DBObject toUpdate = makeUpdate(city);
-		return this.citydao.updateOneById(city.get_id_str(), returnFields,
+		return this.citydao.updateOneById(city.get_id_m(), returnFields,
 				toUpdate);
 	}
 

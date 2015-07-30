@@ -60,7 +60,7 @@ public class EmailTypeService extends BaseService implements IEmailTypeService {
 	public DBObject updatePart(DBObject returnFields, CommonType addresstype) {
 
 		DBObject toUpdate = makeUpdate(addresstype);
-		return this.emailtypedao.updateOneById(addresstype.get_id_str(),
+		return this.emailtypedao.updateOneById(addresstype.get_id_m(),
 				returnFields, toUpdate);
 	}
 

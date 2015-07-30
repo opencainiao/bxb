@@ -61,7 +61,7 @@ public class SysConstService extends BaseService implements ISysConstService {
 	public DBObject updatePart(DBObject returnFields, SysConst sysconst) {
 
 		DBObject toUpdate = makeUpdate(sysconst);
-		return this.sysconstdao.updateOneById(sysconst.get_id_str(),
+		return this.sysconstdao.updateOneById(sysconst.get_id_m(),
 				returnFields, toUpdate);
 	}
 
@@ -111,7 +111,7 @@ public class SysConstService extends BaseService implements ISysConstService {
 		queryCondition.put("typecode", sysconst.getTypecode());// 常量类型
 		queryCondition.put("val", sysconst.getVal());// 常量值
 		queryCondition.put("useflg", "1");
-		String _id = sysconst.get_id_str();
+		String _id = sysconst.get_id_m();
 		if (StringUtil.isNotEmpty(_id)) {
 			queryCondition.put("_id", new BasicDBObject("$ne",
 					new ObjectId(_id)));
@@ -138,7 +138,7 @@ public class SysConstService extends BaseService implements ISysConstService {
 		queryCondition.put("typecode", sysconst.getTypecode());// 常量类型
 		queryCondition.put("dspval", sysconst.getDspval());// 常量显示值
 		queryCondition.put("useflg", "1");
-		String _id = sysconst.get_id_str();
+		String _id = sysconst.get_id_m();
 		if (StringUtil.isNotEmpty(_id)) {
 			queryCondition.put("_id", new BasicDBObject("$ne",
 					new ObjectId(_id)));

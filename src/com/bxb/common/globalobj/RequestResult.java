@@ -16,6 +16,8 @@ public class RequestResult {
 	private Map<String, String> brErrors;
 	private Object object;// 业务对象
 	private List objects; // 一组业务对象
+	private int success_num; // 成功条数
+	private int failure_num; // 失败条数
 
 	public String getSuccess() {
 		return success;
@@ -73,6 +75,22 @@ public class RequestResult {
 		return objects;
 	}
 
+	public int getSuccess_num() {
+		return success_num;
+	}
+
+	public void setSuccess_num(int success_num) {
+		this.success_num = success_num;
+	}
+
+	public int getFailure_num() {
+		return failure_num;
+	}
+
+	public void setFailure_num(int failure_num) {
+		this.failure_num = failure_num;
+	}
+
 	public void setObjects(List objects) {
 
 		if (objects != null && !objects.isEmpty()) {
@@ -83,7 +101,7 @@ public class RequestResult {
 				}
 			}
 		}
-		
+
 		this.objects = objects;
 	}
 

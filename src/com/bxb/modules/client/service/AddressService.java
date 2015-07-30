@@ -60,7 +60,7 @@ public class AddressService extends BaseService implements IAddressService {
 	public DBObject updatePart(DBObject returnFields, Address address) {
 
 		DBObject toUpdate = makeUpdate(address);
-		return this.addressdao.updateOneById(address.get_id_str(),
+		return this.addressdao.updateOneById(address.get_id_m(),
 				returnFields, toUpdate);
 	}
 
@@ -82,7 +82,7 @@ public class AddressService extends BaseService implements IAddressService {
 		updateSet.put("district", address.getDistrict());
 		updateSet.put("detail_address", address.getDetail_address());
 		updateSet.put("mainflg", address.getMainflg());
-		
+
 		this.setModifyInfo(updateSet);
 		update.put("$set", updateSet);
 
@@ -112,8 +112,8 @@ public class AddressService extends BaseService implements IAddressService {
 
 		// 2.设置返回结果
 
-		List<DBObject> allAddress = this.addressdao.findBatchDbOjbect(queryCondition,
-				null, null);
+		List<DBObject> allAddress = this.addressdao.findBatchDbOjbect(
+				queryCondition, null, null);
 
 		return allAddress;
 	}
@@ -131,23 +131,23 @@ public class AddressService extends BaseService implements IAddressService {
 	}
 
 	@Override
-	public List<String> add(List<Address> addresses,String ownerId) {
-		
+	public List<String> add(List<Address> addresses, String ownerId) {
+
 		// 1.删除已有的
 		DBObject queryCondition = new BasicDBObject();
 		queryCondition.put("owner_id", ownerId);
 		this.addressdao.remove(queryCondition);
-		
+
 		// 2.添加
 		List<String> ids = new ArrayList<String>();
-		
-		for(Address address:addresses){
+
+		for (Address address : addresses) {
 			address.setOwner_id(ownerId);
 			String addressid = this.add(address);
-			
+
 			ids.add(addressid);
 		}
-		
+
 		return ids;
 	}
 }

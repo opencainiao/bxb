@@ -60,7 +60,7 @@ public class EmailService extends BaseService implements IEmailService {
 	public DBObject updatePart(DBObject returnFields, Email email) {
 
 		DBObject toUpdate = makeUpdate(email);
-		return this.emaildao.updateOneById(email.get_id_str(), returnFields,
+		return this.emaildao.updateOneById(email.get_id_m(), returnFields,
 				toUpdate);
 	}
 
@@ -112,7 +112,7 @@ public class EmailService extends BaseService implements IEmailService {
 	}
 
 	@Override
-	public List<String> add(List<Email> phones, String client_id) {
+	public List<String> add(List<Email> emails, String client_id) {
 
 		// 1.删除已有的
 		DBObject queryCondition = new BasicDBObject();
@@ -121,7 +121,7 @@ public class EmailService extends BaseService implements IEmailService {
 
 		List<String> ids = new ArrayList<String>();
 
-		for (Email email : phones) {
+		for (Email email : emails) {
 			email.setOwner_id(client_id);
 			String addressid = this.add(email);
 

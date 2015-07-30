@@ -64,6 +64,7 @@ public class BaseService implements IBaseService {
 		model.setCusername(username);
 		model.setCtime(time);
 		model.setCdate(date);
+		model.setDelflg("0");// 未删除
 	}
 
 	/****
@@ -79,6 +80,7 @@ public class BaseService implements IBaseService {
 		model.setCusername(username);
 		model.setCtime(time);
 		model.setCdate(time.substring(0, 10));
+		model.setDelflg("0");// 未删除
 	}
 
 	/****
@@ -87,9 +89,55 @@ public class BaseService implements IBaseService {
 	@Override
 	public void setModifyInfo(DBObject dbObject) {
 
-		dbObject.put("lmuserid", this.getUserId());
-		dbObject.put("lmusername", this.getUsername());
-		dbObject.put("lastoptime", DateUtil.getCurrentTimsmp());
+		dbObject.put("last_op_user_id", this.getUserId());
+		dbObject.put("last_op_user_name", this.getUsername());
+		dbObject.put("last_op_date", DateUtil.getCurdate());
+		dbObject.put("last_op_time", DateUtil.getCurrentTimsmp());
+	}
+
+	/****
+	 * 设置更新信息
+	 */
+	@Override
+	public void setModifyInfoWithUserId(DBObject dbObject, String user_id) {
+
+		dbObject.put("last_op_user_id", user_id);
+		dbObject.put("last_op_user_name", this.getUsername());
+		dbObject.put("last_op_date", DateUtil.getCurdate());
+		dbObject.put("last_op_time", DateUtil.getCurrentTimsmp());
+	}
+
+	/****
+	 * 设置对象创建信息
+	 * 
+	 * @param model
+	 */
+	public void setCreateInfoWithUserId(BaseModel model, String user_id) {
+		String date = DateUtil.getCurdate();
+		String time = DateUtil.getCurrentTimsmp();
+		String username = this.getUsername();
+
+		model.setCuserid(user_id);
+		model.setCusername(username);
+		model.setCtime(time);
+		model.setCdate(date);
+		model.setDelflg("0");// 未删除
+	}
+
+	/****
+	 * 设置对象创建信息
+	 * 
+	 * @param model
+	 */
+	public void setCreateInfoWithUserId(BaseModel model, String time,
+			String user_id) {
+		String username = this.getUsername();
+
+		model.setCuserid(user_id);
+		model.setCusername(username);
+		model.setCtime(time);
+		model.setCdate(time.substring(0, 10));
+		model.setDelflg("0");// 未删除
 	}
 
 }

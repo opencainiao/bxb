@@ -62,7 +62,7 @@ public class AddressTypeService extends BaseService implements
 	public DBObject updatePart(DBObject returnFields, CommonType addresstype) {
 
 		DBObject toUpdate = makeUpdate(addresstype);
-		return this.addresstypedao.updateOneById(addresstype.get_id_str(),
+		return this.addresstypedao.updateOneById(addresstype.get_id_m(),
 				returnFields, toUpdate);
 	}
 

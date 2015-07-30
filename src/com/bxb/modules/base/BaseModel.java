@@ -1,8 +1,8 @@
 package com.bxb.modules.base;
 
-import mou.mongodb.MongoObjectId;
-
 import org.mou.common.JsonUtil;
+
+import com.mongodb.ReflectionDBObject;
 
 /****
  * 所有域模型对象的基础类，包含公用的属性和方法
@@ -10,21 +10,24 @@ import org.mou.common.JsonUtil;
  * @author NBQ
  *
  */
-public class BaseModel {
+public class BaseModel extends ReflectionDBObject {
 
-	protected MongoObjectId _id;// mongo主键
+	// protected MongoObjectId _id;// mongo主键
 	protected String collectionname; // 对象对应的collection名字
 
 	protected String cdate; // 创建日期
 	protected String ctime; // 创建时间
 	protected String cuserid; // 创建用户id
 	protected String cusername;// 创建用户姓名
-	protected String lmuserid;// 最后编辑用户id
-	protected String lmusername;// 最后编辑用户姓名
-	protected String lastoptime; // 最后一次操作时间
+	protected String last_op_user_id;// 最后编辑用户id
+	protected String last_op_user_name;// 最后编辑用户姓名
+	protected String last_op_date; // 最后操作日期
+	protected String last_op_time; // 最后一次操作时间
 
 	protected String delflg; // 删除标志(用于逻辑删除)
 	protected String useflg; // 启用标志
+
+	protected String _id_m; // _id的字符串表示
 
 	public String getUseflg() {
 		return useflg;
@@ -32,14 +35,6 @@ public class BaseModel {
 
 	public void setUseflg(String useflg) {
 		this.useflg = useflg;
-	}
-
-	public String getLastoptime() {
-		return lastoptime;
-	}
-
-	public void setLastoptime(String lastoptime) {
-		this.lastoptime = lastoptime;
 	}
 
 	public String getCdate() {
@@ -74,22 +69,6 @@ public class BaseModel {
 		this.cusername = cusername;
 	}
 
-	public String getLmuserid() {
-		return lmuserid;
-	}
-
-	public void setLmuserid(String lmuserid) {
-		this.lmuserid = lmuserid;
-	}
-
-	public String getLmusername() {
-		return lmusername;
-	}
-
-	public void setLmusername(String lmusername) {
-		this.lmusername = lmusername;
-	}
-
 	public String getCollectionname() {
 		return collectionname;
 	}
@@ -106,29 +85,51 @@ public class BaseModel {
 		this.delflg = delflg;
 	}
 
-	public String get_id_str() {
-		if (_id == null) {
-			return null;
-		}
-		return _id.toString();
-	}
-
-	public MongoObjectId get_id() {
-		return _id;
-	}
-
-	public void set_id(MongoObjectId _id) {
-		this._id = _id;
-	}
-
-	public void set_id(String _id) {
-		MongoObjectId _idNew = new MongoObjectId();
-		_idNew.set$oid(_id);
-		this._id = _idNew;
-	}
-
 	public String toString() {
 		return JsonUtil.toJsonStr(this);
+	}
+
+	public String getLast_op_user_id() {
+		return last_op_user_id;
+	}
+
+	public void setLast_op_user_id(String last_op_user_id) {
+		this.last_op_user_id = last_op_user_id;
+	}
+
+	public String getLast_op_user_name() {
+		return last_op_user_name;
+	}
+
+	public void setLast_op_user_name(String last_op_user_name) {
+		this.last_op_user_name = last_op_user_name;
+	}
+
+	public String getLast_op_date() {
+		return last_op_date;
+	}
+
+	public void setLast_op_date(String last_op_date) {
+		this.last_op_date = last_op_date;
+	}
+
+	public String getLast_op_time() {
+		return last_op_time;
+	}
+
+	public void setLast_op_time(String last_op_time) {
+		this.last_op_time = last_op_time;
+	}
+
+	public String get_id_m() {
+		if (super.get_id() == null) {
+			return null;
+		}
+		return super.get_id().toString();
+	}
+
+	public void set_id_m(String _id_m) {
+		this._id_m = _id_m;
 	}
 
 }

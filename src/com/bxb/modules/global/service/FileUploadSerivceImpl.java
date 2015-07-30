@@ -23,7 +23,6 @@ import com.bxb.common.util.EncoderHandler;
 import com.bxb.common.util.FileUtil;
 import com.bxb.modules.base.BaseService;
 import com.bxb.modules.global.model.Attachment;
-import com.mongodb.WriteResult;
 
 @Service("fileUplodService")
 public class FileUploadSerivceImpl extends BaseService implements IFileUpload {
@@ -128,14 +127,13 @@ public class FileUploadSerivceImpl extends BaseService implements IFileUpload {
 		}
 
 		// 3.将附件写入附件表
-		WriteResult result = MongoCollectionUtil.insertObj(
-				COLLECTION_NAME_ATTACHMENT, att);
-		att.set_id(result.getUpsertedId().toString());
+		String _id = MongoCollectionUtil.insertObj(COLLECTION_NAME_ATTACHMENT,
+				att);
+		att.set_id(_id);
 
 		logger.debug("上传文件完毕，上传之后的文件信息");
 		logger.debug(MongoCollectionUtil.findOneByIdFields(
-				COLLECTION_NAME_ATTACHMENT, result.getUpsertedId().toString(),
-				null));
+				COLLECTION_NAME_ATTACHMENT, _id, null));
 
 		return att;
 	}

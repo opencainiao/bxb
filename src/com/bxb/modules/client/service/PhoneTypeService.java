@@ -60,7 +60,7 @@ public class PhoneTypeService extends BaseService implements IPhoneTypeService {
 	public DBObject updatePart(DBObject returnFields, CommonType phonetype) {
 
 		DBObject toUpdate = makeUpdate(phonetype);
-		return this.phonetypedao.updateOneById(phonetype.get_id_str(),
+		return this.phonetypedao.updateOneById(phonetype.get_id_m(),
 				returnFields, toUpdate);
 	}
 

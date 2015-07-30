@@ -86,19 +86,23 @@ public class ClientController extends BaseController {
 	 * @param clients
 	 * @return
 	 */
-	private RequestResult addBatch(Client[] clients) {
+	private RequestResult addBatch(Client[] clients, String user_id) {
 
 		RequestResult rr = new RequestResult();
 
 		RequestResult[] addResults = new RequestResult[clients.length];
 
 		int falseTimes = 0;
+		int successTimes = 0;
 		for (int i = 0; i < clients.length; ++i) {
 			Client client = clients[i];
+			
 			RequestResult addResult = addClient(client);
 
 			if (addResult.getSuccess().equals("n")) {
 				falseTimes++;
+			} else {
+				successTimes++;
 			}
 
 			addResults[i] = addResult;
@@ -111,6 +115,9 @@ public class ClientController extends BaseController {
 		} else {
 			rr.setSuccess(true);
 		}
+
+		rr.setFailure_num(falseTimes);
+		rr.setSuccess_num(successTimes);
 
 		return rr;
 	}
@@ -133,7 +140,7 @@ public class ClientController extends BaseController {
 		try {
 			Client[] clients = JSONHelper.parseArray(data, Client.class);
 
-			return addBatch(clients);
+			return addBatch(clients, user_id);
 		} catch (Exception e) {
 			return this.handleException(e);
 		}
@@ -202,6 +209,7 @@ public class ClientController extends BaseController {
 			DBObject query = new BasicDBObject();
 			query.put("owner_user_id", user_id);
 			query.put("_id", _id);
+			query.put("delflg", "0");
 
 			DBObject client = this.clientService.findOneByConditionDBObj(query);
 

@@ -162,9 +162,9 @@ public class FileUploadHandler {
 		}
 
 		// 3.将附件写入附件表
-		WriteResult result = MongoCollectionUtil.insertObj(
+		String _id = MongoCollectionUtil.insertObj(
 				COLLECTION_NAME_ATTACHMENT, att);
-		att.set_id(result.getUpsertedId().toString());
+		att.set_id(_id);
 
 		logger.debug(JsonUtil.toJsonStr(att));
 
@@ -276,10 +276,10 @@ public class FileUploadHandler {
 		}
 
 		// 3.将文件写入文件表
-		WriteResult result = MongoCollectionUtil.insertObj(
+		String _id = MongoCollectionUtil.insertObj(
 				COLLECTION_NAME_UPLOADFILE, file);
-		file.set_id(result.getUpsertedId().toString());
-		file.set_id_m(result.getUpsertedId().toString());
+		file.set_id(_id);
+		file.set_id_m(_id);
 
 		logger.debug(JsonUtil.toJsonStr(file));
 

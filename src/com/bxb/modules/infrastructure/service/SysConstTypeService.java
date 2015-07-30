@@ -67,7 +67,7 @@ public class SysConstTypeService extends BaseService implements
 	public DBObject updatePart(DBObject returnFields, SysConstType sysconsttype) {
 
 		DBObject toUpdate = makeUpdate(sysconsttype);
-		return this.sysconsttypedao.updateOneById(sysconsttype.get_id_str(),
+		return this.sysconsttypedao.updateOneById(sysconsttype.get_id_m(),
 				returnFields, toUpdate);
 	}
 
