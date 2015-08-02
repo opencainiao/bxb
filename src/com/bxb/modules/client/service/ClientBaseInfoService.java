@@ -29,8 +29,7 @@ import com.mongodb.DBObject;
  *
  */
 @Service("clientBaseInfoService")
-public class ClientBaseInfoService extends BaseService implements
-		IClientBaseInfoService {
+public class ClientBaseInfoService extends BaseService implements IModifyClientInfoService {
 
 	@Resource(name = "clientbaseinfodao")
 	private ClientBaseInfoDao clientbaseinfodao;
@@ -47,15 +46,13 @@ public class ClientBaseInfoService extends BaseService implements
 	@Resource(name = "emailService")
 	private IEmailService emailService;
 
-	private static final Logger logger = LogManager
-			.getLogger(ClientBaseInfoService.class);
+	private static final Logger logger = LogManager.getLogger(ClientBaseInfoService.class);
 
 	@Override
 	public DBObject updatePart(DBObject returnFields, Client client) {
 
 		DBObject toUpdate = makeUpdate(client);
-		DBObject updatedResult = this.clientbaseinfodao.updateOneById(
-				client.get_id_m(), returnFields, toUpdate);
+		DBObject updatedResult = this.clientbaseinfodao.updateOneById(client.get_id_m(), returnFields, toUpdate);
 
 		String client_id = client.get_id_m();
 		// 地址信息
@@ -96,22 +93,19 @@ public class ClientBaseInfoService extends BaseService implements
 		updateSet.put("education_type", client.getEducation_type());
 
 		if (client.getAddress_info() != null) {
-			updateSet.put("address_info",
-					MongoUpListUtil.getUpObject(client.getAddress_info()));
+			updateSet.put("address_info", MongoUpListUtil.getUpObject(client.getAddress_info()));
 		} else {
 			updateSet.put("address_info", null);
 		}
 
 		if (client.getPhone_info() != null) {
-			updateSet.put("phone_info",
-					MongoUpListUtil.getUpObject(client.getPhone_info()));
+			updateSet.put("phone_info", MongoUpListUtil.getUpObject(client.getPhone_info()));
 		} else {
 			updateSet.put("phone_info", null);
 		}
 
 		if (client.getEmail_info() != null) {
-			updateSet.put("email_info",
-					MongoUpListUtil.getUpObject(client.getEmail_info()));
+			updateSet.put("email_info", MongoUpListUtil.getUpObject(client.getEmail_info()));
 		} else {
 			updateSet.put("email_info", null);
 		}

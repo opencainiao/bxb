@@ -6,8 +6,11 @@
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd">
 
-	<context:component-scan base-package="com.bxb.controller,com.bxb.service,com.bxb.modules,com.bxb.common" />
+	<context:component-scan
+		base-package="com.bxb.controller,com.bxb.service,com.bxb.modules,com.bxb.common" />
 	<mvc:annotation-driven />
+
+	<bean id="SpringApplicationContext" class="com.bxb.common.util.WebContextUtil"></bean>
 
 	<!-- 将静态文件指定到某个特殊的文件夹中统一处理 -->
 	<mvc:resources location="/resources/" mapping="/resources/**" />
@@ -18,11 +21,6 @@
 		<bean class="com.bxb.common.web.interceptors.RuntimeLogInteceptor"></bean>
 		<bean class="com.bxb.common.web.interceptors.CharacterInteceptor"></bean>
 	</mvc:interceptors>
-
-	<!-- <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"> 
-		<property name="locations"> <list> <value>classpath:cfg/config.properties</value> 
-		</list> </property> </bean> -->
-
 
 	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">

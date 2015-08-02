@@ -22,11 +22,12 @@ import com.bxb.common.globalobj.RequestResult;
 import com.bxb.common.globalobj.ValidResult;
 import com.bxb.common.util.HttpServletRequestUtil;
 import com.bxb.common.util.JSONHelper;
+import com.bxb.common.util.WebContextUtil;
 import com.bxb.modules.base.BaseController;
 import com.bxb.modules.client.enumes.PartFlgEnum;
 import com.bxb.modules.client.model.Client;
-import com.bxb.modules.client.service.IClientBaseInfoService;
 import com.bxb.modules.client.service.IClientService;
+import com.bxb.modules.client.service.IModifyClientInfoService;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 
@@ -40,14 +41,10 @@ import com.mongodb.DBObject;
 @RequestMapping("/app/client")
 public class ClientController extends BaseController {
 
-	private static final Logger logger = LogManager
-			.getLogger(ClientController.class);
+	private static final Logger logger = LogManager.getLogger(ClientController.class);
 
 	@Resource(name = "clientService")
 	private IClientService clientService;
-
-	@Resource(name = "clientBaseInfoService")
-	private IClientBaseInfoService clientBaseInfoService;
 
 	/****
 	 * 添加客户信息<br>
@@ -158,8 +155,7 @@ public class ClientController extends BaseController {
 	 */
 	@RequestMapping(value = "/list_by_userid", method = RequestMethod.GET)
 	@ResponseBody
-	public Object list_by_userid(Model model, HttpServletRequest request,
-			String user_id, String last_op_time) {
+	public Object list_by_userid(Model model, HttpServletRequest request, String user_id, String last_op_time) {
 
 		if (StringUtil.isEmpty(user_id)) {
 			return this.handleValidateFalse("user_id不能为空");
@@ -169,8 +165,7 @@ public class ClientController extends BaseController {
 
 		try {
 
-			List<DBObject> clients = this.clientService.findAllClientsByUserId(
-					user_id, last_op_time);
+			List<DBObject> clients = this.clientService.findAllClientsByUserId(user_id, last_op_time);
 
 			rr.setObjects(clients);
 			rr.setSuccess(true);
@@ -235,8 +230,7 @@ public class ClientController extends BaseController {
 	 */
 	@RequestMapping(value = "/{_id}/delete", method = RequestMethod.POST)
 	@ResponseBody
-	public Object delete(@PathVariable String _id, HttpServletRequest request,
-			String user_id) {
+	public Object delete(@PathVariable String _id, HttpServletRequest request, String user_id) {
 
 		if (!this.isValidObjId(_id)) {
 			return this.handleValidateFalse("非法的客户主键");
@@ -276,8 +270,8 @@ public class ClientController extends BaseController {
 	 */
 	@RequestMapping(value = "/{_id}/update", method = RequestMethod.POST)
 	@ResponseBody
-	public Object update(@PathVariable String _id, String data, String user_id,
-			HttpServletRequest request, String part_flg) {
+	public Object update(@PathVariable String _id, String data, String user_id, HttpServletRequest request,
+			String part_flg) {
 
 		if (!this.isValidObjId(_id)) {
 			return this.handleValidateFalse("非法的客户主键");
@@ -302,23 +296,8 @@ public class ClientController extends BaseController {
 		try {
 			DBObject updateResult = null;
 
-			if (part_flg.equals(PartFlgEnum.BASE.getCode())) {
-				updateResult = clientBaseInfoService.updatePart(null, client);
-			} else if (part_flg.equals(PartFlgEnum.FAMILLY.getCode())) {
-				return true;
-			} else if (part_flg.equals(PartFlgEnum.WORK.getCode())) {
-				return true;
-			} else if (part_flg.equals(PartFlgEnum.INCOME.getCode())) {
-				return true;
-			} else if (part_flg.equals(PartFlgEnum.SOURCE.getCode())) {
-				return true;
-			} else if (part_flg.equals(PartFlgEnum.XG.getCode())) {
-				return true;
-			} else if (part_flg.equals(PartFlgEnum.SERVICE.getCode())) {
-				return true;
-			} else if (part_flg.equals(PartFlgEnum.OTHER.getCode())) {
-				return true;
-			}
+			IModifyClientInfoService modifyClientService = getModifyService(part_flg);
+			modifyClientService.updatePart(null, client);
 
 			logger.debug("更新后的结果[{}]", updateResult);
 
@@ -329,5 +308,37 @@ public class ClientController extends BaseController {
 		} catch (Exception e) {
 			return this.handleException(e);
 		}
+	}
+
+	private IModifyClientInfoService getModifyService(String part_flg) {
+
+		IModifyClientInfoService modifyClientInfoService = null;
+
+		if (part_flg.equals(PartFlgEnum.BASE.getCode())) {
+			modifyClientInfoService = (IModifyClientInfoService) WebContextUtil.getBean("clientBaseInfoService");
+
+		} else if (part_flg.equals(PartFlgEnum.FAMILLY.getCode())) {
+			modifyClientInfoService = (IModifyClientInfoService) WebContextUtil.getBean("clientFamillyInfoService");
+
+		} else if (part_flg.equals(PartFlgEnum.WORK.getCode())) {
+			modifyClientInfoService = (IModifyClientInfoService) WebContextUtil.getBean("clientWorkInfoService");
+
+		} else if (part_flg.equals(PartFlgEnum.INCOME.getCode())) {
+			modifyClientInfoService = (IModifyClientInfoService) WebContextUtil.getBean("clientIncomeInfoService");
+
+		} else if (part_flg.equals(PartFlgEnum.SOURCE.getCode())) {
+			modifyClientInfoService = (IModifyClientInfoService) WebContextUtil.getBean("clientSourceInfoService");
+
+		} else if (part_flg.equals(PartFlgEnum.XG.getCode())) {
+			modifyClientInfoService = (IModifyClientInfoService) WebContextUtil.getBean("clientXgInfoService");
+
+		} else if (part_flg.equals(PartFlgEnum.SERVICE.getCode())) {
+			modifyClientInfoService = (IModifyClientInfoService) WebContextUtil.getBean("clientServiceInfoService");
+
+		} else if (part_flg.equals(PartFlgEnum.OTHER.getCode())) {
+			modifyClientInfoService = (IModifyClientInfoService) WebContextUtil.getBean("clientOtherInfoService");
+		}
+
+		return modifyClientInfoService;
 	}
 }

@@ -18,8 +18,8 @@ import com.bxb.common.globalhandler.ErrorHandler;
 import com.bxb.common.globalobj.RequestResult;
 import com.bxb.modules.base.BaseController;
 import com.bxb.modules.client.model.Client;
-import com.bxb.modules.client.service.IClientBaseInfoService;
 import com.bxb.modules.client.service.IClientService;
+import com.bxb.modules.client.service.IModifyClientInfoService;
 import com.mongodb.DBObject;
 
 /****
@@ -36,7 +36,7 @@ public class ClientBaseInfoController extends BaseController {
 			.getLogger(ClientBaseInfoController.class);
 
 	@Resource(name = "clientBaseInfoService")
-	private IClientBaseInfoService clientBaseInfoService;
+	private IModifyClientInfoService clientBaseInfoService;
 
 	@Resource(name = "clientService")
 	private IClientService clientService;

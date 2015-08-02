@@ -4,13 +4,12 @@ import com.bxb.modules.client.model.Client;
 import com.mongodb.DBObject;
 
 /****
- * 客户基本信息服务接口
+ * 修改客户信息
  * 
- * @author NBQ
+ * @author sks
  *
  */
-public interface IClientBaseInfoService {
-
+public interface IModifyClientInfoService {
 	/****
 	 * 更新一条记录，返回更新后的结果，根据对象的主键ObjectId
 	 * 
