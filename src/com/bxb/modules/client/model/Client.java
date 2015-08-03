@@ -7,6 +7,7 @@ import org.mou.common.StringUtil;
 
 import com.bxb.common.util.PinyinUtil;
 import com.bxb.modules.base.BaseModel;
+import com.bxb.modules.client.model.partinfo.ClientBaseInfo;
 
 public class Client extends BaseModel {
 
@@ -66,6 +67,21 @@ public class Client extends BaseModel {
 	private String education_type_name; // 教育程度
 	private String marital_status_name; // 婚姻状况
 
+	private String company_nature_name; // 企业性质
+	private String trade_type_name; // 行业类型
+	private String career_type_name; // 职业类型
+	private String job_position_name; // 职位
+	private String job_level_name; // 职级
+
+	private String annual_income_personal_type_name; // （个人）年收入分类
+	private String annual_income_family_type_name; // （家庭）年收入分类
+	private String family_income_feature_name; // 家庭收入特点
+	private String family_financial_standing_name; // 财务状况
+
+	private String source_type_name; // 客户来源码
+	private String introducer_relationship_name; // 与介绍人关系
+	private String introducer_closeness_name; // 与介绍人亲密度
+
 	private String pinyin_name;// 姓名拼音， 比如：ZHANGSAN
 	private String first_char_header;// 姓名拼音第一个首字母， 比如：Z
 	private String all_char_header;// 姓名拼音首字母， 比如：ZS
@@ -73,6 +89,30 @@ public class Client extends BaseModel {
 	@NotEmpty(message = "归属用户_id不能为空")
 	public String getOwner_user_id() {
 		return owner_user_id;
+	}
+
+	public String getSource_type_name() {
+		return source_type_name;
+	}
+
+	public void setSource_type_name(String source_type_name) {
+		this.source_type_name = source_type_name;
+	}
+
+	public String getIntroducer_relationship_name() {
+		return introducer_relationship_name;
+	}
+
+	public void setIntroducer_relationship_name(String introducer_relationship_name) {
+		this.introducer_relationship_name = introducer_relationship_name;
+	}
+
+	public String getIntroducer_closeness_name() {
+		return introducer_closeness_name;
+	}
+
+	public void setIntroducer_closeness_name(String introducer_closeness_name) {
+		this.introducer_closeness_name = introducer_closeness_name;
 	}
 
 	public void setOwner_user_id(String owner_user_id) {
@@ -245,8 +285,7 @@ public class Client extends BaseModel {
 		return annual_income_personal_type;
 	}
 
-	public void setAnnual_income_personal_type(
-			String annual_income_personal_type) {
+	public void setAnnual_income_personal_type(String annual_income_personal_type) {
 		this.annual_income_personal_type = annual_income_personal_type;
 	}
 
@@ -498,6 +537,78 @@ public class Client extends BaseModel {
 		this.marital_status_name = marital_status_name;
 	}
 
+	public String getCompany_nature_name() {
+		return company_nature_name;
+	}
+
+	public void setCompany_nature_name(String company_nature_name) {
+		this.company_nature_name = company_nature_name;
+	}
+
+	public String getTrade_type_name() {
+		return trade_type_name;
+	}
+
+	public void setTrade_type_name(String trade_type_name) {
+		this.trade_type_name = trade_type_name;
+	}
+
+	public String getCareer_type_name() {
+		return career_type_name;
+	}
+
+	public void setCareer_type_name(String career_type_name) {
+		this.career_type_name = career_type_name;
+	}
+
+	public String getJob_position_name() {
+		return job_position_name;
+	}
+
+	public void setJob_position_name(String job_position_name) {
+		this.job_position_name = job_position_name;
+	}
+
+	public String getJob_level_name() {
+		return job_level_name;
+	}
+
+	public void setJob_level_name(String job_level_name) {
+		this.job_level_name = job_level_name;
+	}
+
+	public String getAnnual_income_personal_type_name() {
+		return annual_income_personal_type_name;
+	}
+
+	public void setAnnual_income_personal_type_name(String annual_income_personal_type_name) {
+		this.annual_income_personal_type_name = annual_income_personal_type_name;
+	}
+
+	public String getAnnual_income_family_type_name() {
+		return annual_income_family_type_name;
+	}
+
+	public void setAnnual_income_family_type_name(String annual_income_family_type_name) {
+		this.annual_income_family_type_name = annual_income_family_type_name;
+	}
+
+	public String getFamily_financial_standing_name() {
+		return family_financial_standing_name;
+	}
+
+	public void setFamily_financial_standing_name(String family_financial_standing_name) {
+		this.family_financial_standing_name = family_financial_standing_name;
+	}
+
+	public String getFamily_income_feature_name() {
+		return family_income_feature_name;
+	}
+
+	public void setFamily_income_feature_name(String family_income_feature_name) {
+		this.family_income_feature_name = family_income_feature_name;
+	}
+
 	public void setPinYin() {
 
 		if (StringUtil.isEmpty(this.pinyin_name)) {
@@ -517,8 +628,7 @@ public class Client extends BaseModel {
 			if (StringUtil.isNotEmpty(this.pinyin_name)) {
 				setFirst_char_header(this.pinyin_name.substring(0, 1));
 			} else {
-				String headerFirst = PinyinUtil
-						.str2PinyinHeaderFirst(client_name);
+				String headerFirst = PinyinUtil.str2PinyinHeaderFirst(client_name);
 				setFirst_char_header(headerFirst);
 			}
 		}

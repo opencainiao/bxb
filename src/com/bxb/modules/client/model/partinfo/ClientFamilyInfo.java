@@ -1,4 +1,4 @@
-package com.bxb.modules.client.model;
+package com.bxb.modules.client.model.partinfo;
 
 import java.util.ArrayList;
 import java.util.List;

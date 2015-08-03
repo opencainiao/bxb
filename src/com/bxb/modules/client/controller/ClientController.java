@@ -28,7 +28,7 @@ import com.bxb.common.util.propertyeditor.CustomerIntegerEditor;
 import com.bxb.common.util.propertyeditor.CustomerListEditor;
 import com.bxb.modules.base.BaseController;
 import com.bxb.modules.client.model.Client;
-import com.bxb.modules.client.model.ClientBaseInfo;
+import com.bxb.modules.client.model.partinfo.ClientBaseInfo;
 import com.bxb.modules.client.service.IClientService;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;

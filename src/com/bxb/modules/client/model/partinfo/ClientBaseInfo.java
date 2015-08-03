@@ -1,10 +1,13 @@
-package com.bxb.modules.client.model;
+package com.bxb.modules.client.model.partinfo;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import com.bxb.common.util.PinyinUtil;
 import com.bxb.modules.base.BaseModel;
+import com.bxb.modules.client.model.Address;
+import com.bxb.modules.client.model.Email;
+import com.bxb.modules.client.model.Phone;
 
 public class ClientBaseInfo extends BaseModel {
 

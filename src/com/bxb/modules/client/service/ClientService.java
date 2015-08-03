@@ -47,8 +47,7 @@ public class ClientService extends BaseService implements IClientService {
 	@Resource(name = "emailService")
 	private IEmailService emailService;
 
-	private static final Logger logger = LogManager
-			.getLogger(ClientService.class);
+	private static final Logger logger = LogManager.getLogger(ClientService.class);
 
 	@Override
 	public Client findOneByIdObject(String _id, boolean isRedisplay) {
@@ -63,18 +62,15 @@ public class ClientService extends BaseService implements IClientService {
 	}
 
 	@Override
-	public PageVO batchSearchPage(DBObject queryCondition, DBObject sort,
-			DBObject returnFields) {
+	public PageVO batchSearchPage(DBObject queryCondition, DBObject sort, DBObject returnFields) {
 
 		queryCondition.put("delflg", "0");
 
-		return this.clientdao.batchSearchPage(queryCondition, sort,
-				returnFields);
+		return this.clientdao.batchSearchPage(queryCondition, sort, returnFields);
 	}
 
 	@Override
-	public PageVO batchSearchOnePage(DBObject query, DBObject sort,
-			DBObject returnFields) {
+	public PageVO batchSearchOnePage(DBObject query, DBObject sort, DBObject returnFields) {
 
 		query.put("delflg", "0");
 
@@ -130,8 +126,7 @@ public class ClientService extends BaseService implements IClientService {
 	public DBObject updatePart(DBObject returnFields, Client client) {
 
 		DBObject toUpdate = makeUpdate(client);
-		return this.clientdao.updateOneById(client.get_id_m(), returnFields,
-				toUpdate);
+		return this.clientdao.updateOneById(client.get_id_m(), returnFields, toUpdate);
 	}
 
 	/****
@@ -180,8 +175,7 @@ public class ClientService extends BaseService implements IClientService {
 		queryCondition.put("useflg", "1");
 		queryCondition.put("delflg", "0");
 
-		DBObject result = this.clientdao.findOneByConditionPart(queryCondition,
-				returnFields);
+		DBObject result = this.clientdao.findOneByConditionPart(queryCondition, returnFields);
 
 		if (result != null && result.get("_id") != null) {
 			return result.get("_id").toString();
@@ -201,9 +195,7 @@ public class ClientService extends BaseService implements IClientService {
 		String education_type = client.getEducation_type();
 		if (StringUtil.isNotEmpty(education_type)) {
 			String education_type_name = sysConstService
-					.findDispValByTypecodAndVal(
-							SysConstTypeEnum.EDUCATION_TYPE.getCode(),
-							education_type);
+					.findDispValByTypecodAndVal(SysConstTypeEnum.EDUCATION_TYPE.getCode(), education_type);
 
 			client.setEducation_type_name(education_type_name);
 		}
@@ -212,18 +204,122 @@ public class ClientService extends BaseService implements IClientService {
 		String marital_status = client.getMarital_status();
 		if (StringUtil.isNotEmpty(marital_status)) {
 			String marital_status_name = sysConstService
-					.findDispValByTypecodAndVal(
-							SysConstTypeEnum.MARITAL_STATUS.getCode(),
-							marital_status);
+					.findDispValByTypecodAndVal(SysConstTypeEnum.MARITAL_STATUS.getCode(), marital_status);
 
 			client.setMarital_status_name(marital_status_name);
 		}
 
+		// 企业性质
+		String company_nature = client.getCompany_nature();
+		if (StringUtil.isNotEmpty(company_nature)) {
+			String company_nature_name = sysConstService
+					.findDispValByTypecodAndVal(SysConstTypeEnum.COMPANY_NATURE.getCode(), company_nature);
+
+			client.setCompany_nature_name(company_nature_name);
+		}
+
+		// 行业类型
+		String trade_type = client.getTrade_type();
+		if (StringUtil.isNotEmpty(trade_type)) {
+			String trade_type_name = sysConstService.findDispValByTypecodAndVal(SysConstTypeEnum.TRADE_TYPE.getCode(),
+					trade_type);
+
+			client.setTrade_type_name(trade_type_name);
+		}
+
+		// 职业类型
+		String career_type = client.getCareer_type();
+		if (StringUtil.isNotEmpty(career_type)) {
+			String career_type_name = sysConstService.findDispValByTypecodAndVal(SysConstTypeEnum.CAREER_TYPE.getCode(),
+					career_type);
+
+			client.setCareer_type_name(career_type_name);
+		}
+
+		// 职位
+		String job_position = client.getJob_position();
+		if (StringUtil.isNotEmpty(job_position)) {
+			String job_position_name = sysConstService
+					.findDispValByTypecodAndVal(SysConstTypeEnum.JOB_POSITION.getCode(), job_position);
+
+			client.setJob_position_name(job_position_name);
+		}
+
+		// 职级
+		String job_level = client.getJob_level();
+		if (StringUtil.isNotEmpty(job_level)) {
+			String job_level_name = sysConstService.findDispValByTypecodAndVal(SysConstTypeEnum.JOB_LEVEL.getCode(),
+					job_level);
+
+			client.setJob_level_name(job_level_name);
+		}
+
+		// （个人）年收入分类
+		String annual_income_personal_type = client.getAnnual_income_personal_type();
+		if (StringUtil.isNotEmpty(annual_income_personal_type)) {
+			String annual_income_personal_type_name = sysConstService.findDispValByTypecodAndVal(
+					SysConstTypeEnum.ANNUAL_INCOME_PERSONAL_TYPE.getCode(), annual_income_personal_type);
+
+			client.setAnnual_income_personal_type_name(annual_income_personal_type_name);
+		}
+
+		// （家庭）年收入分类
+		String annual_income_family_type = client.getAnnual_income_family_type();
+		if (StringUtil.isNotEmpty(annual_income_family_type)) {
+			String annual_income_family_type_name = sysConstService.findDispValByTypecodAndVal(
+					SysConstTypeEnum.ANNUAL_INCOME_FAMILY_TYPE.getCode(), annual_income_family_type);
+
+			client.setAnnual_income_family_type_name(annual_income_family_type_name);
+		}
+
+		// 家庭收入特点
+		String family_income_feature = client.getFamily_income_feature();
+		if (StringUtil.isNotEmpty(family_income_feature)) {
+			String family_income_feature_name = sysConstService.findDispValByTypecodAndVal(
+					SysConstTypeEnum.FAMILY_INCOME_FEATURE.getCode(), family_income_feature);
+
+			client.setFamily_income_feature_name(family_income_feature_name);
+		}
+
+		// 财务状况
+		String family_financial_standing = client.getFamily_financial_standing();
+		if (StringUtil.isNotEmpty(family_financial_standing)) {
+			String family_financial_standing_name = sysConstService.findDispValByTypecodAndVal(
+					SysConstTypeEnum.FAMILY_FINANCIAL_STANDING.getCode(), family_financial_standing);
+
+			client.setFamily_financial_standing_name(family_financial_standing_name);
+		}
+
+		// 客户来源
+		String source_type = client.getSource_type();
+		if (StringUtil.isNotEmpty(source_type)) {
+			String source_type_name = sysConstService.findDispValByTypecodAndVal(SysConstTypeEnum.SOURCE_TYPE.getCode(),
+					source_type);
+
+			client.setSource_type_name(source_type_name);
+		}
+
+		// 与介绍人关系
+		String introducer_relationship = client.getIntroducer_relationship();
+		if (StringUtil.isNotEmpty(introducer_relationship)) {
+			String introducer_relationship_name = sysConstService.findDispValByTypecodAndVal(
+					SysConstTypeEnum.INTRODUCER_RELATIONSHIP.getCode(), introducer_relationship);
+
+			client.setIntroducer_relationship_name(introducer_relationship_name);
+		}
+
+		// 与介绍人亲密度
+		String introducer_closeness = client.getIntroducer_relationship();
+		if (StringUtil.isNotEmpty(introducer_closeness)) {
+			String introducer_closeness_name = sysConstService
+					.findDispValByTypecodAndVal(SysConstTypeEnum.INTRODUCER_CLOSENESS.getCode(), introducer_closeness);
+
+			client.setIntroducer_closeness_name(introducer_closeness_name);
+		}
 	}
 
 	@Override
-	public List<DBObject> findAllClientsByUserId(String userId,
-			String last_op_time) {
+	public List<DBObject> findAllClientsByUserId(String userId, String last_op_time) {
 
 		DBObject query = new BasicDBObject();
 		query.put("owner_user_id", userId);
@@ -233,8 +329,7 @@ public class ClientService extends BaseService implements IClientService {
 			last_op_time = last_op_time.trim();
 			if (last_op_time.length() >= 10) {
 				query.put("last_op_date", last_op_time.substring(0, 10));
-				query.put("last_op_time", new BasicDBObject("$gte",
-						last_op_time));
+				query.put("last_op_time", new BasicDBObject("$gte", last_op_time));
 			}
 		}
 
@@ -250,8 +345,7 @@ public class ClientService extends BaseService implements IClientService {
 
 		query.put("delflg", "0");
 
-		Client client = this.clientdao.findOneByConditionObject(query,
-				Client.class);
+		Client client = this.clientdao.findOneByConditionObject(query, Client.class);
 
 		if (client != null && isRedisplay) {
 			this.reDisplay(client);
