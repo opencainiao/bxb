@@ -3,7 +3,7 @@ package com.bxb.modules.client.enumes;
 import org.mou.common.StringUtil;
 
 /****
- * 性别
+ * 客户个人信息的维度（彼此没有交叉）
  * 
  * @author NBQ
  *
