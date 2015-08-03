@@ -64,6 +64,7 @@ public class Client extends BaseModel {
 	private String service_served; // 已提供的服务
 
 	private String education_type_name; // 教育程度
+	private String marital_status_name; // 婚姻状况
 
 	private String pinyin_name;// 姓名拼音， 比如：ZHANGSAN
 	private String first_char_header;// 姓名拼音第一个首字母， 比如：Z
@@ -487,6 +488,14 @@ public class Client extends BaseModel {
 
 	public void setAll_char_header(String all_char_header) {
 		this.all_char_header = all_char_header;
+	}
+
+	public String getMarital_status_name() {
+		return marital_status_name;
+	}
+
+	public void setMarital_status_name(String marital_status_name) {
+		this.marital_status_name = marital_status_name;
 	}
 
 	public void setPinYin() {

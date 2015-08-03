@@ -207,6 +207,18 @@ public class ClientService extends BaseService implements IClientService {
 
 			client.setEducation_type_name(education_type_name);
 		}
+
+		// 婚姻状况
+		String marital_status = client.getMarital_status();
+		if (StringUtil.isNotEmpty(marital_status)) {
+			String marital_status_name = sysConstService
+					.findDispValByTypecodAndVal(
+							SysConstTypeEnum.MARITAL_STATUS.getCode(),
+							marital_status);
+
+			client.setMarital_status_name(marital_status_name);
+		}
+
 	}
 
 	@Override

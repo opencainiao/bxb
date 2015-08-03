@@ -19,7 +19,7 @@ import com.bxb.common.globalobj.RequestResult;
 import com.bxb.modules.base.BaseController;
 import com.bxb.modules.client.model.Client;
 import com.bxb.modules.client.service.IClientService;
-import com.bxb.modules.client.service.IModifyClientInfoService;
+import com.bxb.modules.client.service.modifyclientinfo.IModifyClientInfoService;
 import com.mongodb.DBObject;
 
 /****

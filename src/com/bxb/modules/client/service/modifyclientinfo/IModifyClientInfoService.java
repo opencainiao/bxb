@@ -1,4 +1,4 @@
-package com.bxb.modules.client.service;
+package com.bxb.modules.client.service.modifyclientinfo;
 
 import com.bxb.modules.client.model.Client;
 import com.mongodb.DBObject;

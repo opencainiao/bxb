@@ -160,7 +160,7 @@ public class SysConstService extends BaseService implements ISysConstService {
 		DBObject queryCondition = new BasicDBObject();
 		queryCondition.put("typecode", typecode);
 		queryCondition.put("useflg", "1");
-		
+
 		DBObject sort = new BasicDBObject();
 		sort.put("valordernum", 1);
 
@@ -180,6 +180,9 @@ public class SysConstService extends BaseService implements ISysConstService {
 	@Override
 	public String findDispValByTypecodAndVal(String typecode, String val) {
 
+		// 1.查缓存
+
+		// 2.查数据库
 		DBObject returnFields = new BasicDBObject();
 		returnFields.put("_id", 0);
 		returnFields.put("dspval", 1);

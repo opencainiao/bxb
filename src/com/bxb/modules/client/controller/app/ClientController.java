@@ -27,7 +27,7 @@ import com.bxb.modules.base.BaseController;
 import com.bxb.modules.client.enumes.PartFlgEnum;
 import com.bxb.modules.client.model.Client;
 import com.bxb.modules.client.service.IClientService;
-import com.bxb.modules.client.service.IModifyClientInfoService;
+import com.bxb.modules.client.service.modifyclientinfo.IModifyClientInfoService;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 
@@ -318,7 +318,7 @@ public class ClientController extends BaseController {
 			modifyClientInfoService = (IModifyClientInfoService) WebContextUtil.getBean("clientBaseInfoService");
 
 		} else if (part_flg.equals(PartFlgEnum.FAMILLY.getCode())) {
-			modifyClientInfoService = (IModifyClientInfoService) WebContextUtil.getBean("clientFamillyInfoService");
+			modifyClientInfoService = (IModifyClientInfoService) WebContextUtil.getBean("clientFamilyInfoService");
 
 		} else if (part_flg.equals(PartFlgEnum.WORK.getCode())) {
 			modifyClientInfoService = (IModifyClientInfoService) WebContextUtil.getBean("clientWorkInfoService");
