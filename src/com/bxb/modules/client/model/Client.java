@@ -82,6 +82,25 @@ public class Client extends BaseModel {
 	private String introducer_relationship_name; // 与介绍人关系
 	private String introducer_closeness_name; // 与介绍人亲密度
 
+	private String contact_type_name; // 可接触度
+
+	private String birth_ages_name;// 出生年代
+	private String age_group_name; // 年龄段
+	private String constellation_name; // 星座
+	private String blood_group_name; // 血型
+	private String temperament_type_name; // 性格特点
+	private String pdp_type_name; // PDP类型
+
+	private String interesting_service_name; // 关注的服务
+
+	public String getContact_type_name() {
+		return contact_type_name;
+	}
+
+	public void setContact_type_name(String contact_type_name) {
+		this.contact_type_name = contact_type_name;
+	}
+
 	private String pinyin_name;// 姓名拼音， 比如：ZHANGSAN
 	private String first_char_header;// 姓名拼音第一个首字母， 比如：Z
 	private String all_char_header;// 姓名拼音首字母， 比如：ZS
@@ -103,7 +122,8 @@ public class Client extends BaseModel {
 		return introducer_relationship_name;
 	}
 
-	public void setIntroducer_relationship_name(String introducer_relationship_name) {
+	public void setIntroducer_relationship_name(
+			String introducer_relationship_name) {
 		this.introducer_relationship_name = introducer_relationship_name;
 	}
 
@@ -285,7 +305,8 @@ public class Client extends BaseModel {
 		return annual_income_personal_type;
 	}
 
-	public void setAnnual_income_personal_type(String annual_income_personal_type) {
+	public void setAnnual_income_personal_type(
+			String annual_income_personal_type) {
 		this.annual_income_personal_type = annual_income_personal_type;
 	}
 
@@ -581,7 +602,8 @@ public class Client extends BaseModel {
 		return annual_income_personal_type_name;
 	}
 
-	public void setAnnual_income_personal_type_name(String annual_income_personal_type_name) {
+	public void setAnnual_income_personal_type_name(
+			String annual_income_personal_type_name) {
 		this.annual_income_personal_type_name = annual_income_personal_type_name;
 	}
 
@@ -589,7 +611,8 @@ public class Client extends BaseModel {
 		return annual_income_family_type_name;
 	}
 
-	public void setAnnual_income_family_type_name(String annual_income_family_type_name) {
+	public void setAnnual_income_family_type_name(
+			String annual_income_family_type_name) {
 		this.annual_income_family_type_name = annual_income_family_type_name;
 	}
 
@@ -597,7 +620,8 @@ public class Client extends BaseModel {
 		return family_financial_standing_name;
 	}
 
-	public void setFamily_financial_standing_name(String family_financial_standing_name) {
+	public void setFamily_financial_standing_name(
+			String family_financial_standing_name) {
 		this.family_financial_standing_name = family_financial_standing_name;
 	}
 
@@ -607,6 +631,62 @@ public class Client extends BaseModel {
 
 	public void setFamily_income_feature_name(String family_income_feature_name) {
 		this.family_income_feature_name = family_income_feature_name;
+	}
+
+	public String getBirth_ages_name() {
+		return birth_ages_name;
+	}
+
+	public void setBirth_ages_name(String birth_ages_name) {
+		this.birth_ages_name = birth_ages_name;
+	}
+
+	public String getAge_group_name() {
+		return age_group_name;
+	}
+
+	public void setAge_group_name(String age_group_name) {
+		this.age_group_name = age_group_name;
+	}
+
+	public String getConstellation_name() {
+		return constellation_name;
+	}
+
+	public void setConstellation_name(String constellation_name) {
+		this.constellation_name = constellation_name;
+	}
+
+	public String getBlood_group_name() {
+		return blood_group_name;
+	}
+
+	public void setBlood_group_name(String blood_group_name) {
+		this.blood_group_name = blood_group_name;
+	}
+
+	public String getTemperament_type_name() {
+		return temperament_type_name;
+	}
+
+	public void setTemperament_type_name(String temperament_type_name) {
+		this.temperament_type_name = temperament_type_name;
+	}
+
+	public String getPdp_type_name() {
+		return pdp_type_name;
+	}
+
+	public void setPdp_type_name(String pdp_type_name) {
+		this.pdp_type_name = pdp_type_name;
+	}
+
+	public String getInteresting_service_name() {
+		return interesting_service_name;
+	}
+
+	public void setInteresting_service_name(String interesting_service_name) {
+		this.interesting_service_name = interesting_service_name;
 	}
 
 	public void setPinYin() {
@@ -628,7 +708,8 @@ public class Client extends BaseModel {
 			if (StringUtil.isNotEmpty(this.pinyin_name)) {
 				setFirst_char_header(this.pinyin_name.substring(0, 1));
 			} else {
-				String headerFirst = PinyinUtil.str2PinyinHeaderFirst(client_name);
+				String headerFirst = PinyinUtil
+						.str2PinyinHeaderFirst(client_name);
 				setFirst_char_header(headerFirst);
 			}
 		}

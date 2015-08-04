@@ -15,7 +15,9 @@ public class ClientSourceInfo extends BaseModel {
 		titles.add("introducer_relationship_name");
 		titles.add("introducer_closeness");
 		titles.add("introducer_evaluation");
-
+		titles.add("contact_type_name");
+		titles.add("contact_attention");
+		
 		return titles;
 	}
 
@@ -27,6 +29,8 @@ public class ClientSourceInfo extends BaseModel {
 		titleNames.add("与介绍人关系");
 		titleNames.add("与介绍人亲密度");
 		titleNames.add("介绍人评价");
+		titleNames.add("可接触度");
+		titleNames.add("联系注意问题");
 		
 		return titleNames;
 	}

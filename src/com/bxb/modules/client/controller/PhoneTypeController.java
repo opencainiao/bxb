@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.bxb.common.globalhandler.ErrorHandler;
 import com.bxb.common.globalobj.RequestResult;
-import com.bxb.common.globalobj.ValidResult;
 import com.bxb.common.util.HttpServletRequestUtil;
 import com.bxb.common.util.RegexPatternUtil;
 import com.bxb.modules.base.BaseController;
@@ -46,6 +45,7 @@ public class PhoneTypeController extends BaseController {
 	@Resource(name = "phoneTypeService")
 	private IPhoneTypeService phoneTypeService;
 
+	
 	/****
 	 * 进入添加手机类型页面
 	 * 

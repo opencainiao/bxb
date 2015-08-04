@@ -11,13 +11,13 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 
 /****
- * 客户来源信息服务实现
+ * 客户性格信息服务实现
  * 
  * @author NBQ
  *
  */
-@Service("clientSourceInfoService")
-public class ClientSourceInfoService extends BaseService implements
+@Service("clientXgInfoService")
+public class ClientXgInfoService extends BaseService implements
 		IModifyClientInfoService {
 
 	@Resource(name = "clientdao")
@@ -44,13 +44,13 @@ public class ClientSourceInfoService extends BaseService implements
 		DBObject update = new BasicDBObject();
 		DBObject updateSet = new BasicDBObject();
 
-		updateSet.put("source_type", client.getSource_type());
-		updateSet.put("introducer_name", client.getIntroducer_name());
-		updateSet.put("introducer_relationship", client.getIntroducer_relationship());
-		updateSet.put("introducer_closeness", client.getIntroducer_closeness());
-		updateSet.put("introducer_evaluation", client.getIntroducer_evaluation());
-		updateSet.put("contact_type", client.getContact_type());
-		updateSet.put("contact_attention", client.getContact_attention());
+		updateSet.put("birth_ages", client.getBirth_ages());
+		updateSet.put("age_group", client.getAge_group());
+		updateSet.put("constellation", client.getConstellation());
+		updateSet.put("blood_group", client.getBlood_group());
+		updateSet.put("temperament_type", client.getTemperament_type());
+		updateSet.put("pdp_type", client.getPdp_type());
+		updateSet.put("hobbies", client.getHobbies());
 
 		this.setModifyInfoWithUserId(updateSet, client.getOwner_user_id());
 		update.put("$set", updateSet);
