@@ -19,7 +19,7 @@
 <body>
 	<input type="hidden" name="ctx" value="<%=request.getContextPath()%>" />
 	<input type="hidden" name="_id" value="${clientbaseinfo._id}" />
-	
+
 	<sf:form modelAttribute="clientbaseinfo">
 		<div class="container-fluid" style="margin-top: 30px">
 			<div class="row">
@@ -38,8 +38,10 @@
 							<div class="form-group form-group-sm  ">
 								<label for="sex" class="col-sm-3 control-label">性别 </label>
 								<div class="col-sm-8">
-									<input type="text" class="form-control" id="sex" name="sex"
-										value="${clientbaseinfo.sex}" placeholder="">
+									<select id="sex" name="sex" class="form-control" data-value="${clientbaseinfo.sex}">
+										<option value="1">男</option>
+										<option value="0">女</option>
+									</select>
 								</div>
 							</div>
 							<div class="form-group form-group-sm  ">
@@ -52,6 +54,18 @@
 								</div>
 							</div>
 							<div class="form-group form-group-sm  ">
+								<label for="region_code" class="col-sm-3 control-label">
+									地区 </label>
+								<div class="col-sm-8">
+									<div class="input-group">
+										<select id="province" name="province" class="form-control"></select>
+									</div>
+									<div class="input-group"  style="margin-top: 3px;">
+										<select id="city" name="city" class="form-control"></select>
+									</div>
+								</div>
+							</div>
+							<div class="form-group form-group-sm  ">
 								<label for="phone_info" class="col-sm-3 control-label">
 									电话 </label>
 								<div class="col-sm-8">
@@ -60,30 +74,8 @@
 										placeholder="">
 								</div>
 							</div>
-							<div class="form-group form-group-sm  ">
-								<label for="region_code" class="col-sm-3 control-label">
-									地区 </label>
-								<div class="col-md-4">
-									<div class="input-group">
-										<select id="province" name="province" class="form-control"></select>
-									</div>
-								</div>
+							
 
-								<div class="col-md-4">
-									<div class="input-group">
-										<select id="city" name="city" class="form-control"></select>
-									</div>
-								</div>
-							</div>
-							<div class="form-group form-group-sm  ">
-								<label for="education_type" class="col-sm-3 control-label">
-									教育程度 </label>
-								<div class="col-sm-8">
-									<select id="education_type" name="education_type"
-										class="form-control"
-										data-value="${clientbaseinfo.education_type}"></select>
-								</div>
-							</div>
 						</div>
 
 					</div>
@@ -111,6 +103,24 @@
 									</div>
 								</div>
 								<div class="form-group form-group-sm  ">
+									<label for="education_type" class="col-sm-3 control-label">
+										教育程度 </label>
+									<div class="col-sm-8">
+										<select id="education_type" name="education_type"
+											class="form-control"
+											data-value="${clientbaseinfo.education_type}"></select>
+									</div>
+								</div>
+								<div class="form-group form-group-sm  ">
+									<label for="region_type" class="col-sm-3 control-label">
+										地区分类 </label>
+									<div class="col-sm-8">
+										<input type="text" class="form-control" id="region_type"
+											name="region_type" value="${clientbaseinfo.region_type}"
+											placeholder="">
+									</div>
+								</div>
+								<div class="form-group form-group-sm  ">
 									<label for="email_info" class="col-sm-3 control-label">
 										邮箱 </label>
 									<div class="col-sm-8">
@@ -128,15 +138,7 @@
 											placeholder="">
 									</div>
 								</div>
-								<div class="form-group form-group-sm  ">
-									<label for="region_type" class="col-sm-3 control-label">
-										地区分类 </label>
-									<div class="col-sm-8">
-										<input type="text" class="form-control" id="region_type"
-											name="region_type" value="${clientbaseinfo.region_type}"
-											placeholder="">
-									</div>
-								</div>
+								
 							</div>
 						</div>
 					</div>
@@ -205,7 +207,7 @@
 
 		function iniCity(province_id) {
 
-			var url = $.getSitePath() + '/backend/city/list_by_pid?parent_id=' 
+			var url = $.getSitePath() + '/backend/city/list_by_pid?parent_id='
 					+ province_id + '&ts=' + new Date().getTime();
 
 			$.ajax({
@@ -239,7 +241,8 @@
 
 		function iniEducationType() {
 
-			var url = $.getSitePath() + '/backend/sysconst/all_const_of_consttype?typecode=EDUCATION_TYPE';
+			var url = $.getSitePath()
+					+ '/backend/sysconst/all_const_of_consttype?typecode=EDUCATION_TYPE';
 
 			$.ajax({
 				type : 'POST',
@@ -248,7 +251,7 @@
 				dataType : 'json',
 				success : function(data) {
 
-					if (!$.isArray(data)){
+					if (!$.isArray(data)) {
 						alert(data["message"]);
 						return;
 					}
@@ -258,8 +261,7 @@
 						"value" : "val"
 					}
 
-					$("#education_type").iniSelect_noAll(data_remote,
-							setting);
+					$("#education_type").iniSelect_noAll(data_remote, setting);
 
 					// 设置值
 					var val = $("#education_type").attr("data-value");
@@ -270,8 +272,10 @@
 				}
 			});
 		}
-
+		
 		$().ready(function() {
+
+			$("#sex").setSelectedValue($("#sex").attr("data-value"));
 
 			iniProvince();
 

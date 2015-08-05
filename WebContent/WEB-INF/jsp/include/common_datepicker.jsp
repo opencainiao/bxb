@@ -48,6 +48,6 @@ div.laydate_bottom {
 }
 
 input.dateipt {
-	height: 35px !important;
+	height: 30px !important;
 }
 </style>
