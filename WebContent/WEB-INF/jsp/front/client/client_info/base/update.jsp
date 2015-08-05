@@ -244,9 +244,6 @@
 			$.ajax({
 				type : 'POST',
 				url : url,
-				data : {
-					ts : new Date().getTime()
-				},
 				type : 'POST',
 				dataType : 'json',
 				success : function(data) {
@@ -255,7 +252,6 @@
 						alert(data["message"]);
 						return;
 					}
-					//$.alertObjJson(data);
 					var data_remote = data;
 					var setting = {
 						"text" : "dspval",
