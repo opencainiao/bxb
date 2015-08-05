@@ -150,7 +150,64 @@ function refreshBase(){
     });
 }
 
-//-----------------------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------------------------income
+
+var income_prop_title = [];
+<c:forEach var="title" items="${income_prop_title}">
+	income_prop_title.push("${title}");
+</c:forEach>
+//alert(base_prop_title.join("\n"));
+
+var income_prop_name = [];
+<c:forEach var="title_name" items="${income_prop_name}">
+	income_prop_name.push("${title_name}");
+</c:forEach>
+//$.alertObjJson(base_prop_name);
+
+// 生成模块内容
+function genIncomeContent(client){
+	var content = genContent(client,income_prop_title,income_prop_name);
+	$("#income_info_content").html(content);
+}
+
+function toEditIncome(){
+	
+	var url = $.getSitePath() + '/client_income_info/' + $("#_id_m").val() + "/update";
+	$.popUpWindow("编辑客户收入信息", url, "70%", "80%", "edit", $("#edit_income"));
+}
+
+function closeEditIncome(){
+	$.closeWindow("edit", $("#edit_income"));
+}
+function initIncome(){
+	genIncomeContent(client);
+	
+	$('#edit_income').unbind();
+	$("#edit_income").bind("click", toEditIncome);
+}
+
+function refreshIncome(){
+	
+	var url_to = $.getSitePath() + '/client_income_info/${client._id }';
+	
+	 $.ajax({
+        type: 'POST',
+        url: url_to,
+        data: {
+            ts: new Date().getTime()
+        },
+        type: 'POST',
+        dataType: 'json',
+        success: function(data) {
+       	   client = data;
+       	   initIncome();
+        },
+        complete: function(XMLHttpRequest, textStatus) {
+        }
+    });
+}
+
+//-----------------------------------------------------------------------------------------------family
 
 var family_prop_title = [];
 <c:forEach var="title" items="${family_prop_title}">
@@ -160,24 +217,20 @@ var family_prop_title = [];
 
 var family_prop_name = [];
 <c:forEach var="title_name" items="${family_prop_name}">
-	base_prop_name.push("${title_name}");
+	family_prop_name.push("${title_name}");
 </c:forEach>
 //$.alertObjJson(base_prop_name);
 
 // 生成基本模块内容
 function genFamilyContent(client){
 	var content = genContent(client,family_prop_title,family_prop_name);
-	
 	$("#family_info_content").html(content);
 }
 
 function toEditFamily(){
 	
-	
 	var url = $.getSitePath() + '/client_family_info/' + $("#_id_m").val() + "/update";
-	
 	//alert(url);
-
 	$.popUpWindow("编辑客户家庭信息", url, "70%", "80%", "edit", $("#edit_family"));
 }
 
@@ -213,12 +266,179 @@ function refreshFamily(){
     });
 }
 
+//-----------------------------------------------------------------------------------------------source
 
+var source_prop_title = [];
+<c:forEach var="title" items="${source_prop_title}">
+	source_prop_title.push("${title}");
+</c:forEach>
+
+var source_prop_name = [];
+<c:forEach var="title_name" items="${source_prop_name}">
+	source_prop_name.push("${title_name}");
+</c:forEach>
+
+// 生成模块内容
+function genSourceContent(client){
+	var content = genContent(client,source_prop_title,source_prop_name);
+	$("#source_info_content").html(content);
+}
+
+function toEditSource(){
+	
+	var url = $.getSitePath() + '/client_source_info/' + $("#_id_m").val() + "/update";
+	$.popUpWindow("编辑客户收入信息", url, "70%", "80%", "edit", $("#edit_source"));
+}
+
+function closeEditSource(){
+	$.closeWindow("edit", $("#edit_source"));
+}
+function initSource(){
+	genSourceContent(client);
+	
+	$('#edit_source').unbind();
+	$("#edit_source").bind("click", toEditSource);
+}
+
+function refreshSource(){
+	
+	var url_to = $.getSitePath() + '/client_source_info/${client._id }';
+	
+	 $.ajax({
+        type: 'POST',
+        url: url_to,
+        data: {
+            ts: new Date().getTime()
+        },
+        type: 'POST',
+        dataType: 'json',
+        success: function(data) {
+       	   client = data;
+       	   initSource();
+        },
+        complete: function(XMLHttpRequest, textStatus) {
+        }
+    });
+}
+
+//-----------------------------------------------------------------------------------------------work
+
+var work_prop_title = [];
+<c:forEach var="title" items="${work_prop_title}">
+	work_prop_title.push("${title}");
+</c:forEach>
+
+var work_prop_name = [];
+<c:forEach var="title_name" items="${work_prop_name}">
+	work_prop_name.push("${title_name}");
+</c:forEach>
+
+// 生成模块内容
+function genWorkContent(client){
+	var content = genContent(client,work_prop_title,work_prop_name);
+	$("#work_info_content").html(content);
+}
+
+function toEditWork(){
+	
+	var url = $.getSitePath() + '/client_work_info/' + $("#_id_m").val() + "/update";
+	$.popUpWindow("编辑客户收入信息", url, "70%", "80%", "edit", $("#edit_work"));
+}
+
+function closeEditWork(){
+	$.closeWindow("edit", $("#edit_work"));
+}
+function initWork(){
+	genWorkContent(client);
+	
+	$('#edit_work').unbind();
+	$("#edit_work").bind("click", toEditWork);
+}
+
+function refreshWork(){
+	
+	var url_to = $.getSitePath() + '/client_work_info/${client._id }';
+	
+	 $.ajax({
+        type: 'POST',
+        url: url_to,
+        data: {
+            ts: new Date().getTime()
+        },
+        type: 'POST',
+        dataType: 'json',
+        success: function(data) {
+       	   client = data;
+       	   initWork();
+        },
+        complete: function(XMLHttpRequest, textStatus) {
+        }
+    });
+}
+
+//-----------------------------------------------------------------------------------------------xg
+
+var xg_prop_title = [];
+<c:forEach var="title" items="${xg_prop_title}">
+	xg_prop_title.push("${title}");
+</c:forEach>
+
+var xg_prop_name = [];
+<c:forEach var="title_name" items="${xg_prop_name}">
+	xg_prop_name.push("${title_name}");
+</c:forEach>
+
+// 生成模块内容
+function genXgContent(client){
+	var content = genContent(client,xg_prop_title,xg_prop_name);
+	$("#xg_info_content").html(content);
+}
+
+function toEditXg(){
+	
+	var url = $.getSitePath() + '/client_xg_info/' + $("#_id_m").val() + "/update";
+	$.popUpWindow("编辑客户收入信息", url, "70%", "80%", "edit", $("#edit_xg"));
+}
+
+function closeEditXg(){
+	$.closeWindow("edit", $("#edit_xg"));
+}
+function initXg(){
+	genXgContent(client);
+	
+	$('#edit_xg').unbind();
+	$("#edit_xg").bind("click", toEditXg);
+}
+
+function refreshXg(){
+	
+	var url_to = $.getSitePath() + '/client_xg_info/${client._id }';
+	
+	 $.ajax({
+        type: 'POST',
+        url: url_to,
+        data: {
+            ts: new Date().getTime()
+        },
+        type: 'POST',
+        dataType: 'json',
+        success: function(data) {
+       	   client = data;
+       	   initXg();
+        },
+        complete: function(XMLHttpRequest, textStatus) {
+        }
+    });
+}
 
 $().ready(function() {
 	
 	initBase();
 	initFamily();
+	initIncome();
+	initSource();
+	initWork();
+	initXg();
 });
 
 </script>
@@ -250,9 +470,8 @@ $().ready(function() {
 		   		<div class="row">
 		   			<div class="col-md-9 col-md-offset-3">
 		   				<div class="panel panel-info">
-							<div class="panel-heading">基本信息</div>
-							<div class="panel-body">
-								3
+							<div class="panel-heading">收入相关<button type="button" id="edit_income" class="btn btn-default pull-right">编辑</button></div>
+							<div class="panel-body" id="income_info_content">
 							</div>
 						</div>
 		   			</div>
@@ -266,9 +485,8 @@ $().ready(function() {
 		   		<div class="row">
 		   			<div class="col-md-9 ">
 		   				<div class="panel panel-info">
-							<div class="panel-heading">基本信息</div>
-							<div class="panel-body">
-								<jsp:include page="/WEB-INF/jsp/front/client/client_info/base/detail.jsp" flush="true"/>
+							<div class="panel-heading">来源信息<button type="button" id="edit_source" class="btn btn-default pull-right">编辑</button></div>
+							<div class="panel-body" id="source_info_content">
 							</div>
 						</div>
 		   			</div>
@@ -276,9 +494,8 @@ $().ready(function() {
 		   		<div class="row">
 		   			<div class="col-md-9 ">
 		   				<div class="panel panel-info">
-							<div class="panel-heading">基本信息</div>
-							<div class="panel-body">
-								2
+							<div class="panel-heading">工作信息<button type="button" id="edit_work" class="btn btn-default pull-right">编辑</button></div>
+							<div class="panel-body" id="work_info_content">
 							</div>
 						</div>
 		   			</div>
@@ -286,9 +503,8 @@ $().ready(function() {
 		   		<div class="row">
 		   			<div class="col-md-9 ">
 		   				<div class="panel panel-info">
-							<div class="panel-heading">基本信息</div>
-							<div class="panel-body">
-								3
+							<div class="panel-heading">性格相关<button type="button" id="edit_xg" class="btn btn-default pull-right">编辑</button></div>
+							<div class="panel-body" id="xg_info_content">
 							</div>
 						</div>
 		   			</div>
@@ -301,345 +517,5 @@ $().ready(function() {
 
 
 
-	<div class="container-fluid inlineone" style="margin-top: 30px">
-		<div class="col form-horizontal center-block " style="width: 400px">
-							<div class="form-group ">
-					<label for="owner_user_id" class="col-sm-3 control-label"> 归属用户id </label>
-					<div>
-						<input type="text" class="form-control" id="owner_user_id"
-							name="owner_user_id" value="${client.owner_user_id}" readonly>
-					</div>
-				</div>
-				<div class="form-group ">
-					<label for="client_name" class="col-sm-3 control-label"> 姓名 </label>
-					<div>
-						<input type="text" class="form-control" id="client_name"
-							name="client_name" value="${client.client_name}" readonly>
-					</div>
-				</div>
-				<div class="form-group ">
-					<label for="sex" class="col-sm-3 control-label"> 性别 </label>
-					<div>
-						<input type="text" class="form-control" id="sex"
-							name="sex" value="${client.sex}" readonly>
-					</div>
-				</div>
-				<div class="form-group ">
-					<label for="id_number" class="col-sm-3 control-label"> 身份证号 </label>
-					<div>
-						<input type="text" class="form-control" id="id_number"
-							name="id_number" value="${client.id_number}" readonly>
-					</div>
-				</div>
-				<div class="form-group ">
-					<label for="birth_date" class="col-sm-3 control-label"> 生日 </label>
-					<div>
-						<input type="text" class="form-control" id="birth_date"
-							name="birth_date" value="${client.birth_date}" readonly>
-					</div>
-				</div>
-				<div class="form-group ">
-					<label for="age" class="col-sm-3 control-label"> 年龄 </label>
-					<div>
-						<input type="text" class="form-control" id="age"
-							name="age" value="${client.age}" readonly>
-					</div>
-				</div>
-				<div class="form-group ">
-					<label for="address_info" class="col-sm-3 control-label"> 客户的地址信息 </label>
-					<div>
-						<input type="text" class="form-control" id="address_info"
-							name="address_info" value="${client.address_info}" readonly>
-					</div>
-				</div>
-				<div class="form-group ">
-					<label for="phone_info" class="col-sm-3 control-label"> 客户的电话信息 </label>
-					<div>
-						<input type="text" class="form-control" id="phone_info"
-							name="phone_info" value="${client.phone_info}" readonly>
-					</div>
-				</div>
-				<div class="form-group ">
-					<label for="email_info" class="col-sm-3 control-label"> 客户的邮箱信息 </label>
-					<div>
-						<input type="text" class="form-control" id="email_info"
-							name="email_info" value="${client.email_info}" readonly>
-					</div>
-				</div>
-				<div class="form-group ">
-					<label for="region_code" class="col-sm-3 control-label"> 地区码 </label>
-					<div>
-						<input type="text" class="form-control" id="region_code"
-							name="region_code" value="${client.region_code}" readonly>
-					</div>
-				</div>
-				<div class="form-group ">
-					<label for="region_name" class="col-sm-3 control-label"> 地区名 </label>
-					<div>
-						<input type="text" class="form-control" id="region_name"
-							name="region_name" value="${client.region_name}" readonly>
-					</div>
-				</div>
-				<div class="form-group ">
-					<label for="region_type" class="col-sm-3 control-label"> 地区分类 </label>
-					<div>
-						<input type="text" class="form-control" id="region_type"
-							name="region_type" value="${client.region_type}" readonly>
-					</div>
-				</div>
-				<div class="form-group ">
-					<label for="education_type" class="col-sm-3 control-label"> 教育程度分类 </label>
-					<div>
-						<input type="text" class="form-control" id="education_type"
-							name="education_type" value="${client.education_type}" readonly>
-					</div>
-				</div>
-				<div class="form-group ">
-					<label for="name_card_id" class="col-sm-3 control-label"> 名片id </label>
-					<div>
-						<input type="text" class="form-control" id="name_card_id"
-							name="name_card_id" value="${client.name_card_id}" readonly>
-					</div>
-				</div>
-				<div class="form-group ">
-					<label for="company" class="col-sm-3 control-label"> 工作单位 </label>
-					<div>
-						<input type="text" class="form-control" id="company"
-							name="company" value="${client.company}" readonly>
-					</div>
-				</div>
-				<div class="form-group ">
-					<label for="company_nature" class="col-sm-3 control-label"> 企业性质 </label>
-					<div>
-						<input type="text" class="form-control" id="company_nature"
-							name="company_nature" value="${client.company_nature}" readonly>
-					</div>
-				</div>
-				<div class="form-group ">
-					<label for="trade_type" class="col-sm-3 control-label"> 行业类型 </label>
-					<div>
-						<input type="text" class="form-control" id="trade_type"
-							name="trade_type" value="${client.trade_type}" readonly>
-					</div>
-				</div>
-				<div class="form-group ">
-					<label for="career_type" class="col-sm-3 control-label"> 职业类型 </label>
-					<div>
-						<input type="text" class="form-control" id="career_type"
-							name="career_type" value="${client.career_type}" readonly>
-					</div>
-				</div>
-				<div class="form-group ">
-					<label for="job_position" class="col-sm-3 control-label"> 职位 </label>
-					<div>
-						<input type="text" class="form-control" id="job_position"
-							name="job_position" value="${client.job_position}" readonly>
-					</div>
-				</div>
-				<div class="form-group ">
-					<label for="job_level" class="col-sm-3 control-label"> 职级 </label>
-					<div>
-						<input type="text" class="form-control" id="job_level"
-							name="job_level" value="${client.job_level}" readonly>
-					</div>
-				</div>
-				<div class="form-group ">
-					<label for="marital_status" class="col-sm-3 control-label"> 婚姻状况 </label>
-					<div>
-						<input type="text" class="form-control" id="marital_status"
-							name="marital_status" value="${client.marital_status}" readonly>
-					</div>
-				</div>
-				<div class="form-group ">
-					<label for="wedding_date" class="col-sm-3 control-label"> 结婚日期 </label>
-					<div>
-						<input type="text" class="form-control" id="wedding_date"
-							name="wedding_date" value="${client.wedding_date}" readonly>
-					</div>
-				</div>
-				<div class="form-group ">
-					<label for="boy_num" class="col-sm-3 control-label"> 男孩数 </label>
-					<div>
-						<input type="text" class="form-control" id="boy_num"
-							name="boy_num" value="${client.boy_num}" readonly>
-					</div>
-				</div>
-				<div class="form-group ">
-					<label for="girl_num" class="col-sm-3 control-label"> 女孩数 </label>
-					<div>
-						<input type="text" class="form-control" id="girl_num"
-							name="girl_num" value="${client.girl_num}" readonly>
-					</div>
-				</div>
-				<div class="form-group ">
-					<label for="children_num" class="col-sm-3 control-label"> 子女数 </label>
-					<div>
-						<input type="text" class="form-control" id="children_num"
-							name="children_num" value="${client.children_num}" readonly>
-					</div>
-				</div>
-				<div class="form-group ">
-					<label for="annual_income_personal" class="col-sm-3 control-label"> 个人年收入 </label>
-					<div>
-						<input type="text" class="form-control" id="annual_income_personal"
-							name="annual_income_personal" value="${client.annual_income_personal}" readonly>
-					</div>
-				</div>
-				<div class="form-group ">
-					<label for="annual_income_personal_type" class="col-sm-3 control-label"> （个人）年收入分类码 </label>
-					<div>
-						<input type="text" class="form-control" id="annual_income_personal_type"
-							name="annual_income_personal_type" value="${client.annual_income_personal_type}" readonly>
-					</div>
-				</div>
-				<div class="form-group ">
-					<label for="annual_income_family" class="col-sm-3 control-label"> （家庭）年收入 </label>
-					<div>
-						<input type="text" class="form-control" id="annual_income_family"
-							name="annual_income_family" value="${client.annual_income_family}" readonly>
-					</div>
-				</div>
-				<div class="form-group ">
-					<label for="annual_income_family_type" class="col-sm-3 control-label"> （家庭）年收入分类码 </label>
-					<div>
-						<input type="text" class="form-control" id="annual_income_family_type"
-							name="annual_income_family_type" value="${client.annual_income_family_type}" readonly>
-					</div>
-				</div>
-				<div class="form-group ">
-					<label for="family_income_feature" class="col-sm-3 control-label"> 家庭收入特点 </label>
-					<div>
-						<input type="text" class="form-control" id="family_income_feature"
-							name="family_income_feature" value="${client.family_income_feature}" readonly>
-					</div>
-				</div>
-				<div class="form-group ">
-					<label for="family_financial_standing" class="col-sm-3 control-label"> 财务状况码 </label>
-					<div>
-						<input type="text" class="form-control" id="family_financial_standing"
-							name="family_financial_standing" value="${client.family_financial_standing}" readonly>
-					</div>
-				</div>
-				<div class="form-group ">
-					<label for="source_type" class="col-sm-3 control-label"> 客户来源码 </label>
-					<div>
-						<input type="text" class="form-control" id="source_type"
-							name="source_type" value="${client.source_type}" readonly>
-					</div>
-				</div>
-				<div class="form-group ">
-					<label for="introducer_name" class="col-sm-3 control-label"> 介绍人 </label>
-					<div>
-						<input type="text" class="form-control" id="introducer_name"
-							name="introducer_name" value="${client.introducer_name}" readonly>
-					</div>
-				</div>
-				<div class="form-group ">
-					<label for="introducer_relationship" class="col-sm-3 control-label"> 与介绍人关系 </label>
-					<div>
-						<input type="text" class="form-control" id="introducer_relationship"
-							name="introducer_relationship" value="${client.introducer_relationship}" readonly>
-					</div>
-				</div>
-				<div class="form-group ">
-					<label for="introducer_closeness" class="col-sm-3 control-label"> 与介绍人亲密度 </label>
-					<div>
-						<input type="text" class="form-control" id="introducer_closeness"
-							name="introducer_closeness" value="${client.introducer_closeness}" readonly>
-					</div>
-				</div>
-				<div class="form-group ">
-					<label for="introducer_evaluation" class="col-sm-3 control-label"> 介绍人评价 </label>
-					<div>
-						<input type="text" class="form-control" id="introducer_evaluation"
-							name="introducer_evaluation" value="${client.introducer_evaluation}" readonly>
-					</div>
-				</div>
-				<div class="form-group ">
-					<label for="contact_type" class="col-sm-3 control-label"> 可接触度 </label>
-					<div>
-						<input type="text" class="form-control" id="contact_type"
-							name="contact_type" value="${client.contact_type}" readonly>
-					</div>
-				</div>
-				<div class="form-group ">
-					<label for="contact_attention" class="col-sm-3 control-label"> 联系注意问题 </label>
-					<div>
-						<input type="text" class="form-control" id="contact_attention"
-							name="contact_attention" value="${client.contact_attention}" readonly>
-					</div>
-				</div>
-				<div class="form-group ">
-					<label for="birth_ages" class="col-sm-3 control-label"> 出生年代 </label>
-					<div>
-						<input type="text" class="form-control" id="birth_ages"
-							name="birth_ages" value="${client.birth_ages}" readonly>
-					</div>
-				</div>
-				<div class="form-group ">
-					<label for="age_group" class="col-sm-3 control-label"> 年龄段 </label>
-					<div>
-						<input type="text" class="form-control" id="age_group"
-							name="age_group" value="${client.age_group}" readonly>
-					</div>
-				</div>
-				<div class="form-group ">
-					<label for="constellation" class="col-sm-3 control-label"> 星座 </label>
-					<div>
-						<input type="text" class="form-control" id="constellation"
-							name="constellation" value="${client.constellation}" readonly>
-					</div>
-				</div>
-				<div class="form-group ">
-					<label for="blood_group" class="col-sm-3 control-label"> 血型 </label>
-					<div>
-						<input type="text" class="form-control" id="blood_group"
-							name="blood_group" value="${client.blood_group}" readonly>
-					</div>
-				</div>
-				<div class="form-group ">
-					<label for="temperament_type" class="col-sm-3 control-label"> 性格特点 </label>
-					<div>
-						<input type="text" class="form-control" id="temperament_type"
-							name="temperament_type" value="${client.temperament_type}" readonly>
-					</div>
-				</div>
-				<div class="form-group ">
-					<label for="pdp_type" class="col-sm-3 control-label"> PDP类型 </label>
-					<div>
-						<input type="text" class="form-control" id="pdp_type"
-							name="pdp_type" value="${client.pdp_type}" readonly>
-					</div>
-				</div>
-				<div class="form-group ">
-					<label for="hobbies" class="col-sm-3 control-label"> 兴趣爱好 </label>
-					<div>
-						<input type="text" class="form-control" id="hobbies"
-							name="hobbies" value="${client.hobbies}" readonly>
-					</div>
-				</div>
-				<div class="form-group ">
-					<label for="status" class="col-sm-3 control-label"> 状态 </label>
-					<div>
-						<input type="text" class="form-control" id="status"
-							name="status" value="${client.status}" readonly>
-					</div>
-				</div>
-				<div class="form-group ">
-					<label for="interesting_service" class="col-sm-3 control-label"> 关注的服务 </label>
-					<div>
-						<input type="text" class="form-control" id="interesting_service"
-							name="interesting_service" value="${client.interesting_service}" readonly>
-					</div>
-				</div>
-				<div class="form-group ">
-					<label for="service_served" class="col-sm-3 control-label"> 已提供的服务 </label>
-					<div>
-						<input type="text" class="form-control" id="service_served"
-							name="service_served" value="${client.service_served}" readonly>
-					</div>
-				</div>
-		</div>
-	</div>
 </body>
 </html>

@@ -30,8 +30,7 @@ public interface ISysConstService {
 	 * @param returnFields
 	 * @return
 	 */
-	public PageVO batchSearchPage(DBObject queryCondition, DBObject sort,
-			DBObject returnFields);
+	public PageVO batchSearchPage(DBObject queryCondition, DBObject sort, DBObject returnFields);
 
 	/****
 	 * 条件查询，1页，查询所有
@@ -41,8 +40,7 @@ public interface ISysConstService {
 	 * @param returnFields
 	 * @return
 	 */
-	public PageVO batchSearchOnePage(DBObject query, DBObject sort,
-			DBObject returnFields);
+	public PageVO batchSearchOnePage(DBObject query, DBObject sort, DBObject returnFields);
 
 	/****
 	 * 插入对象，返回插入后的生成的ObjectId
@@ -111,8 +109,7 @@ public interface ISysConstService {
 	 * @param returnFields
 	 * @return
 	 */
-	public Object findSysconstByConstTypeOnePage(String typecode,
-			DBObject sort, DBObject returnFields);
+	public Object findSysconstByConstTypeOnePage(String typecode, DBObject sort, DBObject returnFields);
 
 	/****
 	 * 根据类型和值，查询显示值
@@ -120,5 +117,15 @@ public interface ISysConstService {
 	 * @return
 	 */
 	public String findDispValByTypecodAndVal(String typecode, String val);
+
+	/****
+	 * 根据常量类型，查询下面所有的常量
+	 * 
+	 * @param typecode
+	 * @param sort
+	 * @param returnFields
+	 * @return
+	 */
+	public List<DBObject> findSysconstByConstType(String typecode, DBObject sort, DBObject returnFields);
 
 }

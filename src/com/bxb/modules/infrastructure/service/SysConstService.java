@@ -29,8 +29,7 @@ public class SysConstService extends BaseService implements ISysConstService {
 	@Resource(name = "sysconstdao")
 	private SysConstDao sysconstdao;
 
-	private static final Logger logger = LogManager
-			.getLogger(SysConstService.class);
+	private static final Logger logger = LogManager.getLogger(SysConstService.class);
 
 	@Override
 	public SysConst findOneByIdObject(String _id) {
@@ -39,21 +38,20 @@ public class SysConstService extends BaseService implements ISysConstService {
 	}
 
 	@Override
-	public PageVO batchSearchPage(DBObject queryCondition, DBObject sort,
-			DBObject returnFields) {
-		return this.sysconstdao.batchSearchPage(queryCondition, sort,
-				returnFields);
+	public PageVO batchSearchPage(DBObject queryCondition, DBObject sort, DBObject returnFields) {
+		return this.sysconstdao.batchSearchPage(queryCondition, sort, returnFields);
 	}
 
 	@Override
-	public PageVO batchSearchOnePage(DBObject query, DBObject sort,
-			DBObject returnFields) {
+	public PageVO batchSearchOnePage(DBObject query, DBObject sort, DBObject returnFields) {
 		return this.sysconstdao.batchSearchOnePage(query, sort, returnFields);
 	}
 
 	@Override
 	public String add(SysConst sysconst) {
 		this.setCreateInfo(sysconst);
+		sysconst.setUseflg("1"); //默认设置为启用
+		
 		return this.sysconstdao.insertObj(sysconst);
 	}
 
@@ -61,8 +59,7 @@ public class SysConstService extends BaseService implements ISysConstService {
 	public DBObject updatePart(DBObject returnFields, SysConst sysconst) {
 
 		DBObject toUpdate = makeUpdate(sysconst);
-		return this.sysconstdao.updateOneById(sysconst.get_id_m(),
-				returnFields, toUpdate);
+		return this.sysconstdao.updateOneById(sysconst.get_id_m(), returnFields, toUpdate);
 	}
 
 	/****
@@ -113,12 +110,10 @@ public class SysConstService extends BaseService implements ISysConstService {
 		queryCondition.put("useflg", "1");
 		String _id = sysconst.get_id_m();
 		if (StringUtil.isNotEmpty(_id)) {
-			queryCondition.put("_id", new BasicDBObject("$ne",
-					new ObjectId(_id)));
+			queryCondition.put("_id", new BasicDBObject("$ne", new ObjectId(_id)));
 		}
 
-		DBObject result = this.sysconstdao.findOneByConditionPart(
-				queryCondition, returnFields);
+		DBObject result = this.sysconstdao.findOneByConditionPart(queryCondition, returnFields);
 
 		if (result != null && result.get("_id") != null) {
 			return true;
@@ -140,12 +135,10 @@ public class SysConstService extends BaseService implements ISysConstService {
 		queryCondition.put("useflg", "1");
 		String _id = sysconst.get_id_m();
 		if (StringUtil.isNotEmpty(_id)) {
-			queryCondition.put("_id", new BasicDBObject("$ne",
-					new ObjectId(_id)));
+			queryCondition.put("_id", new BasicDBObject("$ne", new ObjectId(_id)));
 		}
 
-		DBObject result = this.sysconstdao.findOneByConditionPart(
-				queryCondition, returnFields);
+		DBObject result = this.sysconstdao.findOneByConditionPart(queryCondition, returnFields);
 
 		if (result != null && result.get("_id") != null) {
 			return true;
@@ -168,8 +161,7 @@ public class SysConstService extends BaseService implements ISysConstService {
 	}
 
 	@Override
-	public Object findSysconstByConstTypeOnePage(String typecode,
-			DBObject sort, DBObject returnFields) {
+	public Object findSysconstByConstTypeOnePage(String typecode, DBObject sort, DBObject returnFields) {
 
 		DBObject queryCondition = new BasicDBObject();
 		queryCondition.put("typecode", typecode);
@@ -192,13 +184,28 @@ public class SysConstService extends BaseService implements ISysConstService {
 		queryCondition.put("typecode", typecode);// 常量类型
 		queryCondition.put("val", val);
 
-		DBObject dbo = this.sysconstdao.findOneByConditionPart(queryCondition,
-				returnFields);
+		DBObject dbo = this.sysconstdao.findOneByConditionPart(queryCondition, returnFields);
 
 		if (dbo == null) {
 			return null;
 		}
 
 		return (String) dbo.get("dspval");
+	}
+
+	@Override
+	public List<DBObject> findSysconstByConstType(String typecode, DBObject sort, DBObject returnFields) {
+
+		typecode = typecode.trim();
+
+		// 1.查缓存
+		
+
+		// 2.查数据库
+		DBObject queryCondition = new BasicDBObject();
+		queryCondition.put("typecode", typecode);
+		queryCondition.put("useflg", "1");
+
+		return this.sysconstdao.findBatchDbOjbect(queryCondition, sort, returnFields);
 	}
 }

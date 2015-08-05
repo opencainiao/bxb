@@ -40,8 +40,7 @@ import com.mongodb.DBObject;
 @RequestMapping("/backend/sysconst")
 public class SysConstController extends BaseController {
 
-	private static final Logger logger = LogManager
-			.getLogger(SysConstController.class);
+	private static final Logger logger = LogManager.getLogger(SysConstController.class);
 
 	@Resource(name = "sysConstService")
 	private ISysConstService sysConstService;
@@ -52,8 +51,7 @@ public class SysConstController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
-	public String add(@ModelAttribute("sysconst") SysConst sysconst,
-			HttpServletRequest request) {
+	public String add(@ModelAttribute("sysconst") SysConst sysconst, HttpServletRequest request) {
 
 		// 开启modelDriven
 		return "admin/infrastructure/sysconst/add";
@@ -66,8 +64,7 @@ public class SysConstController extends BaseController {
 	 */
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	@ResponseBody
-	public Object add(@Validated SysConst sysconst, BindingResult br,
-			HttpServletRequest request) {
+	public Object add(@Validated SysConst sysconst, BindingResult br, HttpServletRequest request) {
 
 		HttpServletRequestUtil.debugParams(request);
 
@@ -84,19 +81,15 @@ public class SysConstController extends BaseController {
 		}
 
 		// 校验是否存在相同值的数据
-		boolean isExitSameConstval = this.sysConstService
-				.isExistSameConstval(sysconst);
+		boolean isExitSameConstval = this.sysConstService.isExistSameConstval(sysconst);
 		if (isExitSameConstval) {
-			return this.handleValidateFalse("已经存在值为【" + sysconst.getVal()
-					+ "】的常量!");
+			return this.handleValidateFalse("已经存在值为【" + sysconst.getVal() + "】的常量!");
 		}
 
 		// 校验是否存在相同显示值的数据
-		boolean isExitSameConstDispval = this.sysConstService
-				.isExistSameConstDispval(sysconst);
+		boolean isExitSameConstDispval = this.sysConstService.isExistSameConstDispval(sysconst);
 		if (isExitSameConstDispval) {
-			return this.handleValidateFalse("已经存在显示值为【" + sysconst.getDspval()
-					+ "】的常量!");
+			return this.handleValidateFalse("已经存在显示值为【" + sysconst.getDspval() + "】的常量!");
 		}
 
 		try {
@@ -135,8 +128,7 @@ public class SysConstController extends BaseController {
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.POST)
 	@ResponseBody
-	public Object list(Model model, String typecode, String typename,
-			HttpServletRequest request) {
+	public Object list(Model model, String typecode, String typename, HttpServletRequest request) {
 
 		HttpServletRequestUtil.debugParams(request);
 		try {
@@ -151,8 +143,7 @@ public class SysConstController extends BaseController {
 			DBObject query = new BasicDBObject();
 
 			if (StringUtil.isNotEmpty(search_condition)) {
-				Pattern pattern = RegexPatternUtil
-						.getLikePattern(search_condition);
+				Pattern pattern = RegexPatternUtil.getLikePattern(search_condition);
 
 				BasicDBList condList = new BasicDBList();
 
@@ -162,8 +153,8 @@ public class SysConstController extends BaseController {
 				query.put("$or", condList);
 			}
 			query.put("useflg", "1");
-			
-			if (StringUtil.isNotEmpty(typecode)){
+
+			if (StringUtil.isNotEmpty(typecode)) {
 				query.put("typecode", typecode.trim());
 			}
 
@@ -172,8 +163,7 @@ public class SysConstController extends BaseController {
 			sort.put("val", 1);
 			DBObject returnFields = null;
 
-			return this.sysConstService.batchSearchPage(query, sort,
-					returnFields);
+			return this.sysConstService.batchSearchPage(query, sort, returnFields);
 
 		} catch (Exception e) {
 			return this.handleException(e);
@@ -250,8 +240,7 @@ public class SysConstController extends BaseController {
 	 */
 	@RequestMapping(value = "/{_id}/update", method = RequestMethod.POST)
 	@ResponseBody
-	public Object update(@PathVariable String _id,
-			@Validated SysConst sysconst, BindingResult br,
+	public Object update(@PathVariable String _id, @Validated SysConst sysconst, BindingResult br,
 			HttpServletRequest request) {
 
 		if (br.hasErrors()) {
@@ -266,24 +255,19 @@ public class SysConstController extends BaseController {
 		sysconst.set_id(_id);
 
 		// 校验是否存在相同值的数据
-		boolean isExitSameConstval = this.sysConstService
-				.isExistSameConstval(sysconst);
+		boolean isExitSameConstval = this.sysConstService.isExistSameConstval(sysconst);
 		if (isExitSameConstval) {
-			return this.handleValidateFalse("已经存在值为【" + sysconst.getVal()
-					+ "】的常量!");
+			return this.handleValidateFalse("已经存在值为【" + sysconst.getVal() + "】的常量!");
 		}
 
 		// 校验是否存在相同显示值的数据
-		boolean isExitSameConstDispval = this.sysConstService
-				.isExistSameConstDispval(sysconst);
+		boolean isExitSameConstDispval = this.sysConstService.isExistSameConstDispval(sysconst);
 		if (isExitSameConstDispval) {
-			return this.handleValidateFalse("已经存在显示值为【" + sysconst.getDspval()
-					+ "】的常量!");
+			return this.handleValidateFalse("已经存在显示值为【" + sysconst.getDspval() + "】的常量!");
 		}
 
 		try {
-			DBObject updateResult = this.sysConstService.updatePart(null,
-					sysconst);
+			DBObject updateResult = this.sysConstService.updatePart(null, sysconst);
 
 			logger.debug("更新后的结果[{}]", updateResult);
 
@@ -318,7 +302,7 @@ public class SysConstController extends BaseController {
 			return this.handleException(e);
 		}
 	}
-	
+
 	/****
 	 * 查询系统常量值
 	 * 
@@ -328,8 +312,7 @@ public class SysConstController extends BaseController {
 	 */
 	@RequestMapping(value = "/list_by_consttype", method = RequestMethod.POST)
 	@ResponseBody
-	public Object list_by_consttype(Model model, String typecode, String typename,
-			HttpServletRequest request) {
+	public Object list_by_consttype(Model model, String typecode, String typename, HttpServletRequest request) {
 
 		HttpServletRequestUtil.debugParams(request);
 		try {
@@ -344,8 +327,7 @@ public class SysConstController extends BaseController {
 			DBObject query = new BasicDBObject();
 
 			if (StringUtil.isNotEmpty(search_condition)) {
-				Pattern pattern = RegexPatternUtil
-						.getLikePattern(search_condition);
+				Pattern pattern = RegexPatternUtil.getLikePattern(search_condition);
 
 				BasicDBList condList = new BasicDBList();
 
@@ -355,21 +337,52 @@ public class SysConstController extends BaseController {
 				query.put("$or", condList);
 			}
 			query.put("useflg", "1");
-			
-			if (StringUtil.isNotEmpty(typecode)){
+
+			if (StringUtil.isNotEmpty(typecode)) {
 				typecode = typecode.trim();
 			}
-			
+
 			DBObject sort = new BasicDBObject();
 			sort.put("valordernum", 1);
 			sort.put("val", 1);
-			
+
 			DBObject returnFields = new BasicDBObject();
 			sort.put("val", 1);
 			sort.put("dspval", 1);
-			
-			return this.sysConstService.findSysconstByConstTypeOnePage(typecode, sort,
-					returnFields);
+
+			return this.sysConstService.findSysconstByConstTypeOnePage(typecode, sort, returnFields);
+		} catch (Exception e) {
+			return this.handleException(e);
+		}
+	}
+
+	/****
+	 * 查询系统常量值
+	 * 
+	 * @param model
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value = "/all_const_of_consttype", method = RequestMethod.POST)
+	@ResponseBody
+	public Object all_const_of_consttype(Model model, String typecode, String typename, HttpServletRequest request) {
+		try {
+
+			if (StringUtil.isEmpty(typecode)) {
+				return this.handleValidateFalse("typecode不能为空!");
+			}
+
+			typecode = typecode.trim();
+
+			DBObject sort = new BasicDBObject();
+			sort.put("valordernum", 1);
+			sort.put("val", 1);
+
+			DBObject returnFields = new BasicDBObject();
+			sort.put("val", 1);
+			sort.put("dspval", 1);
+
+			return this.sysConstService.findSysconstByConstType(typecode, sort, returnFields);
 		} catch (Exception e) {
 			return this.handleException(e);
 		}
