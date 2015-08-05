@@ -29,6 +29,11 @@ import com.bxb.common.util.propertyeditor.CustomerListEditor;
 import com.bxb.modules.base.BaseController;
 import com.bxb.modules.client.model.Client;
 import com.bxb.modules.client.model.partinfo.ClientBaseInfo;
+import com.bxb.modules.client.model.partinfo.ClientFamilyInfo;
+import com.bxb.modules.client.model.partinfo.ClientIncomeInfo;
+import com.bxb.modules.client.model.partinfo.ClientSourceInfo;
+import com.bxb.modules.client.model.partinfo.ClientWorkInfo;
+import com.bxb.modules.client.model.partinfo.ClientXgInfo;
 import com.bxb.modules.client.service.IClientService;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
@@ -188,6 +193,21 @@ public class ClientController extends BaseController {
 
 		model.addAttribute("base_prop_title", ClientBaseInfo.getTitles());
 		model.addAttribute("base_prop_name", ClientBaseInfo.getTitleNames());
+		
+		model.addAttribute("family_prop_title", ClientFamilyInfo.getTitles());
+		model.addAttribute("family_prop_name", ClientFamilyInfo.getTitleNames());
+
+		model.addAttribute("income_prop_title", ClientIncomeInfo.getTitles());
+		model.addAttribute("income_prop_name", ClientIncomeInfo.getTitleNames());
+
+		model.addAttribute("source_prop_title", ClientSourceInfo.getTitles());
+		model.addAttribute("source_prop_name", ClientSourceInfo.getTitleNames());
+
+		model.addAttribute("work_prop_title", ClientWorkInfo.getTitles());
+		model.addAttribute("work_prop_name", ClientWorkInfo.getTitleNames());
+
+		model.addAttribute("xg_prop_title", ClientXgInfo.getTitles());
+		model.addAttribute("xg_prop_name", ClientXgInfo.getTitleNames());
 
 		return "front/client/client_info/full/detail";
 	}

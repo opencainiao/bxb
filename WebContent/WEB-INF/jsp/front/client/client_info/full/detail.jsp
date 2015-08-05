@@ -150,9 +150,75 @@ function refreshBase(){
     });
 }
 
+//-----------------------------------------------------------------------------------------------
+
+var family_prop_title = [];
+<c:forEach var="title" items="${family_prop_title}">
+	family_prop_title.push("${title}");
+</c:forEach>
+//alert(base_prop_title.join("\n"));
+
+var family_prop_name = [];
+<c:forEach var="title_name" items="${family_prop_name}">
+	base_prop_name.push("${title_name}");
+</c:forEach>
+//$.alertObjJson(base_prop_name);
+
+// 生成基本模块内容
+function genFamilyContent(client){
+	var content = genContent(client,family_prop_title,family_prop_name);
+	
+	$("#family_info_content").html(content);
+}
+
+function toEditFamily(){
+	
+	
+	var url = $.getSitePath() + '/client_family_info/' + $("#_id_m").val() + "/update";
+	
+	//alert(url);
+
+	$.popUpWindow("编辑客户家庭信息", url, "70%", "80%", "edit", $("#edit_family"));
+}
+
+function closeEditFamily(){
+	
+	$.closeWindow("edit", $("#edit_family"));
+}
+function initFamily(){
+	genFamilyContent(client);
+	
+	$('#edit_family').unbind();
+	$("#edit_family").bind("click", toEditFamily);
+}
+
+function refreshFamily(){
+	
+	var url_to = $.getSitePath() + '/client_family_info/${client._id }';
+	
+	 $.ajax({
+        type: 'POST',
+        url: url_to,
+        data: {
+            ts: new Date().getTime()
+        },
+        type: 'POST',
+        dataType: 'json',
+        success: function(data) {
+       	   client = data;
+       	   initFamily();
+        },
+        complete: function(XMLHttpRequest, textStatus) {
+        }
+    });
+}
+
+
+
 $().ready(function() {
 	
 	initBase();
+	initFamily();
 });
 
 </script>
@@ -175,9 +241,8 @@ $().ready(function() {
 		   		<div class="row">
 		   			<div class="col-md-9 col-md-offset-3">
 		   				<div class="panel panel-info">
-							<div class="panel-heading">基本信息</div>
-							<div class="panel-body">
-								2
+							<div class="panel-heading">家庭信息<button type="button" id="edit_family" class="btn btn-default pull-right">编辑</button></div>
+							<div class="panel-body" id="family_info_content">
 							</div>
 						</div>
 		   			</div>
