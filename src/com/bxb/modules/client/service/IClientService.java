@@ -92,6 +92,15 @@ public interface IClientService {
 	public String getOidByClientName(String clientName, String userId);
 
 	/****
+	 * 更新一条记录(全量更新)，返回更新后的结果，根据对象的主键ObjectId
+	 * 
+	 * @param returnFields
+	 * @param client
+	 * @return
+	 */
+	public DBObject updateFull(Client client);
+
+	/****
 	 * 更新一条记录，返回更新后的结果，根据对象的主键ObjectId
 	 * 
 	 * @param returnFields

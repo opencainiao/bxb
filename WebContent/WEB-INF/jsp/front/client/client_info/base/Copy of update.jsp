@@ -34,7 +34,7 @@
 }
 
 .online-input select {
-	width: 120px !important;
+	width: 120px!important;
 }
 
 .online-input input {
@@ -99,115 +99,119 @@
 
 					</div>
 				</div>
-				<div class="col-xs-6">
+				<div class="container-fluid" style="margin-top: 30px">
 					<div class="row">
-						<div class="col-md-12 form-horizontal">
-							<div class="form-group form-group-sm  ">
-								<label for="client_name" class="col-sm-3 control-label">
-									客户姓名 </label>
-								<div class="col-sm-8">
-									<input type="text" class="form-control" id="client_name"
-										name="client_name" value="${clientbaseinfo.client_name}"
-										placeholder="">
-								</div>
-							</div>
-							<div class="form-group form-group-sm  ">
-								<label for="id_number" class="col-sm-3 control-label">
-									身份证号 </label>
-								<div class="col-sm-8">
-									<input type="text" class="form-control" id="id_number"
-										name="id_number" value="${clientbaseinfo.id_number}"
-										placeholder="">
-								</div>
-							</div>
-							<div class="form-group form-group-sm  ">
-								<label for="education_type" class="col-sm-3 control-label">
-									教育程度 </label>
-								<div class="col-sm-8">
-									<select id="education_type" name="education_type"
-										class="form-control"
-										data-value="${clientbaseinfo.education_type}"></select>
-								</div>
-							</div>
-							<div class="form-group form-group-sm  ">
-								<label for="region_type" class="col-sm-3 control-label">
-									地区分类 </label>
-								<div class="col-sm-8">
-									<input type="text" class="form-control" id="region_type"
-										name="region_type" value="${clientbaseinfo.region_type}"
-										placeholder="">
-								</div>
-							</div>
-
-						</div>
-					</div>
-				</div>
-			</div>
-
-			<div class="row" style="margin-top: 80px">
-				<div class="col-xs-10">
-					<div class="row">
-						<div class="col-md-12 form-horizontal">
-							<div class="form-group form-group-sm  ">
-								<label for="phone_info" class="col-xs-2 control-label">
-									电话 </label>
-								<div class="col-xs-8">
-									<div class="input-group input-group-xs  online-input ">
-										<select id="type_phone" name="type_phone" class="form-control">
-											<option value="1">公司</option>
-											<option value="0">个人</option>
-											<option value="2">其他</option>
-										</select> <input type="text" class="form-control " /> <span
-											class="input-group-box-xs">.00</span>
+						<div class="col-xs-6">
+							<div class="row">
+								<div class="col-md-12 form-horizontal">
+									<div class="form-group form-group-sm  ">
+										<label for="client_name" class="col-sm-3 control-label">
+											客户姓名 </label>
+										<div class="col-sm-8">
+											<input type="text" class="form-control" id="client_name"
+												name="client_name" value="${clientbaseinfo.client_name}"
+												placeholder="">
+										</div>
+									</div>
+									<div class="form-group form-group-sm  ">
+										<label for="id_number" class="col-sm-3 control-label">
+											身份证号 </label>
+										<div class="col-sm-8">
+											<input type="text" class="form-control" id="id_number"
+												name="id_number" value="${clientbaseinfo.id_number}"
+												placeholder="">
+										</div>
+									</div>
+									<div class="form-group form-group-sm  ">
+										<label for="education_type" class="col-sm-3 control-label">
+											教育程度 </label>
+										<div class="col-sm-8">
+											<select id="education_type" name="education_type"
+												class="form-control"
+												data-value="${clientbaseinfo.education_type}"></select>
+										</div>
+									</div>
+									<div class="form-group form-group-sm  ">
+										<label for="region_type" class="col-sm-3 control-label">
+											地区分类 </label>
+										<div class="col-sm-8">
+											<input type="text" class="form-control" id="region_type"
+												name="region_type" value="${clientbaseinfo.region_type}"
+												placeholder="">
+										</div>
 									</div>
 
-									<div class="input-group input-group-xs  online-input ">
-										<select id="type_phone" name="type_phone" class="form-control">
-											<option value="1">公司</option>
-											<option value="0">个人</option>
-											<option value="2">其他</option>
-										</select> <input type="text" class="form-control " /> <span
-											class="input-group-box-xs">.00</span>
-									</div>
-
-
-									<input type="text" class="form-control" id="phone_info"
-										name="phone_info" value="${clientbaseinfo.phone_info}"
-										placeholder="">
-								</div>
-							</div>
-
-							<div class="form-group form-group-sm  ">
-								<label for="email_info" class="col-xs-2 control-label">
-									邮箱 </label>
-								<div class="col-sm-8">
-									<input type="text" class="form-control" id="email_info"
-										name="email_info" value="${clientbaseinfo.email_info}"
-										placeholder="">
-								</div>
-							</div>
-							<div class="form-group form-group-sm  ">
-								<label for="address_info" class="col-xs-2 control-label">
-									地址 </label>
-								<div class="col-sm-8">
-									<input type="text" class="form-control" id="address_info"
-										name="address_info" value="${clientbaseinfo.address_info}"
-										placeholder="">
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
+				<div class="container-fluid" style="margin-top: 80px">
+					<div class="row">
+						<div class="col-xs-10">
+							<div class="row">
+								<div class="col-md-12 form-horizontal">
+									<div class="form-group form-group-sm  ">
+										<label for="phone_info" class="col-xs-2 control-label">
+											电话 </label>
+										<div class="col-xs-8">
+											<div class="input-group input-group-xs  online-input ">
+												<select id="type_phone"
+													name="type_phone" class="form-control">
+													<option value="1">公司</option>
+													<option value="0">个人</option>
+													<option value="2">其他</option>
+												</select> <input type="text" class="form-control " /> <span
+													class="input-group-box-xs">.00</span>
+											</div>
+											
+											<div class="input-group input-group-xs  online-input ">
+												<select id="type_phone"
+													name="type_phone" class="form-control">
+													<option value="1">公司</option>
+													<option value="0">个人</option>
+													<option value="2">其他</option>
+												</select> <input type="text" class="form-control " /> <span
+													class="input-group-box-xs">.00</span>
+											</div>
+											
+											
+											<input type="text" class="form-control" id="phone_info"
+												name="phone_info" value="${clientbaseinfo.phone_info}"
+												placeholder="">
+										</div>
+									</div>
 
-			</div>
+									<div class="form-group form-group-sm  ">
+										<label for="email_info" class="col-xs-2 control-label">
+											邮箱 </label>
+										<div class="col-sm-8">
+											<input type="text" class="form-control" id="email_info"
+												name="email_info" value="${clientbaseinfo.email_info}"
+												placeholder="">
+										</div>
+									</div>
+									<div class="form-group form-group-sm  ">
+										<label for="address_info" class="col-xs-2 control-label">
+											地址 </label>
+										<div class="col-sm-8">
+											<input type="text" class="form-control" id="address_info"
+												name="address_info" value="${clientbaseinfo.address_info}"
+												placeholder="">
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 
-			<hr />
+				<hr />
 
-			<div class="col-sm-12">
-				<button type="button" id="btn_save"
-					class="btn btn-primary btn-lg center-block">提交</button>
-			</div>
-		</div>
+				<div class="col-sm-12">
+					<button type="button" id="btn_save"
+						class="btn btn-primary btn-lg center-block">提交</button>
+				</div>
 	</sf:form>
 	<script>
 		function iniProvince() {

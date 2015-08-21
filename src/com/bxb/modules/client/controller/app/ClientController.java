@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.json.JSONException;
 import org.mou.common.StringUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -256,6 +255,56 @@ public class ClientController extends BaseController {
 				rr.setSuccess(true);
 				return rr;
 			}
+		} catch (Exception e) {
+			return this.handleException(e);
+		}
+	}
+
+	/****
+	 * 更新系统客户 信息，返回json给客户端（全量更新）
+	 * 
+	 * @param _id
+	 * @param data
+	 * @param user_id
+	 * @param request
+	 * @param part_flg
+	 * 
+	 * @return
+	 */
+	@RequestMapping(value = "/{_id}/update_full", method = RequestMethod.POST)
+	@ResponseBody
+	public Object update_full(@PathVariable String _id, String data,
+			String user_id, HttpServletRequest request, String part_flg) {
+
+		if (!this.isValidObjId(_id)) {
+			return this.handleValidateFalse("非法的客户主键");
+		}
+
+		if (!this.isValidObjId(user_id)) {
+			return this.handleValidateFalse("非法的用户");
+		}
+
+		if (!PartFlgEnum.isValidPartFlg(part_flg)) {
+			return this.handleValidateFalse("非法的更新参数part_flg");
+		}
+
+		Client client;
+		try {
+			client = JSONHelper.parseObject(data, Client.class);
+			client.set_id(_id);
+		} catch (Exception e) {
+			return this.handleException(e);
+		}
+
+		try {
+			DBObject updateResult = this.clientService.updateFull(client);
+
+			logger.debug("更新后的结果[{}]", updateResult);
+
+			RequestResult rr = new RequestResult();
+			rr.setSuccess(true);
+			rr.setMessage(_id);
+			return rr;
 		} catch (Exception e) {
 			return this.handleException(e);
 		}
