@@ -286,6 +286,8 @@ public class AdminLoginController {
 	@RequestMapping(value = "/admin/home", method = RequestMethod.GET)
 	public String home(Model model, HttpServletRequest request) {
 
-		return "admin/home/home";
+		return "admin/home/home2";
+		
+//		return "admin/home/home";
 	}
 }

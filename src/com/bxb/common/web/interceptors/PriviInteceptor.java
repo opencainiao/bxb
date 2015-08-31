@@ -24,13 +24,24 @@ import com.bxb.modules.user.model.User;
  */
 public class PriviInteceptor implements HandlerInterceptor {
 
-	private static final Logger logger = LogManager
-			.getLogger(PriviInteceptor.class);
+	private static final Logger logger = LogManager.getLogger(PriviInteceptor.class);
 
 	private static final String LOGKEY = "ACCESSTIMELOG";
 
-	public void afterCompletion(HttpServletRequest request,
-			HttpServletResponse arg1, Object arg2, Exception arg3)
+	private static String needLoginFlag = "1"; // 是否需要登陆（默认需要登陆）
+
+	public static String getNeedLoginFlag() {
+		return needLoginFlag;
+	}
+
+	public static void setNeedLoginFlag(boolean flag) {
+
+		if (!flag) {
+			PriviInteceptor.needLoginFlag = Constant.NEED_LOGIN_FALSE;
+		}
+	}
+
+	public void afterCompletion(HttpServletRequest request, HttpServletResponse arg1, Object arg2, Exception arg3)
 			throws Exception {
 
 		if (request.getAttribute(PriviInteceptor.LOGKEY) != null) {
@@ -44,8 +55,8 @@ public class PriviInteceptor implements HandlerInterceptor {
 	}
 
 	// 控制器执行完，生成视图之前可以做的动作，比如，加入公共成员（日期）
-	public void postHandle(HttpServletRequest arg0, HttpServletResponse arg1,
-			Object arg2, ModelAndView arg3) throws Exception {
+	public void postHandle(HttpServletRequest arg0, HttpServletResponse arg1, Object arg2, ModelAndView arg3)
+			throws Exception {
 
 	}
 
@@ -55,8 +66,12 @@ public class PriviInteceptor implements HandlerInterceptor {
 	 * 如果你正在执行的拦截器完成后，下面还有个拦截器等待执行，那么handler就是那个拦截器类；<br>
 	 * 如果这个拦截器执行完了 ，就执行controller，那么这个handler就是那个Controller类了。
 	 */
-	public boolean preHandle(HttpServletRequest request,
-			HttpServletResponse response, Object handler) throws Exception {
+	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
+			throws Exception {
+
+		if (needLoginFlag.equals(Constant.NEED_LOGIN_FALSE)) {
+			return true;
+		}
 
 		String[] uri_controller = getUriController(request);
 
@@ -71,10 +86,8 @@ public class PriviInteceptor implements HandlerInterceptor {
 			sb.append("<controller>");
 			sb.append("<name>" + controller + "</name>");
 			sb.append("<url>" + controller + "</url>");
-			sb.append("<params>" + HttpServletRequestUtil.getParams(request)
-					+ "</params>");
-			sb.append("<starttime>" + DateUtil.getCurrentTimsmp()
-					+ "</starttime>");
+			sb.append("<params>" + HttpServletRequestUtil.getParams(request) + "</params>");
+			sb.append("<starttime>" + DateUtil.getCurrentTimsmp() + "</starttime>");
 			request.setAttribute(PriviInteceptor.LOGKEY, sb.toString());
 		}
 
@@ -92,9 +105,8 @@ public class PriviInteceptor implements HandlerInterceptor {
 
 			if (controller_head.toLowerCase().endsWith("admin")) {
 
-				SessionPublicData sPublicData = (SessionPublicData) request
-						.getSession().getAttribute(
-								Constant.SESSION_CASH_PUBLICDATA);
+				SessionPublicData sPublicData = (SessionPublicData) request.getSession()
+						.getAttribute(Constant.SESSION_CASH_PUBLICDATA);
 
 				// 校验 如果没有登陆，则转向登陆页面
 				ModelAndView mav = getMVtoGo(controller_head, sPublicData);
@@ -128,8 +140,7 @@ public class PriviInteceptor implements HandlerInterceptor {
 	 * @param user
 	 * @return
 	 */
-	private ModelAndView getMVtoGo(String controller_head,
-			SessionPublicData sPublicData) {
+	private ModelAndView getMVtoGo(String controller_head, SessionPublicData sPublicData) {
 
 		ModelAndView mav = null;
 		if (sPublicData == null) {

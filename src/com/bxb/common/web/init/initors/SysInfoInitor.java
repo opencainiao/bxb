@@ -7,6 +7,7 @@ import mou.mongodb.MongoClientManager;
 import org.springframework.stereotype.Component;
 
 import com.bxb.common.web.init.Initializable;
+import com.bxb.common.web.interceptors.PriviInteceptor;
 
 /****
  * 初始化系统环境变量数据（如：系统名称、全局上下文路径）
@@ -16,7 +17,7 @@ import com.bxb.common.web.init.Initializable;
  */
 @Component("sysInfoInitor")
 public class SysInfoInitor implements Initializable {
-
+	
 	/****
 	 * 初始化系统内存数据，避免硬编码
 	 */
@@ -32,5 +33,7 @@ public class SysInfoInitor implements Initializable {
 //		 DBManager.initDB("bxb");
 
 		MongoClientManager.init("182.92.114.61", "bxb");
+		
+		PriviInteceptor.setNeedLoginFlag(false);
 	}
 }

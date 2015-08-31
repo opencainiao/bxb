@@ -17,4 +17,7 @@ public class Constant {
 
 	public static String USER_CHARACTER_SYS = "1";// 1.系统后台人员
 	public static String USER_CHARACTER_FRONT = "2";// 1.前端注册用户
+
+	public static String NEED_LOGIN_TRUE = "1"; // 必须要登陆才能访问页面（生产状态）
+	public static String NEED_LOGIN_FALSE = "0";// 无需登陆就可以访问页面（调试状态）
 }
