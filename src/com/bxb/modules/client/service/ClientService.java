@@ -441,8 +441,8 @@ public class ClientService extends BaseService implements IClientService {
 
 					String interesting_service_name = sysConstService
 							.findDispValByTypecodAndVal(
-									SysConstTypeEnum.INTERESTING_SERVICE.getCode(),
-									interesting_service_t);
+									SysConstTypeEnum.INTERESTING_SERVICE
+											.getCode(), interesting_service_t);
 
 					sb.append(interesting_service_name).append(" ");
 				}
@@ -501,5 +501,102 @@ public class ClientService extends BaseService implements IClientService {
 
 	public static void main(String[] args) {
 		System.out.println("2015-08-121".substring(0, 10));
+	}
+
+	@Override
+	public DBObject updateFull(Client client) {
+
+		String valResult = validatForUpdate(client);
+
+		if (StringUtil.isNotEmpty(valResult)) {
+			throw new IllegalArgumentException(valResult);
+		}
+
+		DBObject toUpdate = makeUpdateFull(client);
+		this.setModifyInfo(toUpdate);
+
+		DBObject returnFields = new BasicDBObject();
+		// returnFields.put("_id", 0);
+		returnFields.put("state", 0);
+		returnFields.put("last_op_user_id", 0);
+		returnFields.put("last_op_user_name", 0);
+		returnFields.put("last_op_date", 0);
+
+		return this.clientdao.updateOneById(client.get_id_m(), returnFields,
+				toUpdate);
+	}
+
+	private String validatForUpdate(Client client) {
+		return "";
+	}
+
+	/****
+	 * 组织要更新的字段
+	 * 
+	 * @param client
+	 * @return
+	 */
+	private DBObject makeUpdateFull(Client client) {
+
+		DBObject update = new BasicDBObject();
+		DBObject updateSet = new BasicDBObject();
+
+		updateSet.put("owner_user_id", client.getOwner_user_id());
+		updateSet.put("client_name", client.getClient_name());
+		updateSet.put("sex", client.getSex());
+		updateSet.put("id_number", client.getId_number());
+		updateSet.put("birth_date", client.getBirth_date());
+		updateSet.put("address_info", client.getAddress_info());
+		updateSet.put("phone_info", client.getPhone_info());
+		updateSet.put("email_info", client.getEmail_info());
+		updateSet.put("region_code", client.getRegion_code());
+		updateSet.put("region_name", client.getRegion_name());
+		updateSet.put("age", client.getAge());
+		updateSet.put("region_type", client.getRegion_type());
+		updateSet.put("education_type", client.getEducation_type());
+		updateSet.put("company", client.getCompany());
+		updateSet.put("company_nature", client.getCompany_nature());
+		updateSet.put("trade_type", client.getTrade_type());
+		updateSet.put("career_type", client.getCareer_type());
+		updateSet.put("job_position", client.getJob_position());
+		updateSet.put("job_level", client.getJob_level());
+		updateSet.put("marital_status", client.getMarital_status_name());
+		updateSet.put("wedding_date", client.getWedding_date());
+		updateSet.put("boy_num", client.getBoy_num());
+		updateSet.put("girl_num", client.getGirl_num());
+		updateSet.put("children_num", client.getChildren_num());
+		updateSet.put("annual_income_personal",
+				client.getAnnual_income_personal());
+		updateSet.put("annual_income_personal_type",
+				client.getAnnual_income_personal_type());
+		updateSet.put("annual_income_family", client.getAnnual_income_family());
+		updateSet.put("annual_income_family_type",
+				client.getAnnual_income_family_type());
+		updateSet.put("family_income_feature",
+				client.getFamily_income_feature());
+		updateSet.put("family_financial_standing",
+				client.getFamily_financial_standing());
+		updateSet.put("source_type", client.getSource_type());
+		updateSet.put("introducer_name", client.getIntroducer_name());
+		updateSet.put("introducer_relationship",
+				client.getIntroducer_relationship());
+		updateSet.put("introducer_closeness", client.getIntroducer_closeness());
+		updateSet.put("introducer_evaluation",
+				client.getIntroducer_evaluation());
+		updateSet.put("contact_type", client.getContact_type());
+		updateSet.put("contact_attention", client.getContact_attention());
+		updateSet.put("birth_ages", client.getBirth_ages());
+		updateSet.put("age_group", client.getAge_group());
+		updateSet.put("constellation", client.getConstellation());
+		updateSet.put("blood_group", client.getBlood_group());
+		updateSet.put("temperament_type", client.getTemperament_type());
+		updateSet.put("pdp_type", client.getPdp_type());
+		updateSet.put("hobbies", client.getHobbies());
+		updateSet.put("interesting_service", client.getInteresting_service());
+
+		this.setModifyInfoWithUserId(updateSet, client.getOwner_user_id());
+		update.put("$set", updateSet);
+
+		return update;
 	}
 }
