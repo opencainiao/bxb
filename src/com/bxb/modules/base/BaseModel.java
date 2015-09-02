@@ -1,8 +1,11 @@
 package com.bxb.modules.base;
 
+import java.util.Map;
+
 import org.mou.common.JsonUtil;
 
 import com.mongodb.ReflectionDBObject;
+import com.sun.xml.internal.bind.v2.runtime.RuntimeUtil.ToStringAdapter;
 
 /****
  * 所有域模型对象的基础类，包含公用的属性和方法
@@ -131,5 +134,6 @@ public class BaseModel extends ReflectionDBObject {
 	public void set_id_m(String _id_m) {
 		this._id_m = _id_m;
 	}
-
+	
+	
 }

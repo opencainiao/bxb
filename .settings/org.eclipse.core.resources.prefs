@@ -2,6 +2,7 @@ eclipse.preferences.version=1
 encoding//WebContent/WEB-INF/jsp/admin/home/home2.jsp=UTF-8
 encoding//WebContent/WEB-INF/jsp/update_brower.jsp=UTF-8
 encoding//src/com/bxb/common/globalobj/PageVO.java=gbk
+encoding//src/com/bxb/common/util/RequestUtil.java=UTF-8
 encoding//src/com/bxb/common/util/ValCodeGenerator.java=UTF-8
 encoding//src/com/bxb/modules/global/controller/UsermailController.java=UTF-8
 encoding//src/com/bxb/modules/global/controller/ValidateCodeController.java=UTF-8

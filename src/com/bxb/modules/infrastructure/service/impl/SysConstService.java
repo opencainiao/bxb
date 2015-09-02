@@ -1,4 +1,4 @@
-package com.bxb.modules.infrastructure.service;
+package com.bxb.modules.infrastructure.service.impl;
 
 import java.util.List;
 
@@ -14,6 +14,7 @@ import com.bxb.common.globalobj.PageVO;
 import com.bxb.modules.base.BaseService;
 import com.bxb.modules.infrastructure.dao.SysConstDao;
 import com.bxb.modules.infrastructure.model.SysConst;
+import com.bxb.modules.infrastructure.service.ISysConstService;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 

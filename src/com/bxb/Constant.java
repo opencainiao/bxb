@@ -2,6 +2,7 @@ package com.bxb;
 
 public class Constant {
 
+	public static final String SYSNAM = "系统";
 	// 文章状态
 	public static String ARTICLE_STATUS_WFB = "0";// 未发布
 	public static String ARTICLE_STATUS_YFB = "1";// 已发布

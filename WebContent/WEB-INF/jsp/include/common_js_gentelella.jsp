@@ -67,7 +67,6 @@
 <script type="text/javascript"
 	src="<%=request.getContextPath()%>/resources/gentelella/production/js/skycons/skycons.js"></script>
 
-
 <script type="text/javascript"
 	src="<%=request.getContextPath()%>/resources/js/mou.ajax.js"></script>
 <script type="text/javascript"

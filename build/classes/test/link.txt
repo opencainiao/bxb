@@ -17,3 +17,6 @@ http://localhost:8080/bxb/adminlogin
 
 // 客户管理
 http://localhost:8080/bxb/front/client/list
+
+// 菜单管理
+http://localhost:8080/bxb/backend/menu/toManage

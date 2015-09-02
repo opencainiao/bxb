@@ -50,6 +50,10 @@
 	float: left;
 	width: 240px;
 }
+
+.whole_content {
+	background: #f1f1f1 none repeat scroll 0 0;
+}
 -->
 </style>
 

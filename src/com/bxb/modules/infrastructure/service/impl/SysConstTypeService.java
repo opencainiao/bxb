@@ -1,4 +1,4 @@
-package com.bxb.modules.infrastructure.service;
+package com.bxb.modules.infrastructure.service.impl;
 
 import javax.annotation.Resource;
 
@@ -10,6 +10,7 @@ import com.bxb.common.globalobj.PageVO;
 import com.bxb.modules.base.BaseService;
 import com.bxb.modules.infrastructure.dao.SysConstTypeDao;
 import com.bxb.modules.infrastructure.model.SysConstType;
+import com.bxb.modules.infrastructure.service.ISysConstTypeService;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 
