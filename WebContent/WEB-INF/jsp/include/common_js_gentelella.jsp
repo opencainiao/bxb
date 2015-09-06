@@ -33,9 +33,6 @@
 	src="<%=request.getContextPath()%>/resources/gentelella/production/js/datepicker/daterangepicker.js"></script>
 
 <script type="text/javascript"
-	src="<%=request.getContextPath()%>/resources/gentelella/production/js/custom.js"></script>
-
-<script type="text/javascript"
 	src="<%=request.getContextPath()%>/resources/gentelella/production/js/flot/jquery.flot.js"></script>
 <script type="text/javascript"
 	src="<%=request.getContextPath()%>/resources/gentelella/production/js/flot/jquery.flot.pie.js"></script>
@@ -66,6 +63,9 @@
 <!-- skycons -->
 <script type="text/javascript"
 	src="<%=request.getContextPath()%>/resources/gentelella/production/js/skycons/skycons.js"></script>
+
+<script type="text/javascript"
+	src="<%=request.getContextPath()%>/resources/gentelella/production/js/custom.js"></script>
 
 <script type="text/javascript"
 	src="<%=request.getContextPath()%>/resources/js/mou.ajax.js"></script>

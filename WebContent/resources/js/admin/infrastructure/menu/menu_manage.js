@@ -4,7 +4,6 @@ $().ready(function() {
 
 	// 页面布局
 	pageLayout();
-	$(window).resize(pageLayout);
 
 	loadTree();
 });
@@ -14,20 +13,14 @@ var curMenu;
 
 function pageLayout() {
 
-	var mainHeight = $(window).height() - 30;
+	var mainHeight = $(window).height() - 60;
 
-	// alert(mainHeight);
-	$("div.mainContentLayout").css("height", mainHeight);
-
-	$("div.contentLayout").css("width",
-			$("div.mainContentLayout").width() - 200 - 6);
-	$("div.contentLayout").css("height", mainHeight - 8);
-	$("div.contentLayout").css("float", "right");
-
-	$("div.leftMenuLayout").css("height", mainHeight - 8);
-
+	$("#leftMenuLayout").css("height", mainHeight - 8);
+	$("#menu_detail").css("height", mainHeight - 8);
+	
 	// 设置iframe自适应
-	$("#contentframeid").css("height", mainHeight - 8);
+	$("#contentframeid").css("height", mainHeight - 73);
+
 }
 
 var setting = {
