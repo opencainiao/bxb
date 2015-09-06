@@ -23,6 +23,7 @@ public class SysMenu extends BaseModel {
 	private String module_code; // 所属模块
 	private String path; // 展示路径名
 	private String remark; // 备注
+	private String iclass; // 图标class
 
 	// 回显属性
 	private String leaf_flg_name; // 是否叶子节点
@@ -166,7 +167,20 @@ public class SysMenu extends BaseModel {
 	}
 
 	public void setChild_menu_List(List<SysMenu> child_menu_List) {
+
+		if (child_menu_List != null && !child_menu_List.isEmpty()) {
+			this.setLeaf_flg(false);
+		}
+		
 		this.child_menu_List = child_menu_List;
+	}
+
+	public String getIclass() {
+		return iclass;
+	}
+
+	public void setIclass(String iclass) {
+		this.iclass = iclass;
 	}
 
 	@SuppressWarnings("rawtypes")

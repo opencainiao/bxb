@@ -12,6 +12,7 @@ http://localhost:8080/bxb/backend/emailtype/add
 
 
 //----------------------登陆
+http://localhost:8080/bxb/admin/home
 
 http://localhost:8080/bxb/adminlogin
 

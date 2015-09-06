@@ -1,8 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
 
-<link rel="stylesheet"
-	href="http://cdn.bootcss.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<link
+	href="http://cdn.bootcss.com/bootstrap/3.3.2/css/bootstrap.min.css"
+	rel="stylesheet" type="text/css">
 <!-- Bootstrap core CSS -->
 
 <link
@@ -53,6 +54,10 @@
 
 .whole_content {
 	background: #f1f1f1 none repeat scroll 0 0;
+}
+
+.hidden {
+	display: none
 }
 -->
 </style>

@@ -1,6 +1,7 @@
 package com.bxb.modules.infrastructure.service.impl;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -243,6 +244,10 @@ public class SysMenuService extends BaseService implements ISysMenuService {
 	 */
 	public List<SysMenu> findMenuTreeBySupMnuCod(String supMnuCod) {
 
+		if (supMnuCod.equals("ROOT")) {
+			return testMenuTree();
+		}
+
 		List<SysMenu> menuList = this.findChildren(supMnuCod);
 
 		if (menuList == null) {
@@ -259,5 +264,45 @@ public class SysMenuService extends BaseService implements ISysMenuService {
 		}
 
 		return menuList;
+	}
+
+	private List<SysMenu> testMenuTree() {
+
+		List<SysMenu> menus = new ArrayList<SysMenu>();
+		
+		SysMenu m1 = new SysMenu();
+		m1.setMenu_name("Home");
+		m1.setIclass("fa fa-home");
+		List<SysMenu> menu1s = new ArrayList<SysMenu>();
+		
+		for (int i=0; i<3; ++i){
+			SysMenu mt = new SysMenu();
+			mt.setMenu_name("1_" + i );
+			mt.setPath("index_"+i+".html");
+			mt.setLeaf_flg(true);
+			
+			menu1s.add(mt);
+		}
+		m1.setChild_menu_List(menu1s);
+		
+		SysMenu m2 = new SysMenu();
+		m2.setMenu_name("Forms");
+		m2.setIclass("fa fa-edit");
+		List<SysMenu> menu2s = new ArrayList<SysMenu>();
+		
+		for (int i=0; i<3; ++i){
+			SysMenu mt = new SysMenu();
+			mt.setMenu_name("2_" + i );
+			mt.setPath("index_"+i+".html");
+			mt.setLeaf_flg(true);
+			
+			menu2s.add(mt);
+		}
+		m2.setChild_menu_List(menu2s);
+		
+		menus.add(m1);
+		menus.add(m2);
+
+		return menus;
 	}
 }

@@ -66,4 +66,12 @@ public interface ISysMenuService {
 	 */
 	public SysMenu getRootMenuTree();
 
+	/****
+	 * 读取菜单树
+	 * 
+	 * @param supMnuCod
+	 * @return
+	 */
+	public List<SysMenu> findMenuTreeBySupMnuCod(String supMnuCod);
+
 }

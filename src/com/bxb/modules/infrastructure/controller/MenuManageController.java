@@ -15,9 +15,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.bxb.common.globalobj.RequestResult;
 import com.bxb.common.util.MenuUtil;
 import com.bxb.common.util.RequestUtil;
 import com.bxb.common.util.ZTreeUtil;
+import com.bxb.modules.base.BaseController;
 import com.bxb.modules.infrastructure.model.SysMenu;
 import com.bxb.modules.infrastructure.service.ISysMenuService;
 import com.mongodb.util.JSON;
@@ -31,7 +33,7 @@ import com.mongodb.util.JSON;
 @Controller
 @RequestMapping("/backend/menu")
 @SuppressWarnings("rawtypes")
-public class MenuManageController {
+public class MenuManageController extends BaseController {
 
 	@Autowired(required = true)
 	@Qualifier("sysMenuService")
@@ -283,5 +285,101 @@ public class MenuManageController {
 		SysMenu sysmnu = sysMenuService.getRootMenuTree();
 
 		return ZTreeUtil.transToZtreeMnuList(sysmnu);
+	}
+
+	/****
+	 * <pre>
+	 * <li><a> <i class="fa fa-home"></i> 
+	 * 				Home 
+	 * 			    <span class="fa fa-chevron-down"></span>
+	 * 			</a>
+	 * 			<ul class="nav child_menu" style="display: none">
+	 * 				<li><a href="index.html">Dashboard</a></li>
+	 * 				<li><a href="index2.html">Dashboard2</a></li>
+	 * 				<li><a href="index3.html">Dashboard3</a></li>
+	 * 			</ul>
+	 * 		</li>
+	 * </pre>
+	 * 
+	 * @return
+	 */
+	@RequestMapping("/load_sys_menu_admin_home")
+	@ResponseBody
+	public Object sysAdminMenuHomePage(HttpServletRequest request,
+			HttpServletResponse response) {
+
+		RequestResult rr = new RequestResult();
+
+		SysMenu root = MenuUtil.createRootMenu();
+
+		try {
+			List<SysMenu> sysmnus = sysMenuService.findMenuTreeBySupMnuCod(root
+					.getMenu_code());
+
+			String result = transToMenuStrAdminHome(sysmnus);
+			rr.setSuccess(true);
+			rr.setMessage(result);
+		} catch (Exception e) {
+			return this.handleException(e);
+		}
+
+		return rr;
+	}
+
+	/****
+	 * <pre>
+	 * <li>
+	 *     <a> 
+	 * 		  <i class="fa fa-home"></i> 
+	 *  			  Home 
+	 *  		      <span class="fa fa-chevron-down"></span>
+	 *     	   </a>
+	 * 		   <ul class="nav child_menu" style="display: none">
+	 *  			  <li><a href="index.html">Dashboard</a></li>
+	 *  			  <li><a href="index2.html">Dashboard2</a></li>
+	 *  			  <li><a href="index3.html">Dashboard3</a></li>
+	 *  		   </ul>
+	 *    	   </li>
+	 * </pre>
+	 * 
+	 * @param sysmnus
+	 * @return
+	 */
+	private String transToMenuStrAdminHome(List<SysMenu> sysmnus) {
+
+		if (sysmnus == null || sysmnus.isEmpty()) {
+			return "";
+		}
+
+		StringBuffer sb = new StringBuffer();
+
+		for (SysMenu sysmnu : sysmnus) {
+
+			sb.append("<li><a> <i class=\"" + sysmnu.getIclass() + "\"></i>");
+			sb.append(sysmnu.getMenu_name());
+			if (!sysmnu.isLeaf()) {
+				sb.append("<span class=\"fa fa-chevron-down\"></span>");
+			}
+			sb.append("</a>");
+
+			if (!sysmnu.isLeaf()) {
+				sb.append("<ul class=\"nav child_menu\" style=\"display: none\">");
+
+				List<SysMenu> children_this = sysmnu.getChild_menu_List();
+
+				for (SysMenu menu_tmp : children_this) {
+					sb.append("<li><a data-link=\"" + menu_tmp.getPath() + "\">"
+							+ menu_tmp.getMenu_name() + "</a></li>");
+					
+					
+				}
+
+				sb.append("</ul>");
+			}
+
+			sb.append("</li>");
+		}
+
+		return sb.toString();
 	}
 }
