@@ -33,7 +33,7 @@ public interface ISysMenuService {
 	 * 
 	 * @param map
 	 */
-	public void insert(Map map) throws Exception;
+	public String insert(SysMenu sysMenu) throws Exception;
 
 	/****
 	 * 保存菜单
@@ -57,7 +57,7 @@ public interface ISysMenuService {
 	 * @param menuId
 	 * @param type
 	 */
-	public void delMenu(Map dataIn);
+	public void delMenu(String _id);
 
 	/****
 	 * 读取系统菜单树

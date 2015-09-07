@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import com.bxb.common.globalobj.PageVO;
+import com.bxb.modules.base.BaseModel;
 import com.mongodb.DBObject;
 
 /****
@@ -98,7 +99,7 @@ public class PageSearchResultHandler {
 	public static PageVO handleDBObjListNoPage(List<DBObject> list) {
 
 		handleDBObjList(list);
-		
+
 		PageVO pageVO = new PageVO();
 		if (list != null) {
 			pageVO.setPage(1);
@@ -128,6 +129,24 @@ public class PageSearchResultHandler {
 		}
 
 		return list;
+	}
+
+	public static Object handleBaseModelListNoPage(
+			List<? extends BaseModel> list) {
+
+		PageVO pageVO = new PageVO();
+		if (list != null) {
+			pageVO.setPage(1);
+			pageVO.setPageCount(list.size());
+			pageVO.setTotal(list.size());
+
+			for (BaseModel model : list) {
+				model.set_id_m(model.get_id_m());
+			}
+			pageVO.setRows(list);
+		}
+
+		return pageVO;
 	}
 
 }

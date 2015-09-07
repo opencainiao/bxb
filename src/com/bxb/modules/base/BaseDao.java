@@ -35,6 +35,18 @@ public abstract class BaseDao implements IBaseDao {
 	public abstract String getCollectionName();
 
 	@Override
+	public boolean isExist(DBObject query) {
+
+		DBObject returnFields = new BasicDBObject();
+		returnFields.put("_id", 1);
+
+		DBObject obj = FindOneUtil.findOneByConditionDBObject(
+				getCollectionName(), query, returnFields);
+
+		return !(obj == null);
+	}
+
+	@Override
 	public boolean isExist(String _id) {
 		return FindOneUtil.isExist(getCollectionName(), _id);
 	}
@@ -138,7 +150,8 @@ public abstract class BaseDao implements IBaseDao {
 	public PageVO batchSearchOnePage(DBObject query, DBObject sort,
 			DBObject returnFields) {
 
-		List<DBObject> result = this.findBatchDbOjbect(query, sort, returnFields);
+		List<DBObject> result = this.findBatchDbOjbect(query, sort,
+				returnFields);
 
 		int resultCount = 0;
 
@@ -153,8 +166,7 @@ public abstract class BaseDao implements IBaseDao {
 	@Override
 	public String insertObj(Object obj) {
 
-		return MongoCollectionUtil
-				.insertObj(getCollectionName(), obj);
+		return MongoCollectionUtil.insertObj(getCollectionName(), obj);
 	}
 
 	@Override
@@ -168,12 +180,12 @@ public abstract class BaseDao implements IBaseDao {
 	@Override
 	public DBObject updateOneByCondition(DBObject query, DBObject returnFields,
 			DBObject update, boolean upsert) {
-		
+
 		query.put("delflg", "0");
-		
+
 		DBCollection collection = MongoClientManager
 				.getCollection(getCollectionName());
-		
+
 		return collection.findAndModify(query, returnFields, null, false,
 				update, true, upsert);
 	}
@@ -269,14 +281,14 @@ public abstract class BaseDao implements IBaseDao {
 
 		return MongoCollectionUtil.removeByIds(getCollectionName(), _ids);
 	}
-	
+
 	public WriteResult remove(DBObject query) {
 
 		DBCollection collection = MongoClientManager
 				.getCollection(getCollectionName());
-		
+
 		WriteResult removeResult = collection.remove(query);
-		
+
 		return removeResult;
 	}
 

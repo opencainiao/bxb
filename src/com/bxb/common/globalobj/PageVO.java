@@ -4,15 +4,17 @@ import java.util.List;
 
 import org.mou.common.JsonUtil;
 
+import com.mongodb.util.JSON;
+
 @SuppressWarnings("rawtypes")
 public class PageVO {
-	private int total; // �ܼ�¼��
-	private int page; // ��ǰ�ǵڼ�ҳ
-	private int maxPage; // �ܹ�����ҳ
-	private int pageCount; // ÿҳ������
+	private int total; // 锟杰硷拷录锟斤拷
+	private int page; // 锟斤拷前锟角第硷拷页
+	private int maxPage; // 锟杰癸拷锟斤拷锟斤拷页
+	private int pageCount; // 每页锟斤拷锟斤拷锟斤拷
 
-	private int offSet; // ��ѯ��ʼ����(�����)
-	private List rows; // ���
+	private int offSet; // 锟斤拷询锟斤拷始锟斤拷锟斤拷(锟斤拷锟斤拷锟�
+	private List rows; // 锟斤拷锟�
 
 	public PageVO() {
 		offSet = 0;
@@ -20,21 +22,21 @@ public class PageVO {
 	}
 
 	/****
-	 * ��ݴ���ĵ�ǰҳ�룬�����ѯ�����е�OFFSET
+	 * 锟斤拷荽锟斤拷锟侥碉拷前页锟诫，锟斤拷锟斤拷锟窖拷锟斤拷锟斤拷械锟絆FFSET
 	 */
 	public void calOffset() {
 		this.offSet = this.page * this.pageCount;
 	}
 
 	/****
-	 * �����ʼ������㵱ǰ�ǵڼ�ҳ
+	 * 锟斤拷锟斤拷锟绞硷拷锟斤拷锟斤拷锟姐当前锟角第硷拷页
 	 */
 	private void calCurrentPage() {
 		page = offSet / pageCount + 1;
 	}
 
 	/****
-	 * ����ܼ�¼����㹲�ж���ҳ
+	 * 锟斤拷锟斤拷芗锟铰硷拷锟斤拷锟姐共锟叫讹拷锟斤拷页
 	 */
 	public void calMaxPage() {
 		maxPage = total / pageCount;
@@ -45,7 +47,7 @@ public class PageVO {
 	}
 
 	/****
-	 * ��ݼ�¼����Ϣ������ҳ����Ϣ
+	 * 锟斤拷菁锟铰硷拷锟斤拷锟较拷锟斤拷锟斤拷锟揭筹拷锟斤拷锟较�
 	 */
 	public void calPageInf() {
 		calMaxPage();
@@ -98,9 +100,5 @@ public class PageVO {
 
 	public void setPageCount(int pageCount) {
 		this.pageCount = pageCount;
-	}
-
-	public String toString() {
-		return JsonUtil.toJsonStr(this);
 	}
 }

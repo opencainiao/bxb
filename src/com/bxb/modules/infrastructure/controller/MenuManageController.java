@@ -11,10 +11,16 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.bxb.common.globalhandler.PageSearchResultHandler;
 import com.bxb.common.globalobj.RequestResult;
 import com.bxb.common.util.MenuUtil;
 import com.bxb.common.util.RequestUtil;
@@ -82,8 +88,9 @@ public class MenuManageController extends BaseController {
 	 * @param request
 	 * @param response
 	 * @return
+	 * @throws Exception
 	 */
-	@RequestMapping("/toAdd")
+	@RequestMapping(value = "/add", method = RequestMethod.GET)
 	public ModelAndView toAdd(HttpServletRequest request,
 			HttpServletResponse response) {
 
@@ -100,6 +107,37 @@ public class MenuManageController extends BaseController {
 	}
 
 	/****
+	 * 添加菜单
+	 * 
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/add", method = RequestMethod.POST)
+	@ResponseBody
+	public Object add(@Validated SysMenu sysmenu, BindingResult br,
+			HttpServletRequest request, HttpServletResponse response,
+			Model model) throws Exception {
+
+		logger.debug("sysmenu\n{}", sysmenu);
+
+		try {
+			RequestResult rr = new RequestResult();
+			// 新增
+			String _id = this.sysMenuService.insert(sysmenu);
+
+			rr = new RequestResult();
+			rr.setSuccess(true);
+			rr.setMessage(_id);
+
+			return rr;
+		} catch (Exception e) {
+			return this.handleException(e);
+		}
+	}
+
+	/****
 	 * 菜单详细信息入口--查询菜单信息，并进入菜单信息页面
 	 * 
 	 * @param request
@@ -108,7 +146,7 @@ public class MenuManageController extends BaseController {
 	 */
 	@RequestMapping("/toDetail")
 	public ModelAndView toDetail(HttpServletRequest request,
-			HttpServletResponse response) {
+			HttpServletResponse response, Model model) {
 		logger.debug("-- into detail page --");
 
 		ModelAndView successM_V = new ModelAndView(
@@ -122,6 +160,8 @@ public class MenuManageController extends BaseController {
 		}
 
 		logger.debug(menuCode);
+
+		model.addAttribute("menu_code", menuCode);
 
 		SysMenu menuInf = null;
 		SysMenu parentMenuInf = null;
@@ -148,6 +188,14 @@ public class MenuManageController extends BaseController {
 			// 有子菜单，查询下一级子菜单
 			List<SysMenu> menuChildrens = this.sysMenuService
 					.findChildren(menuCode);
+			menuInf.setChild_menu_List(menuChildrens);
+
+			if (menuChildrens != null && !menuChildrens.isEmpty()) {
+				menuInf.setLeaf_flg(false);
+			} else {
+				menuInf.setLeaf_flg(true);
+			}
+
 			request.setAttribute("menuchildren", menuChildrens);
 		}
 
@@ -162,42 +210,14 @@ public class MenuManageController extends BaseController {
 	 * @param request
 	 * @param response
 	 */
-	@RequestMapping("/findSubMnus")
+	@RequestMapping("/sub_menus")
 	@ResponseBody
 	public Object findSubMnus(HttpServletRequest request,
 			HttpServletResponse response, String menu_code) {
 
 		List<SysMenu> children = this.sysMenuService.findChildren(menu_code);
 
-		if (children != null && !children.isEmpty()) {
-			request.setAttribute("hasmenuchildren", true);
-		}
-
-		return JSON.serialize(children);
-	}
-
-	/****
-	 * 添加菜单
-	 * 
-	 * @param request
-	 * @param response
-	 * @return
-	 * @throws Exception
-	 */
-	@SuppressWarnings("unchecked")
-	@RequestMapping("/create")
-	public ModelAndView create(HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
-
-		logger.debug("-- into create page --");
-		Map dataIn = RequestUtil.ToLowerMap(request);
-
-		this.sysMenuService.insert(dataIn);
-		// 进入父节点信息页面 ，同时刷新菜单
-		request.setAttribute("menu_code", dataIn.get("supmnucod"));
-		request.setAttribute("refreshTree", "true");
-
-		return this.toDetail(request, response);
+		return PageSearchResultHandler.handleBaseModelListNoPage(children);
 	}
 
 	/****
@@ -209,19 +229,19 @@ public class MenuManageController extends BaseController {
 	 */
 	@RequestMapping("/save")
 	public ModelAndView save(HttpServletRequest request,
-			HttpServletResponse response) {
+			HttpServletResponse response, Model model) {
 
 		logger.debug("-- into save page --");
 		Map dataIn = RequestUtil.ToLowerMap(request);
 
 		this.sysMenuService.update(dataIn);
 
-		return this.toDetail(request, response);
+		return this.toDetail(request, response, model);
 	}
 
 	@RequestMapping("/upMenu")
 	public ModelAndView upMenu(HttpServletRequest request,
-			HttpServletResponse response) {
+			HttpServletResponse response, Model model) {
 		logger.debug("-- into create page --");
 		Map dataIn = RequestUtil.ToLowerMap(request);
 
@@ -231,12 +251,12 @@ public class MenuManageController extends BaseController {
 		request.setAttribute("menu_code", dataIn.get("supmnucod"));
 		request.setAttribute("refreshTree", "true");
 
-		return this.toDetail(request, response);
+		return this.toDetail(request, response, model);
 	}
 
 	@RequestMapping("/downMenu")
 	public ModelAndView downMenu(HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
+			HttpServletResponse response, Model model) throws Exception {
 		logger.debug("-- into create page --");
 		Map dataIn = RequestUtil.ToLowerMap(request);
 
@@ -246,31 +266,31 @@ public class MenuManageController extends BaseController {
 		request.setAttribute("menu_code", dataIn.get("supmnucod"));
 		request.setAttribute("refreshTree", "true");
 
-		return this.toDetail(request, response);
+		return this.toDetail(request, response, model);
 	}
 
 	/****
 	 * 删除菜单
 	 * 
-	 * @param request
-	 * @param response
 	 * @return
-	 * @throws Exception
 	 */
-	@RequestMapping("/delMnu")
-	public ModelAndView delMenu(HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
+	@RequestMapping(value = "/{_id}/delete", method = RequestMethod.POST)
+	@ResponseBody
+	public Object delete(@PathVariable String _id, HttpServletRequest request) {
 
-		Map dataIn = RequestUtil.ToLowerMap(request);
+		try {
 
-		this.sysMenuService.delMenu(dataIn);
-		// 进入父节点信息页面 ，同时刷新菜单
-		request.setAttribute("menu_code", dataIn.get("supmnucod"));
-		request.setAttribute("refreshTree", "true");
+			this.sysMenuService.delMenu(_id);;
 
-		return this.toDetail(request, response);
+			RequestResult rr = new RequestResult();
+			rr.setSuccess(true);
+			rr.setMessage(_id);
+			return rr;
+		} catch (Exception e) {
+			return this.handleException(e);
+		}
 	}
-
+	
 	/****
 	 * 取所有菜单
 	 * 
@@ -368,10 +388,9 @@ public class MenuManageController extends BaseController {
 				List<SysMenu> children_this = sysmnu.getChild_menu_List();
 
 				for (SysMenu menu_tmp : children_this) {
-					sb.append("<li><a data-link=\"" + menu_tmp.getPath() + "\">"
-							+ menu_tmp.getMenu_name() + "</a></li>");
-					
-					
+					sb.append("<li><a data-link=\"" + menu_tmp.getPath()
+							+ "\">" + menu_tmp.getMenu_name() + "</a></li>");
+
 				}
 
 				sb.append("</ul>");

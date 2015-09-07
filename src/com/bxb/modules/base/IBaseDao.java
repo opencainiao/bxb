@@ -18,6 +18,14 @@ public interface IBaseDao {
 	/****
 	 * 判断一个表的某记录是否存在
 	 * 
+	 * @param query
+	 * @return
+	 */
+	public boolean isExist(DBObject query);
+
+	/****
+	 * 判断一个表的某记录是否存在
+	 * 
 	 * @param collectionName
 	 * @param _id
 	 * @return

@@ -51,7 +51,8 @@ public class AutoIncreaserService implements IAutoIncreaserService {
 				returnFields, update, true);
 
 		int value = (Integer) (result.get("val"));
-		int length = (Integer) (result.get("length"));
+		int length = result.get("length") == null ? 8 : (Integer) (result
+				.get("length"));
 
 		return StringUtil.addCharL(value, length, "0");
 	}

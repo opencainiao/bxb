@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bxb.common.globalobj.PageVO;
+import com.bxb.common.globalobj.exception.ValidateException;
 import com.bxb.common.util.BeanUtil;
 import com.bxb.common.util.MenuUtil;
 import com.bxb.common.util.RegexPatternUtil;
@@ -85,19 +86,47 @@ public class SysMenuService extends BaseService implements ISysMenuService {
 	 * @param map
 	 * @throws Exception
 	 */
-	public void insert(Map map) throws Exception {
+	public String insert(SysMenu sysMenu) throws Exception {
 
-		SysMenu sysMenu = BeanUtil.copyProperties(SysMenu.class, map);
+		// 校验
+		String menuName = sysMenu.getMenu_name().trim();
 
+		DBObject queryName = new BasicDBObject();
+		queryName.put("menu_name", menuName);
+		boolean isExistSameName = this.sysMenuDao.isExist(queryName);
+		if (isExistSameName) {
+			throw new ValidateException("菜单【" + menuName + "】已经存在！");
+		}
+
+		// 更新父节点
+		DBObject query = new BasicDBObject();
+		query.put("menu_code", sysMenu.getSup_menu_code());
+
+		DBObject update = new BasicDBObject();
+		DBObject updateSet = new BasicDBObject();
+		updateSet.put("leaf_flg", "0");
+		this.setModifyInfo(updateSet);
+		update.put("$set", updateSet);
+		update.put("$inc", new BasicDBObject("child_num", 1));
+
+		DBObject updateResult = this.sysMenuDao.updateOneByCondition(query,
+				null, update, true);
+
+		int sno = (Integer) updateResult.get("child_num");
+
+		// 新增子节点
 		String mnucod = this.autoIncreaserService
 				.getAutoIncreaseString(AutoIncreaseKeyEnum.MENU_CODE.getCode());
-
 		sysMenu.setMenu_code(mnucod);
+		sysMenu.setMenu_name(menuName);
 		this.setCreateInfo(sysMenu);
-		sysMenu.setUseflg("1");
+		sysMenu.setUseflg(sysMenu.getUseflg());
+		sysMenu.setLeaf_flg(true);
+		sysMenu.setMenu_sno(sno);
 
-		this.sysMenuDao.insertObj(sysMenu);
+		String _id = this.sysMenuDao.insertObj(sysMenu);
 
+		return _id;
 	}
 
 	/****
@@ -183,25 +212,24 @@ public class SysMenuService extends BaseService implements ISysMenuService {
 	 * @param type
 	 * @throws SQLException
 	 */
-	public void delMenu(Map dataIn) {
+	public void delMenu(String _id) {
 
-		String menucod = (String) dataIn.get("menu_code");
-
-		SysMenu thisMenu = this.findMenuInf(menucod);
+		SysMenu thisMenu = this.sysMenuDao
+				.findOneByIdObject(_id, SysMenu.class);
 
 		// 删除子菜单
 		if (!thisMenu.isLeaf()) {
 			// 获得子菜单列表, 递归删除
-			List<SysMenu> menuList = findChildren(menucod);
+			List<SysMenu> menuList = findChildren(thisMenu.getMenu_code());
 			Map<String, String> paramMap = new HashMap<String, String>();
 			for (SysMenu menu : menuList) {
 				paramMap.put("menu_code", menu.getMenu_code());
-				delMenu(paramMap);
+				delMenu(menu.get_id_m());
 			}
 		}
 
 		// 1.从菜单表中删除 本菜单
-		this.sysMenuDao.findAndRemoveOneById((String) dataIn.get("_id"));
+		this.sysMenuDao.findAndRemoveOneById(_id);
 	}
 
 	@Override
@@ -244,10 +272,6 @@ public class SysMenuService extends BaseService implements ISysMenuService {
 	 */
 	public List<SysMenu> findMenuTreeBySupMnuCod(String supMnuCod) {
 
-		if (supMnuCod.equals("ROOT")) {
-			return testMenuTree();
-		}
-
 		List<SysMenu> menuList = this.findChildren(supMnuCod);
 
 		if (menuList == null) {
@@ -269,37 +293,37 @@ public class SysMenuService extends BaseService implements ISysMenuService {
 	private List<SysMenu> testMenuTree() {
 
 		List<SysMenu> menus = new ArrayList<SysMenu>();
-		
+
 		SysMenu m1 = new SysMenu();
 		m1.setMenu_name("Home");
 		m1.setIclass("fa fa-home");
 		List<SysMenu> menu1s = new ArrayList<SysMenu>();
-		
-		for (int i=0; i<3; ++i){
+
+		for (int i = 0; i < 3; ++i) {
 			SysMenu mt = new SysMenu();
-			mt.setMenu_name("1_" + i );
-			mt.setPath("index_"+i+".html");
+			mt.setMenu_name("1_" + i);
+			mt.setPath("index_" + i + ".html");
 			mt.setLeaf_flg(true);
-			
+
 			menu1s.add(mt);
 		}
 		m1.setChild_menu_List(menu1s);
-		
+
 		SysMenu m2 = new SysMenu();
 		m2.setMenu_name("Forms");
 		m2.setIclass("fa fa-edit");
 		List<SysMenu> menu2s = new ArrayList<SysMenu>();
-		
-		for (int i=0; i<3; ++i){
+
+		for (int i = 0; i < 3; ++i) {
 			SysMenu mt = new SysMenu();
-			mt.setMenu_name("2_" + i );
-			mt.setPath("index_"+i+".html");
+			mt.setMenu_name("2_" + i);
+			mt.setPath("index_" + i + ".html");
 			mt.setLeaf_flg(true);
-			
+
 			menu2s.add(mt);
 		}
 		m2.setChild_menu_List(menu2s);
-		
+
 		menus.add(m1);
 		menus.add(m2);
 

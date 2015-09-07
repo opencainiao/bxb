@@ -330,10 +330,11 @@ var normacctiontsetting = {
 		// 设置分割线
 		separator : true
 	}, {
-		name : '删除',
-		id : 'delete',
-		bclass : 'delete',
-		onpress : action
+		r_name : 'del',
+		text : '删除',
+		callback : deleteMenu,
+		paramConfig : [ "_id_m" ],
+		css : "btn btn-xs btn-danger"
 	}, {
 		separator : true
 	} ]
@@ -374,24 +375,6 @@ function delEles(ids, grid, setting) {
 			parent.ReloadNode(supdptnum);
 		}
 	});
-}
-
-function toActionDetail(o) {
-	var oid = o["oid"];
-	var mnucod = o["mnucod"];
-	var munnam = $("input:hidden[name=ACTIONSUPMNUNAM]").val();
-
-	var paramArr = [];
-	paramArr.push("oid=" + oid);
-	paramArr.push("&mnucod=" + mnucod);
-	paramArr.push("&mnunam=" + munnam);
-	paramArr.push("&linkflg=true");
-
-	var url = globalspace.ctx + "/menu/toEditAction.do?" + paramArr.join("");
-
-	// alert(url);
-	// 跳转进入动作明细页面
-	window.location.href = url;
 }
 
 function toMnuDetail(o) {

@@ -17,6 +17,7 @@ import com.bxb.common.globalhandler.PageSearchResultHandler;
 import com.bxb.common.globalobj.PageVO;
 import com.bxb.common.globalobj.RequestResult;
 import com.bxb.common.globalobj.ValidResult;
+import com.bxb.common.globalobj.exception.ValidateException;
 import com.bxb.common.util.ValidateUtil;
 import com.bxb.common.util.useragent.UserAgentUtil;
 import com.bxb.modules.user.model.User;
@@ -82,7 +83,11 @@ public class BaseController {
 		e.printStackTrace();
 		RequestResult rr = new RequestResult();
 		rr.setSuccess(false);
-		rr.setMessage(StringUtil.getStackTrace(e));
+		if (e instanceof ValidateException) {
+			rr.setMessage(e.getMessage());
+		} else {
+			rr.setMessage(StringUtil.getStackTrace(e));
+		}
 
 		return rr;
 	}

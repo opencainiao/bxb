@@ -2,6 +2,7 @@ package com.bxb.modules.base;
 
 import java.util.Map;
 
+import org.bson.types.ObjectId;
 import org.mou.common.JsonUtil;
 
 import com.mongodb.ReflectionDBObject;
@@ -128,12 +129,16 @@ public class BaseModel extends ReflectionDBObject {
 		if (super.get_id() == null) {
 			return null;
 		}
-		return super.get_id().toString();
+
+		String _id = super.get_id().toString().split("=")[1];
+
+		_id = _id.substring(0, _id.length() - 1);
+
+		return _id;
 	}
 
 	public void set_id_m(String _id_m) {
 		this._id_m = _id_m;
 	}
-	
-	
+
 }

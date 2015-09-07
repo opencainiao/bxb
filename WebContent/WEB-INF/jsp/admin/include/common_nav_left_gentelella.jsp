@@ -187,7 +187,7 @@
                 $this.parent('li').addClass('current-page').parent('ul').parent().addClass('active');
                 
                 var url = "${ctx}/" + $this.attr("data-link");
-                alert(url);
+                //alert(url);
 
 				$("#frame_content_id")[0].src = url;
 			}

@@ -5,6 +5,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 import com.bxb.modules.base.BaseModel;
 
 /****
@@ -76,6 +78,7 @@ public class SysMenu extends BaseModel {
 		this.menu_code = menu_code;
 	}
 
+	@NotEmpty(message = "菜单名不能为空")
 	public String getMenu_name() {
 		return menu_name;
 	}

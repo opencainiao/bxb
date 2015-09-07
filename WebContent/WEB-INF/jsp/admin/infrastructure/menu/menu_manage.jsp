@@ -12,33 +12,20 @@
 		<li class="active">菜单管理</li>
 	</ul>
 
-	<div class="row">
-		<div class="col-md-4 col-sm-4 col-xs-12">
+	<div id="content_inner_page" class="row">
+		<div class="col-md-3 col-sm-3 col-xs-12">
+			
 			<div class="x_panel" id="leftMenuLayout">
-				<div class="x_title">
-					<h2>
-						系统菜单 <small>系统菜单</small>
-					</h2>
-					<div class="clearfix"></div>
-				</div>
 				<div class="x_content ">
 					<div id="menutree" class="ztree"></div>
 				</div>
 			</div>
 		</div>
 
-		<div class="col-md-8 col-sm-8 col-xs-12" >
-			<div class="x_panel" id="menu_detail">
-				<div class="x_title">
-					<h2>
-						Visitors location <small>geo-presentation</small>
-					</h2>
-					<div class="clearfix"></div>
-				</div>
-				<div class="x_content">
-					<iframe id="contentframeid" name="contentframe"  width="100%" height="100%"  frameborder="0" src="${ctx}/backend/menu/toDetail.do?mnucod=ROOT"></iframe>
-				</div>
-			</div>
+		<div class="col-md-9 col-sm-9 col-xs-12">
+			<iframe id="contentframeid" name="contentframe" width="100%"
+				height="100%" frameborder="0"
+				src="${ctx}/backend/menu/toDetail.do?menu_code=ROOT"></iframe>
 		</div>
 	</div>
 

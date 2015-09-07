@@ -17,9 +17,9 @@ function pageLayout() {
 
 	$("#leftMenuLayout").css("height", mainHeight - 8);
 	$("#menu_detail").css("height", mainHeight - 8);
-	
+
 	// 设置iframe自适应
-	$("#contentframeid").css("height", mainHeight - 73);
+	$("#contentframeid").css("height", mainHeight - 13);
 
 }
 
@@ -63,7 +63,7 @@ function beforeClick(treeId, node) {
 			a.addClass("cur");
 
 			var isOpen = false;
-			for ( var i = 0, l = node.children.length; i < l; i++) {
+			for (var i = 0, l = node.children.length; i < l; i++) {
 				if (node.children[i].open) {
 					isOpen = true;
 					break;
@@ -73,46 +73,61 @@ function beforeClick(treeId, node) {
 				zTree_Menu.expandNode(node, true);
 				curMenu = node;
 			} else {
-				zTree_Menu.expandNode(
-						node.children[0].isParent ? node.children[0] : node,
-						true);
+				zTree_Menu.expandNode(node.children[0].isParent ? node.children[0] : node, true);
 				curMenu = node.children[0];
 			}
 		} else {
 			zTree_Menu.expandNode(node);
 		}
 	}
-//	return !node.isParent;
+	// return !node.isParent;
 	return true;
 };
 
 function onClick(e, treeId, node) {
 
-	var url = $("input:hidden[name=ctx]").val() + "/backend/menu/toDetail?menu_code="
-			+ node.menu_code + "&time=" + new Date().getTime();
+	var url = $("input:hidden[name=ctx]").val() + "/backend/menu/toDetail?menu_code=" + node.menu_code + "&time=" + new Date().getTime();
 	$("#contentframeid").attr("src", url);
 };
 
 function loadTree() {
 	// 加载树
 	var url = $("input:hidden[name=ctx]").val() + "/backend/menu/loadallmenu";
-	$.getJSON(url,{ts: new Date().getTime()}, function(menudata) {
-		
-		alert(menudata);
-		
+	$.getJSON(url, {
+		ts : new Date().getTime()
+	}, function(menudata) {
+
+		// alert(menudata);
+
 		var zNodes = menudata;
 		$.fn.zTree.init($("#menutree"), setting, zNodes);
 		zTree_Menu = $.fn.zTree.getZTreeObj("menutree");
-		
+
 		curMenu = zTree_Menu.getNodes()[0];
-		if (curMenu.children[0] == null || curMenu.children[0]=="undifined"){
-		}else{
+		if (curMenu.children[0] == null || curMenu.children[0] == "undifined") {
+		} else {
 			curMenu = curMenu.children[0];
 		}
-		
+
 		zTree_Menu.selectNode(curMenu);
 		zTree_Menu.expandNode(curMenu);
 		var a = $("#" + zTree_Menu.getNodes()[0].tId + "_a");
 		a.addClass("cur");
 	});
+}
+
+function popUpAddSubMenu(url) {
+	// alert(url);
+
+	$.popUpWindow("添加子菜单", url, "780px", "450px", "add", $("#content_inner_page"));
+}
+
+function closeAddSubMenuWindow() {
+
+	var url = $("#contentframeid").attr("src");
+	$("#contentframeid").attr("src", url);
+	
+	loadTree();
+
+	$.closeWindow("add", $("#content_inner_page"));
 }
