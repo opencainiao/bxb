@@ -4,11 +4,9 @@
 <!-- top navigation -->
 
 <div class="top_nav">
-	<div class="nav_menu">
+	<div class="nav_menu" id="nav_menu">
 		<nav class="" role="navigation">
-
-
-			<ul class="nav navbar-nav navbar-right">
+			<ul class="nav navbar-nav navbar-right" >
 				<li class=""><a href="javascript:;"
 					class="user-profile dropdown-toggle" data-toggle="dropdown"
 					aria-expanded="false"> <img

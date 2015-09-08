@@ -38,6 +38,8 @@ function autoHeight() {
         iframeContentH = iframe.contentDocument.body.offsetHeight;
     }
 
+    toShow.push("iframeContentH[" + iframeContentH + "]");
+
     var divH = $("#home_content").height();
 
     toShow.push("divH[" + divH + "]");
@@ -48,7 +50,7 @@ function autoHeight() {
         toSetH = divH - 5;
     }
     
-    // alert(toShow.join("\n"));
+     alert(toShow.join("\n"));
     iframe.height = toSetH;
     
     if (iframe.Document) { //ie自有属性
@@ -70,7 +72,7 @@ function autoHeight() {
             
             <!-- page content -->
             <div id="home_content" class="right_col" role="main">
-            	<iframe id="frame_content_id" name="frame_content_id"  class="frame_content_container" width="100%" frameborder="0"  onload="handIframeLoad()">
+            	<iframe id="frame_content_id" name="frame_content_id"  class="frame_content_container" width="100%" style="min-height: 500px" frameborder="0"  >
 		    	</iframe>
 		    	
 				<jsp:include page="/WEB-INF/jsp/admin/include/common_nav_footer_gentelella.jsp"></jsp:include>
@@ -91,6 +93,10 @@ function autoHeight() {
     <script type="text/javascript">
     
         $(document).ready(function () {
+            $("#frame_content_id").load(function(){  
+            	var iframe_h = $.autoHeight("frame_content_id");
+            });  
+            
         	loadTree();
         });
     </script>

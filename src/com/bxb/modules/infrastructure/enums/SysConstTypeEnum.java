@@ -2,6 +2,7 @@ package com.bxb.modules.infrastructure.enums;
 
 public enum SysConstTypeEnum {
 
+	SYS_MODULE("SYS_MODULE", " 模块"), //
 	EDUCATION_TYPE("EDUCATION_TYPE", "教育类型"), //
 	MARITAL_STATUS("MARITAL_STATUS", "婚姻情况"), //
 	COMPANY_NATURE("COMPANY_NATURE", "企业性质"), //

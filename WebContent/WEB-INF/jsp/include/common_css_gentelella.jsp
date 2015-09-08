@@ -59,6 +59,12 @@
 .hidden {
 	display: none
 }
+
+.right_col {
+	min-height:600px;
+}
+
+
 -->
 </style>
 

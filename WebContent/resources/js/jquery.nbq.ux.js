@@ -1,78 +1,76 @@
 ;;
 (function($) {
 	$.extend({
-		
-		alertObjJson:function(obj){
+
+		alertObjJson : function(obj) {
 			alert(JSON.stringify(obj));
 		},
-		loadPage:function(url_to){
+		loadPage : function(url_to) {
 			window.location.href = url_to;
 		},
-		closeWindow:function(key,$obj){
+		closeWindow : function(key, $obj) {
 			layer.close($obj.attr(key));
 		},
-		popUpWindow : function(title,url,width,height,key,$obj,offset){
-			
+		popUpWindow : function(title, url, width, height, key, $obj, offset) {
+
 			var w = width || '80%';
 			var h = height || '80%';
-			
-			var offset_default = ['', ''];
-			
-			if (offset){
-				offset_default =  offset;
+
+			var offset_default = [ '', '' ];
+
+			if (offset) {
+				offset_default = offset;
 			}
-			
+
 			$.layer({
 				type : 2,
-				title : [ title,
-						'background:#2B2E37; height:40px; color:#fff; border:none;' //自定义标题样式
+				title : [ title, 'background:#2B2E37; height:40px; color:#fff; border:none;' // 自定义标题样式
 				],
 				border : [ 0 ],
-				area : [w, h ],
-				offset: offset_default,
-				btns:0,
-				btn: [],
+				area : [ w, h ],
+				offset : offset_default,
+				btns : 0,
+				btn : [],
 				iframe : {
 					scrolling : 'yes',
-					src : url 
+					src : url
 				},
-				closeBtn: [0, true],
-				yes: function(index){
+				closeBtn : [ 0, true ],
+				yes : function(index) {
 					layer.close(index);
 				},
-				no: function(index){
+				no : function(index) {
 				},
 				success : function(layero) {
 					var popid = layero.selector;
 					var index = $.getLayerIndex(popid);
-					
+
 					$obj.attr(key, index);
 				}
 			})
 		},
-		showDetailWindow : function(title,url,width,height){
-			
+		showDetailWindow : function(title, url, width, height) {
+
 			var w = width || '80%';
 			var h = height || '80%';
-			
+
 			$.layer({
 				type : 2,
-				title : [ title,
-						'background:#2B2E37; height:40px; color:#fff; border:none;' //自定义标题样式
+				title : [ title, 'background:#2B2E37; height:40px; color:#fff; border:none;' // 自定义标题样式
 				],
 				border : [ 0 ],
-				area : [w, h ],
-				btns:0,
-				btn: [],
+				area : [ w, h ],
+				btns : 0,
+				btn : [],
 				iframe : {
 					scrolling : 'yes',
-					src : url 
+					src : url
 				},
-				closeBtn: [0, true],
-				yes: function(index){
+				closeBtn : [ 0, true ],
+				yes : function(index) {
 					layer.close(index);
 				},
-				no: function(index){
+				no : function(index) {
 				},
 				success : function(layero) {
 					var popid = layero.selector;
@@ -82,173 +80,159 @@
 				}
 			})
 		},
-		alertSuccessCallback:function(title,message,callback){
+		alertSuccessCallback : function(title, message, callback) {
 			var obj = {};
-			
+
 			obj["type"] = "success";
-			obj["title"]= title;
+			obj["title"] = title;
 			obj["message"] = message;
-			
-			if (callback){
-				$.alertMsg(obj,callback);
+
+			if (callback) {
+				$.alertMsg(obj, callback);
 			}
 		},
-		alertSuccessNewPage:function(title,message,newpage){
+		alertSuccessNewPage : function(title, message, newpage) {
 			var obj = {};
-			
-			if (newpage){
-				obj["newpage"] =  newpage;
+
+			if (newpage) {
+				obj["newpage"] = newpage;
 			}
 			obj["type"] = "success";
-			obj["title"]= title;
+			obj["title"] = title;
 			obj["message"] = message;
-			
+
 			$.alertMsg(obj);
 		},
-		alertSuccess:function(title,message,offset){
+		alertSuccess : function(title, message, offset) {
 			var obj = {};
-			
+
 			obj["type"] = "success";
-			obj["title"]= title;
+			obj["title"] = title;
 			obj["message"] = message;
-			if (offset){
+			if (offset) {
 				obj["offset"] = offset;
 			}
-			
+
 			$.alertMsg(obj);
 		},
-		alertError:function(message,title,offset){
+		alertError : function(message, title, offset) {
 			var obj = {};
-			
+
 			obj["type"] = "error";
-			obj["title"]= title || "信息";
+			obj["title"] = title || "信息";
 			obj["message"] = message;
-			if (offset){
+			if (offset) {
 				obj["offset"] = offset;
 			}
-						
+
 			$.alertMsg(obj);
 		},
-		alertMsg:function(obj,call){
+		alertMsg : function(obj, call) {
 			var title_sucess_css = "background: #337ab7;!important  border-color: #337ab7; color: #fff;font-size: 16px;";
-			var html_content =   '<div class="panel panel-default" style="width:400px; margin-bottom: 0px;border:0px">                     '
-								+'    <div class="panel-body" style="padding:0px!important">                                               '
-								+'        <div class="media" style="height:113px">                                                         '
-								+'            <div class="media-left ">                                                                    '
-								+'                #icon#                                                                                   '
-								+'                <div style="width: 50px;">                                                               '
-								+'                    &nbsp;                                                                               '
-								+'                </div>                                                                                   '
-								+'            </div>                                                                                       '
-								+'            <div class="media-body">                                                                     '
-								+'                <p style="margin-top: 10px">                                                                                      '
-								+'                    #content#                                                                            '
-								+'                </p>                                                                                     '
-								+'            </div>                                                                                       '
-								+'        </div>                                                                                           '
-								+'        <nav class="navbar navbar-default " style="margin-bottom: 0px;border-radius:0px;border:0px;">    '
-								+'            <button class="btn btn-ok #btn-typ# center-block navbar-btn" type="button"  style="margin:8px auto 0 !important;">                       '
-								+'                确定                                                                                     '
-								+'            </button>                                                                                    '
-								+'        </nav>                                                                                           '
-								+'    </div>                                                                                               '
-								+'</div> ' ;
-				
+			var html_content = '<div class="panel panel-default" style="width:400px; margin-bottom: 0px;border:0px">                     ' + '    <div class="panel-body" style="padding:0px!important">                                               '
+					+ '        <div class="media" style="height:113px">                                                         ' + '            <div class="media-left ">                                                                    '
+					+ '                #icon#                                                                                   ' + '                <div style="width: 50px;">                                                               '
+					+ '                    &nbsp;                                                                               ' + '                </div>                                                                                   '
+					+ '            </div>                                                                                       ' + '            <div class="media-body">                                                                     '
+					+ '                <p style="margin-top: 10px">                                                                                      ' + '                    #content#                                                                            '
+					+ '                </p>                                                                                     ' + '            </div>                                                                                       '
+					+ '        </div>                                                                                           ' + '        <nav class="navbar navbar-default " style="margin-bottom: 0px;border-radius:0px;border:0px;">    '
+					+ '            <button class="btn btn-ok #btn-typ# center-block navbar-btn" type="button"  style="margin:8px auto 0 !important;">                       ' + '                确定                                                                                     '
+					+ '            </button>                                                                                    ' + '        </nav>                                                                                           '
+					+ '    </div>                                                                                               ' + '</div> ';
+
 			var title = obj.title;
 			var message = obj.message;
 			var type = obj.type;
-			
-			if (type == "success"){
-				var iconhtml = '<span class="xubox_msg xulayer_png32 xubox_msgico xubox_msgtype1" style="top: 10px;"></span>';
-				
-				html_content = html_content.replace("#icon#",iconhtml);
-				
-				html_content = html_content.replace("#btn-typ#","btn-success");
-				
-			}else if (type == "error"){
-				var iconhtml = '<span class="xubox_msg xulayer_png32 xubox_msgico xubox_msgtype3" style="top: 10px;"></span>';
-				
-				html_content = html_content.replace("#icon#",iconhtml);
-				
-				message = '<span style="color:red">'+ message +'</span>'
-				
-				html_content = html_content.replace("#btn-typ#","btn-primary");
-			}
-			
-			html_content = html_content.replace("#content#",message);
 
-			var offset_default = ['', ''];
-			if (obj["offset"]){
-				offset_default =  obj["offset"];
+			if (type == "success") {
+				var iconhtml = '<span class="xubox_msg xulayer_png32 xubox_msgico xubox_msgtype1" style="top: 10px;"></span>';
+
+				html_content = html_content.replace("#icon#", iconhtml);
+
+				html_content = html_content.replace("#btn-typ#", "btn-success");
+
+			} else if (type == "error") {
+				var iconhtml = '<span class="xubox_msg xulayer_png32 xubox_msgico xubox_msgtype3" style="top: 10px;"></span>';
+
+				html_content = html_content.replace("#icon#", iconhtml);
+
+				message = '<span style="color:red">' + message + '</span>'
+
+				html_content = html_content.replace("#btn-typ#", "btn-primary");
 			}
-			
+
+			html_content = html_content.replace("#content#", message);
+
+			var offset_default = [ '', '' ];
+			if (obj["offset"]) {
+				offset_default = obj["offset"];
+			}
+
 			var obj = obj || {};
 			var pageii = $.layer({
-                type: 1,
-                title:[title,title_sucess_css],
-                area: obj.area ? [obj.area[0]+'px', obj.area[1]+'px'] : ['400px', '200px'],
-                border: [1, 0.9, '#337ab7'],
-                offset: offset_default,
-                shade: [1], //0-去掉遮罩
-                closeBtn: [0, false], //去掉默认关闭按钮
-                page: {
-                    html: html_content
-                }, success: function(layero){
-                	
-                	var popid = layero.selector;
+				type : 1,
+				title : [ title, title_sucess_css ],
+				area : obj.area ? [ obj.area[0] + 'px', obj.area[1] + 'px' ] : [ '400px', '200px' ],
+				border : [ 1, 0.9, '#337ab7' ],
+				offset : offset_default,
+				shade : [ 1 ], // 0-去掉遮罩
+				closeBtn : [ 0, false ], // 去掉默认关闭按钮
+				page : {
+					html : html_content
+				},
+				success : function(layero) {
+
+					var popid = layero.selector;
 					var $choose_spec = $("#choose_spec");
 					var index = $.getLayerIndex(popid);
-                	$("#xubox_border" + index).css("border-radius","0px");
-                	
-                	layero.find('.btn-ok').on('click', function(){
-                		
-                		if (obj["newpage"]){
-                			window.location.href = obj["newpage"];
-                		}else{
-                			if (call){
-                				call && call();
-                			}
-                            
-                            layer.close(pageii);
-                		}
-                    });
-                }
-            });
+					$("#xubox_border" + index).css("border-radius", "0px");
+
+					layero.find('.btn-ok').on('click', function() {
+
+						if (obj["newpage"]) {
+							window.location.href = obj["newpage"];
+						} else {
+							if (call) {
+								call && call();
+							}
+
+							layer.close(pageii);
+						}
+					});
+				}
+			});
 		},
-		getEncodVal:function($obj){
+		getEncodVal : function($obj) {
 			return $.htmlEncode($obj.val().trim());
 		},
-		htmlDecodeContainer:function(container) {
-			$("input" ,$(container)).each(function(){
+		htmlDecodeContainer : function(container) {
+			$("input", $(container)).each(function() {
 				$(this).val($.htmlDecode($(this).val()));
 			})
-			$("textarea" ,$(container)).each(function(){
+			$("textarea", $(container)).each(function() {
 				$(this).val($.htmlDecode($(this).val()));
 			})
 		},
-		htmlEncode:function(value){
-		        return $('<div />').text(value).html();
+		htmlEncode : function(value) {
+			return $('<div />').text(value).html();
 		},
-		htmlDecode:function(value) {
-		        return $('<div />').html(value).text();
+		htmlDecode : function(value) {
+			return $('<div />').html(value).text();
 		},
-		getLayerIndex:function(layerid){
+		getLayerIndex : function(layerid) {
 			return layerid.substring("#xubox_layer".length);
 		},
 		/*
-		 * 检测对象是否是空对象(不包含任何可读属性)。
-		 * 方法只既检测对象本身的属性，不检测从原型继承的属性。
+		 * 检测对象是否是空对象(不包含任何可读属性)。 方法只既检测对象本身的属性，不检测从原型继承的属性。
 		 */
-		isOwnEmpty : function(obj)
-		{
-		    for(var name in obj)
-		    {
-		        if(obj.hasOwnProperty(name))
-		        {
-		            return false;
-		        }
-		    }
-		    return true;
+		isOwnEmpty : function(obj) {
+			for ( var name in obj) {
+				if (obj.hasOwnProperty(name)) {
+					return false;
+				}
+			}
+			return true;
 		},
 		/***********************************************************************
 		 * 取同名元素的值，返回为数组
@@ -261,8 +245,7 @@
 		},
 
 		resizeParentIFrame : function(iframeID, height) {
-			var content_iframe = window.parent.document
-					.getElementById(iframeID);// 获取iframeID
+			var content_iframe = window.parent.document.getElementById(iframeID);// 获取iframeID
 			// var div_height = parseInt($(content_iframe).contents()
 			// .find("子网页ID").css("height"));// 使iframe高度等于子网页高度
 			content_iframe.height = height + 100;
@@ -295,42 +278,86 @@
 		/***********************************************************************
 		 * 调用弹出页面的js方法
 		 */
-		callLayerFunc : function(layerIndex,callback,param) {
-			
+		callLayerFunc : function(layerIndex, callback, param) {
+
 			var frameName = "xubox_iframe" + layerIndex;
 			var _function = window.frames[frameName].eval(callback);
-			
-			if (arguments.length >2){
+
+			if (arguments.length > 2) {
 				return _function(param);
-			}else{
+			} else {
 				return _function();
 			}
 		},
-		/****
+		/***********************************************************************
 		 * 取iframe的页面的Document
 		 */
-		getIframeDoc:function(){
-				
-			 var iframeDoc;
-			 var iframe = document.getElementById("frame_content_id");
-			 
-			 if(iframe.Document){//ie自有属性
-				 iframeDoc = iframe.Document;
-			 }else if(iframe.contentDocument){//ie,firefox,chrome,opera,safari
-				 iframeDoc = iframe.contentDocument; 
-			 }
-			 
-			 return iframeDoc;
+		getIframeDoc : function() {
+
+			var iframeDoc;
+			var iframe = document.getElementById("frame_content_id");
+
+			if (iframe.Document) {// ie自有属性
+				iframeDoc = iframe.Document;
+			} else if (iframe.contentDocument) {// ie,firefox,chrome,opera,safari
+				iframeDoc = iframe.contentDocument;
+			}
+
+			return iframeDoc;
 		},
-		/****
+		/***********************************************************************
 		 * 取iframe的页面的window
 		 */
-		getIframeWindow:function(){
-				
-			 var iframe = document.getElementById("frame_content_id");
-			 var iframeWindow = iframe.contentWindow;
-			 
-			 return iframeWindow;
+		getIframeWindow : function() {
+
+			var iframe = document.getElementById("frame_content_id");
+			var iframeWindow = iframe.contentWindow;
+
+			return iframeWindow;
+		},
+		setIframeHeight : function(iframe_id, h) {
+
+			var iframe = document.getElementById(iframe_id);
+
+			$(iframe).height(h);
+		},
+		autoHeight : function(iframe_id) {
+
+			var iframe = document.getElementById(iframe_id);
+
+			var toShow = [];
+
+			var toSetH = 0;
+
+			var iframeContentH = 0;
+
+			if (iframe.Document) { // ie自有属性
+				iframeContentH = iframe.Document.documentElement.scrollHeight;
+			} else if (iframe.contentDocument) { // ie,firefox,chrome,opera,safari
+
+				iframeContentH = $("#" + iframe_id).contents().find("body").height();
+
+				// iframeContentH = iframe.contentDocument.body.offsetHeight;
+			}
+
+			toShow.push("iframeContentH[" + iframeContentH + "]");
+
+			toSetH = iframeContentH + 10;
+
+			// alert(toShow.join("\n"));
+
+			iframe.height = toSetH;
+
+			if (iframe.Document) { // ie自有属性
+				iframeDoc = iframe.Document;
+			} else if (iframe.contentDocument) { // ie,firefox,chrome,opera,safari
+				iframeDoc = iframe.contentDocument;
+			}
+
+			iframeDoc.height = toSetH + 5;
+			$(iframe).height(toSetH + 8);
+
+			return iframeDoc.height;
 		}
 	});
 })(jQuery);
@@ -377,11 +404,11 @@ $.browser = {
 					}
 				} else {
 					if (oEle.checked) {
-						ret[oEle.name].push( $.htmlDecode(oEle.value.trim()));
+						ret[oEle.name].push($.htmlDecode(oEle.value.trim()));
 					}
 				}
 			} else {
-				ret[oEle.name] =  $.htmlDecode(oEle.value.trim());
+				ret[oEle.name] = $.htmlDecode(oEle.value.trim());
 			}
 		}
 		return ret;
@@ -410,17 +437,17 @@ $.browser = {
 		isArray : function(obj) {
 			return Object.prototype.toString.call(obj) === '[object Array]';
 		},
-		isLowerBrowser:function(){
-			if ($.isIE()){
+		isLowerBrowser : function() {
+			if ($.isIE()) {
 				var version = $.ieVersion();
-				
-				if (version<=9){
+
+				if (version <= 9) {
 					return true;
 				}
-			}else{
+			} else {
 				return false;
 			}
-			
+
 		},
 		isIE : function() {
 			var browser = navigator.appName;
@@ -435,19 +462,15 @@ $.browser = {
 			var b_version = navigator.appVersion
 			var version = b_version.split(";");
 			var trim_Version = version[1].replace(/[ ]/g, "");
-			if (browser == "Microsoft Internet Explorer"
-					&& trim_Version == "MSIE6.0") {
+			if (browser == "Microsoft Internet Explorer" && trim_Version == "MSIE6.0") {
 				return 6;
-			} else if (browser == "Microsoft Internet Explorer"
-					&& trim_Version == "MSIE7.0") {
+			} else if (browser == "Microsoft Internet Explorer" && trim_Version == "MSIE7.0") {
 				return 7;
-			} else if (browser == "Microsoft Internet Explorer"
-					&& trim_Version == "MSIE8.0") {
+			} else if (browser == "Microsoft Internet Explorer" && trim_Version == "MSIE8.0") {
 				return 8;
-			} else if (browser == "Microsoft Internet Explorer"
-					&& trim_Version == "MSIE9.0") {
+			} else if (browser == "Microsoft Internet Explorer" && trim_Version == "MSIE9.0") {
 				return 9;
-			}else {
+			} else {
 				return 100;
 			}
 		},
@@ -539,8 +562,7 @@ $.browser = {
 		 */
 		enableButton : function(btnId) {
 			setTimeout(function() {
-				$("#" + btnId).removeAttr("disabled").removeClass(
-						'disabled-button');
+				$("#" + btnId).removeAttr("disabled").removeClass('disabled-button');
 			}, 0);
 		},
 		/***********************************************************************
@@ -550,8 +572,7 @@ $.browser = {
 		 */
 		enableButtonTime : function(btnId, time) {
 			setTimeout(function() {
-				$("#" + btnId).removeAttr("disabled").removeClass(
-						'disabled-button');
+				$("#" + btnId).removeAttr("disabled").removeClass('disabled-button');
 			}, 2 * time * 1000);
 		},
 		/***********************************************************************
@@ -610,82 +631,81 @@ $.browser = {
 ;
 (function($) {
 	$.extend({
-				/***************************************************************
-				 * 渲染输入控件
-				 * 
-				 * @param iptSetting
-				 */
-				renderInputControl : function(iptSetting) {
-					// 1. 注册点击事件
-					$(".inputControl span").click(function(event) {
-						event.preventDefault();
+		/***********************************************************************
+		 * 渲染输入控件
+		 * 
+		 * @param iptSetting
+		 */
+		renderInputControl : function(iptSetting) {
+			// 1. 注册点击事件
+			$(".inputControl span").click(function(event) {
+				event.preventDefault();
 
-						$.handleReference($(this));
-					});
-
-					// 2. 登记控件要素信息
-					for (var i = 0, len = iptSetting.eles.length; i < len; ++i) {
-						iptSetting.eles[i].no = i;
-
-						iptSetting.eleNoMap[iptSetting.eles[i].name] = i;
-					}
-				},
-				/***************************************************************
-				 * 处理控件参照
-				 * 
-				 * @param o
-				 */
-				handleReference : function(o) {
-					// alert("call handleReference");
-					var name = o.parents('.inputControl').children("input")
-							.attr('name');
-					var config = inputControlSetting.eles[inputControlSetting.eleNoMap[name]];
-					// alert(jsonToString(config));
-					if (config.vType == "grid") {
-						$.handleGridReference(config);
-					} else if (config.vType == "tree") {
-						$.handleTreeReference(config);
-					}
-				},
-				/***************************************************************
-				 * 处理表格型控件
-				 * 
-				 * @param config
-				 */
-				handleGridReference : function(config) {
-					var url = $.getSitePath() + "/Ref/grid.do";
-					cur_ipt_controll_config = config;
-					// alert(jsonToString(cur_ipt_controll_config));
-					// alert("处理表格型控件 \n" + jsonToString(config));
-					// alert(url);
-					// 1. 弹出窗口
-					jw.dialog($.extend({
-						iframe : url,
-						iframeScroll : true,
-						resizable : false,
-						title : config.title
-					}, config));
-				},
-				/***************************************************************
-				 * 处理树型控件
-				 * 
-				 * @param config
-				 */
-				handleTreeReference : function(config) {
-					var url = $.getSitePath() + "/Ref/tree.do";
-					cur_ipt_controll_config = config;
-					// alert(jsonToString(cur_ipt_controll_config));
-					// alert("处理树型控件 \n" + jsonToString(config));
-					// alert(url);
-					// 1. 弹出窗口
-					jw.dialog($.extend({
-						iframe : url,
-						iframeScroll : true,
-						resizable : false,
-						title : config.title
-					}, config));
-				}
+				$.handleReference($(this));
 			});
+
+			// 2. 登记控件要素信息
+			for (var i = 0, len = iptSetting.eles.length; i < len; ++i) {
+				iptSetting.eles[i].no = i;
+
+				iptSetting.eleNoMap[iptSetting.eles[i].name] = i;
+			}
+		},
+		/***********************************************************************
+		 * 处理控件参照
+		 * 
+		 * @param o
+		 */
+		handleReference : function(o) {
+			// alert("call handleReference");
+			var name = o.parents('.inputControl').children("input").attr('name');
+			var config = inputControlSetting.eles[inputControlSetting.eleNoMap[name]];
+			// alert(jsonToString(config));
+			if (config.vType == "grid") {
+				$.handleGridReference(config);
+			} else if (config.vType == "tree") {
+				$.handleTreeReference(config);
+			}
+		},
+		/***********************************************************************
+		 * 处理表格型控件
+		 * 
+		 * @param config
+		 */
+		handleGridReference : function(config) {
+			var url = $.getSitePath() + "/Ref/grid.do";
+			cur_ipt_controll_config = config;
+			// alert(jsonToString(cur_ipt_controll_config));
+			// alert("处理表格型控件 \n" + jsonToString(config));
+			// alert(url);
+			// 1. 弹出窗口
+			jw.dialog($.extend({
+				iframe : url,
+				iframeScroll : true,
+				resizable : false,
+				title : config.title
+			}, config));
+		},
+		/***********************************************************************
+		 * 处理树型控件
+		 * 
+		 * @param config
+		 */
+		handleTreeReference : function(config) {
+			var url = $.getSitePath() + "/Ref/tree.do";
+			cur_ipt_controll_config = config;
+			// alert(jsonToString(cur_ipt_controll_config));
+			// alert("处理树型控件 \n" + jsonToString(config));
+			// alert(url);
+			// 1. 弹出窗口
+			jw.dialog($.extend({
+				iframe : url,
+				iframeScroll : true,
+				resizable : false,
+				title : config.title
+			}, config));
+		}
+	});
 })(jQuery);
 
 (function($) {
@@ -710,8 +730,7 @@ $.browser = {
 			});
 
 			// var height_ref_button = 0 - centerdiv.height() / 2;
-			var height_ref_button = 0 - containerdiv.height() * (50 - percent)
-					/ 100;
+			var height_ref_button = 0 - containerdiv.height() * (50 - percent) / 100;
 			var width_ref_button = 0 - centerdiv.width() / 2;
 			centerdiv.css({
 				"margin-top" : height_ref_button
@@ -818,214 +837,203 @@ $.browser = {
 ;
 (function($) {
 	$.extend({
-				/***************************************************************
-				 * 删除服务器文件
-				 */
-				delSeverFile : function(fileid) {
+		/***********************************************************************
+		 * 删除服务器文件
+		 */
+		delSeverFile : function(fileid) {
 
-					var url_to = $.getSitePath()
-							+ "/fileupload/ajaxDeleteOneFile";
+			var url_to = $.getSitePath() + "/fileupload/ajaxDeleteOneFile";
 
-					// alert(url_to);
-					if (fileid && fileid.length > 0) {
-						$.ajax({
-							url : url_to,
-							data : {
-								ts : new Date().getTime(),
-								_id_m : fileid
-							},
-							type : 'GET',
-							dataType : 'json',
-							success : function(data) {
-								// alert(JSON.stringify(data));
-							}
-						});
+			// alert(url_to);
+			if (fileid && fileid.length > 0) {
+				$.ajax({
+					url : url_to,
+					data : {
+						ts : new Date().getTime(),
+						_id_m : fileid
+					},
+					type : 'GET',
+					dataType : 'json',
+					success : function(data) {
+						// alert(JSON.stringify(data));
 					}
-				},
+				});
+			}
+		},
 
-				/***************************************************************
-				 * 异步上传一个图片
-				 */
-				picupload : function(picNoSuffix) {
+		/***********************************************************************
+		 * 异步上传一个图片
+		 */
+		picupload : function(picNoSuffix) {
 
-					var file_id = picNoSuffix + "_file";
-					var file_hidden_id = picNoSuffix + "_hidden";
-					var file_show_id = picNoSuffix + "_show";
+			var file_id = picNoSuffix + "_file";
+			var file_hidden_id = picNoSuffix + "_hidden";
+			var file_show_id = picNoSuffix + "_show";
 
-					if ($("#" + file_id).val() == "") {
-						alert("上传文件不能为空!");
-						return false;
-					}
+			if ($("#" + file_id).val() == "") {
+				alert("上传文件不能为空!");
+				return false;
+			}
 
-					var txtImg_url = $("#" + file_id).val().toLowerCase();
+			var txtImg_url = $("#" + file_id).val().toLowerCase();
 
-					var txtImg_ext = txtImg_url.substring(
-							txtImg_url.length - 3, txtImg_url.length)
-							.toLowerCase();
+			var txtImg_ext = txtImg_url.substring(txtImg_url.length - 3, txtImg_url.length).toLowerCase();
 
-					if (txtImg_ext != "png" && txtImg_ext != "gif"
-							&& txtImg_ext != "jpg" && txtImg_ext != "jpeg") {
+			if (txtImg_ext != "png" && txtImg_ext != "gif" && txtImg_ext != "jpg" && txtImg_ext != "jpeg") {
 
-						alert("请选择png或gif、jpg、jpeg格式的文件!");
+				alert("请选择png或gif、jpg、jpeg格式的文件!");
 
-						$("#" + file_id).select();
+				$("#" + file_id).select();
 
-						$("#" + file_id).focus();
+				$("#" + file_id).focus();
 
-						return false;
+				return false;
 
-					}
+			}
 
-					if (arguments.length > 1) {
+			if (arguments.length > 1) {
 
-						var MAXSIZE = arguments[1];
+				var MAXSIZE = arguments[1];
 
-						var imagefile = document.getElementById("#" + file_id).files[0];
+				var imagefile = document.getElementById("#" + file_id).files[0];
 
-						var size = imagefile.size / 1024.0;
+				var size = imagefile.size / 1024.0;
 
-						if (size > MAXSIZE) {
+				if (size > MAXSIZE) {
 
-							oms_message("图片大小不超过" + MAXSIZE + "K!");
+					oms_message("图片大小不超过" + MAXSIZE + "K!");
 
-							return false;
-						}
-					}
-
-					var url_to_upload = $.getSitePath()
-							+ "/fileupload/ajaxUpload";
-
-					// alert(url_to_upload);
-
-					$.ajaxFileUpload({
-						url : url_to_upload,
-						secureuri : false,
-						fileElementId : file_id,// 文件选择框的id属性
-						dataType : 'json', // 也可以是json
-						beforeSend : function() {
-							$("#loading").show();
-						},
-						complete : function() {
-							$("#loading").hide();
-						},
-						success : function(data) {
-
-							// alert(JSON.stringify(data));
-							var urlrtn = data["path"];
-
-							var urlbefore = $('#' + file_hidden_id).val();
-
-							$('#' + file_hidden_id).val(urlrtn);
-
-							$('#' + file_show_id).attr("src",
-									$.getSitePath() + urlrtn);
-
-							// var alertStr = [];
-							// alertStr.push("before--["+urlbefore+"]");
-							// alertStr.push("after---["+urlrtn+"]");
-							// alert(alertStr.join("\n"));
-
-							$.delSeverFile(urlbefore);
-						},
-						error : function(data, status, e) {
-							alert(e);
-						}
-					});
-					return false;
-				},
-
-				/***************************************************************
-				 * 异步上传一个图片，并压缩
-				 */
-				picupload_zip : function(picNoSuffix) {
-
-					var file_id = picNoSuffix + "_file";
-					var file_hidden_id = picNoSuffix + "_hidden";
-					var file_show_id = picNoSuffix + "_show";
-
-					if ($("#" + file_id).val() == "") {
-						alert("上传文件不能为空!");
-						return false;
-					}
-
-					var txtImg_url = $("#" + file_id).val().toLowerCase();
-
-					var txtImg_ext = txtImg_url.substring(
-							txtImg_url.length - 3, txtImg_url.length)
-							.toLowerCase();
-
-					if (txtImg_ext != "png" && txtImg_ext != "gif"
-							&& txtImg_ext != "jpg" && txtImg_ext != "jpeg") {
-
-						alert("请选择png或gif、jpg、jpeg格式的文件!");
-
-						$("#" + file_id).select();
-
-						$("#" + file_id).focus();
-
-						return false;
-
-					}
-
-					if (arguments.length > 1) {
-
-						var MAXSIZE = arguments[1];
-
-						var imagefile = document.getElementById("#" + file_id).files[0];
-
-						var size = imagefile.size / 1024.0;
-
-						if (size > MAXSIZE) {
-
-							oms_message("图片大小不超过" + MAXSIZE + "K!");
-
-							return false;
-						}
-					}
-
-					var url_to_upload = $.getSitePath()
-							+ "/fileupload/ajaxUpload?zip=1";
-
-					// alert(url_to_upload);
-
-					$.ajaxFileUpload({
-						url : url_to_upload,
-						secureuri : false,
-						fileElementId : file_id,// 文件选择框的id属性
-						dataType : 'json', // 也可以是json
-						beforeSend : function() {
-							$("#loading").show();
-						},
-						complete : function() {
-							$("#loading").hide();
-						},
-						success : function(data) {
-
-							// alert(JSON.stringify(data));
-							var urlrtn = data["path"];
-							var fileid = data["fileid"];
-
-							var idbefore = $('#' + file_hidden_id).val();
-
-							$('#' + file_hidden_id).val(fileid);
-
-							$('#' + file_show_id).attr("src",
-									$.getSitePath() + urlrtn);
-
-							// var alertStr = [];
-							// alertStr.push("before--["+idbefore+"]");
-							// alertStr.push("after---["+fileid+"]");
-							// alert(alertStr.join("\n"));
-
-							$.delSeverFile(idbefore);
-						},
-						error : function(data, status, e) {
-							alert(e);
-						}
-					});
 					return false;
 				}
+			}
+
+			var url_to_upload = $.getSitePath() + "/fileupload/ajaxUpload";
+
+			// alert(url_to_upload);
+
+			$.ajaxFileUpload({
+				url : url_to_upload,
+				secureuri : false,
+				fileElementId : file_id,// 文件选择框的id属性
+				dataType : 'json', // 也可以是json
+				beforeSend : function() {
+					$("#loading").show();
+				},
+				complete : function() {
+					$("#loading").hide();
+				},
+				success : function(data) {
+
+					// alert(JSON.stringify(data));
+					var urlrtn = data["path"];
+
+					var urlbefore = $('#' + file_hidden_id).val();
+
+					$('#' + file_hidden_id).val(urlrtn);
+
+					$('#' + file_show_id).attr("src", $.getSitePath() + urlrtn);
+
+					// var alertStr = [];
+					// alertStr.push("before--["+urlbefore+"]");
+					// alertStr.push("after---["+urlrtn+"]");
+					// alert(alertStr.join("\n"));
+
+					$.delSeverFile(urlbefore);
+				},
+				error : function(data, status, e) {
+					alert(e);
+				}
 			});
+			return false;
+		},
+
+		/***********************************************************************
+		 * 异步上传一个图片，并压缩
+		 */
+		picupload_zip : function(picNoSuffix) {
+
+			var file_id = picNoSuffix + "_file";
+			var file_hidden_id = picNoSuffix + "_hidden";
+			var file_show_id = picNoSuffix + "_show";
+
+			if ($("#" + file_id).val() == "") {
+				alert("上传文件不能为空!");
+				return false;
+			}
+
+			var txtImg_url = $("#" + file_id).val().toLowerCase();
+
+			var txtImg_ext = txtImg_url.substring(txtImg_url.length - 3, txtImg_url.length).toLowerCase();
+
+			if (txtImg_ext != "png" && txtImg_ext != "gif" && txtImg_ext != "jpg" && txtImg_ext != "jpeg") {
+
+				alert("请选择png或gif、jpg、jpeg格式的文件!");
+
+				$("#" + file_id).select();
+
+				$("#" + file_id).focus();
+
+				return false;
+
+			}
+
+			if (arguments.length > 1) {
+
+				var MAXSIZE = arguments[1];
+
+				var imagefile = document.getElementById("#" + file_id).files[0];
+
+				var size = imagefile.size / 1024.0;
+
+				if (size > MAXSIZE) {
+
+					oms_message("图片大小不超过" + MAXSIZE + "K!");
+
+					return false;
+				}
+			}
+
+			var url_to_upload = $.getSitePath() + "/fileupload/ajaxUpload?zip=1";
+
+			// alert(url_to_upload);
+
+			$.ajaxFileUpload({
+				url : url_to_upload,
+				secureuri : false,
+				fileElementId : file_id,// 文件选择框的id属性
+				dataType : 'json', // 也可以是json
+				beforeSend : function() {
+					$("#loading").show();
+				},
+				complete : function() {
+					$("#loading").hide();
+				},
+				success : function(data) {
+
+					// alert(JSON.stringify(data));
+					var urlrtn = data["path"];
+					var fileid = data["fileid"];
+
+					var idbefore = $('#' + file_hidden_id).val();
+
+					$('#' + file_hidden_id).val(fileid);
+
+					$('#' + file_show_id).attr("src", $.getSitePath() + urlrtn);
+
+					// var alertStr = [];
+					// alertStr.push("before--["+idbefore+"]");
+					// alertStr.push("after---["+fileid+"]");
+					// alert(alertStr.join("\n"));
+
+					$.delSeverFile(idbefore);
+				},
+				error : function(data, status, e) {
+					alert(e);
+				}
+			});
+			return false;
+		}
+	});
 })(jQuery);
 ;;
 var ajax_attach_uploader_mou = {
@@ -1041,9 +1049,10 @@ var ajax_attach_uploader_mou = {
 		var cp_param = opt.cp_param || "150x120x0";
 		var isattach = opt.is_attach || "0";
 		var iscompress = opt.iscompress || "0";
-		//var url_to_upload = opt.url || $.getSitePath()	+ "/fileupload/ajaxUploadOneAttachment";
-		
-		var url_to_upload = opt.url || $.getSitePath() 	+ "/attachmentupload/ajaxUploadOneAttachment?cp_param=" + cp_param + "&isattach=" + isattach + "&iscompress="+iscompress;
+		// var url_to_upload = opt.url || $.getSitePath() +
+		// "/fileupload/ajaxUploadOneAttachment";
+
+		var url_to_upload = opt.url || $.getSitePath() + "/attachmentupload/ajaxUploadOneAttachment?cp_param=" + cp_param + "&isattach=" + isattach + "&iscompress=" + iscompress;
 
 		var _file = $("#" + file_id);
 
@@ -1054,8 +1063,7 @@ var ajax_attach_uploader_mou = {
 
 		if (extallow.length > 0) {
 			var _url = _file.val().toLowerCase();
-			var _ext = _url.substring(_url.length - 3, _url.length)
-					.toLowerCase();
+			var _ext = _url.substring(_url.length - 3, _url.length).toLowerCase();
 
 			if (extallow.indexOf(_ext) < 0) {
 				alert("非法的文件类型，不允许上传!");
@@ -1095,4 +1103,3 @@ var ajax_attach_uploader_mou = {
 		return false;
 	}
 }
-

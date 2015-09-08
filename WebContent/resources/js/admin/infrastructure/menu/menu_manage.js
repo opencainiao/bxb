@@ -1,9 +1,15 @@
 $().ready(function() {
 	// 获取全局参数
 	var ctx = $("input:hidden[name=ctx]").val();
-
-	// 页面布局
-	pageLayout();
+	
+	 $("#contentframeid").load(function(){  
+		// 设置iframe自适应
+		var iframe_h = $.autoHeight("contentframeid");
+		
+		var toSet_h = iframe_h;
+		
+		$("#leftMenuLayout").css("height", toSet_h + 5 );
+	 });
 
 	loadTree();
 	
@@ -13,17 +19,6 @@ $().ready(function() {
 var zTree_Menu;
 var curMenu;
 
-function pageLayout() {
-
-	var mainHeight = $(window).height() - 60;
-
-	$("#leftMenuLayout").css("height", mainHeight - 8);
-	$("#menu_detail").css("height", mainHeight - 8);
-
-	// 设置iframe自适应
-	$("#contentframeid").css("height", mainHeight - 13);
-
-}
 
 var setting = {
 	view : {
@@ -127,7 +122,7 @@ function loadTree(menu_code) {
 	});
 }
 
-//重新加载指定部门的节点(异步)
+// 重新加载指定部门的节点(异步)
 function ReloadNode(menu_code) {
 	loadTree(menu_code);
 }
@@ -146,7 +141,7 @@ function closeAddSubMenuWindow() {
 	
 	var menu_code = $("#contentframeid").attr("menu_code");
 	ReloadNode(menu_code);
-	//loadTree();
+	// loadTree();
 
 	$.closeWindow("add", $("#content_inner_page"));
 }
