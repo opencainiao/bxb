@@ -16,7 +16,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bxb.common.globalhandler.ErrorHandler;
 import com.bxb.common.globalobj.PageVO;
+import com.bxb.common.globalobj.ValidResult;
 import com.bxb.common.globalobj.exception.ValidateException;
 import com.bxb.common.util.BeanUtil;
 import com.bxb.common.util.MenuUtil;
@@ -87,6 +89,11 @@ public class SysMenuService extends BaseService implements ISysMenuService {
 	 * @throws Exception
 	 */
 	public String insert(SysMenu sysMenu) throws Exception {
+
+		ValidResult validResult = this.validate(sysMenu);
+		if (validResult.hasErrors()) {
+			throw new ValidateException(validResult);
+		}
 
 		// 校验
 		String menuName = sysMenu.getMenu_name().trim();

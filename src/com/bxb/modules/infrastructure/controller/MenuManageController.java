@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.bxb.common.globalhandler.ErrorHandler;
 import com.bxb.common.globalhandler.PageSearchResultHandler;
 import com.bxb.common.globalobj.RequestResult;
 import com.bxb.common.util.MenuUtil;
@@ -120,6 +121,10 @@ public class MenuManageController extends BaseController {
 			HttpServletRequest request, HttpServletResponse response,
 			Model model) throws Exception {
 
+		if (br.hasErrors()) {
+			return this.handleValidateFalse(br);
+		}
+
 		logger.debug("sysmenu\n{}", sysmenu);
 
 		try {
@@ -147,7 +152,6 @@ public class MenuManageController extends BaseController {
 	@RequestMapping("/toDetail")
 	public ModelAndView toDetail(HttpServletRequest request,
 			HttpServletResponse response, Model model) {
-		logger.debug("-- into detail page --");
 
 		ModelAndView successM_V = new ModelAndView(
 				"admin/infrastructure/menu/menu_detail");
@@ -280,7 +284,8 @@ public class MenuManageController extends BaseController {
 
 		try {
 
-			this.sysMenuService.delMenu(_id);;
+			this.sysMenuService.delMenu(_id);
+			;
 
 			RequestResult rr = new RequestResult();
 			rr.setSuccess(true);
@@ -290,7 +295,7 @@ public class MenuManageController extends BaseController {
 			return this.handleException(e);
 		}
 	}
-	
+
 	/****
 	 * 取所有菜单
 	 * 

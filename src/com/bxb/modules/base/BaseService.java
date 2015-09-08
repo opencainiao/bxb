@@ -1,14 +1,66 @@
 package com.bxb.modules.base;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.Validator;
+
 import org.mou.common.DateUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bxb.common.cash.context.Contexkeys;
 import com.bxb.common.cash.context.ThreadContextManager;
+import com.bxb.common.globalobj.ValidResult;
 import com.bxb.common.util.ValidateUtil;
 import com.bxb.modules.user.model.User;
 import com.mongodb.DBObject;
 
 public class BaseService implements IBaseService {
+
+	@Autowired
+	private Validator validator;
+
+	/****
+	 * 基于JSR301校验对象<br>
+	 * 
+	 * 样例：<br>
+	 * 
+	 * <PRE>
+	 * ValidResult validResult = this.validate(XXX);
+	 * if (validResult.hasErrors()) {
+	 * 	return ErrorHandler.getRequestResultFromValidResult(validResult);
+	 * }
+	 * </PRE>
+	 * 
+	 * @param source
+	 * @return
+	 */
+	public ValidResult validate(Object source) {
+
+		ValidResult validresult = new ValidResult();
+
+		Set<ConstraintViolation<Object>> violations = validator
+				.validate(source);
+
+		if (violations != null && violations.size() > 0) {
+
+			Map<String, String> errors = new HashMap<String, String>();
+
+			for (ConstraintViolation<Object> violation : violations) {
+				// 这部分当然是获取验证的出错的字段名
+				String field = violation.getPropertyPath().toString();
+				String message = violation.getMessage();
+
+				errors.put(field, message);
+			}
+
+			validresult.setErrors(errors);
+		}
+
+		return validresult;
+	}
 
 	/****
 	 * 判断是否合法的objectId

@@ -119,7 +119,7 @@ function loadTree() {
 function popUpAddSubMenu(url) {
 	// alert(url);
 
-	$.popUpWindow("添加子菜单", url, "780px", "450px", "add", $("#content_inner_page"));
+	$.popUpWindow("添加子菜单", url, "780px", "450px", "add", $("#content_inner_page"),['100px','']);
 }
 
 function closeAddSubMenuWindow() {

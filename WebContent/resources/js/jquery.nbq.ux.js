@@ -11,10 +11,16 @@
 		closeWindow:function(key,$obj){
 			layer.close($obj.attr(key));
 		},
-		popUpWindow : function(title,url,width,height,key,$obj){
+		popUpWindow : function(title,url,width,height,key,$obj,offset){
 			
 			var w = width || '80%';
 			var h = height || '80%';
+			
+			var offset_default = ['', ''];
+			
+			if (offset){
+				offset_default =  offset;
+			}
 			
 			$.layer({
 				type : 2,
@@ -23,6 +29,7 @@
 				],
 				border : [ 0 ],
 				area : [w, h ],
+				offset: offset_default,
 				btns:0,
 				btn: [],
 				iframe : {
