@@ -41,7 +41,7 @@ public interface ISysMenuService {
 	 * @param dataIn
 	 * @return
 	 */
-	public DBObject update(Map dataIn);
+	public DBObject update(SysMenu sysmenu);
 
 	/****
 	 * 移动菜单

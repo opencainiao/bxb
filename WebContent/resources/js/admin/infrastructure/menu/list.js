@@ -18,7 +18,7 @@ $().ready(function() {
 		var params = [];
 		params.push("supmnulvl=" + $("#menu_level").val());
 		params.push("sup_menu_code=" + $("#menu_code").val());
-		params.push("supmnunam=" + $("#menu_name").val());
+		params.push("sup_menu_name=" + $("#menu_name").val());
 		params.push("ts=" + new Date().getTime());
 
 		url_to = url_to + "?" + params.join("&");
@@ -35,12 +35,12 @@ $().ready(function() {
 
 	    var successstr = "修改成功";
 
-	    var url_to = $.getSitePath() + "/backend/menu/save";
+	    var url_to = $.getSitePath() + "/backend/menu/"+ $("#_id").val() +"/update";
 	    
 	    var params = [];
 		params.push("ts=" + new Date().getTime());
 		
-		url_success = url_success + "?" + params.join("&");
+		url_to = url_to + "?" + params.join("&");
 
 	    $.ajax({
 	        type: 'POST',
@@ -57,10 +57,10 @@ $().ready(function() {
 	                if (data['brErrors']) {
 	                    $.showBRErrors_mou_abs(data['brErrors'], $("#add_div"));
 	                } else {
-	                	$.alertError(data['message']);
+	                	$.alertError(data['message'],['100px', '20%']);
 	                }
 	            } else {
-	            	$.alertSuccess("成功", successstr);
+	            	$.alertSuccess("成功", successstr,['100px', '20%']);
 	            }
 	        },
 	        complete: function(XMLHttpRequest, textStatus) {
@@ -74,12 +74,6 @@ $().ready(function() {
 
 
 var data_manage_functions = {
-
-	closeAddWindow : function() {
-
-		window.location.reload();
-		$.closeWindow("add", $("#content_inner_page"));
-	},
 
 	/***************************************************************************
 	 * 删除
@@ -103,6 +97,8 @@ var data_manage_functions = {
 					value : true
 				} ];
 				$("#list").flexReload(data_manage.gridsetting);
+				
+				parent.ReloadNode($("#menu_code").val());
 			}
 		});
 	},
@@ -210,12 +206,12 @@ var data_manage = {
 			display : '菜单码',
 			name : 'menu_code',
 			width : 120,
-			hide : false
+			hide : true
 		}, {
 			display : '上级菜单码',
 			name : 'sup_menu_code',
 			width : 120,
-			hide : false
+			hide : true
 		},{
 			display : '名称',
 			name : 'menu_name',
@@ -232,7 +228,7 @@ var data_manage = {
 		}, {
 			display : '是否叶子节点',
 			name : 'leaf_flg_name',
-			width : 120
+			width : 90
 		}, {
 			display : '模块',
 			name : 'module_code_name',
@@ -245,7 +241,7 @@ var data_manage = {
 		{
 			display : '启用状态',
 			name : 'useflg',
-			width : 120,
+			width : 60,
 			condition : {
 				'0' : '已停用',
 				'1' : '启用',

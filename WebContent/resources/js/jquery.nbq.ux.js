@@ -105,22 +105,28 @@
 			
 			$.alertMsg(obj);
 		},
-		alertSuccess:function(title,message){
+		alertSuccess:function(title,message,offset){
 			var obj = {};
 			
 			obj["type"] = "success";
 			obj["title"]= title;
 			obj["message"] = message;
+			if (offset){
+				obj["offset"] = offset;
+			}
 			
 			$.alertMsg(obj);
 		},
-		alertError:function(message,title){
+		alertError:function(message,title,offset){
 			var obj = {};
 			
 			obj["type"] = "error";
 			obj["title"]= title || "信息";
 			obj["message"] = message;
-			
+			if (offset){
+				obj["offset"] = offset;
+			}
+						
 			$.alertMsg(obj);
 		},
 		alertMsg:function(obj,call){
@@ -171,12 +177,18 @@
 			
 			html_content = html_content.replace("#content#",message);
 
+			var offset_default = ['', ''];
+			if (obj["offset"]){
+				offset_default =  obj["offset"];
+			}
+			
 			var obj = obj || {};
 			var pageii = $.layer({
                 type: 1,
                 title:[title,title_sucess_css],
                 area: obj.area ? [obj.area[0]+'px', obj.area[1]+'px'] : ['400px', '200px'],
                 border: [1, 0.9, '#337ab7'],
+                offset: offset_default,
                 shade: [1], //0-去掉遮罩
                 closeBtn: [0, false], //去掉默认关闭按钮
                 page: {

@@ -139,16 +139,14 @@ public class SysMenuService extends BaseService implements ISysMenuService {
 	/****
 	 * 修改菜单
 	 */
-	public DBObject update(Map map) {
+	public DBObject update(SysMenu sysmenu) {
 
-		SysMenu sysMenu = BeanUtil.copyProperties(SysMenu.class, map);
-
-		String _id = sysMenu.get_id_m();
+		String _id = sysmenu.get_id_m();
 		if (!this.isValidObjId(_id)) {
 			throw new IllegalArgumentException("菜单的_id不合法！");
 		}
 
-		DBObject toUpdate = makeUpdate(sysMenu);
+		DBObject toUpdate = makeUpdate(sysmenu);
 
 		return this.sysMenuDao.updateOneById(_id, null, toUpdate);
 	}

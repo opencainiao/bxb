@@ -6,6 +6,8 @@ $().ready(function() {
 	pageLayout();
 
 	loadTree();
+	
+	$("#contentframeid").attr("menu_code", "ROOT");
 });
 
 var zTree_Menu;
@@ -88,9 +90,10 @@ function onClick(e, treeId, node) {
 
 	var url = $("input:hidden[name=ctx]").val() + "/backend/menu/toDetail?menu_code=" + node.menu_code + "&time=" + new Date().getTime();
 	$("#contentframeid").attr("src", url);
+	$("#contentframeid").attr("menu_code", node.menu_code);
 };
 
-function loadTree() {
+function loadTree(menu_code) {
 	// 加载树
 	var url = $("input:hidden[name=ctx]").val() + "/backend/menu/loadallmenu";
 	$.getJSON(url, {
@@ -103,18 +106,32 @@ function loadTree() {
 		$.fn.zTree.init($("#menutree"), setting, zNodes);
 		zTree_Menu = $.fn.zTree.getZTreeObj("menutree");
 
-		curMenu = zTree_Menu.getNodes()[0];
-		if (curMenu.children[0] == null || curMenu.children[0] == "undifined") {
-		} else {
-			curMenu = curMenu.children[0];
-		}
+		if (menu_code){
+			
+			var node = zTree_Menu.getNodeByParam("menu_code", menu_code, null);
+			if (node.isParent) {
+				zTree_Menu.selectNode(node);
+				zTree_Menu.expandNode(node);
+				var a = $("#" + node.tId + "_a");
+				a.addClass("cur");
+			}
+			
+		}else{
+			curMenu = zTree_Menu.getNodes()[0];
 
-		zTree_Menu.selectNode(curMenu);
-		zTree_Menu.expandNode(curMenu);
-		var a = $("#" + zTree_Menu.getNodes()[0].tId + "_a");
-		a.addClass("cur");
+			zTree_Menu.selectNode(curMenu);
+			zTree_Menu.expandNode(curMenu);
+			var a = $("#" + zTree_Menu.getNodes()[0].tId + "_a");
+			a.addClass("cur");
+		}
 	});
 }
+
+//重新加载指定部门的节点(异步)
+function ReloadNode(menu_code) {
+	loadTree(menu_code);
+}
+
 
 function popUpAddSubMenu(url) {
 	// alert(url);
@@ -127,7 +144,9 @@ function closeAddSubMenuWindow() {
 	var url = $("#contentframeid").attr("src");
 	$("#contentframeid").attr("src", url);
 	
-	loadTree();
+	var menu_code = $("#contentframeid").attr("menu_code");
+	ReloadNode(menu_code);
+	//loadTree();
 
 	$.closeWindow("add", $("#content_inner_page"));
 }

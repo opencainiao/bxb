@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.bxb.common.globalhandler.ErrorHandler;
 import com.bxb.common.globalhandler.PageSearchResultHandler;
 import com.bxb.common.globalobj.RequestResult;
 import com.bxb.common.util.MenuUtil;
@@ -29,6 +28,7 @@ import com.bxb.common.util.ZTreeUtil;
 import com.bxb.modules.base.BaseController;
 import com.bxb.modules.infrastructure.model.SysMenu;
 import com.bxb.modules.infrastructure.service.ISysMenuService;
+import com.mongodb.DBObject;
 import com.mongodb.util.JSON;
 
 /****
@@ -100,8 +100,8 @@ public class MenuManageController extends BaseController {
 		Map dataIn = RequestUtil.ToLowerMap(request);
 
 		int lvl = Integer.parseInt(dataIn.get("supmnulvl").toString()) + 1;
-		request.setAttribute("SUPMNUCOD", dataIn.get("supmnucod"));
-		request.setAttribute("SUPMNUCODNAM", dataIn.get("supmnunam"));
+		request.setAttribute("SUPMNUCOD", dataIn.get("sup_menu_code"));
+		request.setAttribute("SUPMNUCODNAM", dataIn.get("sup_menu_name"));
 		request.setAttribute("THISMNULVL", lvl);
 
 		return new ModelAndView("admin/infrastructure/menu/menu_add");
@@ -187,6 +187,8 @@ public class MenuManageController extends BaseController {
 		if (menuInf == null) {
 			return successM_V;
 		}
+		
+		model.addAttribute("_id", menuInf.get_id_m());
 		// 2. 查询动作或子菜单
 		if (!menuInf.isLeaf()) {
 			// 有子菜单，查询下一级子菜单
@@ -225,22 +227,39 @@ public class MenuManageController extends BaseController {
 	}
 
 	/****
-	 * 保存菜单
+	 * 更新系统常量 信息，返回json给客户端
 	 * 
+	 * @param _id
+	 * @param sysconsttype
+	 * @param br
 	 * @param request
-	 * @param response
 	 * @return
 	 */
-	@RequestMapping("/save")
-	public ModelAndView save(HttpServletRequest request,
-			HttpServletResponse response, Model model) {
+	@RequestMapping(value = "/{_id}/update", method = RequestMethod.POST)
+	@ResponseBody
+	public Object update(@PathVariable String _id, @Validated SysMenu sysmenu,
+			BindingResult br, HttpServletRequest request) {
 
-		logger.debug("-- into save page --");
-		Map dataIn = RequestUtil.ToLowerMap(request);
+		if (br.hasErrors()) {
+			return this.handleValidateFalse(br);
+		}
 
-		this.sysMenuService.update(dataIn);
+		sysmenu.set_id_m(_id);
 
-		return this.toDetail(request, response, model);
+		logger.debug("传入的对象\n{}", sysmenu);
+
+		try {
+			DBObject updateResult = this.sysMenuService.update(sysmenu);
+
+			logger.debug("更新后的结果[{}]", updateResult);
+			RequestResult rr = new RequestResult();
+			rr = new RequestResult();
+			rr.setSuccess(true);
+			rr.setMessage(_id);
+			return rr;
+		} catch (Exception e) {
+			return this.handleException(e);
+		}
 	}
 
 	@RequestMapping("/upMenu")

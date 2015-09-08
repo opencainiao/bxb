@@ -4,6 +4,7 @@ import java.util.Map;
 
 import org.bson.types.ObjectId;
 import org.mou.common.JsonUtil;
+import org.mou.common.StringUtil;
 
 import com.mongodb.ReflectionDBObject;
 import com.sun.xml.internal.bind.v2.runtime.RuntimeUtil.ToStringAdapter;
@@ -126,6 +127,11 @@ public class BaseModel extends ReflectionDBObject {
 	}
 
 	public String get_id_m() {
+
+		if (!StringUtil.isEmpty(this._id_m)) {
+			return this._id_m;
+		}
+		
 		if (super.get_id() == null) {
 			return null;
 		}
