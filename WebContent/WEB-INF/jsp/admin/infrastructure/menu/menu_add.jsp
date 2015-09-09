@@ -41,11 +41,13 @@
 									</div>
 								</div>
 								<div class="form-group form-group-sm  ">
-									<label for="module_code" class="col-sm-3 control-label">
-										所属模块</label>
-									<div class="col-sm-8">
-										<input type="text" class="form-control" id="module_code"
-											name="module_code" value="${menu.module_code}" placeholder="">
+									<label for="module_code"
+										class="col-sm-3 col-xs-3 control-label"> 所属模块</label>
+									<div class="col-sm-8 col-xs-8">
+										<select id="module_code" name="module_code"
+											class="form-control" data-src="constant"
+											data-typecode="SYS_MODULE" 
+											data-value="${menu.module_code}"></select> </select>
 									</div>
 								</div>
 								<div class="form-group form-group-sm  ">

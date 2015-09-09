@@ -60,6 +60,8 @@ $().ready(function() {
 	                	$.alertError(data['message'],['100px', '20%']);
 	                }
 	            } else {
+	            	parent.ReloadNode($("#menu_code").val());
+	            	
 	            	$.alertSuccess("成功", successstr,['100px', '20%']);
 	            }
 	        },

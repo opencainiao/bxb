@@ -1,24 +1,23 @@
 $().ready(function() {
 	// 获取全局参数
 	var ctx = $("input:hidden[name=ctx]").val();
-	
-	 $("#contentframeid").load(function(){  
+
+	$("#contentframeid").load(function() {
 		// 设置iframe自适应
 		var iframe_h = $.autoHeight("contentframeid");
-		
+
 		var toSet_h = iframe_h;
-		
-		$("#leftMenuLayout").css("height", toSet_h + 5 );
-	 });
+
+		$("#leftMenuLayout").css("height", toSet_h + 5);
+	});
 
 	loadTree();
-	
+
 	$("#contentframeid").attr("menu_code", "ROOT");
 });
 
 var zTree_Menu;
 var curMenu;
-
 
 var setting = {
 	view : {
@@ -83,7 +82,7 @@ function beforeClick(treeId, node) {
 
 function onClick(e, treeId, node) {
 
-	var url = $("input:hidden[name=ctx]").val() + "/backend/menu/toDetail?menu_code=" + node.menu_code + "&time=" + new Date().getTime();
+	var url = $.getSitePath() + "/backend/menu/toDetail?menu_code=" + node.menu_code + "&time=" + new Date().getTime();
 	$("#contentframeid").attr("src", url);
 	$("#contentframeid").attr("menu_code", node.menu_code);
 };
@@ -101,17 +100,15 @@ function loadTree(menu_code) {
 		$.fn.zTree.init($("#menutree"), setting, zNodes);
 		zTree_Menu = $.fn.zTree.getZTreeObj("menutree");
 
-		if (menu_code){
-			
+		if (menu_code) {
+
 			var node = zTree_Menu.getNodeByParam("menu_code", menu_code, null);
-			if (node.isParent) {
-				zTree_Menu.selectNode(node);
-				zTree_Menu.expandNode(node);
-				var a = $("#" + node.tId + "_a");
-				a.addClass("cur");
-			}
-			
-		}else{
+			zTree_Menu.selectNode(node);
+			zTree_Menu.expandNode(node);
+			var a = $("#" + node.tId + "_a");
+			a.addClass("cur");
+
+		} else {
 			curMenu = zTree_Menu.getNodes()[0];
 
 			zTree_Menu.selectNode(curMenu);
@@ -127,18 +124,17 @@ function ReloadNode(menu_code) {
 	loadTree(menu_code);
 }
 
-
 function popUpAddSubMenu(url) {
 	// alert(url);
 
-	$.popUpWindow("添加子菜单", url, "780px", "450px", "add", $("#content_inner_page"),['100px','']);
+	$.popUpWindow("添加子菜单", url, "780px", "450px", "add", $("#content_inner_page"), [ '100px', '' ]);
 }
 
 function closeAddSubMenuWindow() {
 
 	var url = $("#contentframeid").attr("src");
 	$("#contentframeid").attr("src", url);
-	
+
 	var menu_code = $("#contentframeid").attr("menu_code");
 	ReloadNode(menu_code);
 	// loadTree();
