@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -89,8 +89,10 @@
 									<label for="module_code"
 										class="col-sm-3 col-xs-3 control-label"> 所属模块</label>
 									<div class="col-sm-8 col-xs-8">
-										<input type="text" class="form-control" id="module_code"
-											name="module_code" value="${menu.module_code}" placeholder="">
+										<select id="module_code" name="module_code"
+											class="form-control" data-src="constant"
+											data-typecode="SYS_MODULE" 
+											data-value="${menu.module_code}"></select> </select>
 									</div>
 								</div>
 							</div>
@@ -133,6 +135,7 @@
 
 	<script type="text/javascript"
 		src="<%=request.getContextPath()%>/resources/js/admin/infrastructure/menu/list.js"></script>
+	
 </body>
 
 </html>

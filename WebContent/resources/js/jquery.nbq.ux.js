@@ -1,7 +1,6 @@
 ;;
 (function($) {
 	$.extend({
-
 		alertObjJson : function(obj) {
 			alert(JSON.stringify(obj));
 		},
@@ -420,12 +419,21 @@ $.browser = {
 (function($) {
 	$.extend({
 		/***********************************************************************
+		 * 设置系统路径
+		 * 
+		 * @returns
+		 */
+		setSitePath : function(ctx) {
+			localStorage.setItem("SITE_PATH",ctx);
+		},
+		/***********************************************************************
 		 * 取系统路径
 		 * 
 		 * @returns
 		 */
 		getSitePath : function() {
-			return $("input[name=ctx]").val();
+			return localStorage.getItem("SITE_PATH");
+			//return $("input[name=ctx]").val();
 		},
 		/***********************************************************************
 		 * 判断对象是否是array类型 <br>

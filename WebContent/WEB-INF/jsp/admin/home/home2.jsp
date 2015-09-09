@@ -98,6 +98,8 @@ function autoHeight() {
             });  
             
         	loadTree();
+        	
+        	$.setSitePath("${ctx}");
         });
     </script>
 </body>

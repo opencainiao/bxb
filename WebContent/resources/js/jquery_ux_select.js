@@ -30,7 +30,7 @@ jQuery.fn.setSelectedValue = function(value) {
 jQuery.fn.setSelectedText = function(text) {
 	var isExist = false;
 	var count = this.size();
-	for ( var i = 0; i < count; i++) {
+	for (var i = 0; i < count; i++) {
 		if (jQuery(this).get(0).options[i].text == text) {
 			jQuery(this).get(0).options[i].selected = true;
 			isExist = true;
@@ -54,7 +54,7 @@ jQuery.fn.setSelectedIndex = function(index) {
 jQuery.fn.isExistItem = function(value) {
 	var isExist = false;
 	var count = this.size();
-	for ( var i = 0; i < count; i++) {
+	for (var i = 0; i < count; i++) {
 		if (jQuery(this).get(0).options[i].value == value) {
 			isExist = true;
 			break;
@@ -84,7 +84,7 @@ jQuery.fn.addOptionFirst = function(text, value) {
 jQuery.fn.removeItem = function(value) {
 
 	var count = this.size();
-	for ( var i = 0; i < count; i++) {
+	for (var i = 0; i < count; i++) {
 		if (jQuery(this).get(0).options[i].value == value) {
 			jQuery(this).get(0).remove(i);
 			break;
@@ -141,10 +141,103 @@ jQuery.fn.iniSelect_All = function(data, setting) {
 	}
 	var dropdownList = this;
 	dropdownList.addOptionLast("请选择", "-1");
-	
+
 	$.each(data, function() {
 		dropdownList.addOptionLast(this[text], this[value]);
 	});
-	
-	
 };
+
+/*******************************************************************************
+ * <select id="education_type" name="education_type" data-src="constant"
+ * data-typecode="SYS_MODULE" data-allownull class="form-control"
+ * data-value="${clientbaseinfo.education_type}"></select>
+ * 
+ * data-allownull -- 只要有该属性，就包含 请选择
+ * 没有该属性，不包含请选择
+ */
+;;
+(function($) {
+	$.extend({
+		iniPageSelectConstant : function() {
+			$("select").each(function(e) {
+				$this = $(this);
+
+				var data_src = $this.attr("data-src");
+				var id = $this.attr("id");
+				var typecode = $this.attr("data-typecode");
+				var allow_null = $this.attr("data-allownull");
+				if (allow_null != null) {
+					allow_null = "1";
+				} else {
+					allow_null = "0";
+				}
+
+				var config = {
+					"TYPECODE" : typecode,
+					"ID" : id,
+					"ALLOW_NULL" : allow_null
+				};
+
+				if (data_src != null && data_src == "constant") {
+					$.iniSelectConstant(config);
+				}
+			});
+		},
+		/***********************************************************************
+		 * 从系统常量中，初始化select
+		 * 
+		 * TYPECODE - 常量类型码 <br>
+		 * ID - 元素ID <br>
+		 * ALLOW_NULL - 是否提示（请选择）
+		 */
+		iniSelectConstant : function(config) {
+			
+			//$.alertObjJson(config);
+
+			var typecode = config["TYPECODE"];
+			var url = $.getSitePath() + '/backend/sysconst/all_const_of_consttype?typecode=#TYPECODE#';
+			url = url.replace('#TYPECODE#', typecode);
+
+			var _id = config["ID"];
+			var _obj = $("#" + _id);
+			var empty_select_flag = config["ALLOW_NULL"];
+
+			$.ajax({
+				type : 'POST',
+				url : url,
+				type : 'POST',
+				dataType : 'json',
+				success : function(data) {
+
+					if (!$.isArray(data)) {
+						alert(data["message"]);
+						return;
+					}
+					var data_remote = data;
+					var setting = {
+						"text" : "dspval",
+						"value" : "val"
+					}
+
+					if (empty_select_flag == "1") {
+						_obj.iniSelect_All(data_remote, setting);
+					} else {
+						_obj.iniSelect_noAll(data_remote, setting);
+					}
+
+					// 设置值
+					var val = _obj.attr("data-value");
+
+					_obj.setSelectedValue(val);
+				},
+				complete : function(XMLHttpRequest, textStatus) {
+				}
+			});
+		}
+	});
+})(jQuery);
+;;
+
+$().ready(function() {
+	$.iniPageSelectConstant();
+});

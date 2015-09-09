@@ -16,11 +16,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bxb.common.globalhandler.ErrorHandler;
 import com.bxb.common.globalobj.PageVO;
 import com.bxb.common.globalobj.ValidResult;
 import com.bxb.common.globalobj.exception.ValidateException;
-import com.bxb.common.util.BeanUtil;
 import com.bxb.common.util.MenuUtil;
 import com.bxb.common.util.RegexPatternUtil;
 import com.bxb.modules.base.BaseService;
@@ -165,6 +163,7 @@ public class SysMenuService extends BaseService implements ISysMenuService {
 		updateSet.put("menu_name", sysMenu.getMenu_name());
 		updateSet.put("path", sysMenu.getPath());
 		updateSet.put("remark", sysMenu.getRemark());
+		updateSet.put("module_code", sysMenu.getModule_code());
 
 		this.setModifyInfo(updateSet);
 		update.put("$set", updateSet);
