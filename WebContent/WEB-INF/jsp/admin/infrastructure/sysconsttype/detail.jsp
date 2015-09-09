@@ -13,35 +13,38 @@
 <jsp:include page="/WEB-INF/jsp/include/common_flexigrid.jsp"></jsp:include>
 
 <script type="text/javascript"
-		src="<%=request.getContextPath()%>/resources/js/admin/infrastructure/sysconst/list.js"></script>
-<style>
-.content_label{
-	padding-bottom: 7px;
-	background-color: #eee;
-}
-</style>
+	src="<%=request.getContextPath()%>/resources/js/admin/infrastructure/sysconst/list.js"></script>
 </head>
 
 <body>
 	<input type="hidden" name="ctx" value="<%=request.getContextPath()%>" />
-	<input type="hidden" name="typecode" id="typecode" value="${sysconsttype.typecode }" />
-	<input type="hidden" name="typename" id="typename" value="${sysconsttype.typename }" />
-	
-	<div id="content_inner_page" class="innercontent" >
-		<div class="panel panel-default">
-		  <div class="panel-body">
-		  	<div class="container-fluid inlineone" style="margin-top: 10px">
-				<div class="form-group ">
-					<label for="" class="col-sm-2 control-label"> 类型编码 </label>
-					<label for="" class="col-sm-2 control-label content_label" > ${sysconsttype.typecode } </label>
-					
-					<label for="" class="col-sm-2 control-label"> &nbsp; </label>
-				
-					<label  class="col-sm-2 control-label"> 类型名称 </label>
-					<label  class="col-sm-2 control-label content_label" > ${sysconsttype.typename } </label>
+
+	<div id="content_inner_page" class="innercontent">
+		<div class="panel panel-default" style="margin-top: 10px;">
+			<div class="panel-body">
+				<div class="row">
+					<div class="col-md-6 col-sm-6 col-xs-6 form-horizontal">
+						<div class="form-group-sm  ">
+							<label for="typecode" class="col-sm-3 col-xs-3 control-label">
+								类型编码 </label>
+							<div class="col-sm-6 col-xs-6">
+								<input type="text" name="typecode" id="typecode"
+									class="form-control" value="${sysconsttype.typecode }">
+							</div>
+						</div>
+					</div>
+					<div class="col-md-6 col-sm-6 col-xs-6 form-horizontal">
+						<div class="form-group-sm  ">
+							<label for="typename" class="col-sm-3 col-xs-3 control-label">
+								类型名称 </label>
+							<div class="col-sm-6 col-xs-6">
+								<input type="text" name="typename" id="typename"
+									class="form-control" value="${sysconsttype.typename  }">
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
-		  </div>
 		</div>
 
 
@@ -49,6 +52,6 @@
 			<table id="list"></table>
 		</div>
 	</div>
-	
+
 </body>
 </html>

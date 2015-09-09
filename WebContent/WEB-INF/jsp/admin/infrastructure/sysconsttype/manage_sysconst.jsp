@@ -13,9 +13,9 @@
 <jsp:include page="/WEB-INF/jsp/include/common_flexigrid.jsp"></jsp:include>
 
 <script type="text/javascript"
-		src="<%=request.getContextPath()%>/resources/js/admin/infrastructure/sysconst/list.js"></script>
+	src="<%=request.getContextPath()%>/resources/js/admin/infrastructure/sysconst/list.js"></script>
 <style>
-.content_label{
+.content_label {
 	padding-bottom: 7px;
 	background-color: #eee;
 }
@@ -24,37 +24,47 @@
 
 <body>
 	<input type="hidden" name="ctx" value="<%=request.getContextPath()%>" />
-	<input type="hidden" name="typecode" id="typecode" value="${sysconsttype.typecode }" />
-	<input type="hidden" name="typename" id="typename" value="${sysconsttype.typename }" />
-	
+
 	<ul class="breadcrumb">
-	    <li><a href="<%=request.getContextPath()%>/backend/sysconsttype/list">系统常量类型管理</a> <span class="divider"></span></li>
-	    <li class="active">管理常量值</li>
+		<li><a
+			href="<%=request.getContextPath()%>/backend/sysconsttype/list">系统常量类型管理</a>
+			<span class="divider"></span></li>
+		<li class="active">管理常量值</li>
 	</ul>
-	
-	<div id="content_inner_page" class="innercontent" >
+
+	<div id="content_inner_page" class="innercontent">
 		<div class="navbar navbar-default">
-		    <form class="navbar-form navbar-left" >
-		        <button class="btn btn-primary" type="button" id="btn_add" style="">
-		            添加常量
-		        </button>
-		    </form>
+			<form class="navbar-form navbar-left">
+				<button class="btn btn-primary" type="button" id="btn_add" style="">
+					添加常量</button>
+			</form>
 		</div>
-		
+
 		<div class="panel panel-default">
-		  <div class="panel-body">
-		  	<div class="container-fluid inlineone" style="margin-top: 10px">
-				<div class="form-group ">
-					<label for="" class="col-sm-2 control-label"> 类型编码 </label>
-					<label for="" class="col-sm-2 control-label content_label" > ${sysconsttype.typecode } </label>
-					
-					<label for="" class="col-sm-2 control-label"> &nbsp; </label>
-				
-					<label  class="col-sm-2 control-label"> 类型名称 </label>
-					<label  class="col-sm-2 control-label content_label" > ${sysconsttype.typename } </label>
+			<div class="panel-body">
+				<div class="row">
+					<div class="col-md-6 col-sm-6 col-xs-6 form-horizontal">
+						<div class="form-group-sm  ">
+							<label for="typecode" class="col-sm-3 col-xs-3 control-label">
+								类型编码 </label>
+							<div class="col-sm-6 col-xs-6">
+								<input type="text" name="typecode" id="typecode"
+									class="form-control" value="${sysconsttype.typecode }">
+							</div>
+						</div>
+					</div>
+					<div class="col-md-6 col-sm-6 col-xs-6 form-horizontal">
+						<div class="form-group-sm  ">
+							<label for="typename" class="col-sm-3 col-xs-3 control-label">
+								类型名称 </label>
+							<div class="col-sm-6 col-xs-6">
+								<input type="text" name="typename" id="typename"
+									class="form-control" value="${sysconsttype.typename  }">
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
-		  </div>
 		</div>
 
 
@@ -62,6 +72,6 @@
 			<table id="list"></table>
 		</div>
 	</div>
-	
+
 </body>
 </html>
