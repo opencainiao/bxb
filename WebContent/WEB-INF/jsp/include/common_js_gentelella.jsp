@@ -78,3 +78,23 @@
 <script type="text/javascript"
 	src="<%=request.getContextPath()%>/resources/js/jquery_ux_select.js"></script>
 
+<script>
+
+	$().ready(function() {
+
+		document.onkeydown = function(event) {
+			if (event.keyCode == 13) {
+				return false;
+			}
+		}
+		
+		//处理面板的折叠
+		$(".spncollapse", $(".panel-heading")).click(function() {
+			
+			alert("11");
+			//$(this).parent().parent().remove();
+		});
+	});
+	
+</script>
+

@@ -120,7 +120,6 @@ input{
         var successstr = "新增成功";
 
         var url_to = "<%=request.getContextPath()%>/backend/sysconst/add";
-        //var url_success = "<%=request.getContextPath()%>/backend/sysconst/list";
         var url_success = "<%=request.getContextPath()%>/backend/sysconsttype/manage_sysconst";
         
         var params = [];

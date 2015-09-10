@@ -24,7 +24,9 @@ public enum SysConstTypeEnum {
 	BLOOD_GROUP("BLOOD_GROUP", "血型"), //
 	TEMPERAMENT_TYPE("TEMPERAMENT_TYPE", "性格特点"), //
 	PDP_TYPE("PDP_TYPE", "PDP类型"), //
-	INTERESTING_SERVICE("INTERESTING_SERVICE", "关注的服务");
+	INTERESTING_SERVICE("INTERESTING_SERVICE", "关注的服务"),
+	REGION_TYPE("REGION_TYPE","地区分类");
+	
 
 	private String code;
 	private String name;

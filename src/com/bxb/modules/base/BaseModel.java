@@ -1,13 +1,9 @@
 package com.bxb.modules.base;
 
-import java.util.Map;
-
-import org.bson.types.ObjectId;
 import org.mou.common.JsonUtil;
 import org.mou.common.StringUtil;
 
 import com.mongodb.ReflectionDBObject;
-import com.sun.xml.internal.bind.v2.runtime.RuntimeUtil.ToStringAdapter;
 
 /****
  * 所有域模型对象的基础类，包含公用的属性和方法
@@ -131,14 +127,20 @@ public class BaseModel extends ReflectionDBObject {
 		if (!StringUtil.isEmpty(this._id_m)) {
 			return this._id_m;
 		}
-		
+
 		if (super.get_id() == null) {
 			return null;
 		}
 
-		String _id = super.get_id().toString().split("=")[1];
+		String[] _ids = super.get_id().toString().split("=");
 
-		_id = _id.substring(0, _id.length() - 1);
+		String _id = "";
+
+		if (_ids.length == 1) {
+			_id = _ids[0];
+		} else {
+			_id = _ids[1].substring(0, _id.length() - 1);
+		}
 
 		return _id;
 	}
