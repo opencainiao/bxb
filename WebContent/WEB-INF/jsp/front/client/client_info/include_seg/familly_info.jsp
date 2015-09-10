@@ -12,10 +12,9 @@
 						</label>
 						<div class="col-sm-8">
 							<select id="marital_status" name="marital_status"
-								class="form-control"
+								class="form-control" data-src="constant"
+								data-typecode="MARITAL_STATUS"
 								data-value="${clientbaseinfo.marital_status}">
-								<option value="1">男</option>
-								<option value="0">女</option>
 							</select>
 						</div>
 					</div>

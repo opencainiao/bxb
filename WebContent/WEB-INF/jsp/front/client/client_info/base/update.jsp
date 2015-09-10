@@ -12,8 +12,6 @@
 <jsp:include page="/WEB-INF/jsp/include/common_css.jsp"></jsp:include>
 <jsp:include page="/WEB-INF/jsp/include/common_js.jsp"></jsp:include>
 
-<jsp:include page="/WEB-INF/jsp/include/common_datepicker.jsp"></jsp:include>
-
 <style>
 .input-group-box-xs {
 	position: relative;
@@ -79,8 +77,8 @@
 									生日 </label>
 								<div class="col-sm-8">
 									<input id="birth_date" name="birth_date" placeholder="请输入日期"
-										class="laydate-icon form-control dateipt"
-										value="${clientbaseinfo.birth_date}" onclick="laydate()">
+										class="-icon form-control dateipt"
+										value="${clientbaseinfo.birth_date}" onclick="()">
 								</div>
 							</div>
 							<div class="form-group form-group-sm  ">

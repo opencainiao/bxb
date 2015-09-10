@@ -2,9 +2,10 @@ package com.bxb.common.web.init.initors;
 
 import javax.servlet.ServletContext;
 
+import mou.mongodb.MongoClientManager;
+
 import org.springframework.stereotype.Component;
 
-import com.bxb.common.system.DBManager;
 import com.bxb.common.web.init.Initializable;
 import com.bxb.common.web.interceptors.PriviInteceptor;
 
@@ -16,7 +17,7 @@ import com.bxb.common.web.interceptors.PriviInteceptor;
  */
 @Component("sysInfoInitor")
 public class SysInfoInitor implements Initializable {
-	
+
 	/****
 	 * 初始化系统内存数据，避免硬编码
 	 */
@@ -29,9 +30,9 @@ public class SysInfoInitor implements Initializable {
 		// 全局上下文路径
 		servletContext.setAttribute("ctx", servletContext.getContextPath());
 
-		DBManager.initDB("bxb");
+		// DBManager.initDB("bxb");
 
 		PriviInteceptor.setNeedLoginFlag(false);
-		// MongoClientManager.init("182.92.114.61", "bxb");
+		MongoClientManager.init("182.92.114.61", "bxb");
 	}
 }

@@ -22,9 +22,8 @@
 						<div class="col-sm-8">
 							<select id="annual_income_personal_type"
 								name="annual_income_personal_type" class="form-control"
+								data-src="constant" data-typecode="ANNUAL_INCOME_PERSONAL_TYPE"
 								data-value="${clientbaseinfo.annual_income_personal_type}">
-								<option value="1">男</option>
-								<option value="0">女</option>
 							</select>
 						</div>
 					</div>
@@ -33,10 +32,9 @@
 						</label>
 						<div class="col-sm-8">
 							<select id="family_income_feature" name="family_income_feature"
-								class="form-control"
+								class="form-control" data-src="constant"
+								data-typecode="FAMILY_INCOME_FEATURE"
 								data-value="${clientbaseinfo.family_income_feature}">
-								<option value="1">男</option>
-								<option value="0">女</option>
 							</select>
 						</div>
 					</div>
@@ -60,9 +58,8 @@
 							<div class="col-sm-8">
 								<select id="annual_income_family_type"
 									name="annual_income_family_type" class="form-control"
+									data-src="constant" data-typecode="ANNUAL_INCOME_FAMILY_TYPE"
 									data-value="${clientbaseinfo.annual_income_family_type}">
-									<option value="1">男</option>
-									<option value="0">女</option>
 								</select>
 							</div>
 						</div>
@@ -72,9 +69,8 @@
 							<div class="col-sm-8">
 								<select id="family_financial_standing"
 									name="family_financial_standing" class="form-control"
+									data-src="constant" data-typecode="FAMILY_FINANCIAL_STANDING"
 									data-value="${clientbaseinfo.family_financial_standing}">
-									<option value="1">男</option>
-									<option value="0">女</option>
 								</select>
 							</div>
 						</div>

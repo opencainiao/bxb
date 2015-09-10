@@ -4,7 +4,7 @@
 <script type="text/javascript"
 	src="http://cdn.bootcss.com/jquery/1.11.1/jquery.js"></script>
 <script>
-	window.jQuery || document.write('<script src="<%=request.getContextPath()%>/resources/gentelella/production/js/jquery.min.js" type="text/javascript"><\/script>');
+	window.jQuery || document.write('<script src="${ctx}/resources/gentelella/production/js/jquery.min.js" type="text/javascript"><\/script>');
 </script>
 
 <script type="text/javascript"
@@ -78,8 +78,13 @@
 <script type="text/javascript"
 	src="<%=request.getContextPath()%>/resources/js/jquery_ux_select.js"></script>
 
-<script>
+<script
+	src="<%=request.getContextPath()%>/resources/laydate-v1.1/laydate/laydate.js"></script>
 
+<style>
+</style>
+
+<script>
 	$().ready(function() {
 
 		document.onkeydown = function(event) {
@@ -87,14 +92,19 @@
 				return false;
 			}
 		}
-		
+
+		//给面板添加折叠
+		$(".panel-heading").each(function() {
+			$(this).append('<span class="glyphicon glyphicon-chevron-down pull-right spncollapse"></span>');
+
+		});
+
 		//处理面板的折叠
 		$(".spncollapse", $(".panel-heading")).click(function() {
-			
-			alert("11");
-			//$(this).parent().parent().remove();
+			var content = $(this).parent().next();
+			content.slideToggle(200);
 		});
+
 	});
-	
 </script>
 

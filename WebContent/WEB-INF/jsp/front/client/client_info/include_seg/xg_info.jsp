@@ -12,9 +12,8 @@
 						</label>
 						<div class="col-sm-8">
 							<select id="birth_ages" name="birth_ages" class="form-control"
+								data-src="constant" data-typecode="BIRTH_AGES"
 								data-value="${clientbaseinfo.birth_ages}">
-								<option value="1">男</option>
-								<option value="0">女</option>
 							</select>
 						</div>
 					</div>
@@ -23,9 +22,8 @@
 						</label>
 						<div class="col-sm-8">
 							<select id="blood_group" name="blood_group" class="form-control"
+								data-src="constant" data-typecode="BLOOD_GROUP"
 								data-value="${clientbaseinfo.blood_group}">
-								<option value="1">男</option>
-								<option value="0">女</option>
 							</select>
 						</div>
 					</div>
@@ -34,9 +32,8 @@
 						</label>
 						<div class="col-sm-8">
 							<select id="pdp_type" name="pdp_type" class="form-control"
+								data-src="constant" data-typecode="PDP_TYPE"
 								data-value="${clientbaseinfo.pdp_type}">
-								<option value="1">男</option>
-								<option value="0">女</option>
 							</select>
 						</div>
 					</div>
@@ -50,9 +47,8 @@
 							</label>
 							<div class="col-sm-8">
 								<select id="age_group" name="age_group" class="form-control"
+									data-src="constant" data-typecode="AGE_GROUP"
 									data-value="${clientbaseinfo.age_group}">
-									<option value="1">男</option>
-									<option value="0">女</option>
 								</select>
 							</div>
 						</div>
@@ -61,10 +57,9 @@
 							</label>
 							<div class="col-sm-8">
 								<select id="constellation" name="constellation"
-									class="form-control"
+									class="form-control" data-src="constant"
+									data-typecode="CONSTELLATION"
 									data-value="${clientbaseinfo.constellation}">
-									<option value="1">男</option>
-									<option value="0">女</option>
 								</select>
 							</div>
 						</div>

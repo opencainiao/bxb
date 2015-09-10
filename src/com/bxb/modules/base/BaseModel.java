@@ -139,7 +139,7 @@ public class BaseModel extends ReflectionDBObject {
 		if (_ids.length == 1) {
 			_id = _ids[0];
 		} else {
-			_id = _ids[1].substring(0, _id.length() - 1);
+			_id = _ids[1].substring(0, _ids[1].length() - 1);
 		}
 
 		return _id;

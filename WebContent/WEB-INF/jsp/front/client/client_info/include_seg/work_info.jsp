@@ -20,9 +20,8 @@
 						</label>
 						<div class="col-sm-8">
 							<select id="trade_type" name="trade_type" class="form-control"
+								data-src="constant" data-typecode="TRADE_TYPE"
 								data-value="${clientbaseinfo.trade_type}">
-								<option value="1">男</option>
-								<option value="0">女</option>
 							</select>
 						</div>
 					</div>
@@ -30,10 +29,9 @@
 						<label for="job_position" class="col-sm-3 control-label">职位
 						</label>
 						<div class="col-sm-8">
-							<select id="job_position" name="job_position"
-								class="form-control" data-value="${clientbaseinfo.job_position}">
-								<option value="1">男</option>
-								<option value="0">女</option>
+							<select id="job_position" name="job_position" data-src="constant"
+								data-typecode="JOB_POSITION" class="form-control"
+								data-value="${clientbaseinfo.job_position}">
 							</select>
 						</div>
 					</div>
@@ -47,10 +45,9 @@
 							</label>
 							<div class="col-sm-8">
 								<select id="company_nature" name="company_nature"
-									class="form-control"
+									class="form-control" data-src="constant"
+									data-typecode="COMPANY_NATURE"
 									data-value="${clientbaseinfo.company_nature}">
-									<option value="1">男</option>
-									<option value="0">女</option>
 								</select>
 							</div>
 						</div>
@@ -59,9 +56,8 @@
 							</label>
 							<div class="col-sm-8">
 								<select id="career_type" name="career_type" class="form-control"
+									data-src="constant" data-typecode="CAREER_TYPE"
 									data-value="${clientbaseinfo.career_type}">
-									<option value="1">男</option>
-									<option value="0">女</option>
 								</select>
 							</div>
 						</div>
@@ -70,9 +66,8 @@
 							</label>
 							<div class="col-sm-8">
 								<select id="job_level" name="job_level" class="form-control"
+									data-src="constant" data-typecode="JOB_LEVEL"
 									data-value="${clientbaseinfo.job_level}">
-									<option value="1">男</option>
-									<option value="0">女</option>
 								</select>
 							</div>
 						</div>

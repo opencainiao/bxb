@@ -2,7 +2,9 @@
 	pageEncoding="utf-8"%>
 
 <div class="panel panel-info">
-	<div class="panel-heading">基本信息<span class="glyphicon glyphicon-chevron-down pull-right spncollapse"></span></div>
+	<div class="panel-heading">
+		基本信息
+	</div>
 	<div class="panel-body">
 		<div class="row">
 			<div class="col-xs-6">
@@ -98,17 +100,20 @@
 								教育程度 </label>
 							<div class="col-sm-8">
 								<select id="education_type" name="education_type"
-									class="form-control"
+									class="form-control" data-src="constant"
+									data-typecode="EDUCATION_TYPE"
 									data-value="${clientbaseinfo.education_type}"></select>
 							</div>
+
 						</div>
 						<div class="form-group form-group-sm  ">
 							<label for="region_type" class="col-sm-3 control-label">
 								地区分类 </label>
 							<div class="col-sm-8">
-								<input type="text" class="form-control" id="region_type"
-									name="region_type" value="${clientbaseinfo.region_type}"
-									placeholder="">
+								<select id="region_type" name="region_type"
+									class="form-control" data-src="constant"
+									data-typecode="REGION_TYPE"
+									data-value="${clientbaseinfo.region_type}"></select>
 							</div>
 						</div>
 					</div>
@@ -125,23 +130,23 @@
 								关注的服务 </label>
 							<div class="col-sm-8">
 								<input type="text" class="form-control" id="interesting_service"
-									name="interesting_service" value="${clientbaseinfo.interesting_service}"
-									placeholder="">
+									name="interesting_service"
+									value="${clientbaseinfo.interesting_service}" placeholder="">
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-		
-		
+
+
 		<div class="row">
 			<div class="col-xs-6">
 				<div class="row">
 					<div class="col-md-12 form-horizontal">
 						<div class="form-group form-group-sm  ">
 							<label for="phone_info" class="col-xs-3 control-label">
-								关注的服务 </label>
+								电话 </label>
 							<div class="col-xs-9">
 								<div class="row" id="phone_info">
 									<div class="input-group input-group-xs  online-input col-md-12"
@@ -187,7 +192,6 @@
 </div>
 
 <script>
-
 	var addPhone = function(config) {
 
 		var p = $.extend({ // apply default properties

@@ -21,9 +21,8 @@
 						</label>
 						<div class="col-sm-8">
 							<select id="source_type" name="source_type" class="form-control"
+								data-src="constant" data-typecode="SOURCE_TYPE"
 								data-value="${clientbaseinfo.source_type}">
-								<option value="1">男</option>
-								<option value="0">女</option>
 							</select>
 						</div>
 					</div>
@@ -31,10 +30,9 @@
 						<label for="contact_type" class="col-sm-3 control-label">可接触度
 						</label>
 						<div class="col-sm-8">
-							<select id="contact_type" name="contact_type"
-								class="form-control" data-value="${clientbaseinfo.contact_type}">
-								<option value="1">男</option>
-								<option value="0">女</option>
+							<select id="contact_type" name="contact_type" data-src="constant"
+								data-typecode="CONTACT_TYPE" class="form-control"
+								data-value="${clientbaseinfo.contact_type}">
 							</select>
 						</div>
 					</div>
@@ -49,9 +47,8 @@
 							<div class="col-sm-8">
 								<select id="introducer_relationship"
 									name="introducer_relationship" class="form-control"
+									data-src="constant" data-typecode="INTRODUCER_RELATIONSHIP"
 									data-value="${clientbaseinfo.introducer_relationship}">
-									<option value="1">男</option>
-									<option value="0">女</option>
 								</select>
 							</div>
 						</div>
@@ -61,9 +58,8 @@
 							<div class="col-sm-8">
 								<select id="introducer_closeness" name="introducer_closeness"
 									class="form-control"
+									data-src="constant" data-typecode="INTRODUCER_CLOSENESS"
 									data-value="${clientbaseinfo.introducer_closeness}">
-									<option value="1">男</option>
-									<option value="0">女</option>
 								</select>
 							</div>
 						</div>
