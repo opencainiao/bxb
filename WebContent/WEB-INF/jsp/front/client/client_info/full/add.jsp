@@ -62,21 +62,23 @@
 					return false;
 				}
 			}
-
-			addPhone();
-			$("#add_phone").click(function() {
-				addPhone();
-			})
 		});
 
 		//保存
 		var save = function() {
+			
+			var phone_info = getPhoneInfo();
+
+			var paramForm = $('form').getFormParam_ux();
+			
+			paramForm =  $.extend(paramForm,phone_info);
+			
+			console.log(JSON.stringify(paramForm));
+			
+			return;
 
 			// 控制按钮为禁用
 			$.disableButton("btn_save");
-
-			var paramForm = $('form').getFormParam_ux();
-
 			var successstr = "新增成功";
 
 			var url_to = $.getSitePath() + "/front/client/add";
