@@ -49,14 +49,17 @@
 						<div class="form-group form-group-sm  ">
 							<label for="region_code" class="col-sm-3 control-label">
 								地区 </label>
-							<div class="col-sm-8">
-								<div class="input-group">
-									<select id="province" name="province" class="form-control"></select>
-								</div>
-								<div class="input-group" style="margin-top: 3px;">
-									<select id="city" name="city" class="form-control"></select>
-								</div>
-							</div>
+							<div class="row col-sm-8"  style="padding-right: 0px;">                                                                              
+								<span class="input-group input-group-btn col-xs-3 control-label" style="padding-left:15px">   
+									<select id="province" name="province" class="form-control" ></select>                       
+								</span>                                                                                       
+								<span class="input-group input-group-btn col-xs-3 control-label" style="padding-left:8px">    
+									<select id="city" name="city" class="form-control" ></select>                               
+								</span>                                                                                       
+								<span class="input-group input-group-btn col-xs-3 control-label" style="padding-left:8px">    
+									<select id="city2" name="city2" class="form-control" ></select>                             
+								</span>                                                                                       
+							</div> 
 						</div>
 					</div>
 
