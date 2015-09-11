@@ -2,9 +2,7 @@
 	pageEncoding="utf-8"%>
 
 <div class="panel panel-info">
-	<div class="panel-heading">
-		基本信息
-	</div>
+	<div class="panel-heading">基本信息</div>
 	<div class="panel-body">
 		<div class="row">
 			<div class="col-xs-6">
@@ -110,9 +108,8 @@
 							<label for="region_type" class="col-sm-3 control-label">
 								地区分类 </label>
 							<div class="col-sm-8">
-								<select id="region_type" name="region_type"
-									class="form-control" data-src="constant"
-									data-typecode="REGION_TYPE"
+								<select id="region_type" name="region_type" class="form-control"
+									data-src="constant" data-typecode="REGION_TYPE"
 									data-value="${clientbaseinfo.region_type}"></select>
 							</div>
 						</div>
@@ -152,10 +149,10 @@
 									<div class="input-group input-group-xs  online-input col-md-12"
 										style="padding-left: 15px;">
 										<button type="button" id="add_phone"
-											class="btn btn-default btn-sm">添加</button>
+											class="btn btn-info btn-sm">添加</button>
 									</div>
 
-									<div class="input-group input-group-xs  online-input col-md-12"
+									<div class="input-group input-group-xs  online-input col-md-12 one_box"
 										style="padding-left: 15px; margin-top: 8px">
 										<span class="input-group-btn"> <select id="type_phone"
 											name="type_phone" class="form-control" style="width: 80px;">
@@ -164,9 +161,10 @@
 												<option value="2">其他</option>
 										</select>
 										</span> <input type="text" class="form-control"
-											style="margin-left: 8px; width: 180px;" /> <span
-											class="input-group-btn">
-											<button class="btn btn-default btn-sm btn-rm" type="button"
+											style="margin-left: 8px; width: 180px;" /> 
+										<span
+											class="pull-right">
+											<button class="btn btn-danger btn-sm btn-rm-box" type="button"
 												style="margin-left: 15px;">删除</button>
 										</span>
 									</div>
@@ -178,10 +176,14 @@
 						<div class="form-group form-group-sm  ">
 							<label for="address_info" class="col-xs-3 control-label">
 								地址 </label>
-							<div class="col-sm-8">
-								<input type="text" class="form-control" id="address_info"
-									name="address_info" value="${clientbaseinfo.address_info}"
-									placeholder="">
+							<div class="col-xs-9">
+								<div class="row" id="address_info">
+									<div class="input-group input-group-xs  online-input col-md-12"
+										style="padding-left: 15px;">
+										<button type="button" id="add_address"
+											class="btn btn-info btn-sm">添加</button>
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -200,16 +202,21 @@
 		}, config);
 
 		var toAdd = '<div                                                                              '
-				+ '			class="input-group input-group-xs  online-input col-md-12"                   '
+				+ '			class="input-group input-group-xs  online-input col-md-12 one_box"                   '
 				+ '			style="padding-left: 15px; margin-top: 8px">                                 '
-				+ '			<span class="input-group-btn" >                          ' + '				<select id="type_phone" name="type_phone"                                  '
+				+ '			<span class="input-group-btn" >                          ' 
+				+ '				<select id="type_phone" name="type_phone"                                  '
 				+ '				class="form-control" style="width: 80px;">                                                      '
-				+ '					<option value="1">公司</option>                                          ' + '					<option value="0">个人</option>                                          ' + '					<option value="2">其他</option>                                          '
-				+ '			</select>                                                                    ' + '			</span> <input type="text" class="form-control"                              '
+				+ '					<option value="1">公司</option>                                          ' 
+				+ '					<option value="0">个人</option>                                          ' 
+				+ '					<option value="2">其他</option>                                          '
+				+ '			</select>                                                                    ' 
+				+ '			</span> <input type="text" class="form-control"                              '
 				+ '				style="margin-left: 8px; width: #IPT_W#" />                                 '
 				+ '			<span                                                                        '
-				+ '				class="input-group-btn">                                                   '
-				+ '				<button class="btn btn-default btn-sm btn-rm"  type="button" style="margin-left: #MARGIN_L_BUTTON_W#">删除</button>        ' + '			</span>                                                                      '
+				+ '				class="pull-right">                                                   '
+				+ '				<button class="btn btn-danger btn-sm btn-rm-box"  type="button" style="margin-left: #MARGIN_L_BUTTON_W#">删除</button>        ' 
+				+ '			</span>                                                                      '
 				+ '</div>                                                                            ';
 
 		toAdd = toAdd.replace("#IPT_W#", p.ipt_w);
@@ -217,13 +224,75 @@
 
 		$("#phone_info").append(toAdd);
 
-		registRemovePhone();
+		registRemoveOne();
+	}
+	
+	var addAddress = function(config) {
+
+		var p = $.extend({ // apply default properties
+			div_w : '580px' // div的宽度
+		}, config);
+
+		var toAdd ='<div class="input-group input-group-xs  online-input col-md-12 one_box"                           '
+			+'	style="padding-left: 15px; margin-top: 8px; width:#DIV_W#">                                       '
+			+'	<div class="row" >                                                                              '
+			+'		<div class="col-xs-4 control-label">                                                          '
+			+'			<span class="input-group-btn">                                                              '
+			+'				<select id="type_address"                                                                 '
+			+'					name="type_address" class="form-control" style="width: 80px;">                          '
+			+'						<option value="1">公司</option>                                                       '
+			+'						<option value="0">个人</option>                                                       '
+			+'						<option value="2">其他</option>                                                       '
+			+'				</select>                                                                                 '
+			+'			</span>                                                                                     '
+			+'		</div>                                                                                        '
+			+'		<div class="col-xs-5 control-label pull-right">                                               '
+			+'			<span>                                                                  '
+			+'				<button class="btn btn-danger btn-sm btn-rm-box " type="button"                          '
+			+'					style="margin-left: 15px;">删除</button>                                                '
+			+'			</span>                                                                                     '
+			+'		</div>                                                                                        '
+			+'	</div>                                                                                          '
+			+'	<div class="row" >                                                                              '
+			+'		<span class="input-group input-group-btn col-xs-3 control-label" style="padding-left:15px">   '
+			+'			<select id="province" name="province" class="form-control" ></select>                       '
+			+'		</span>                                                                                       '
+			+'		<span class="input-group input-group-btn col-xs-3 control-label" style="padding-left:8px">    '
+			+'			<select id="city" name="city" class="form-control" ></select>                               '
+			+'		</span>                                                                                       '
+			+'		<span class="input-group input-group-btn col-xs-3 control-label" style="padding-left:8px">    '
+			+'			<select id="city2" name="city2" class="form-control" ></select>                             '
+			+'		</span>                                                                                       '
+			+'	</div>                                                                                          '
+			+'	<div class="row" >                                                                              '
+			+'		<span class="col-sm-12 control-label" style="padding-left:15px ;padding-right: 0px">          '
+			+'			<input type="text" class="form-control" id="detail_address" name="detail_address"           '
+			+'				placeholder="请输入详细地址">                                                             '
+			+'		</span>                                                                                       '
+			+'	</div>                                                                                          '
+			+'</div>                                                                                            ';
+
+		toAdd = toAdd.replace("#DIV_W#", p.div_w);
+
+		$("#address_info").append(toAdd);
+
+		registRemoveOne();
 	}
 
-	function registRemovePhone() {
-		$(".btn-rm", $("#phone_info")).click(function() {
-			$(this).parent().parent().remove();
-
+	function registRemoveOne(){
+		$(".btn-rm-box").click(function(){
+			$(this).css("border-radius","3px!important");
+			$(this).closest('div.one_box').remove();
 		});
 	}
+	
+	
+	$().ready(function() {
+		registRemoveOne();
+		
+		addAddress();
+		$("#add_address").click(function() {
+			addAddress();
+		})
+	});
 </script>
