@@ -77,7 +77,16 @@
 	src="<%=request.getContextPath()%>/resources/js/jquery.nbq.ux.js"></script>
 <script type="text/javascript"
 	src="<%=request.getContextPath()%>/resources/js/jquery_ux_select.js"></script>
+<script type="text/javascript"
+	src="<%=request.getContextPath()%>/resources/js/mou.data.js"></script>
+<script type="text/javascript"
+	src="<%=request.getContextPath()%>/resources/js/mou.multiselectpanel.js"></script>	
+	
 
+
+<script type="text/javascript"
+	src="<%=request.getContextPath()%>/resources/js/jquery.artDialog.js"></script>
+	
 <script
 	src="<%=request.getContextPath()%>/resources/laydate-v1.1/laydate/laydate.js"></script>
 

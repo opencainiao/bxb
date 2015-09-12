@@ -4,7 +4,9 @@
 <script type="text/javascript"
 	src="http://cdn.bootcss.com/jquery/2.1.3/jquery.js"></script>
 <script>
-	window.jQuery || document.write('<script src="${ctx}/resources/js/jquery-2.1.3.min.js" type="text/javascript"><\/script>');
+	window.jQuery
+			|| document
+					.write('<script src="${ctx}/resources/js/jquery-2.1.3.min.js" type="text/javascript"><\/script>');
 </script>
 <script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 <script type="text/javascript"
@@ -17,6 +19,13 @@
 	src="<%=request.getContextPath()%>/resources/js/jquery.nbq.ux.js"></script>
 <script type="text/javascript"
 	src="<%=request.getContextPath()%>/resources/js/jquery_ux_select.js"></script>
+<script type="text/javascript"
+	src="<%=request.getContextPath()%>/resources/js/mou.data.js"></script>
+<script type="text/javascript"
+	src="<%=request.getContextPath()%>/resources/js/mou.multiselectpanel.js"></script>
+<script type="text/javascript"
+	src="<%=request.getContextPath()%>/resources/js/jquery.artDialog.js"></script>
+
 
 <script
 	src="<%=request.getContextPath()%>/resources/laydate-v1.1/laydate/laydate.js"></script>
@@ -60,19 +69,17 @@ div.laydate_yms {
 
 <script>
 	$().ready(function() {
-
 		document.onkeydown = function(event) {
 			if (event.keyCode == 13) {
 				return false;
 			}
 		}
-		
+
 		//给面板添加折叠
 		$(".panel-heading").each(function() {
 			$(this).append('<span class="glyphicon glyphicon-chevron-down pull-right spncollapse"></span>');
-		
 		});
-		
+
 		//处理面板的折叠
 		$(".spncollapse", $(".panel-heading")).click(function() {
 			var content = $(this).parent().next();

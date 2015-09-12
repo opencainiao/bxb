@@ -3,6 +3,11 @@
 
 <link rel="stylesheet"
 	href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css">
+
+<link
+	href="<%=request.getContextPath()%>/resources/css/idialog.css"
+	rel="stylesheet" type="text/css">
+
 <style>
 <!--
 .error {

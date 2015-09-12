@@ -26,7 +26,9 @@
 <link
 	href="<%=request.getContextPath()%>/resources/gentelella/production/css/floatexamples.css"
 	rel="stylesheet" type="text/css" />
-
+<link
+	href="<%=request.getContextPath()%>/resources/css/idialog.css"
+	rel="stylesheet" type="text/css">
 <style>
 <!--
 .error {

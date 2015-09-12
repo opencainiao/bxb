@@ -46,9 +46,8 @@
 									placeholder="">
 							</div>
 						</div>
-						<div class="form-group form-group-sm regin">
-							<label for="region_code" class="col-sm-3 control-label">
-								地区 </label>
+						<div class="form-group form-group-sm regin-container">
+							<label for="region" class="col-sm-3 control-label"> 地区 </label>
 							<div class="row col-sm-8" style="padding-right: 0px;">
 								<span class="input-group input-group-btn col-xs-3 control-label"
 									style="padding-left: 15px"> <select id="province"
@@ -129,12 +128,16 @@
 				<div class="row">
 					<div class="col-md-12 form-horizontal">
 						<div class="form-group form-group-sm  ">
-							<label for="interesting_service" class="col-xs-3 control-label">
-								关注的服务 </label>
+							<label for="interesting_service_ipt"
+								class="col-xs-3 control-label"> 关注的服务 </label>
 							<div class="col-sm-8">
-								<input type="text" class="form-control" id="interesting_service"
-									name="interesting_service"
-									value="${clientbaseinfo.interesting_service}" placeholder="">
+								<textarea  type="text" class="form-control multiselectpanel"
+									id="interesting_service_ipt" name="interesting_service_ipt" 
+									data-name="interesting_service"
+									data-typecode = "INTERESTING_SERVICE"
+									placeholder="" readonly
+									style="height:50px"
+									></textarea>
 							</div>
 						</div>
 					</div>
@@ -198,98 +201,10 @@
 		</div>
 	</div>
 </div>
-
 <script>
-
-	function iniProvince() {
 	
-		var url = $.getSitePath() + '/backend/city/list_by_pid';
-	
-		$.ajax({
-			type : 'POST',
-			url : url,
-			data : {
-				ts : new Date().getTime()
-			},
-			type : 'POST',
-			dataType : 'json',
-			success : function(data) {
-	
-				//$.alertObjJson(data);
-				var data_remote = data["rows"];
-	
-				if (data['success'] == 'n') {
-	
-				} else {
-					var setting = {
-						"text" : "name",
-						"value" : "id"
-					}
-					
-					$.alertObjJson(data_remote);
-	
-					$("select[name=province]").each(function(){
-						
-						$(this).iniSelect_All(data_remote, setting);
-						
-						// 设置监听方法
-						$(this).change(function() {
-		
-							var text = $(this).getSelectedText();
-							var province_id =$(this).getSelectedValue();
-		
-							//alert(text + "[---]"  + province_id);
-		
-							if (province_id == "-1") {
-								$("#city").clearAll();
-							} else {
-								//初始化市的下拉列表
-								iniCity(province_id);
-							}
-						});
-					});
-					
-					//$("#province").iniSelect_All(data_remote, setting);
-				}
-			},
-			complete : function(XMLHttpRequest, textStatus) {
-			}
-		});
-	}
-
-function iniCity(province_id) {
-
-	var url = $.getSitePath() + '/backend/city/list_by_pid?parent_id=' + province_id + '&ts=' + new Date().getTime();
-
-	$.ajax({
-		type : 'POST',
-		url : url,
-		data : {
-			ts : new Date().getTime()
-		},
-		type : 'POST',
-		dataType : 'json',
-		success : function(data) {
-
-			//$.alertObjJson(data);
-			var data_remote = data["rows"];
-
-			if (data['success'] == 'n') {
-
-			} else {
-				var setting = {
-					"text" : "name",
-					"value" : "id"
-				}
-
-				$("#city").iniSelect_noAll(data_remote, setting);
-			}
-		},
-		complete : function(XMLHttpRequest, textStatus) {
-		}
-	});
-}
-
+</script>
+<script>
 	var addPhone = function(config) {
 
 		var p = $.extend({ // apply default properties
@@ -300,18 +215,18 @@ function iniCity(province_id) {
 		var toAdd = '<div                                                                              '
 				+ '			class="input-group input-group-xs  online-input col-md-12 one_box"                   '
 				+ '			style="padding-left: 15px; margin-top: 8px">                                 '
-				+ '			<span class="input-group-btn" >                          ' 
+				+ '			<span class="input-group-btn" >                          '
 				+ '				<select id="type_phone" name="type_phone"                                  '
 				+ '				class="form-control" style="width: 80px;">                                                      '
-				+ '					<option value="1">公司</option>                                          ' 
-				+ '					<option value="0">个人</option>                                          ' 
+				+ '					<option value="1">公司</option>                                          '
+				+ '					<option value="0">个人</option>                                          '
 				+ '					<option value="2">其他</option>                                          '
-				+ '			</select>                                                                    ' 
+				+ '			</select>                                                                    '
 				+ '			</span> <input type="text" class="form-control"                              '
 				+ '				style="margin-left: 8px; width: #IPT_W#" />                                 '
 				+ '			<span                                                                        '
 				+ '				class="pull-right">                                                   '
-				+ '				<button class="btn btn-danger btn-sm btn-rm-box"  type="button" style="margin-left: #MARGIN_L_BUTTON_W#">删除</button>        ' 
+				+ '				<button class="btn btn-danger btn-sm btn-rm-box"  type="button" style="margin-left: #MARGIN_L_BUTTON_W#">删除</button>        '
 				+ '			</span>                                                                      '
 				+ '</div>                                                                            ';
 
@@ -329,34 +244,52 @@ function iniCity(province_id) {
 			div_w : '580px' // div的宽度
 		}, config);
 
-		var toAdd = '<div class="input-group input-group-xs  online-input col-md-12 one_box"                           '
+		var toAdd = '<div class="input-group input-group-xs  online-input col-md-12 one_box regin-container"                           '
 			+'	style="padding-left: 15px; margin-top: 8px; width:#DIV_W#">                                       '
-				+ '	<div class="row" >                                                                              ' + '		<div class="col-xs-4 control-label">                                                          '
+				+ '	<div class="row" >                                                                              '
+				+ '		<div class="col-xs-4 control-label">                                                          '
 				+ '			<span class="input-group-btn">                                                              '
 				+ '				<select id="type_address"                                                                 '
 				+'					name="type_address" class="form-control" style="width: 80px;">                          '
-				+ '						<option value="1">公司</option>                                                       ' + '						<option value="0">个人</option>                                                       '
-				+ '						<option value="2">其他</option>                                                       ' + '				</select>                                                                                 '
-				+ '			</span>                                                                                     ' + '		</div>                                                                                        '
-				+ '		<div class="col-xs-5 control-label pull-right">                                               ' + '			<span>                                                                  '
+				+ '						<option value="1">公司</option>                                                       '
+				+ '						<option value="0">个人</option>                                                       '
+				+ '						<option value="2">其他</option>                                                       '
+				+ '				</select>                                                                                 '
+				+ '			</span>                                                                                     '
+				+ '		</div>                                                                                        '
+				+ '		<div class="col-xs-5 control-label pull-right">                                               '
+				+ '			<span>                                                                  '
 				+ '				<button class="btn btn-danger btn-sm btn-rm-box " type="button"                          '
 				+'					style="margin-left: 15px;">删除</button>                                                '
-				+ '			</span>                                                                                     ' + '		</div>                                                                                        '
-				+ '	</div>                                                                                          ' + '	<div class="row" >                                                                              '
-				+ '		<span class="input-group input-group-btn col-xs-3 control-label" style="padding-left:15px">   ' + '			<select id="province" name="province" class="form-control" ></select>                       '
-				+ '		</span>                                                                                       ' + '		<span class="input-group input-group-btn col-xs-3 control-label" style="padding-left:8px">    '
-				+ '			<select id="city" name="city" class="form-control" ></select>                               ' + '		</span>                                                                                       '
-				+ '		<span class="input-group input-group-btn col-xs-3 control-label" style="padding-left:8px">    ' + '			<select id="city2" name="city2" class="form-control" ></select>                             '
-				+ '		</span>                                                                                       ' + '	</div>                                                                                          '
-				+ '	<div class="row" >                                                                              ' + '		<span class="col-sm-12 control-label" style="padding-left:15px ;padding-right: 0px">          '
+				+ '			</span>                                                                                     '
+				+ '		</div>                                                                                        '
+				+ '	</div>                                                                                          '
+				+ '	<div class="row" >                                                                              '
+				+ '		<span class="input-group input-group-btn col-xs-3 control-label" style="padding-left:15px">   '
+				+ '			<select id="province" name="province" class="form-control" ></select>                       '
+				+ '		</span>                                                                                       '
+				+ '		<span class="input-group input-group-btn col-xs-3 control-label" style="padding-left:8px">    '
+				+ '			<select id="city" name="city" class="form-control" ></select>                               '
+				+ '		</span>                                                                                       '
+				+ '		<span class="input-group input-group-btn col-xs-3 control-label" style="padding-left:8px">    '
+				+ '			<select id="city2" name="city2" class="form-control" ></select>                             '
+				+ '		</span>                                                                                       '
+				+ '	</div>                                                                                          '
+				+ '	<div class="row" >                                                                              '
+				+ '		<span class="col-sm-12 control-label" style="padding-left:15px ;padding-right: 0px">          '
 				+ '			<input type="text" class="form-control" id="detail_address" name="detail_address"           '
 				+'				placeholder="请输入详细地址">                                                             '
-				+ '		</span>                                                                                       ' + '	</div>                                                                                          '
+				+ '		</span>                                                                                       '
+				+ '	</div>                                                                                          '
 				+ '</div>                                                                                            ';
 
 		toAdd = toAdd.replace("#DIV_W#", p.div_w);
 
-		$("#address_info").append(toAdd);
+		var _thisNew = $(toAdd);
+		_thisNew.appendTo($("#address_info"));
+		//$("#address_info").append(toAdd);
+
+		$.iniRegion(_thisNew);
 
 		registRemoveOne();
 	}
@@ -367,31 +300,33 @@ function iniCity(province_id) {
 			$(this).closest('div.one_box').remove();
 		});
 	}
-	
-	function getPhoneInfo(){
-		
+
+	function getPhoneInfo() {
+
 		var phone_info = [];
 		var phone_div = $("#phone_info");
-		
-		$(".one_box",phone_div).each(function(){
-			
-			var type_phone = $("#type_phone",$(this)).val();
-			var value_phone = $("input",$(this)).val().trim();
-			
-			if (value_phone == ""){
+
+		$(".one_box", phone_div).each(function() {
+
+			var type_phone = $("#type_phone", $(this)).val();
+			var value_phone = $("input", $(this)).val().trim();
+
+			if (value_phone == "") {
 				return;
 			}
-			
-			var phone_this={
-				"type_value":  type_phone,
-				"phone_number":value_phone
+
+			var phone_this = {
+				"type_value" : type_phone,
+				"phone_number" : value_phone
 			}
-			
+
 			phone_info.push(phone_this);
 		});
-		
+
 		//$.alertObjJson(phone_info);
-		return {"phone_info" : phone_info};
+		return {
+			"phone_info" : phone_info
+		};
 	}
 
 	$().ready(function() {
@@ -406,7 +341,8 @@ function iniCity(province_id) {
 		$("#add_phone").click(function() {
 			addPhone();
 		})
-		
-		iniProvince();
+
+		$.iniRegions();
+		//iniProvince();
 	});
 </script>

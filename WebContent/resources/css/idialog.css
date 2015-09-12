@@ -1,0 +1,254 @@
+
+body {
+}
+.aui_outer {
+    text-align: left;
+}
+table.aui_border, table.aui_dialog {
+    border: 0 none;
+    border-collapse: collapse;
+    margin: 0;
+    width: auto;
+}
+.aui_nw, .aui_n, .aui_ne, .aui_w, .aui_c, .aui_e, .aui_sw, .aui_s, .aui_se, .aui_header, .aui_tdIcon, .aui_main, .aui_footer {
+    padding: 0;
+}
+.aui_header, .aui_buttons button {
+    font: 12px/1.11 "Microsoft Yahei",Tahoma,Arial,Helvetica,STHeiti;
+}
+.aui_title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.aui_state_noTitle .aui_title {
+    display: none;
+}
+.aui_close {
+    display: block;
+    outline: medium none;
+    position: absolute;
+    text-decoration: none;
+}
+.aui_close:hover {
+    text-decoration: none;
+}
+.aui_main {
+    min-width: 9em;
+    text-align: center;
+}
+.aui_content {
+    border: 0 none;
+    display: inline-block;
+    text-align: left;
+}
+.aui_content.aui_state_full {
+    display: block;
+    height: 100%;
+    margin: 0;
+    padding: 0 !important;
+    width: 100%;
+}
+.aui_loading {
+    background: rgba(0, 0, 0, 0) url("icons/loading.gif") no-repeat scroll center center;
+    height: 32px;
+    overflow: hidden;
+    text-align: left;
+    text-indent: -999em;
+    width: 96px;
+}
+.aui_icon {
+    vertical-align: middle;
+}
+.aui_icon div {
+    background-position: center center;
+    background-repeat: no-repeat;
+    height: 48px;
+    margin: 10px 0 10px 10px;
+    width: 48px;
+}
+.aui_buttons {
+    padding: 8px;
+    text-align: right;
+    white-space: nowrap;
+}
+.aui_buttons button {
+    background: rgba(0, 0, 0, 0) -moz-linear-gradient(center top , #fff, #ddd) repeat scroll 0 0;
+    border: 1px solid #999;
+    border-radius: 5px;
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.7), 0 -1px 0 rgba(0, 0, 0, 0.09);
+    color: #333;
+    cursor: pointer;
+    display: inline-block;
+    letter-spacing: 2px;
+    line-height: 1;
+    margin-left: 15px;
+    overflow: visible;
+    padding: 6px 8px;
+    text-align: center;
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 1);
+    transition: box-shadow 0.2s linear 0s;
+    width: auto;
+}
+.aui_buttons button::-moz-focus-inner {
+    border: 0 none;
+    margin: 0;
+    padding: 0;
+}
+.aui_buttons button:focus {
+    border-color: #426dc9;
+    box-shadow: 0 0 8px rgba(66, 109, 201, 0.9);
+    outline: 0 none;
+}
+.aui_buttons button:hover {
+    border-color: #666;
+    color: #000;
+}
+.aui_buttons button:active {
+    background: rgba(0, 0, 0, 0) -moz-linear-gradient(center top , #ddd, #fff) repeat scroll 0 0;
+    border-color: #666;
+    box-shadow: 0 1px 5px rgba(66, 109, 201, 0.9) inset, 0 1px 1em rgba(0, 0, 0, 0.3) inset;
+}
+.aui_buttons button[disabled] {
+    background: #ddd none repeat scroll 0 0;
+    border: 1px solid #999;
+    box-shadow: none;
+    color: #666;
+    cursor: default;
+    opacity: 0.5;
+}
+button.aui_state_highlight {
+    background: rgba(0, 0, 0, 0) -moz-linear-gradient(center top , #33bbee, #2288cc) repeat scroll 0 0;
+    border: 1px solid #1c6a9e;
+    color: #fff;
+    text-shadow: -1px -1px 1px #1c6a9e;
+}
+button.aui_state_highlight:hover {
+    border-color: #0f3a56;
+    color: #fff;
+}
+button.aui_state_highlight:active {
+    background: rgba(0, 0, 0, 0) -moz-linear-gradient(center top , #33bbee, #2288cc) repeat scroll 0 0;
+    border-color: #1c6a9e;
+}
+.aui_inner {
+    background: #fff none repeat scroll 0 0;
+}
+.aui_titleBar {
+    width: 100%;
+}
+.aui_title {
+    font-size: 0;
+    height: 22px;
+    left: 0;
+    position: absolute;
+    text-align: left;
+    text-indent: -999em;
+    top: 0;
+    width: 100%;
+}
+.aui_nw, .aui_ne, .aui_sw, .aui_se, .aui_n, .aui_s, .aui_close {
+    background-image: url("../image/idialog_s.png");
+    background-repeat: no-repeat;
+}
+.aui_nw {
+    background-position: 0 0;
+    height: 15px;
+    width: 15px;
+}
+.aui_ne {
+    background-position: -15px 0;
+    height: 15px;
+    width: 15px;
+}
+.aui_sw {
+    background-position: 0 -15px;
+    height: 15px;
+    width: 15px;
+}
+.aui_se {
+    background-position: -15px -15px;
+    height: 15px;
+    width: 15px;
+}
+.aui_close {
+    background-position: 0 -60px;
+    height: 34px;
+    position: absolute;
+    right: -8px;
+    text-indent: -9999em;
+    top: -8px;
+    width: 34px;
+}
+.aui_close:hover {
+    background-position: 0 -94px;
+}
+.aui_n, .aui_s {
+    background-repeat: repeat-x;
+}
+.aui_n {
+    background-position: 0 -30px;
+}
+.aui_s {
+    background-position: 0 -45px;
+}
+.aui_w, .aui_e {
+    background-image: url("idialog/idialog_s2.png");
+    background-repeat: repeat-y;
+}
+.aui_w {
+    background-position: left top;
+}
+.aui_e {
+    background-position: right bottom;
+}
+@media screen and (min-width: 0px) {
+.aui_nw, .aui_ne, .aui_sw, .aui_se {
+    height: 5px;
+    width: 5px;
+}
+.aui_nw, .aui_n, .aui_ne, .aui_w, .aui_e, .aui_sw, .aui_s, .aui_se {
+    background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+}
+.aui_sw, .aui_s, .aui_se {
+    background: rgba(0, 0, 0, 0) url("../image/idialog_s.png") repeat-x scroll 0 -45px;
+}
+.aui_sw {
+    border-radius: 0 0 0 5px;
+}
+.aui_se {
+    border-radius: 0 0 5px;
+}
+.aui_outer {
+    border: 1px solid #929292;
+    border-radius: 5px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+    transition: -webkit-box-shadow 0.2s linear 0s;
+}
+.aui_border {
+    background: #fff none repeat scroll 0 0;
+    border-radius: 5px;
+}
+.aui_state_drag .aui_outer {
+    box-shadow: none;
+}
+.aui_state_lock .aui_outer {
+    box-shadow: 0 3px 26px rgba(0, 0, 0, 0.9);
+}
+.aui_outer:active {
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1) !important;
+}
+.aui_state_drag .aui_outer {
+    box-shadow: none !important;
+}
+.aui_close {
+    right: -16px;
+    top: -16px;
+}
+}
+@media not all {
+.aui_close {
+    left: -16px;
+    right: auto;
+    top: -16px;
+}
+}

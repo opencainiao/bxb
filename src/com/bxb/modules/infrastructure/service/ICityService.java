@@ -1,5 +1,7 @@
 package com.bxb.modules.infrastructure.service;
 
+import java.util.List;
+
 import com.bxb.common.globalobj.PageVO;
 import com.bxb.modules.infrastructure.model.City;
 import com.mongodb.DBObject;
@@ -28,8 +30,7 @@ public interface ICityService {
 	 * @param returnFields
 	 * @return
 	 */
-	public PageVO batchSearchPage(DBObject queryCondition, DBObject sort,
-			DBObject returnFields);
+	public PageVO batchSearchPage(DBObject queryCondition, DBObject sort, DBObject returnFields);
 
 	/****
 	 * 条件查询，1页，查询所有
@@ -39,8 +40,7 @@ public interface ICityService {
 	 * @param returnFields
 	 * @return
 	 */
-	public PageVO batchSearchOnePage(DBObject query, DBObject sort,
-			DBObject returnFields);
+	public PageVO batchSearchOnePage(DBObject query, DBObject sort, DBObject returnFields);
 
 	/****
 	 * 插入对象，返回插入后的生成的ObjectId
@@ -85,7 +85,16 @@ public interface ICityService {
 	 * @param parentId
 	 * @return
 	 */
-	public PageVO findChildrenByPIdOnePage(DBObject sort,
-			DBObject returnFields, Integer parentId);
+	public PageVO findChildrenByPIdOnePage(DBObject sort, DBObject returnFields, Integer parentId);
+
+	/****
+	 * 查询节点的所有直接子节点
+	 * 
+	 * @param sort
+	 * @param returnFields
+	 * @param parentId
+	 * @return
+	 */
+	public List<DBObject> findChildrenByPId(DBObject sort, DBObject returnFields, Integer parentId);
 
 }

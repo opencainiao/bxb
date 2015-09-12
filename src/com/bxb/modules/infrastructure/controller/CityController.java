@@ -1,5 +1,7 @@
 package com.bxb.modules.infrastructure.controller;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
@@ -27,8 +29,7 @@ import com.mongodb.DBObject;
 @RequestMapping("/backend/city")
 public class CityController extends BaseController {
 
-	private static final Logger logger = LogManager
-			.getLogger(CityController.class);
+	private static final Logger logger = LogManager.getLogger(CityController.class);
 
 	@Resource(name = "cityService")
 	private ICityService cityService;
@@ -53,17 +54,66 @@ public class CityController extends BaseController {
 			sort.put("code", 1);
 			DBObject returnFields = null;
 
-			String pId = HttpServletRequestUtil.getTrimParameter(request,
-					"parent_id");
+			String pId = HttpServletRequestUtil.getTrimParameter(request, "parent_id");
 			Integer parent_id = null;
 			if (pId != null) {
 				parent_id = Integer.parseInt(pId);
 			}
-			return this.cityService.findChildrenByPIdOnePage(sort,
-					returnFields, parent_id);
+			return this.cityService.findChildrenByPIdOnePage(sort, returnFields, parent_id);
 
 		} catch (Exception e) {
 			return this.handleException(e);
+		}
+	}
+
+	/****
+	 * 查询省城市信息（省一级）
+	 * 
+	 * @param model
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value = "/provinces", method = RequestMethod.POST)
+	@ResponseBody
+	public Object provinces(Model model, HttpServletRequest request) {
+		try {
+			DBObject sort = new BasicDBObject();
+			sort.put("code", 1);
+			DBObject returnFields = null;
+
+			return this.cityService.findChildrenByPId(sort, returnFields, null);
+		} catch (Exception e) {
+			return new String[] {};
+			// return this.handleException(e);
+		}
+	}
+	
+	/****
+	 * 查询省城市信息（按照父节点id）
+	 * 
+	 * @param model
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value = "/citys", method = RequestMethod.POST)
+	@ResponseBody
+	public Object citys(Model model, HttpServletRequest request) {
+		try {
+			DBObject sort = new BasicDBObject();
+			sort.put("code", 1);
+			DBObject returnFields = null;
+			
+			String pId = HttpServletRequestUtil.getTrimParameter(request, "parent_id");
+			Integer parent_id = null;
+			if (pId != null) {
+				parent_id = Integer.parseInt(pId);
+			}
+
+			List<DBObject> citys = this.cityService.findChildrenByPId(sort, returnFields, parent_id);
+			return citys;
+		} catch (Exception e) {
+			return new String[] {};
+			// return this.handleException(e);
 		}
 	}
 

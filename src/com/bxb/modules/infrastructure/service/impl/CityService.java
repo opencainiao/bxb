@@ -1,5 +1,7 @@
 package com.bxb.modules.infrastructure.service.impl;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.apache.logging.log4j.LogManager;
@@ -102,6 +104,16 @@ public class CityService extends BaseService implements ICityService {
 		queryCondition.put("parent_id", parentId);
 
 		return this.batchSearchOnePage(queryCondition, sort, null);
+	}
+
+	@Override
+	public List<DBObject> findChildrenByPId(DBObject sort, DBObject returnFields, Integer parentId) {
+		
+		DBObject queryCondition = new BasicDBObject();
+		queryCondition.put("parent_id", parentId);
+
+		
+		return this.citydao.findBatchDbOjbect(queryCondition, sort, null);
 	}
 
 }
