@@ -11,7 +11,7 @@
 						归属用户id </label>
 					<div class="col-sm-8">
 						<input type="text" class="form-control" id="owner_user_id"
-							name="owner_user_id" value="${clientbaseinfo.owner_user_id}"
+							name="owner_user_id" value="${owner_user_id}"
 							placeholder="">
 					</div>
 				</div>
@@ -46,8 +46,8 @@
 									placeholder="">
 							</div>
 						</div>
-						<div class="form-group form-group-sm regin-container">
-							<label for="region" class="col-sm-3 control-label"> 地区 </label>
+						<div id="regin" class="form-group form-group-sm regin-container">
+							<label  class="col-sm-3 control-label"> 地区 </label>
 							<div class="row col-sm-8" style="padding-right: 0px;">
 								<span class="input-group input-group-btn col-xs-3 control-label"
 									style="padding-left: 15px"> <select id="province"
@@ -58,8 +58,8 @@
 									class="form-control"></select>
 								</span> <span
 									class="input-group input-group-btn col-xs-3 control-label"
-									style="padding-left: 8px"> <select id="city2"
-									name="city2" class="form-control"></select>
+									style="padding-left: 8px"> <select id="district"
+									name="district" class="form-control"></select>
 								</span>
 							</div>
 						</div>
@@ -272,7 +272,7 @@
 				+ '			<select id="city" name="city" class="form-control" ></select>                               '
 				+ '		</span>                                                                                       '
 				+ '		<span class="input-group input-group-btn col-xs-3 control-label" style="padding-left:8px">    '
-				+ '			<select id="city2" name="city2" class="form-control" ></select>                             '
+				+ '			<select id="district" name="district" class="form-control" ></select>                             '
 				+ '		</span>                                                                                       '
 				+ '	</div>                                                                                          '
 				+ '	<div class="row" >                                                                              '
@@ -325,7 +325,74 @@
 
 		//$.alertObjJson(phone_info);
 		return {
-			"phone_info" : phone_info
+			"phone_info" :  JSON.stringify(phone_info) 
+		};
+	}
+	
+	function getReginInfo(){
+
+		var regin_div = $("#regin");
+
+		var code = [];
+		var name = [];
+		
+		var province = $("#province", regin_div).val();
+		var city = $("#city", regin_div).val();
+		var district = $("#district", regin_div).val();
+		var province_name = $("#province", regin_div).getSelectedText();
+		var city1_name = $("#city", regin_div).getSelectedText();
+		var city2_name = $("#district", regin_div).getSelectedText();
+		
+		code.push(province);
+		code.push(city);
+		code.push(district);
+		
+		name.push(province_name);
+		name.push(city1_name);
+		name.push(city2_name);
+		
+		if (province == "-1"){
+			return null;
+		}
+		
+		return {
+			"region_code" : code.join("-"),
+			"region_name" : name.join("|_|")
+		};
+	}
+	
+	function getAddressInfo() {
+
+		var address_info = [];
+		var address_div = $("#address_info");
+
+		$(".one_box", address_div).each(function() {
+
+			var type_address = $("#type_address", $(this)).val();
+			
+			var province = $("#province", $(this)).val();
+			var city = $("#city", $(this)).val();
+			var district = $("#district", $(this)).val();
+			
+			var detail_address = $("#detail_address", $(this)).val().trim();
+
+			if (province == "-1"){
+				return;
+			}
+			
+			var address_this = {
+				"province":province,
+				"city":city,
+				"district":district,
+				"detail_address" : detail_address
+			}
+
+			address_info.push(address_this);
+		});
+
+		//$.alertObjJson(address_info);
+		return {
+			"address_info" : JSON.stringify(address_info)  
 		};
 	}
 

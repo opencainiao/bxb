@@ -90,8 +90,8 @@ public class SpecialCharacterFilter extends OncePerRequestFilter {
 			return null;
 		}
 
-		value = StringEscapeUtils.escapeHtml4(value);
-		value = StringUtil.escapeHtmlToCode(value);
+		// value = StringEscapeUtils.escapeHtml4(value);
+		// value = StringUtil.escapeHtmlToCode(value);
 
 		return value;
 	}

@@ -106,8 +106,8 @@ public class ClientService extends BaseService implements IClientService {
 		this.phoneService.add(phones, client_id);
 
 		// 邮件信息
-		List<Email> emails = client.getEmail_info();
-		this.emailService.add(emails, client_id);
+		// List<Email> emails = client.getEmail_info();
+		// this.emailService.add(emails, client_id);
 
 		return client_id;
 	}

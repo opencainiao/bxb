@@ -54,7 +54,7 @@ public class CharacterInteceptor implements HandlerInterceptor {
 
 					// 转换目标字符变成对象字符，可以多个。后期扩展特殊字符库用于管理
 					// paramValue = paramValue.replaceAll("'", "");
-					paramValue = paramValue.replaceAll("\"", "&quot;");
+					//paramValue = paramValue.replaceAll("\"", "&quot;");
 
 					// 这里还可以增加，如领导人 自动转义成****,可以从数据库中读取非法关键字。
 					values[i] = paramValue;

@@ -86,10 +86,6 @@ public class BaseModel extends ReflectionDBObject {
 		this.delflg = delflg;
 	}
 
-	public String toString() {
-		return JsonUtil.toJsonStr(this);
-	}
-
 	public String getLast_op_user_id() {
 		return last_op_user_id;
 	}
@@ -149,4 +145,7 @@ public class BaseModel extends ReflectionDBObject {
 		this._id_m = _id_m;
 	}
 
+	public String toString() {
+		return JsonUtil.toJsonStr(this);
+	}
 }

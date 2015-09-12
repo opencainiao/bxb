@@ -19,7 +19,8 @@ public class ClientBaseInfo extends BaseModel {
 	private int age; // 年龄
 	private List<Address> address_info; // 客户的地址信息
 	private List<Phone> phone_info; // 客户的电话信息
-	private List<Email> email_info; // 客户的邮箱信息
+	// private List<Email> email_info; // 客户的邮箱信息
+	private String email_info;
 	private String region_code; // 地区码
 	private String region_name; // 地区名
 	private String region_type; // 地区分类
@@ -52,6 +53,10 @@ public class ClientBaseInfo extends BaseModel {
 
 	public String getSex() {
 		return sex;
+	}
+
+	public void setEmail_info(String email_info) {
+		this.email_info = email_info;
 	}
 
 	public void setId_number(String id_number) {
@@ -142,13 +147,13 @@ public class ClientBaseInfo extends BaseModel {
 		this.phone_info = phone_info;
 	}
 
-	public List<Email> getEmail_info() {
-		return email_info;
-	}
+//	public List<Email> getEmail_info() {
+//		return email_info;
+//	}
 
-	public void setEmail_info(List<Email> email_info) {
-		this.email_info = email_info;
-	}
+	// public void setEmail_info(List<Email> email_info) {
+	// this.email_info = email_info;
+	// }
 
 	public void setPinYin() {
 		// 关键字的全拼

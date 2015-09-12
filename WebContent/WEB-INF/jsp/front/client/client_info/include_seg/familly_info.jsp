@@ -22,11 +22,8 @@
 						<label for="wedding_date" class="col-sm-3 control-label">结婚纪念日
 						</label>
 						<div class="col-sm-8">
-							<select id="wedding_date" name="wedding_date"
-								class="form-control" data-value="${clientbaseinfo.wedding_date}">
-								<option value="1">男</option>
-								<option value="0">女</option>
-							</select>
+							<input type="text" class="form-control" id="wedding_date"
+								name="wedding_date" placeholder="">
 						</div>
 					</div>
 				</div>

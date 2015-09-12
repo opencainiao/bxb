@@ -68,14 +68,18 @@
 		var save = function() {
 			
 			var phone_info = getPhoneInfo();
+			var address_info = getAddressInfo();
+			var region_info = getReginInfo();
 
 			var paramForm = $('form').getFormParam_ux();
 			
 			paramForm =  $.extend(paramForm,phone_info);
+			paramForm =  $.extend(paramForm,address_info);
+			paramForm =  $.extend(paramForm,region_info);
 			
 			console.log(JSON.stringify(paramForm));
 			
-			return;
+			//return;
 
 			// 控制按钮为禁用
 			$.disableButton("btn_save");

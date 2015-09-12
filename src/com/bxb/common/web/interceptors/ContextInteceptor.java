@@ -75,7 +75,7 @@ public class ContextInteceptor implements HandlerInterceptor {
 				ThreadContextManager.put(Contexkeys.USER,
 						sPublicData.getLoginUser());
 				ThreadContextManager.put(Contexkeys.USERID, sPublicData
-						.getLoginUser().get_id().toString());
+						.getLoginUser().get_id_m());
 				ThreadContextManager.put(Contexkeys.USERNAME, sPublicData
 						.getLoginUser().getUsername());
 			}

@@ -20,7 +20,8 @@ public class Client extends BaseModel {
 
 	private List<Address> address_info; // 客户的地址信息
 	private List<Phone> phone_info; // 客户的电话信息
-	private List<Email> email_info; // 客户的邮箱信息
+	// private List<Email> email_info; // 客户的邮箱信息
+	private String email_info;
 
 	private String region_code; // 地区码
 	private String region_name; // 地区名
@@ -122,8 +123,7 @@ public class Client extends BaseModel {
 		return introducer_relationship_name;
 	}
 
-	public void setIntroducer_relationship_name(
-			String introducer_relationship_name) {
+	public void setIntroducer_relationship_name(String introducer_relationship_name) {
 		this.introducer_relationship_name = introducer_relationship_name;
 	}
 
@@ -189,13 +189,13 @@ public class Client extends BaseModel {
 		this.phone_info = phone_info;
 	}
 
-	public List<Email> getEmail_info() {
-		return email_info;
-	}
-
-	public void setEmail_info(List<Email> email_info) {
-		this.email_info = email_info;
-	}
+	// public List<Email> getEmail_info() {
+	// return email_info;
+	// }
+	//
+	// public void setEmail_info(List<Email> email_info) {
+	// this.email_info = email_info;
+	// }
 
 	public String getRegion_code() {
 		return region_code;
@@ -305,8 +305,7 @@ public class Client extends BaseModel {
 		return annual_income_personal_type;
 	}
 
-	public void setAnnual_income_personal_type(
-			String annual_income_personal_type) {
+	public void setAnnual_income_personal_type(String annual_income_personal_type) {
 		this.annual_income_personal_type = annual_income_personal_type;
 	}
 
@@ -602,8 +601,7 @@ public class Client extends BaseModel {
 		return annual_income_personal_type_name;
 	}
 
-	public void setAnnual_income_personal_type_name(
-			String annual_income_personal_type_name) {
+	public void setAnnual_income_personal_type_name(String annual_income_personal_type_name) {
 		this.annual_income_personal_type_name = annual_income_personal_type_name;
 	}
 
@@ -611,8 +609,7 @@ public class Client extends BaseModel {
 		return annual_income_family_type_name;
 	}
 
-	public void setAnnual_income_family_type_name(
-			String annual_income_family_type_name) {
+	public void setAnnual_income_family_type_name(String annual_income_family_type_name) {
 		this.annual_income_family_type_name = annual_income_family_type_name;
 	}
 
@@ -620,9 +617,12 @@ public class Client extends BaseModel {
 		return family_financial_standing_name;
 	}
 
-	public void setFamily_financial_standing_name(
-			String family_financial_standing_name) {
+	public void setFamily_financial_standing_name(String family_financial_standing_name) {
 		this.family_financial_standing_name = family_financial_standing_name;
+	}
+
+	public void setEmail_info(String email_info) {
+		this.email_info = email_info;
 	}
 
 	public String getFamily_income_feature_name() {
@@ -708,11 +708,14 @@ public class Client extends BaseModel {
 			if (StringUtil.isNotEmpty(this.pinyin_name)) {
 				setFirst_char_header(this.pinyin_name.substring(0, 1));
 			} else {
-				String headerFirst = PinyinUtil
-						.str2PinyinHeaderFirst(client_name);
+				String headerFirst = PinyinUtil.str2PinyinHeaderFirst(client_name);
 				setFirst_char_header(headerFirst);
 			}
 		}
+	}
+
+	public String getEmail_info() {
+		return email_info;
 	}
 
 	public ClientBaseInfo getBaseInf() {

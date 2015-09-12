@@ -120,6 +120,17 @@ public class BaseController {
 
 		return ErrorHandler.getRequestResultFromBindingResult(br);
 	}
+	
+	/****
+	 * 对校验不合法的情况进行处理，生成对应的返回对象
+	 * 
+	 * @param message
+	 * @return
+	 */
+	public RequestResult handleValidateFalse(ValidResult validResult) {
+
+		return ErrorHandler.getRequestResultFromValidResult(validResult);
+	}
 
 	public boolean isLowBrowser() {
 		return UserAgentUtil.isLowBrowser(getUserBrowser(),

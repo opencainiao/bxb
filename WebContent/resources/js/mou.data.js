@@ -117,7 +117,7 @@
 									// alert(text + "[---]" + province_id);
 
 									$("#city", container).clearAll();
-									$("#city2", container).clearAll();
+									$("#district", container).clearAll();
 
 									if (province_id != "-1") {
 										// 初始化市的下拉列表
@@ -144,7 +144,7 @@
 					// 初始化市的下拉列表
 					var data_city2 = $.getCitys(city_id); // 区县一级数据
 
-					$("#city2", container).iniSelect_All(data_city2, setting);
+					$("#district", container).iniSelect_All(data_city2, setting);
 				});
 			});
 		},
