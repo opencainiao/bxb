@@ -105,7 +105,7 @@
 							$.alertError(data['message']);
 						}
 					} else {
-						$.alertSuccessNewPage("成功", successstr, url_success);
+						$.alertSuccessNewPage("成功", successstr, url_success,[0.5, '#000']);
 					}
 				},
 				complete : function(XMLHttpRequest, textStatus) {

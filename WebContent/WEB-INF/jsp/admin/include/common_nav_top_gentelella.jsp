@@ -6,7 +6,7 @@
 <div class="top_nav">
 	<div class="nav_menu" id="nav_menu">
 		<nav class="" role="navigation">
-			<ul class="nav navbar-nav navbar-right" >
+			<ul class="nav navbar-nav navbar-right">
 				<li class=""><a href="javascript:;"
 					class="user-profile dropdown-toggle" data-toggle="dropdown"
 					aria-expanded="false"> <img
@@ -20,7 +20,7 @@
 								class="badge bg-red pull-right">50%</span> <span>Settings</span>
 						</a></li>
 						<li><a href="javascript:;">Help</a></li>
-						<li><a href="login.html"><i
+						<li><a href="" data-link="adminlogout" id="logout"><i
 								class="fa fa-sign-out pull-right"></i> Log Out</a></li>
 					</ul></li>
 
@@ -77,4 +77,35 @@
 	</div>
 </div>
 
+<script>
+	function initTopNavBehave() {
+		
+		$("a", $("#nav_menu")).click(function(e) {
+					
+			var $this = $(this);
+			
+			var data_link = $this.attr("data-link");
+			if (data_link == undefined){
+				return;
+			}
+			
+            if ($this.attr("data-link") && $this.attr("data-link").indexOf("#") < 0) {
+            	
+            	e.preventDefault(); 
+            	e.stopPropagation(); 
+            	
+            	var url = $.getSitePath() + "/" + $this.attr("data-link");
+            	//alert(url);
+            	
+            	if ($this.attr("id") == "logout"){
+            		$.loadPage(url);
+            		//window.top.location.href = url;
+            	}else{
+            		$("#frame_content_id")[0].src = url;
+            	}
+			}
+		});
+
+	}
+</script>
 <!-- /top navigation -->

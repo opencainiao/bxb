@@ -16,7 +16,6 @@
 		 */
 		getSitePath : function() {
 			return localStorage.getItem("SITE_PATH");
-			//return $("input[name=ctx]").val();
 		},
 		alertObjJson : function(obj) {
 			alert(JSON.stringify(obj));
@@ -107,7 +106,7 @@
 				$.alertMsg(obj, callback);
 			}
 		},
-		alertSuccessNewPage : function(title, message, newpage) {
+		alertSuccessNewPage : function(title, message, newpage, shade) {
 			var obj = {};
 
 			if (newpage) {
@@ -116,6 +115,7 @@
 			obj["type"] = "success";
 			obj["title"] = title;
 			obj["message"] = message;
+			obj["shade"] = shade;
 
 			$.alertMsg(obj);
 		},
@@ -128,6 +128,7 @@
 			if (offset) {
 				obj["offset"] = offset;
 			}
+			obj["shade"] = [0.5, '#000'];
 
 			$.alertMsg(obj);
 		},
@@ -192,7 +193,7 @@
 				area : obj.area ? [ obj.area[0] + 'px', obj.area[1] + 'px' ] : [ '400px', '200px' ],
 				border : [ 1, 0.9, '#337ab7' ],
 				offset : offset_default,
-				shade : [ 1 ], // 0-去掉遮罩
+				shade : obj.shade? obj.shade :[ 1 ], // 0-去掉遮罩
 				closeBtn : [ 0, false ], // 去掉默认关闭按钮
 				page : {
 					html : html_content

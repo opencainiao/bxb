@@ -136,7 +136,7 @@ var data_manage = {
 		nowrap : true, // 是否不换行
 		autoload : true,// 自动加载
 		usepager : true,
-		title : '系统常量类型列表',
+		title : '客户列表',
 		useRp : true,
 		rp : 20, // 默认分页条数
 		pagestat : '共有{total}条记录，显示{from} - {to}条记录',
@@ -154,12 +154,14 @@ var data_manage = {
 			align : 'center'
 		}, {
 			display : '逻辑主键',
-			name : '_id_m'
+			name : '_id_m',
+			hide:true
 		}, 
 			{
 				display : '归属用户id',
 				name : 'owner_user_id',
-				width : 120
+				width : 120,
+				hide:true
 		},
 			{
 				display : '姓名',
@@ -420,11 +422,6 @@ var data_manage = {
 				callback : data_manage_functions.delOne,
 				paramConfig : [ "_id_m" ],
 				css : "btn btn-xs btn-danger"
-			}, {
-				r_name : 'toEdit',
-				text : '修改',
-				callback : data_manage_functions.toEdit,
-				paramConfig : [ "_id_m" ]
 			} ]
 		} ]
 

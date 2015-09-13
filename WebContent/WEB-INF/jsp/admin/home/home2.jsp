@@ -99,7 +99,11 @@ function autoHeight() {
             
         	loadTree();
         	
+        	initTopNavBehave();
+        	
         	$.setSitePath("${ctx}");
+        	
+        	
         });
     </script>
 </body>

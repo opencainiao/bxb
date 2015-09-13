@@ -439,6 +439,10 @@ $().ready(function() {
 	initSource();
 	initWork();
 	initXg();
+	
+	$("button").each(function(e){
+		$(this).css("margin-left","10px");
+	})
 });
 
 </script>
@@ -452,7 +456,7 @@ $().ready(function() {
 		   		<div class="row">
 		   			<div class="col-md-9 col-md-offset-3">
 		   				<div class="panel panel-info">
-							<div class="panel-heading">基本信息<button type="button" id="edit_base" class="btn btn-default pull-right">编辑</button></div>
+							<div class="panel-heading">基本信息<button type="button" id="edit_base" class="btn btn-default pull-right"  >编辑</button></div>
 							<div class="panel-body" id="base_info_content">
 							</div>
 						</div>
