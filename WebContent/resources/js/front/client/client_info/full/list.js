@@ -164,9 +164,8 @@ var data_manage = {
 		}, {
 			display : '姓名',
 			name : 'client_name',
-			width : 120,
+			width : 110,
 			m_type : 'link',
-			width : 200,
 			select : [ "_id_m" ],
 			hide : false,
 			callback : data_manage_functions.toDetail
@@ -181,7 +180,7 @@ var data_manage = {
 		}, {
 			display : '身份证号',
 			name : 'id_number',
-			width : 120
+			width : 150
 		}, {
 			display : '生日',
 			name : 'birth_date',
@@ -192,11 +191,11 @@ var data_manage = {
 			width : 40
 		}, {
 			display : '客户的地址信息',
-			name : 'address_info',
-			width : 120
+			name : 'address_info_name',
+			width : 160
 		}, {
 			display : '客户的电话信息',
-			name : 'phone_info',
+			name : 'phone_info_name',
 			width : 120
 		}, {
 			display : '客户的邮箱信息',
@@ -205,11 +204,12 @@ var data_manage = {
 		}, {
 			display : '地区码',
 			name : 'region_code',
-			width : 120
+			width : 120,
+			hide:true
 		}, {
-			display : '地区名',
+			display : '地区',
 			name : 'region_name',
-			width : 120
+			width : 180
 		}, {
 			display : '地区分类',
 			name : 'region_type',

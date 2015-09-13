@@ -50,7 +50,7 @@
 				<ul id="side-menu" class="nav side-menu">
 				</ul>
 			</div>
-			<div class="menu_section">
+			<div class="menu_section hide" >
 				<h3>Live On</h3>
 				<ul class="nav side-menu">
 					<li><a><i class="fa fa-bug"></i> Additional Pages <span

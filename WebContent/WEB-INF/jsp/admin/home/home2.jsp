@@ -105,9 +105,9 @@ function autoHeight() {
         	$.setAllConstants(eval(${ALLCONSTANT}));
         	
         	var sysmodule = $.getConstants("SYS_MODULE");
-        	$.alertObjJson(sysmodule);
+        	//$.alertObjJson(sysmodule);
         	
-        	$.alertObjJson($.getConstantName("SYS_MODULE","02"));
+        	//$.alertObjJson($.getConstantName("SYS_MODULE","02"));
         });
     </script>
 </body>
