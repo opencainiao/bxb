@@ -27,6 +27,7 @@ public class SysConstInitor implements Initializable {
 	@Resource(name = "sysConstService")
 	private ISysConstService sysConstService;
 	private static final Logger logger = LogManager.getLogger(SysConstInitor.class);
+	
 
 	/****
 	 * 初始化系统内存数据，避免硬编码
