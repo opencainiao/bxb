@@ -183,7 +183,7 @@ public class ClientBaseInfo extends BaseModel {
 	public static List<String> getTitles() {
 		List<String> titles = new ArrayList<String>();
 
-		titles.add("owner_user_id");
+//		titles.add("owner_user_id");
 		titles.add("client_name");
 		titles.add("sex");
 		titles.add("id_number");
@@ -205,7 +205,7 @@ public class ClientBaseInfo extends BaseModel {
 	public static List<String> getTitleNames() {
 		List<String> titleNames = new ArrayList<String>();
 
-		titleNames.add("归属用户id");
+//		titleNames.add("归属用户id");
 		titleNames.add("姓名");
 		titleNames.add("性别");
 		titleNames.add("身份证");

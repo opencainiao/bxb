@@ -447,7 +447,7 @@ $().ready(function() {
 
 </script>
 <input type="hidden" name="ctx" value="<%=request.getContextPath()%>" />
-<input type='hidden' id="_id_m" value="${client._id }" />
+<input type='hidden' id="_id_m" value="${client._id_m }" />
 <div class="container-fluid">
   <div class="row">
    	<div class="col-md-6">
