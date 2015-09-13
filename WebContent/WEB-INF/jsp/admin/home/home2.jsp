@@ -102,8 +102,12 @@ function autoHeight() {
         	initTopNavBehave();
         	
         	$.setSitePath("${ctx}");
+        	$.setAllConstants(eval(${ALLCONSTANT}));
         	
+        	var sysmodule = $.getConstants("SYS_MODULE");
+        	$.alertObjJson(sysmodule);
         	
+        	$.alertObjJson($.getConstantName("SYS_MODULE","02"));
         });
     </script>
 </body>

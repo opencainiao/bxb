@@ -103,7 +103,6 @@
 
 			$("select[name=province]", container).each(
 					function() {
-
 						$(this).iniSelect_All(data_p, setting);
 
 						// 设置监听方法
@@ -132,7 +131,7 @@
 					});
 
 			$("select[name=city]", container).each(function() {
-
+ 
 				// 设置监听方法
 				$(this).change(function() {
 
@@ -157,6 +156,27 @@
 			$(".regin-container").each(function() {
 				$.iniRegion($(this));
 			})
+		},
+		/***********************************************************************
+		 * 初始化所有常量
+		 */
+		setAllConstants:function(data){
+			$.saveJsonLocal("ALLCONSTANT",data);
+		},
+		/***********************************************************************
+		 * 取typecode得所有常量<br>
+		 * var sysmodule = $.getConstants("SYS_MODULE");
+		 * $.alertObjJson(sysmodule);
+		 */
+		getConstants(typecode){
+			return $.getJsonLocal("ALLCONSTANT")[typecode];
+		},
+		/***********************************************************************
+		 * 取typecode的常量值为val的显示值 例如：
+		 * $.alertObjJson($.getConstantName("SYS_MODULE","02"));
+		 */
+		getConstantName(typecode,val){
+			return $.getConstants(typecode)[val];
 		}
 	});
 })(jQuery);

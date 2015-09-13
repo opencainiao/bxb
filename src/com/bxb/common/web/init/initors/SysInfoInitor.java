@@ -28,7 +28,7 @@ public class SysInfoInitor implements Initializable {
 
 		// 全局上下文路径
 		servletContext.setAttribute("ctx", servletContext.getContextPath());
-
+		
 		DBManager.initDB("bxb");
 
 		PriviInteceptor.setNeedLoginFlag(false);

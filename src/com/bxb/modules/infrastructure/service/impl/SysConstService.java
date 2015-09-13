@@ -51,8 +51,8 @@ public class SysConstService extends BaseService implements ISysConstService {
 	@Override
 	public String add(SysConst sysconst) {
 		this.setCreateInfo(sysconst);
-		sysconst.setUseflg("1"); //默认设置为启用
-		
+		sysconst.setUseflg("1"); // 默认设置为启用
+
 		return this.sysconstdao.insertObj(sysconst);
 	}
 
@@ -152,7 +152,11 @@ public class SysConstService extends BaseService implements ISysConstService {
 	public List<DBObject> findAllConstBySysconstTypecode(String typecode) {
 
 		DBObject queryCondition = new BasicDBObject();
-		queryCondition.put("typecode", typecode);
+
+		if (!StringUtil.isEmpty(typecode)) {
+			queryCondition.put("typecode", typecode);
+		}
+
 		queryCondition.put("useflg", "1");
 
 		DBObject sort = new BasicDBObject();
@@ -200,7 +204,6 @@ public class SysConstService extends BaseService implements ISysConstService {
 		typecode = typecode.trim();
 
 		// 1.查缓存
-		
 
 		// 2.查数据库
 		DBObject queryCondition = new BasicDBObject();
