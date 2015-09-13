@@ -10,8 +10,8 @@ public class ClientXgInfo extends BaseModel {
 	public static List<String> getTitles() {
 		List<String> titles = new ArrayList<String>();
 
-		titles.add("birth_ages");
-		titles.add("age_group");
+		titles.add("birth_ages_name");
+		titles.add("age_group_name");
 		titles.add("constellation");
 		titles.add("blood_group");
 		titles.add("temperament_type");

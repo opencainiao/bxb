@@ -74,12 +74,12 @@ function genContent(client,title,name){
 			if (type_item == "string"){
 				
 				if (item_value != ""){
-					var item_str = "<dl><dt>" + item_name + "</dt><dd>" + item_value + "</dd></dl>";
+					var item_str = "<dl><dt>" + item_name + "</dt><dd style='margin-left: 150px;'>" + item_value + "</dd></dl>";
 					
 					content = content + item_str;
 				}
 			}else{
-				var item_str = "<dl><dt>" + item_name + "</dt><dd>" + item_value + "</dd></dl>";
+				var item_str = "<dl><dt>" + item_name + "</dt><dd  style='margin-left: 150px;'>" + item_value + "</dd></dl>";
 				
 				content = content + item_str;
 			}

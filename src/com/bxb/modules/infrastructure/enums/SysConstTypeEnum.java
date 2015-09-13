@@ -25,7 +25,9 @@ public enum SysConstTypeEnum {
 	TEMPERAMENT_TYPE("TEMPERAMENT_TYPE", "性格特点"), //
 	PDP_TYPE("PDP_TYPE", "PDP类型"), //
 	INTERESTING_SERVICE("INTERESTING_SERVICE", "关注的服务"),
-	REGION_TYPE("REGION_TYPE","地区分类");
+	REGION_TYPE("REGION_TYPE","地区分类"),
+	PHONE_TYPE("PHONE_TYPE","电话类型"),
+	ADDRESS_TYPE("ADDRESS_TYPE","地址类型");
 	
 
 	private String code;

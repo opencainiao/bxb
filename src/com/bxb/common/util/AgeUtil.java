@@ -9,7 +9,7 @@ public class AgeUtil {
 
 	public static void main(String[] args) throws Exception {
 
-		System.out.println(getAge("1982-10-08"));
+		System.out.println(getAge("2014-1-08"));
 	}
 
 	/****
@@ -53,13 +53,16 @@ public class AgeUtil {
 			now.setTime(new Date());
 			born.setTime(dateOfBirth);
 			if (born.after(now)) {
-				throw new IllegalArgumentException(
-						"Can't be born in the future");
+				throw new IllegalArgumentException("Can't be born in the future");
 			}
 			age = now.get(Calendar.YEAR) - born.get(Calendar.YEAR);
 			if (now.get(Calendar.DAY_OF_YEAR) < born.get(Calendar.DAY_OF_YEAR)) {
 				age -= 1;
 			}
+		}
+
+		if (age == 0) {
+			return 1;
 		}
 		return age;
 	}

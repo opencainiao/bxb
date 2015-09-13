@@ -357,7 +357,7 @@
 		
 		return {
 			"region_code" : code.join("-"),
-			"region_name" : name.join("|_|")
+			"region_name" : name.join(" ")
 		};
 	}
 	
@@ -381,6 +381,7 @@
 			}
 			
 			var address_this = {
+				"type_value":type_address,
 				"province":province,
 				"city":city,
 				"district":district,

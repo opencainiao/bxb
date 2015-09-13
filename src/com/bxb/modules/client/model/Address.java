@@ -120,4 +120,12 @@ public class Address extends BaseModel {
 		this.district_name = district_name;
 	}
 
+	public Object getString() {
+
+		StringBuffer sb = new StringBuffer();
+		sb.append(type_name).append("<br>").append(province_name).append(" ").append(city_name).append(" ").append(district_name).append("<br>").append(detail_address);
+
+		return sb.toString();
+	}
+
 }

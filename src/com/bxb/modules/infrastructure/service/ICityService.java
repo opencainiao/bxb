@@ -15,6 +15,13 @@ import com.mongodb.DBObject;
 public interface ICityService {
 
 	/****
+	 * 根据编码查询名称
+	 * @param code
+	 * @return
+	 */
+	public String findNameById(int id);
+
+	/****
 	 * 根据id，查询一个对象
 	 * 
 	 * @param _id

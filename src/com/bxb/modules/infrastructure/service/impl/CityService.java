@@ -28,8 +28,7 @@ public class CityService extends BaseService implements ICityService {
 	@Resource(name = "citydao")
 	private CityDao citydao;
 
-	private static final Logger logger = LogManager
-			.getLogger(CityService.class);
+	private static final Logger logger = LogManager.getLogger(CityService.class);
 
 	@Override
 	public City findOneByIdObject(String _id) {
@@ -38,14 +37,12 @@ public class CityService extends BaseService implements ICityService {
 	}
 
 	@Override
-	public PageVO batchSearchPage(DBObject queryCondition, DBObject sort,
-			DBObject returnFields) {
+	public PageVO batchSearchPage(DBObject queryCondition, DBObject sort, DBObject returnFields) {
 		return this.citydao.batchSearchPage(queryCondition, sort, returnFields);
 	}
 
 	@Override
-	public PageVO batchSearchOnePage(DBObject query, DBObject sort,
-			DBObject returnFields) {
+	public PageVO batchSearchOnePage(DBObject query, DBObject sort, DBObject returnFields) {
 		return this.citydao.batchSearchOnePage(query, sort, returnFields);
 	}
 
@@ -59,8 +56,7 @@ public class CityService extends BaseService implements ICityService {
 	public DBObject updatePart(DBObject returnFields, City city) {
 
 		DBObject toUpdate = makeUpdate(city);
-		return this.citydao.updateOneById(city.get_id_m(), returnFields,
-				toUpdate);
+		return this.citydao.updateOneById(city.get_id_m(), returnFields, toUpdate);
 	}
 
 	/****
@@ -97,8 +93,7 @@ public class CityService extends BaseService implements ICityService {
 	}
 
 	@Override
-	public PageVO findChildrenByPIdOnePage(DBObject sort,
-			DBObject returnFields, Integer parentId) {
+	public PageVO findChildrenByPIdOnePage(DBObject sort, DBObject returnFields, Integer parentId) {
 
 		DBObject queryCondition = new BasicDBObject();
 		queryCondition.put("parent_id", parentId);
@@ -108,12 +103,35 @@ public class CityService extends BaseService implements ICityService {
 
 	@Override
 	public List<DBObject> findChildrenByPId(DBObject sort, DBObject returnFields, Integer parentId) {
-		
+
 		DBObject queryCondition = new BasicDBObject();
 		queryCondition.put("parent_id", parentId);
 
-		
 		return this.citydao.findBatchDbOjbect(queryCondition, sort, null);
+	}
+
+	@Override
+	public String findNameById(int id) {
+
+		// 1.查缓存
+
+		// 2.查数据库
+		DBObject queryCondition = new BasicDBObject();
+		queryCondition.put("id", id);
+
+		DBObject returnFields = new BasicDBObject();
+		returnFields.put("name", 1);
+
+		DBObject city = this.citydao.findOneByConditionPart(queryCondition, returnFields);
+
+		String name = "";
+		if (city != null) {
+			name = (String) city.get("name");
+		}
+
+		// 3.放缓存
+
+		return name;
 	}
 
 }

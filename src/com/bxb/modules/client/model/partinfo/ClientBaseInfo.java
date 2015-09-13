@@ -6,7 +6,6 @@ import java.util.List;
 import com.bxb.common.util.PinyinUtil;
 import com.bxb.modules.base.BaseModel;
 import com.bxb.modules.client.model.Address;
-import com.bxb.modules.client.model.Email;
 import com.bxb.modules.client.model.Phone;
 
 public class ClientBaseInfo extends BaseModel {
@@ -191,11 +190,11 @@ public class ClientBaseInfo extends BaseModel {
 		titles.add("birth_date");
 		titles.add("age");
 		titles.add("email_info");
-		titles.add("phone_info");
-		titles.add("address_info");
-		titles.add("region_code");
+		titles.add("phone_info_name");
+		titles.add("address_info_name");
+		//titles.add("region_code");
 		titles.add("region_name");
-		titles.add("region_type");
+		titles.add("region_type_name");
 		// titles.add("education_type");
 		titles.add("education_type_name");
 		titles.add("name_card_id");
@@ -215,7 +214,7 @@ public class ClientBaseInfo extends BaseModel {
 		titleNames.add("邮箱");
 		titleNames.add("电话");
 		titleNames.add("地址");
-		titleNames.add("地区码");
+//		titleNames.add("地区码");
 		titleNames.add("地区名");
 		titleNames.add("地区分类");
 		titleNames.add("教育程度");

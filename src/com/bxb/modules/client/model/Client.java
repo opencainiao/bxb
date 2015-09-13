@@ -65,6 +65,11 @@ public class Client extends BaseModel {
 	private List<String> interesting_service; // 关注的服务
 	private String service_served; // 已提供的服务
 
+	private String phone_info_name;
+	private String address_info_name;
+
+	private String region_type_name; // 地区分类
+
 	private String education_type_name; // 教育程度
 	private String marital_status_name; // 婚姻状况
 
@@ -139,6 +144,22 @@ public class Client extends BaseModel {
 		this.owner_user_id = owner_user_id;
 	}
 
+	public String getPhone_info_name() {
+		return phone_info_name;
+	}
+
+	public void setPhone_info_name(String phone_info_name) {
+		this.phone_info_name = phone_info_name;
+	}
+
+	public String getAddress_info_name() {
+		return address_info_name;
+	}
+
+	public void setAddress_info_name(String address_info_name) {
+		this.address_info_name = address_info_name;
+	}
+
 	@NotEmpty(message = "姓名不能为空")
 	public String getClient_name() {
 		return client_name;
@@ -196,6 +217,14 @@ public class Client extends BaseModel {
 	// public void setEmail_info(List<Email> email_info) {
 	// this.email_info = email_info;
 	// }
+
+	public String getRegion_type_name() {
+		return region_type_name;
+	}
+
+	public void setRegion_type_name(String region_type_name) {
+		this.region_type_name = region_type_name;
+	}
 
 	public String getRegion_code() {
 		return region_code;
@@ -712,6 +741,32 @@ public class Client extends BaseModel {
 				setFirst_char_header(headerFirst);
 			}
 		}
+	}
+
+	public void setPhoneString() {
+
+		StringBuffer sb = new StringBuffer();
+
+		if (this.phone_info != null && !this.phone_info.isEmpty()) {
+			for (Phone phone : this.phone_info) {
+				sb.append(phone.getString()).append("<br>");
+			}
+		}
+
+		this.setPhone_info_name(sb.toString());
+	}
+
+	public void setAddressString() {
+
+		StringBuffer sb = new StringBuffer();
+
+		if (this.address_info != null && !this.address_info.isEmpty()) {
+			for (Address address : this.address_info) {
+				sb.append(address.getString()).append("<br>");
+			}
+		}
+
+		this.setAddress_info_name(sb.toString());
 	}
 
 	public String getEmail_info() {

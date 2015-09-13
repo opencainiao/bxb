@@ -57,5 +57,11 @@ public class Phone extends BaseModel {
 	public void setType_name(String type_name) {
 		this.type_name = type_name;
 	}
-
+	
+	public String getString(){
+		
+		StringBuffer sb = new StringBuffer();
+		sb.append(type_name).append("-").append(phone_number);
+		return sb.toString();
+	}
 }
