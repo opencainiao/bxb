@@ -115,7 +115,7 @@ function toEditBase(){
 	
 	//alert(url);
 
-	$.popUpWindow("编辑客户基本信息", url, "70%", "80%", "edit", $("#edit_base"));
+	$.popUpWindow("编辑客户基本信息", url, "90%", "90%", "edit", $("#edit_base"));
 }
 
 function closeEditBase(){

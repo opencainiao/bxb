@@ -1,5 +1,8 @@
 var ctx;
 $().ready(function() {
+	
+	
+	
 	ctx = $("input:hidden[name=ctx]").val();
 	
 	v_l_center_login($("body"), $(".center_c"));

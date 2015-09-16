@@ -43,7 +43,7 @@
 							<label for="age" class="col-sm-3 control-label"> 年龄 </label>
 							<div class="col-sm-8">
 								<input type="text" class="form-control" id="age" name="age"
-									placeholder="">
+									value="${clientbaseinfo.age}" >
 							</div>
 						</div>
 						<div id="regin" class="form-group form-group-sm regin-container">
@@ -160,23 +160,7 @@
 										<button type="button" id="add_phone"
 											class="btn btn-info btn-sm">添加</button>
 									</div>
-
-									<div
-										class="input-group input-group-xs  online-input col-md-12 one_box"
-										style="padding-left: 15px; margin-top: 8px">
-										<span class="input-group-btn"> <select id="type_phone"
-											name="type_phone" class="form-control" style="width: 80px;">
-												<option value="1">公司</option>
-												<option value="0">个人</option>
-												<option value="2">其他</option>
-										</select>
-										</span> <input type="text" class="form-control"
-											style="margin-left: 8px; width: 180px;" /> <span
-											class="pull-right">
-											<button class="btn btn-danger btn-sm btn-rm-box"
-												type="button" style="margin-left: 15px;">删除</button>
-										</span>
-									</div>
+									
 								</div>
 							</div>
 						</div>
@@ -206,15 +190,20 @@
 </script>
 <script>
 	var addPhone = function(config) {
+		
+		var order = $(".one_box",$("#phone_info")).length + 1;
+		//console.log(size);
 
 		var p = $.extend({ // apply default properties
 			ipt_w : '180px', // 输入框的宽度
+			type : '0', 
+			ipt_val: '',
 			margin_l_button_w : '15px' // 按钮至输入框的边距
 		}, config);
 
-		var toAdd = '<div                                                                              '
+		var toAdd = '<div   data-order= "#ORDER#"                                                                            '
 				+ '			class="input-group input-group-xs  online-input col-md-12 one_box"                   '
-				+ '			style="padding-left: 15px; margin-top: 8px">                                 '
+				+ '			style="padding-left: 15px; margin-top: 8px; width: 450px">                                 '
 				+ '			<span class="input-group-btn" >                          '
 				+ '				<select id="type_phone" name="type_phone"                                  '
 				+ '				class="form-control" style="width: 80px;">                                                      '
@@ -223,7 +212,7 @@
 				+ '					<option value="2">其他</option>                                          '
 				+ '			</select>                                                                    '
 				+ '			</span> <input type="text" class="form-control"                              '
-				+ '				style="margin-left: 8px; width: #IPT_W#" />                                 '
+				+ '				style="margin-left: 8px; width: #IPT_W#" value="#IPT_VAL#"/>                                 '
 				+ '			<span                                                                        '
 				+ '				class="pull-right">                                                   '
 				+ '				<button class="btn btn-danger btn-sm btn-rm-box"  type="button" style="margin-left: #MARGIN_L_BUTTON_W#">删除</button>        '
@@ -232,10 +221,18 @@
 
 		toAdd = toAdd.replace("#IPT_W#", p.ipt_w);
 		toAdd = toAdd.replace("#MARGIN_L_BUTTON_W#", p.margin_l_button_w);
-
+		toAdd = toAdd.replace("#IPT_VAL#", p.ipt_val);
+		toAdd = toAdd.replace("#ORDER#", order);
+			
 		$("#phone_info").append(toAdd);
-
+		
 		registRemoveOne();
+		
+		if (p.type){
+			
+			//console.log(JSON.stringify(p));
+			$("select[name=type_phone]",$($("div[data-order="+order+ "]"),"#phone_info")).setSelectedValue(p.type);
+		}
 	}
 
 	var addAddress = function(config) {
@@ -396,6 +393,30 @@
 			"address_info" : JSON.stringify(address_info)  
 		};
 	}
+	
+	function iniPhone(){
+		
+		addPhone();
+		$("#add_phone").click(function() {
+			addPhone();
+		})
+
+		addPhone({
+			type : '1',
+			ipt_val:'88888888'
+		});
+		
+		addPhone({
+			type : '2',
+			ipt_val:'66666666'
+		});
+		
+		addPhone({
+			type : '0',
+			ipt_val:'33333333'
+		});
+	}
+	
 
 	$().ready(function() {
 		registRemoveOne();
@@ -405,11 +426,8 @@
 			addAddress();
 		})
 
-		addPhone();
-		$("#add_phone").click(function() {
-			addPhone();
-		})
-
+		iniPhone();
+		
 		$.iniRegions();
 		//iniProvince();
 	});

@@ -24,6 +24,9 @@ jQuery.fn.getSelectedValue = function() {
 };
 // 设置select中值为value的项为选中
 jQuery.fn.setSelectedValue = function(value) {
+	
+	//console.log(value);
+	
 	jQuery(this).get(0).value = value;
 };
 // 设置select中文本为text的项被选中

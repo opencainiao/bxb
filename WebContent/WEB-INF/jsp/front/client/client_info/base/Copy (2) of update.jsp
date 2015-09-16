@@ -12,15 +12,49 @@
 <jsp:include page="/WEB-INF/jsp/include/common_css.jsp"></jsp:include>
 <jsp:include page="/WEB-INF/jsp/include/common_js.jsp"></jsp:include>
 
+<style>
+.input-group-box-xs {
+	position: relative;
+	left: 10px;
+	top: 4px;
+	background-color: #eee;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	color: #555;
+	font-size: 14px;
+	line-height: 1;
+	padding: 6px 12px;
+	text-align: center;
+}
+
+.online-input {
+	margin-top: 15px
+}
+
+.online-input select {
+	width: 120px !important;
+}
+
+.online-input input {
+	float: left;
+	width: 220px !important;
+	margin-left: 25px;
+}
+</style>
 </head>
 
 <body>
 	<input type="hidden" name="_id" value="${clientbaseinfo._id}" />
 
+	<ul class="breadcrumb">
+		<li><a href="<%=request.getContextPath()%>/front/client/list">客户管理</a>
+			<span class="divider"></span></li>
+		<li class="active">编辑基本信息</li>
+	</ul>
 	<div id="add_div">
 
 		<sf:form modelAttribute="client" class="form-horizontal">
-			<div class="container-fluid" style="margin-top: 10px">
+			<div class="container-fluid" style="margin-top: 30px">
 
 				<jsp:include
 					page="/WEB-INF/jsp/front/client/client_info/include_seg/base_info.jsp"></jsp:include>
@@ -160,7 +194,37 @@
 		}
 		$().ready(function() {
 
-		
+			initWidth();
+
+			$("#sex").setSelectedValue($("#sex").attr("data-value"));
+
+			iniProvince();
+
+			iniEducationType();
+
+			$("#btn_save").bind("click", save);
+
+			document.onkeydown = function(event) {
+				if (event.keyCode == 13) {
+					return false;
+				}
+			}
+
+			$("#choose_province").click(function() {
+				pupUpChoose_province();
+			});
+
+			$("#choose_city").click(function() {
+
+				var province = $("#province").val().trim();
+
+				if (province == "") {
+					$.alertError("请选择省");
+					return;
+				}
+
+				pupUpChoose_city();
+			});
 		});
 
 		var closeEditWindow = function() {

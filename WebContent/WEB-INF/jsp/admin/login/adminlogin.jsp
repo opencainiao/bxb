@@ -70,6 +70,9 @@
   <body>
 
   	<input type="hidden" name="ctx" value="${ctx}" />
+  	<script type="text/javascript">
+  		$.setSitePath("${ctx}");
+  	</script>
   	
   	<div class="center_c">
 		<div id="loginTitle">

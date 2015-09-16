@@ -89,6 +89,8 @@ public class ClientBaseInfoController extends BaseController {
 		model.addAttribute("clientbaseinfo", client);
 
 		model.addAttribute("_id", _id);
+		
+		model.addAttribute("owner_user_id", client.getOwner_user_id());
 
 		return "front/client/client_info/base/update";
 	}
