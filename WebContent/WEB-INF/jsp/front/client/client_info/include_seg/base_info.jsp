@@ -154,7 +154,7 @@
 							<label for="phone_info" class="col-xs-3 control-label">
 								电话 </label>
 							<div class="col-xs-9">
-								<div class="row" id="phone_info">
+								<div class="row" id="phone_info" >
 									<div class="input-group input-group-xs  online-input col-md-12"
 										style="padding-left: 15px;">
 										<button type="button" id="add_phone"
@@ -394,27 +394,29 @@
 		};
 	}
 	
+	// 初始化电话信息
 	function iniPhone(){
 		
-		addPhone();
+		var data_phone= eval('${clientbaseinfo.phone_info }');
+		if (data_phone && data_phone.length > 0){
+			for(var item in data_phone) {
+				var phone_temp = data_phone[item];
+				
+				var type = phone_temp["type_value"];
+				var value = phone_temp["phone_number"];
+				
+				addPhone({
+					type : type,
+					ipt_val:value
+				});
+			}
+		}else{
+			addPhone();
+		}
+		
 		$("#add_phone").click(function() {
 			addPhone();
 		})
-
-		addPhone({
-			type : '1',
-			ipt_val:'88888888'
-		});
-		
-		addPhone({
-			type : '2',
-			ipt_val:'66666666'
-		});
-		
-		addPhone({
-			type : '0',
-			ipt_val:'33333333'
-		});
 	}
 	
 
