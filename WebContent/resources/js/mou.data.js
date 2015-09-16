@@ -91,24 +91,33 @@
 		/***********************************************************************
 		 * 初始化一个地区区域的js对象片段的级联行为
 		 */
-		iniRegion : function(container) {
+		iniRegion : function(container,config) {
 
 			var data_p = $.getProvince(); // 省一级数据
-			// $.alertObjJson(data_p);
+			//console.log("config" + JSON.stringify(config));
 
-			var setting = {
+			var setting = $.extend({
 				"text" : "name",
-				"value" : "id"
-			};
-
+				"value" : "id",
+				province : -1,
+				city : -1,
+				district : -1,
+				detail_address : ''
+			}, config);
+			
+			//console.log("setting---" +JSON.stringify(setting));
+			
 			$("select[name=province]", container).each(
 					function() {
-						$(this).iniSelect_All(data_p, setting);
-
+						$(this).iniSelect_All(data_p,setting);
+						
+						//console.log(setting.province);
+						$(this).setSelectedValue(setting.province);
+						
+						
 						// 设置监听方法
 						$(this).change(
 								function() {
-
 									var text = $(this).getSelectedText();
 									var province_id = $(this)
 											.getSelectedValue();
@@ -126,6 +135,11 @@
 										// $.alertObjJson(data_city1);
 										$("#city", container).iniSelect_All(
 												data_city1, setting);
+										
+										if (setting.province == province_id){
+											$("#city", container).setSelectedValue(setting.city);
+											$("#city", container).trigger('change');
+										}
 									}
 								});
 					});
@@ -144,8 +158,18 @@
 					var data_city2 = $.getCitys(city_id); // 区县一级数据
 
 					$("#district", container).iniSelect_All(data_city2, setting);
+					
+					if (setting.city == city_id){
+						$("#district", container).setSelectedValue(setting.district);
+					}
 				});
 			});
+			
+			if ($("#detail_address", container)){
+				$("#detail_address", container).val(setting.detail_address);
+			}
+			
+			$("select[name=province]", container).trigger('change');
 		},
 
 		/***********************************************************************

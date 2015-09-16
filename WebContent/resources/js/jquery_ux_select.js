@@ -134,6 +134,8 @@ jQuery.fn.iniSelect_noAll = function(data, setting) {
 // 添加请选择
 jQuery.fn.iniSelect_All = function(data, setting) {
 
+	//console.log(JSON.stringify(data));
+	
 	var text = "text";
 	var value = "value";
 
@@ -146,6 +148,7 @@ jQuery.fn.iniSelect_All = function(data, setting) {
 	dropdownList.addOptionLast("请选择", "-1");
 
 	$.each(data, function() {
+		
 		dropdownList.addOptionLast(this[text], this[value]);
 	});
 };

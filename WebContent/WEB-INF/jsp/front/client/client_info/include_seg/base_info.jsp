@@ -237,12 +237,23 @@
 
 	var addAddress = function(config) {
 
+		console.log(JSON.stringify(config));
+		
+		var order = $(".one_box",$("#address_info")).length + 1;
+		
 		var p = $.extend({ // apply default properties
-			div_w : '580px' // div的宽度
+			div_w : '580px' ,// div的宽度
+			type: '0',
+			province : -1,
+			city : -1,
+			district : -1,
+			detail_address : ''
 		}, config);
+		
+		console.log("p---" + JSON.stringify(p));
 
-		var toAdd = '<div class="input-group input-group-xs  online-input col-md-12 one_box regin-container"                           '
-			+'	style="padding-left: 15px; margin-top: 8px; width:#DIV_W#">                                       '
+		var toAdd = '<div data-order= "#ORDER#" class="input-group input-group-xs  online-input col-md-12 one_box regin-container"                           '
+			    +'	style="padding-left: 15px; margin-top: 8px; width:#DIV_W#">                                       '
 				+ '	<div class="row" >                                                                              '
 				+ '		<div class="col-xs-4 control-label">                                                          '
 				+ '			<span class="input-group-btn">                                                              '
@@ -281,13 +292,24 @@
 				+ '</div>                                                                                            ';
 
 		toAdd = toAdd.replace("#DIV_W#", p.div_w);
+		toAdd = toAdd.replace("#ORDER#", order);
 
 		var _thisNew = $(toAdd);
 		_thisNew.appendTo($("#address_info"));
 		//$("#address_info").append(toAdd);
-
-		$.iniRegion(_thisNew);
-
+		
+		console.log('p.province.length-' + p.province);
+		if (p.province != -1){
+			
+			console.log("pppppp----" + JSON.stringify(p));
+			var context = $($("div[data-order="+order+ "]"),"#address_info");
+			$("select[name=type_address]",context).setSelectedValue(p.type);
+			
+			$.iniRegion(_thisNew,p);
+		}else{
+			$.iniRegion(_thisNew);
+		}
+		
 		registRemoveOne();
 	}
 
@@ -419,18 +441,48 @@
 		})
 	}
 	
+	// 初始化地址信息
+	function iniAddress(){
+		
+		var address_info= eval('${clientbaseinfo.address_info }');
+		console.log(JSON.stringify(address_info))
+		if (address_info && address_info.length > 0){
+			for(var item in address_info) {
+				var address_temp = address_info[item];
+				
+				var type = address_temp["type"];
+				var province = address_temp["province"];
+				var city = address_temp["city"];
+				var district = address_temp["district"];
+				var detail_address = address_temp["detail_address"];
+				
+				addAddress({
+					type: type,
+					province : province,
+					city : city,
+					district : district,
+					detail_address : detail_address
+				});
+			}
+		}else{
+			addAddress();
+		}
+		
+		$("#add_address").click(function() {
+			addAddress();
+		})
+	}
+	
 
 	$().ready(function() {
 		registRemoveOne();
 
-		addAddress();
-		$("#add_address").click(function() {
-			addAddress();
-		})
-
-		iniPhone();
-		
+		// 放在address前面，否则会覆盖iniaddress的数据
 		$.iniRegions();
-		//iniProvince();
+		
+		iniPhone();
+		iniAddress();
+		
+		
 	});
 </script>
