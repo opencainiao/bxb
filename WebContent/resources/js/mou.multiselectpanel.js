@@ -120,7 +120,7 @@
 			chtml = chtml.replaceAll("#NAME#", name_key);
 		}
 
-		$.logJson(chtml);
+		//$.logJson(chtml);
 		return chtml;
 	}
 	
@@ -190,7 +190,7 @@
 							return;
 						}
 						var data_remote = data;
-						$.logJson(data_remote);
+						//$.logJson(data_remote);
 						$("#"+ _id).multiselectpanel({
 							"ipt_id":_id,
 							"name" : name,

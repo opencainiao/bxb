@@ -79,7 +79,7 @@
 			paramForm =  $.extend(paramForm,region_info);
 			paramForm =  $.extend(paramForm,interesting_service);
 			
-			console.log(JSON.stringify(paramForm));
+			//console.log(JSON.stringify(paramForm));
 			
 			//return;
 

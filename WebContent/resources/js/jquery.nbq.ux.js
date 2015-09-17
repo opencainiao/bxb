@@ -594,6 +594,65 @@ $.browser = {
 				$("#" + btnId).removeAttr("disabled").removeClass('disabled-button');
 			}, 2 * time * 1000);
 		},
+		//'2013-02-14 10:10:10'
+		calDays:function(birthStr){
+			var birthStr = birthStr.replace(/-/g,'/');
+			var birthDay = new Date(birthStr).getTime();
+			var now = new Date().getTime();
+
+			var hours = (now - birthDay)/1000/60/60;
+			var year =  Math.floor(hours / (24 * 30 * 12));
+			hours = hours % (24 * 30 * 12);
+			var months = Math.floor(hours / (24 * 30 ));
+			hours = hours % (24 * 30 );
+			var days = Math.floor(hours / (24));
+			
+			return {
+				year : year,
+				months : months,
+				days : days
+			};
+		},
+		
+		calAge:function(birthStr){
+			var birthStr = birthStr.replace(/-/g,'/');
+			var birthDay = new Date(birthStr).getTime();
+			var now = new Date().getTime();
+
+			var hours = (now - birthDay)/1000/60/60;
+			var year =  Math.floor(hours / (24 * 30 * 12));
+			hours = hours % (24 * 30 * 12);
+			var months = Math.floor(hours / (24 * 30 ));
+			hours = hours % (24 * 30 );
+			var days = Math.floor(hours / (24));
+			
+			
+			$.logJson({
+				year : year,
+				months : months,
+				days : days
+			});
+			
+			if (year == 0){
+				if (months > 0){
+					return 1;
+				}else if (months == 0){
+					if (days > 0){
+						return 1;
+					}else if (days == 0){
+						return 1;
+					}
+					return 0;
+				}else{
+					return 0;
+				}
+			}else if (year>0){
+				return year;
+			}else {
+				return 0;
+			}
+		},
+		
 		/***********************************************************************
 		 * 渲染下拉列表（DDL方式）
 		 * 

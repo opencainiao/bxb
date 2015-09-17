@@ -15,152 +15,26 @@
 </head>
 
 <body>
-	<input type="hidden" name="_id" value="${clientbaseinfo._id}" />
+	<input type="hidden" id="_id" name="_id" value="${_id}" />
 
-	<div id="add_div">
 
-		<sf:form modelAttribute="client" class="form-horizontal">
-			<div class="container-fluid" style="margin-top: 10px">
 
-				<jsp:include
-					page="/WEB-INF/jsp/front/client/client_info/include_seg/base_info.jsp"></jsp:include>
-				<hr />
+	<sf:form modelAttribute="client" class="form-horizontal">
+		<div class="container-fluid" style="margin-top: 10px">
+			<jsp:include
+				page="/WEB-INF/jsp/front/client/client_info/include_seg/base_info.jsp"></jsp:include>
 
-				<div class="col-sm-12">
-					<button type="button" id="btn_save"
-						class="btn btn-primary btn-lg center-block">提交</button>
-				</div>
-		</sf:form>
-	</div>
-	
+			<div class="col-sm-12">
+				<button type="button" id="btn_save"
+					class="btn btn-primary btn-lg center-block">提交</button>
+			</div>
+		</div>
+	</sf:form>
+
+
 	<script>
-		function iniProvince() {
-
-			var url = $.getSitePath() + '/backend/city/list_by_pid';
-
-			$.ajax({
-				type : 'POST',
-				url : url,
-				data : {
-					ts : new Date().getTime()
-				},
-				type : 'POST',
-				dataType : 'json',
-				success : function(data) {
-
-					//$.alertObjJson(data);
-					var data_remote = data["rows"];
-
-					if (data['success'] == 'n') {
-
-					} else {
-						var setting = {
-							"text" : "name",
-							"value" : "id"
-						}
-
-						$("#province").iniSelect_All(data_remote, setting);
-
-						// 设置监听方法
-
-						$('#province').change(function() {
-
-							var text = $('#province').getSelectedText();
-							var province_id = $('#province').getSelectedValue();
-
-							//alert(text + "[---]"  + province_id);
-
-							if (province_id == "-1") {
-								$("#city").clearAll();
-							} else {
-								//初始化市的下拉列表
-								iniCity(province_id);
-							}
-						});
-					}
-				},
-				complete : function(XMLHttpRequest, textStatus) {
-				}
-			});
-		}
-
-		function iniCity(province_id) {
-
-			var url = $.getSitePath() + '/backend/city/list_by_pid?parent_id=' + province_id + '&ts=' + new Date().getTime();
-
-			$.ajax({
-				type : 'POST',
-				url : url,
-				data : {
-					ts : new Date().getTime()
-				},
-				type : 'POST',
-				dataType : 'json',
-				success : function(data) {
-
-					//$.alertObjJson(data);
-					var data_remote = data["rows"];
-
-					if (data['success'] == 'n') {
-
-					} else {
-						var setting = {
-							"text" : "name",
-							"value" : "id"
-						}
-
-						$("#city").iniSelect_noAll(data_remote, setting);
-					}
-				},
-				complete : function(XMLHttpRequest, textStatus) {
-				}
-			});
-		}
-
-		function iniEducationType() {
-
-			var url = $.getSitePath() + '/backend/sysconst/all_const_of_consttype?typecode=EDUCATION_TYPE';
-
-			$.ajax({
-				type : 'POST',
-				url : url,
-				type : 'POST',
-				dataType : 'json',
-				success : function(data) {
-
-					if (!$.isArray(data)) {
-						alert(data["message"]);
-						return;
-					}
-					var data_remote = data;
-					var setting = {
-						"text" : "dspval",
-						"value" : "val"
-					}
-
-					$("#education_type").iniSelect_noAll(data_remote, setting);
-
-					// 设置值
-					var val = $("#education_type").attr("data-value");
-
-					$("#education_type").setSelectedValue(val);
-				},
-				complete : function(XMLHttpRequest, textStatus) {
-				}
-			});
-		}
-
-		function initWidth() {
-
-			var sm3_w = $(".col-sm-3:nth-child(1)").width();
-			var xs2_w = $(".col-xs-2:nth-child(1)").width();
-			//	alert(sm3_w + "---" + xs2_w);
-			$(".col-xs-2").width(sm3_w);
-
-		}
 		$().ready(function() {
-
-		
+			$("#btn_save").bind("click", save);
 		});
 
 		var closeEditWindow = function() {
@@ -170,14 +44,21 @@
 		//保存
 		var save = function() {
 
-			// 控制按钮为禁用
-			$.disableButton("btn_save");
+			var values = getValues();
 
 			var paramForm = $('form').getFormParam_ux();
+			paramForm = $.extend(paramForm, values);
 
+			$.logJson(paramForm, "修改--提交服务器的参数");
 			var successstr = "修改成功";
 
-			var url_to = window.location.href;
+			var url_to = $.getSitePath() + "/front/client/${_id}/update_part?part_flg=0";
+
+			$.logJson(url_to, "提交url");
+
+			//return;
+			// 控制按钮为禁用
+			$.disableButton("btn_save");
 
 			$.ajax({
 				type : 'POST',

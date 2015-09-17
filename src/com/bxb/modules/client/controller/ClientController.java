@@ -24,10 +24,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.bxb.common.globalhandler.ErrorHandler;
 import com.bxb.common.globalobj.RequestResult;
 import com.bxb.common.util.HttpServletRequestUtil;
+import com.bxb.common.util.JSONHelper;
+import com.bxb.common.util.WebContextUtil;
 import com.bxb.common.util.propertyeditor.CustomerDoubleEditor;
 import com.bxb.common.util.propertyeditor.CustomerIntegerEditor;
 import com.bxb.common.util.propertyeditor.CustomerListEditor;
 import com.bxb.modules.base.BaseController;
+import com.bxb.modules.client.enumes.PartFlgEnum;
 import com.bxb.modules.client.model.Address;
 import com.bxb.modules.client.model.Client;
 import com.bxb.modules.client.model.Phone;
@@ -38,6 +41,7 @@ import com.bxb.modules.client.model.partinfo.ClientSourceInfo;
 import com.bxb.modules.client.model.partinfo.ClientWorkInfo;
 import com.bxb.modules.client.model.partinfo.ClientXgInfo;
 import com.bxb.modules.client.service.IClientService;
+import com.bxb.modules.client.service.modifyclientinfo.IModifyClientInfoService;
 import com.google.gson.reflect.TypeToken;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
@@ -52,7 +56,8 @@ import com.mongodb.DBObject;
 @RequestMapping("/front/client")
 public class ClientController extends BaseController {
 
-	private static final Logger logger = LogManager.getLogger(ClientController.class);
+	private static final Logger logger = LogManager
+			.getLogger(ClientController.class);
 
 	@Resource(name = "clientService")
 	private IClientService clientService;
@@ -70,7 +75,8 @@ public class ClientController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
-	public String add(@ModelAttribute("client") Client client, HttpServletRequest request, Model model) {
+	public String add(@ModelAttribute("client") Client client,
+			HttpServletRequest request, Model model) {
 
 		String userId = this.getUserId();
 		if (StringUtil.isEmpty(userId)) {
@@ -90,29 +96,34 @@ public class ClientController extends BaseController {
 	 */
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	@ResponseBody
-	public Object add(@Validated Client client, BindingResult br, HttpServletRequest request) {
+	public Object add(@Validated Client client, BindingResult br,
+			HttpServletRequest request) {
 
 		HttpServletRequestUtil.debugParams(request);
 
 		String phone_info = request.getParameter("phone_info");
 		String address_info = request.getParameter("address_info");
-		String interesting_services = request.getParameter("interesting_service");
+		String interesting_services = request
+				.getParameter("interesting_service");
 
-		List<Phone> phones = JsonUtil.getGson().fromJson(phone_info, new TypeToken<List<Phone>>() {
-		}.getType());
+		List<Phone> phones = JsonUtil.getGson().fromJson(phone_info,
+				new TypeToken<List<Phone>>() {
+				}.getType());
 
-		List<Address> addresses = JsonUtil.getGson().fromJson(address_info, new TypeToken<List<Address>>() {
-		}.getType());
-		
-		List<String> interesting_service = JsonUtil.getGson().fromJson(interesting_services, new TypeToken<List<String>>() {
-		}.getType());
+		List<Address> addresses = JsonUtil.getGson().fromJson(address_info,
+				new TypeToken<List<Address>>() {
+				}.getType());
+
+		List<String> interesting_service = JsonUtil.getGson().fromJson(
+				interesting_services, new TypeToken<List<String>>() {
+				}.getType());
 
 		client.setInteresting_service(interesting_service);
 		client.setPhone_info(phones);
 		client.setAddress_info(addresses);
 
 		logger.debug("传入的用户对象\n{}", client);
-		
+
 		// String userId = this.getUserId();
 		// if (StringUtil.isEmpty(userId)) {
 		// return this.handleValidateFalse("所属用户id不能为空");
@@ -186,7 +197,8 @@ public class ClientController extends BaseController {
 
 			DBObject returnFields = null;
 
-			return this.clientService.batchSearchPage(query, sort, returnFields);
+			return this.clientService
+					.batchSearchPage(query, sort, returnFields);
 
 		} catch (Exception e) {
 			return this.handleException(e);
@@ -258,8 +270,8 @@ public class ClientController extends BaseController {
 	 */
 	@RequestMapping(value = "/{_id}/update", method = RequestMethod.POST)
 	@ResponseBody
-	public Object update(@PathVariable String _id, @Validated Client client, BindingResult br,
-			HttpServletRequest request) {
+	public Object update(@PathVariable String _id, @Validated Client client,
+			BindingResult br, HttpServletRequest request) {
 
 		if (br.hasErrors()) {
 			return ErrorHandler.getRequestResultFromBindingResult(br);
@@ -317,5 +329,114 @@ public class ClientController extends BaseController {
 		Client clientinfo = this.clientService.findOneByIdObject(_id, true);
 
 		return clientinfo;
+	}
+
+	/****
+	 * 更新系统客户 信息，返回json给客户端
+	 * 
+	 * @param _id
+	 * @param data
+	 * @param user_id
+	 * @param request
+	 * @param part_flg
+	 * 
+	 * @return
+	 */
+	@RequestMapping(value = "/{_id}/update_part", method = RequestMethod.POST)
+	@ResponseBody
+	public Object update_part(@PathVariable String _id, Client client,
+			HttpServletRequest request, String part_flg) {
+		
+		String user_id = client.getOwner_user_id();
+		if (!this.isValidObjId(_id)) {
+			return this.handleValidateFalse("非法的客户主键");
+		}
+
+		if (!this.isValidObjId(user_id)) {
+			return this.handleValidateFalse("非法的用户");
+		}
+
+		if (!PartFlgEnum.isValidPartFlg(part_flg)) {
+			return this.handleValidateFalse("非法的更新参数part_flg");
+		}
+		
+		client.set_id_m(_id);
+		
+		String phone_info = request.getParameter("phone_info");
+		String address_info = request.getParameter("address_info");
+		String interesting_services = request
+				.getParameter("interesting_service");
+
+		List<Phone> phones = JsonUtil.getGson().fromJson(phone_info,
+				new TypeToken<List<Phone>>() {
+				}.getType());
+
+		List<Address> addresses = JsonUtil.getGson().fromJson(address_info,
+				new TypeToken<List<Address>>() {
+				}.getType());
+
+		List<String> interesting_service = JsonUtil.getGson().fromJson(
+				interesting_services, new TypeToken<List<String>>() {
+				}.getType());
+
+		client.setInteresting_service(interesting_service);
+		client.setPhone_info(phones);
+		client.setAddress_info(addresses);
+
+		logger.debug("传入的用户对象\n{}", client);
+
+		try {
+			IModifyClientInfoService modifyClientService = getModifyService(part_flg);
+			DBObject updateResult = modifyClientService.updatePart(null, client);
+
+			logger.debug("更新后的结果[{}]", updateResult);
+
+			RequestResult rr = new RequestResult();
+			rr.setSuccess(true);
+			rr.setMessage(_id);
+			return rr;
+		} catch (Exception e) {
+			return this.handleException(e);
+		}
+	}
+
+	private IModifyClientInfoService getModifyService(String part_flg) {
+
+		IModifyClientInfoService modifyClientInfoService = null;
+
+		if (part_flg.equals(PartFlgEnum.BASE.getCode())) {
+			modifyClientInfoService = (IModifyClientInfoService) WebContextUtil
+					.getBean("clientBaseInfoService");
+
+		} else if (part_flg.equals(PartFlgEnum.FAMILLY.getCode())) {
+			modifyClientInfoService = (IModifyClientInfoService) WebContextUtil
+					.getBean("clientFamilyInfoService");
+
+		} else if (part_flg.equals(PartFlgEnum.WORK.getCode())) {
+			modifyClientInfoService = (IModifyClientInfoService) WebContextUtil
+					.getBean("clientWorkInfoService");
+
+		} else if (part_flg.equals(PartFlgEnum.INCOME.getCode())) {
+			modifyClientInfoService = (IModifyClientInfoService) WebContextUtil
+					.getBean("clientIncomeInfoService");
+
+		} else if (part_flg.equals(PartFlgEnum.SOURCE.getCode())) {
+			modifyClientInfoService = (IModifyClientInfoService) WebContextUtil
+					.getBean("clientSourceInfoService");
+
+		} else if (part_flg.equals(PartFlgEnum.XG.getCode())) {
+			modifyClientInfoService = (IModifyClientInfoService) WebContextUtil
+					.getBean("clientXgInfoService");
+
+		} else if (part_flg.equals(PartFlgEnum.SERVICE.getCode())) {
+			modifyClientInfoService = (IModifyClientInfoService) WebContextUtil
+					.getBean("clientServiceInfoService");
+
+		} else if (part_flg.equals(PartFlgEnum.OTHER.getCode())) {
+			modifyClientInfoService = (IModifyClientInfoService) WebContextUtil
+					.getBean("clientOtherInfoService");
+		}
+
+		return modifyClientInfoService;
 	}
 }

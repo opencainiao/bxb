@@ -16,7 +16,6 @@ import com.bxb.modules.base.BaseService;
 import com.bxb.modules.client.dao.ClientDao;
 import com.bxb.modules.client.model.Address;
 import com.bxb.modules.client.model.Client;
-import com.bxb.modules.client.model.Email;
 import com.bxb.modules.client.model.Phone;
 import com.bxb.modules.client.service.IAddressService;
 import com.bxb.modules.client.service.IEmailService;
@@ -62,7 +61,7 @@ public class ClientBaseInfoService extends BaseService implements IModifyClientI
 		List<Address> addresses = client.getAddress_info();
 		this.addressService.add(addresses, client_id);
 
-		System.out.println(addresses.toString());
+		logger.debug(addresses.toString());
 
 		// 电话信息
 		List<Phone> phones = client.getPhone_info();
@@ -94,6 +93,7 @@ public class ClientBaseInfoService extends BaseService implements IModifyClientI
 		updateSet.put("region_name", client.getRegion_name());
 		updateSet.put("region_type", client.getRegion_type());
 		updateSet.put("education_type", client.getEducation_type());
+		updateSet.put("interesting_service", client.getInteresting_service());
 
 		if (client.getAddress_info() != null) {
 			updateSet.put("address_info", MongoUpListUtil.getUpObject(client.getAddress_info()));
