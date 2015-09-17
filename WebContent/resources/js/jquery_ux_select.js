@@ -8,7 +8,7 @@ jQuery.fn.getSelectedIndex = function() {
 // 获得当前选中项的文本
 jQuery.fn.getSelectedText = function() {
 	if (this.size() == 0) {
-		return "下拉框中无选项";
+		return "";
 	} else {
 		var index = this.getSelectedIndex();
 		return jQuery(this).get(0).options[index].text;
@@ -17,7 +17,7 @@ jQuery.fn.getSelectedText = function() {
 // 获得当前选中项的值
 jQuery.fn.getSelectedValue = function() {
 	if (this.size() == 0) {
-		return "下拉框中无选中值";
+		return "";
 	} else {
 		return jQuery(this).val();
 	}

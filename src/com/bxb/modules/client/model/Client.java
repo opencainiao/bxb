@@ -16,7 +16,7 @@ public class Client extends BaseModel {
 	private String sex; // 性别
 	private String id_number; // 身份证号
 	private String birth_date; // 生日
-	private int age; // 年龄
+	private Integer age; // 年龄
 
 	private List<Address> address_info; // 客户的地址信息
 	private List<Phone> phone_info; // 客户的电话信息

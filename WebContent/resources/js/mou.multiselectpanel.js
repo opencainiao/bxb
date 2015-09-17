@@ -14,6 +14,11 @@
 
 		var checkbox_name = opts["name"];
 		var ipt_id = opts["ipt_id"];
+		
+		var $ipt = $("#" + ipt_id);
+		
+		$ipt.data("checkbox_name",checkbox_name);
+		$ipt.data("checked",{});
 		// iterate and reformat each matched element
 		return this.each(function() {
 			$this = $(this);
@@ -39,24 +44,57 @@
 
 			// 事件 获取checkbox点击时候的父元素的值 添加到text 如果点击收的选中状态为checked 则添加 否则 删除
 			$("input[type=checkbox][name=" + checkbox_name + "]").click(
+					
 					function() {
 						var $ipt = $("#" + ipt_id);
 						try {
+							
+							var text = $(this).attr("data-value");
+							var value = $(this).attr("value");
+							
 							if ($(this)[0].checked) {
-								var text = $(this).attr("data-value");
+								
 								$ipt.val($ipt.val() + $(this).parent().text()
 										+ ";");
+								
+								$ipt.data("checked")[value] = 1;
 							} else {
 								$ipt.val($ipt.val().replaceAll(
 										$(this).parent().text() + ';', ""));
+								
+								$ipt.data("checked")[value] = 0;
 							}
+							
+							//$ipt.getSelected();
 						} catch (e) {
 							$ipt.val("");
 						}
 					});
 		});
 	};
-
+	
+	$.fn.getSelected = function() {
+		
+		var data = $(this).data("checked");
+		
+		var data_checked = [];
+		
+		if (data){
+			
+			for(var item in data){
+				var value = data[item];
+				
+				if (value == 1){
+					data_checked.push(item);
+				}
+			}
+		}
+		
+		//$.logJson(data_checked);
+		
+		return data_checked;
+	};
+	
 	function createMultiCheckHtml(config) {
 
 		var chtml = "";
@@ -65,6 +103,12 @@
 		var value_key = config["value"];
 		var name_key = config["name"];
 
+		var ipt_id = config["ipt_id"];
+		var $ipt = $("#" + ipt_id);
+		$ipt.data("values", arr);
+		$ipt.data("text_key", text_key);
+		$ipt.data("value_key", value_key);
+		
 		for (var i = 0; i < arr.length; i++) {
 
 			chtml += "<div style='word-wrap:break-word; width:450px; '>";
@@ -76,8 +120,27 @@
 			chtml = chtml.replaceAll("#NAME#", name_key);
 		}
 
+		$.logJson(chtml);
 		return chtml;
 	}
+	
+	$.fn.initVal = function(values) {
+		
+		var checkbox_name = $(this).data("checkbox_name");
+		var arr = $(this).data("values");
+		var text_key = $(this).data("text_key") ;
+		var value_key = $(this).data("value_key") ;
+		
+		if (values && values.length>0){
+			
+			for (var i=0 ; i<values.length; ++i){
+				var val_this = values[i];
+				
+				$("input[type=checkbox][name=" + checkbox_name + "][value="+ val_this +"]").trigger('click');
+			}
+		}
+	}
+	
 	;
 	// 定义暴露format函数
 	$.fn.multiselectpanel.format = function(txt) {
@@ -110,6 +173,8 @@
 				var name = $(this).attr("data-name");
 				var typecode = $(this).attr("data-typecode");
 				
+				//$.logJson(data_remote);
+				//return;
 				var url = $.getSitePath() + '/backend/sysconst/all_const_of_consttype?typecode=#TYPECODE#';
 				url = url.replace('#TYPECODE#', typecode);
 
@@ -117,6 +182,7 @@
 					type : 'POST',
 					url : url,
 					dataType : 'json',
+					async : false,
 					success : function(data) {
 
 						if (!$.isArray(data)) {
@@ -124,6 +190,7 @@
 							return;
 						}
 						var data_remote = data;
+						$.logJson(data_remote);
 						$("#"+ _id).multiselectpanel({
 							"ipt_id":_id,
 							"name" : name,

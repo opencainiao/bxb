@@ -193,7 +193,38 @@
 		 * $.alertObjJson(sysmodule);
 		 */
 		getConstants(typecode){
-			return $.getJsonLocal("ALLCONSTANT")[typecode];
+			
+			var constant_all_typecode = $.getJsonLocal("ALLCONSTANT")[typecode];
+			
+			/* 远程获取下来的是数组（有序）
+			 * 本地存储的是json对象（无序）
+			 * 
+			if (constant_all_typecode == null){
+				
+				$.logJson(constant_all_typecode,"从远程获取" + typecode);
+				
+				var url = $.getSitePath() + '/backend/sysconst/all_const_of_consttype?typecode=#TYPECODE#';
+				url = url.replace('#TYPECODE#', typecode);
+
+				$.ajax({
+					type : 'POST',
+					url : url,
+					dataType : 'json',
+					async : false,
+					success : function(data) {
+						if (!$.isArray(data)) {
+							constant_all_typecode = [];
+						}else{
+							constant_all_typecode = data;
+						}
+					},
+					complete : function(XMLHttpRequest, textStatus) {
+					}
+				});
+			}
+			*/
+			
+			return constant_all_typecode;
 		},
 		/***********************************************************************
 		 * 取typecode的常量值为val的显示值 例如：

@@ -46,7 +46,7 @@
 									value="${clientbaseinfo.age}" >
 							</div>
 						</div>
-						<div id="regin" class="form-group form-group-sm regin-container">
+						<div id="region" class="form-group form-group-sm regin-container">
 							<label  class="col-sm-3 control-label"> 地区 </label>
 							<div class="row col-sm-8" style="padding-right: 0px;">
 								<span class="input-group input-group-btn col-xs-3 control-label"
@@ -237,7 +237,7 @@
 
 	var addAddress = function(config) {
 
-		console.log(JSON.stringify(config));
+		//console.log(JSON.stringify(config));
 		
 		var order = $(".one_box",$("#address_info")).length + 1;
 		
@@ -250,7 +250,7 @@
 			detail_address : ''
 		}, config);
 		
-		console.log("p---" + JSON.stringify(p));
+		//console.log("p---" + JSON.stringify(p));
 
 		var toAdd = '<div data-order= "#ORDER#" class="input-group input-group-xs  online-input col-md-12 one_box regin-container"                           '
 			    +'	style="padding-left: 15px; margin-top: 8px; width:#DIV_W#">                                       '
@@ -298,10 +298,10 @@
 		_thisNew.appendTo($("#address_info"));
 		//$("#address_info").append(toAdd);
 		
-		console.log('p.province.length-' + p.province);
+		//console.log('p.province.length-' + p.province);
 		if (p.province != -1){
 			
-			console.log("pppppp----" + JSON.stringify(p));
+			//console.log("pppppp----" + JSON.stringify(p));
 			var context = $($("div[data-order="+order+ "]"),"#address_info");
 			$("select[name=type_address]",context).setSelectedValue(p.type);
 			
@@ -342,7 +342,6 @@
 			phone_info.push(phone_this);
 		});
 
-		//$.alertObjJson(phone_info);
 		return {
 			"phone_info" :  JSON.stringify(phone_info) 
 		};
@@ -350,7 +349,7 @@
 	
 	function getReginInfo(){
 
-		var regin_div = $("#regin");
+		var regin_div = $("#region");
 
 		var code = [];
 		var name = [];
@@ -410,7 +409,6 @@
 			address_info.push(address_this);
 		});
 
-		//$.alertObjJson(address_info);
 		return {
 			"address_info" : JSON.stringify(address_info)  
 		};
@@ -445,7 +443,7 @@
 	function iniAddress(){
 		
 		var address_info= eval('${clientbaseinfo.address_info }');
-		console.log(JSON.stringify(address_info))
+		//console.log(JSON.stringify(address_info))
 		if (address_info && address_info.length > 0){
 			for(var item in address_info) {
 				var address_temp = address_info[item];
@@ -473,6 +471,48 @@
 		})
 	}
 	
+	
+	// 初始化所属地区
+	function iniRegion(){
+		
+		var region_code= '${clientbaseinfo.region_code }';
+		//$.logJson(region_code);
+		
+		if (region_code != ''){
+			var codes = region_code.split("-");
+			
+			var province = codes[0];
+			var city = codes[1];
+			var district = codes[2];
+			
+			$.iniRegion($("#region"),
+			{
+				province : province,
+				city : city,
+				district : district
+			});
+		}
+	}
+	
+	// 页面初始化感兴趣的服务
+	function iniInteresting_service(){
+		var interesting_service = eval('${interesting_service}');
+		
+		$.logJson("interesting_service--["+ $.toJsonStr(interesting_service) +"]")
+		
+		$("#interesting_service_ipt").initVal(interesting_service);
+	}
+	
+	// 获取感兴趣的服务
+	function getIntrestedService(){
+		var selected = $("#interesting_service_ipt").getSelected();
+		
+		//$.logJson(selected);
+		
+		return {
+			"interesting_service" : $.toJsonStr(selected)  
+		};
+	}
 
 	$().ready(function() {
 		registRemoveOne();
@@ -482,7 +522,8 @@
 		
 		iniPhone();
 		iniAddress();
-		
+		iniRegion();
+		iniInteresting_service();
 		
 	});
 </script>

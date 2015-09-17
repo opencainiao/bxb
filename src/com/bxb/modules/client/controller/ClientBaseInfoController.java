@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.mou.common.JsonUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -54,6 +55,8 @@ public class ClientBaseInfoController extends BaseController {
 		Client client = this.clientService.findOneByIdObject(_id, true);
 
 		model.addAttribute("clientbaseinfo", client);
+		model.addAttribute("interesting_service",
+				JsonUtil.toJsonStr(client.getInteresting_service()));
 
 		return "front/client/client_info/base/detail";
 	}
@@ -70,7 +73,7 @@ public class ClientBaseInfoController extends BaseController {
 	public Object detail(@PathVariable String _id) {
 
 		Client client = this.clientService.findOneByIdObject(_id, true);
-
+		
 		return client;
 	}
 
@@ -89,8 +92,10 @@ public class ClientBaseInfoController extends BaseController {
 		model.addAttribute("clientbaseinfo", client);
 
 		model.addAttribute("_id", _id);
-		
+
 		model.addAttribute("owner_user_id", client.getOwner_user_id());
+		model.addAttribute("interesting_service",
+				JsonUtil.toJsonStr(client.getInteresting_service()));
 
 		return "front/client/client_info/base/update";
 	}

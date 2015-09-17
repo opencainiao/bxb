@@ -17,8 +17,18 @@
 		getSitePath : function() {
 			return localStorage.getItem("SITE_PATH");
 		},
+		logJson:function(obj,str){
+			if (str){
+				console.log(str + "---#" +JSON.stringify(obj) +"#");
+			}else{
+				console.log(JSON.stringify(obj));
+			}
+		},
 		alertObjJson : function(obj) {
 			alert(JSON.stringify(obj));
+		},
+		toJsonStr : function(obj){
+			return JSON.stringify(obj);
 		},
 		loadPage : function(url_to) {
 			window.location.href = url_to;

@@ -70,12 +70,14 @@
 			var phone_info = getPhoneInfo();
 			var address_info = getAddressInfo();
 			var region_info = getReginInfo();
-
+			var interesting_service = getIntrestedService();
+			
 			var paramForm = $('form').getFormParam_ux();
 			
 			paramForm =  $.extend(paramForm,phone_info);
 			paramForm =  $.extend(paramForm,address_info);
 			paramForm =  $.extend(paramForm,region_info);
+			paramForm =  $.extend(paramForm,interesting_service);
 			
 			console.log(JSON.stringify(paramForm));
 			

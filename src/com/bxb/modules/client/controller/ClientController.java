@@ -96,13 +96,18 @@ public class ClientController extends BaseController {
 
 		String phone_info = request.getParameter("phone_info");
 		String address_info = request.getParameter("address_info");
+		String interesting_services = request.getParameter("interesting_service");
 
 		List<Phone> phones = JsonUtil.getGson().fromJson(phone_info, new TypeToken<List<Phone>>() {
 		}.getType());
 
 		List<Address> addresses = JsonUtil.getGson().fromJson(address_info, new TypeToken<List<Address>>() {
 		}.getType());
+		
+		List<String> interesting_service = JsonUtil.getGson().fromJson(interesting_services, new TypeToken<List<String>>() {
+		}.getType());
 
+		client.setInteresting_service(interesting_service);
 		client.setPhone_info(phones);
 		client.setAddress_info(addresses);
 

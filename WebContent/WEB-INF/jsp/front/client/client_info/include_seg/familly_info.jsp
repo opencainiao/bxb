@@ -36,7 +36,7 @@
 							</label>
 							<div class="col-sm-8">
 								<input type="text" class="form-control" id="boy_num"
-									name="boy_num" placeholder="">
+									name="boy_num" value="0" placeholder="">
 							</div>
 						</div>
 						<div class="form-group ">
@@ -44,7 +44,7 @@
 							</label>
 							<div class="col-sm-8">
 								<input type="text" class="form-control" id="girl_num"
-									name="girl_num" placeholder="">
+									name="girl_num" value="0" placeholder="">
 							</div>
 						</div>
 						<div class="form-group ">
@@ -52,7 +52,7 @@
 								子女数 </label>
 							<div class="col-sm-8">
 								<input type="text" class="form-control" id="children_num"
-									name="children_num" placeholder="">
+									name="children_num" value="0" placeholder="">
 							</div>
 						</div>
 					</div>
