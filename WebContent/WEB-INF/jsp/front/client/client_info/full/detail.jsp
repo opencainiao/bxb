@@ -111,7 +111,7 @@ function genBaseContent(client){
 function toEditBase(){
 	
 	
-	var url = $.getSitePath() + '/clientbaseinfo/' + $("#_id_m").val() + "/update";
+	var url = $.getSitePath() + '/clientpartinfo/' + $("#_id_m").val() + "/update?part_flg=0";
 	
 	//alert(url);
 
@@ -131,7 +131,7 @@ function initBase(){
 
 function refreshBase(){
 	
-	var url_to = $.getSitePath() + '/clientbaseinfo/${client._id }';
+	var url_to = $.getSitePath() + '/clientpartinfo/${client._id_m }';
 	
 	 $.ajax({
         type: 'POST',
@@ -172,8 +172,9 @@ function genIncomeContent(client){
 
 function toEditIncome(){
 	
-	var url = $.getSitePath() + '/client_income_info/' + $("#_id_m").val() + "/update";
-	$.popUpWindow("编辑客户收入信息", url, "70%", "80%", "edit", $("#edit_income"));
+	var url = $.getSitePath() + '/clientpartinfo/' + $("#_id_m").val() + "/update?part_flg=3";
+	
+	$.popUpWindow("编辑客户收入信息", url, "90%", "80%", "edit", $("#edit_income"));
 }
 
 function closeEditIncome(){
@@ -188,7 +189,7 @@ function initIncome(){
 
 function refreshIncome(){
 	
-	var url_to = $.getSitePath() + '/client_income_info/${client._id }';
+	var url_to = $.getSitePath() + '/clientpartinfo/${client._id_m }';
 	
 	 $.ajax({
         type: 'POST',
@@ -229,9 +230,10 @@ function genFamilyContent(client){
 
 function toEditFamily(){
 	
-	var url = $.getSitePath() + '/client_family_info/' + $("#_id_m").val() + "/update";
+	var url = $.getSitePath() + '/clientpartinfo/' + $("#_id_m").val() + "/update?part_flg=1";
+	
 	//alert(url);
-	$.popUpWindow("编辑客户家庭信息", url, "70%", "80%", "edit", $("#edit_family"));
+	$.popUpWindow("编辑客户家庭信息", url, "90%", "60%", "edit", $("#edit_family"));
 }
 
 function closeEditFamily(){
@@ -247,7 +249,7 @@ function initFamily(){
 
 function refreshFamily(){
 	
-	var url_to = $.getSitePath() + '/client_family_info/${client._id }';
+	var url_to = $.getSitePath() + '/clientpartinfo/${client._id_m }';
 	
 	 $.ajax({
         type: 'POST',
@@ -286,8 +288,9 @@ function genSourceContent(client){
 
 function toEditSource(){
 	
-	var url = $.getSitePath() + '/client_source_info/' + $("#_id_m").val() + "/update";
-	$.popUpWindow("编辑客户收入信息", url, "70%", "80%", "edit", $("#edit_source"));
+	var url = $.getSitePath() + '/clientpartinfo/' + $("#_id_m").val() + "/update?part_flg=4";
+	
+	$.popUpWindow("编辑客户收入信息", url, "90%", "70%", "edit", $("#edit_source"));
 }
 
 function closeEditSource(){
@@ -302,7 +305,7 @@ function initSource(){
 
 function refreshSource(){
 	
-	var url_to = $.getSitePath() + '/client_source_info/${client._id }';
+	var url_to = $.getSitePath() + '/clientpartinfo/${client._id_m }';
 	
 	 $.ajax({
         type: 'POST',
@@ -341,8 +344,9 @@ function genWorkContent(client){
 
 function toEditWork(){
 	
-	var url = $.getSitePath() + '/client_work_info/' + $("#_id_m").val() + "/update";
-	$.popUpWindow("编辑客户收入信息", url, "70%", "80%", "edit", $("#edit_work"));
+	var url = $.getSitePath() + '/clientpartinfo/' + $("#_id_m").val() + "/update?part_flg=2";
+	
+	$.popUpWindow("编辑客户收入信息", url, "90%", "60%", "edit", $("#edit_work"));
 }
 
 function closeEditWork(){
@@ -357,7 +361,7 @@ function initWork(){
 
 function refreshWork(){
 	
-	var url_to = $.getSitePath() + '/client_work_info/${client._id }';
+	var url_to = $.getSitePath() + '/clientpartinfo/${client._id_m }';
 	
 	 $.ajax({
         type: 'POST',
@@ -396,8 +400,9 @@ function genXgContent(client){
 
 function toEditXg(){
 	
-	var url = $.getSitePath() + '/client_xg_info/' + $("#_id_m").val() + "/update";
-	$.popUpWindow("编辑客户收入信息", url, "70%", "80%", "edit", $("#edit_xg"));
+	var url = $.getSitePath() + '/clientpartinfo/' + $("#_id_m").val() + "/update?part_flg=5";
+	
+	$.popUpWindow("编辑客户收入信息", url, "90%", "80%", "edit", $("#edit_xg"));
 }
 
 function closeEditXg(){
@@ -412,7 +417,7 @@ function initXg(){
 
 function refreshXg(){
 	
-	var url_to = $.getSitePath() + '/client_xg_info/${client._id }';
+	var url_to = $.getSitePath() + '/clientpartinfo/${client._id_m }';
 	
 	 $.ajax({
         type: 'POST',
@@ -431,6 +436,30 @@ function refreshXg(){
     });
 }
 
+function setPWindowH(part_flag,H){
+	
+	var key = "edit";
+	var $obj = null;
+	
+	if (part_flag == 0){
+		$obj = $("#edit_base");
+	}else if (part_flag == 1){
+		$obj = $("#edit_family");
+	}else if (part_flag == 2){
+		$obj = $("#edit_work");
+	}else if (part_flag == 3){
+		$obj = $("#edit_income");
+	}else if (part_flag == 4){
+		$obj = $("#edit_source");
+	}else if (part_flag == 5){
+		$obj = $("#edit_xg");
+	}else if (part_flag == 6){
+		$obj = $("#edit_source");
+	}
+	
+	$.setPWindowH(key,$obj,H);
+}
+
 $().ready(function() {
 	
 	initBase();
@@ -442,6 +471,8 @@ $().ready(function() {
 	
 	$("button").each(function(e){
 		$(this).css("margin-left","10px");
+		$(this).addClass("btn-sm");
+		$(this).addClass("btn-primary");
 	})
 });
 
@@ -454,7 +485,7 @@ $().ready(function() {
    		<div class="row">
 		   	<div class="col-md-12">
 		   		<div class="row">
-		   			<div class="col-md-9 col-md-offset-3">
+		   			<div class="col-md-11 col-md-offset-1">
 		   				<div class="panel panel-info">
 							<div class="panel-heading">基本信息<button type="button" id="edit_base" class="btn btn-default pull-right"  >编辑</button></div>
 							<div class="panel-body" id="base_info_content">
@@ -463,7 +494,7 @@ $().ready(function() {
 		   			</div>
 		   		</div>
 		   		<div class="row">
-		   			<div class="col-md-9 col-md-offset-3">
+		   			<div class="col-md-11 col-md-offset-1">
 		   				<div class="panel panel-info">
 							<div class="panel-heading">家庭信息<button type="button" id="edit_family" class="btn btn-default pull-right">编辑</button></div>
 							<div class="panel-body" id="family_info_content">
@@ -472,7 +503,7 @@ $().ready(function() {
 		   			</div>
 		   		</div>
 		   		<div class="row">
-		   			<div class="col-md-9 col-md-offset-3">
+		   			<div class="col-md-11 col-md-offset-1">
 		   				<div class="panel panel-info">
 							<div class="panel-heading">收入相关<button type="button" id="edit_income" class="btn btn-default pull-right">编辑</button></div>
 							<div class="panel-body" id="income_info_content">
@@ -487,7 +518,7 @@ $().ready(function() {
 		<div class="row">
 		   	<div class="col-md-12">
 		   		<div class="row">
-		   			<div class="col-md-9 ">
+		   			<div class="col-md-11 ">
 		   				<div class="panel panel-info">
 							<div class="panel-heading">来源信息<button type="button" id="edit_source" class="btn btn-default pull-right">编辑</button></div>
 							<div class="panel-body" id="source_info_content">
@@ -496,7 +527,7 @@ $().ready(function() {
 		   			</div>
 		   		</div>
 		   		<div class="row">
-		   			<div class="col-md-9 ">
+		   			<div class="col-md-11 ">
 		   				<div class="panel panel-info">
 							<div class="panel-heading">工作信息<button type="button" id="edit_work" class="btn btn-default pull-right">编辑</button></div>
 							<div class="panel-body" id="work_info_content">
@@ -505,7 +536,7 @@ $().ready(function() {
 		   			</div>
 		   		</div>
 		   		<div class="row">
-		   			<div class="col-md-9 ">
+		   			<div class="col-md-11 ">
 		   				<div class="panel panel-info">
 							<div class="panel-heading">性格相关<button type="button" id="edit_xg" class="btn btn-default pull-right">编辑</button></div>
 							<div class="panel-body" id="xg_info_content">

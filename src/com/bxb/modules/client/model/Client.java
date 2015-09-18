@@ -16,7 +16,7 @@ public class Client extends BaseModel {
 	private String sex; // 性别
 	private String id_number; // 身份证号
 	private String birth_date; // 生日
-	private Integer age; // 年龄
+	private int age; // 年龄
 
 	private List<Address> address_info; // 客户的地址信息
 	private List<Phone> phone_info; // 客户的电话信息
@@ -65,6 +65,7 @@ public class Client extends BaseModel {
 	private List<String> interesting_service; // 关注的服务
 	private String service_served; // 已提供的服务
 
+	private String sex_name;
 	private String phone_info_name;
 	private String address_info_name;
 
@@ -128,7 +129,8 @@ public class Client extends BaseModel {
 		return introducer_relationship_name;
 	}
 
-	public void setIntroducer_relationship_name(String introducer_relationship_name) {
+	public void setIntroducer_relationship_name(
+			String introducer_relationship_name) {
 		this.introducer_relationship_name = introducer_relationship_name;
 	}
 
@@ -217,6 +219,14 @@ public class Client extends BaseModel {
 	// public void setEmail_info(List<Email> email_info) {
 	// this.email_info = email_info;
 	// }
+
+	public String getSex_name() {
+		return sex_name;
+	}
+
+	public void setSex_name(String sex_name) {
+		this.sex_name = sex_name;
+	}
 
 	public String getRegion_type_name() {
 		return region_type_name;
@@ -334,7 +344,8 @@ public class Client extends BaseModel {
 		return annual_income_personal_type;
 	}
 
-	public void setAnnual_income_personal_type(String annual_income_personal_type) {
+	public void setAnnual_income_personal_type(
+			String annual_income_personal_type) {
 		this.annual_income_personal_type = annual_income_personal_type;
 	}
 
@@ -630,7 +641,8 @@ public class Client extends BaseModel {
 		return annual_income_personal_type_name;
 	}
 
-	public void setAnnual_income_personal_type_name(String annual_income_personal_type_name) {
+	public void setAnnual_income_personal_type_name(
+			String annual_income_personal_type_name) {
 		this.annual_income_personal_type_name = annual_income_personal_type_name;
 	}
 
@@ -638,7 +650,8 @@ public class Client extends BaseModel {
 		return annual_income_family_type_name;
 	}
 
-	public void setAnnual_income_family_type_name(String annual_income_family_type_name) {
+	public void setAnnual_income_family_type_name(
+			String annual_income_family_type_name) {
 		this.annual_income_family_type_name = annual_income_family_type_name;
 	}
 
@@ -646,7 +659,8 @@ public class Client extends BaseModel {
 		return family_financial_standing_name;
 	}
 
-	public void setFamily_financial_standing_name(String family_financial_standing_name) {
+	public void setFamily_financial_standing_name(
+			String family_financial_standing_name) {
 		this.family_financial_standing_name = family_financial_standing_name;
 	}
 
@@ -737,7 +751,8 @@ public class Client extends BaseModel {
 			if (StringUtil.isNotEmpty(this.pinyin_name)) {
 				setFirst_char_header(this.pinyin_name.substring(0, 1));
 			} else {
-				String headerFirst = PinyinUtil.str2PinyinHeaderFirst(client_name);
+				String headerFirst = PinyinUtil
+						.str2PinyinHeaderFirst(client_name);
 				setFirst_char_header(headerFirst);
 			}
 		}

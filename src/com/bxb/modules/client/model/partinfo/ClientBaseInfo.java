@@ -185,7 +185,7 @@ public class ClientBaseInfo extends BaseModel {
 
 //		titles.add("owner_user_id");
 		titles.add("client_name");
-		titles.add("sex");
+		titles.add("sex_name");
 		titles.add("id_number");
 		titles.add("birth_date");
 		titles.add("age");

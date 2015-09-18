@@ -13,7 +13,7 @@
 						<div class="col-sm-8">
 							<input type="text" class="form-control"
 								id="annual_income_personal" name="annual_income_personal"
-								value="${clientbaseinfo.annual_income_personal}" placeholder="">
+								value="${client.annual_income_personal}" placeholder="">
 						</div>
 					</div>
 					<div class="form-group form-group-sm  ">
@@ -23,7 +23,7 @@
 							<select id="annual_income_personal_type"
 								name="annual_income_personal_type" class="form-control"
 								data-src="constant" data-typecode="ANNUAL_INCOME_PERSONAL_TYPE"
-								data-value="${clientbaseinfo.annual_income_personal_type}">
+								data-value="${client.annual_income_personal_type}">
 							</select>
 						</div>
 					</div>
@@ -34,7 +34,7 @@
 							<select id="family_income_feature" name="family_income_feature"
 								class="form-control" data-src="constant"
 								data-typecode="FAMILY_INCOME_FEATURE"
-								data-value="${clientbaseinfo.family_income_feature}">
+								data-value="${client.family_income_feature}">
 							</select>
 						</div>
 					</div>
@@ -49,7 +49,7 @@
 							<div class="col-sm-8">
 								<input type="text" class="form-control"
 									id="annual_income_family" name="annual_income_family"
-									value="${clientbaseinfo.annual_income_family}" placeholder="">
+									value="${client.annual_income_family}" placeholder="">
 							</div>
 						</div>
 						<div class="form-group form-group-sm  ">
@@ -59,7 +59,7 @@
 								<select id="annual_income_family_type"
 									name="annual_income_family_type" class="form-control"
 									data-src="constant" data-typecode="ANNUAL_INCOME_FAMILY_TYPE"
-									data-value="${clientbaseinfo.annual_income_family_type}">
+									data-value="${client.annual_income_family_type}">
 								</select>
 							</div>
 						</div>
@@ -70,7 +70,7 @@
 								<select id="family_financial_standing"
 									name="family_financial_standing" class="form-control"
 									data-src="constant" data-typecode="FAMILY_FINANCIAL_STANDING"
-									data-value="${clientbaseinfo.family_financial_standing}">
+									data-value="${client.family_financial_standing}">
 								</select>
 							</div>
 						</div>

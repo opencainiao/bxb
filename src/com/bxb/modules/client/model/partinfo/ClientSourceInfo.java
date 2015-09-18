@@ -13,7 +13,7 @@ public class ClientSourceInfo extends BaseModel {
 		titles.add("source_type_name");
 		titles.add("introducer_name");
 		titles.add("introducer_relationship_name");
-		titles.add("introducer_closeness");
+		titles.add("introducer_closeness_name");
 		titles.add("introducer_evaluation");
 		titles.add("contact_type_name");
 		titles.add("contact_attention");

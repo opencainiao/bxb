@@ -47,8 +47,8 @@
 									<label for="menu_level" class="col-sm-3 col-xs-3 control-label">
 										级次 </label>
 									<div class="col-sm-8 col-xs-8">
-										<input id="menu_level" name="menu_level" placeholder="请输入日期"
-											class="laydate-icon form-control dateipt"
+										<input id="menu_level" name="menu_level"
+											class=" form-control dateipt"
 											value="${menu.menu_level}" readonly>
 									</div>
 								</div>
@@ -57,7 +57,7 @@
 										class="col-sm-3 col-xs-3  control-label"> 子节点 </label>
 									<div class="col-sm-8 col-xs-8">
 										<input id="leaf_flg_name" name="leaf_flg_name"
-											placeholder="请输入日期" class="laydate-icon form-control dateipt"
+											class=" form-control dateipt"
 											value="${menu.leaf_flg_name}" readonly>
 									</div>
 								</div>
@@ -80,8 +80,8 @@
 									<label for="menu_sno" class="col-sm-3 col-xs-3 control-label">
 										序号 </label>
 									<div class="col-sm-8 col-xs-8">
-										<input id="menu_sno" name="menu_sno" placeholder="请输入日期"
-											class="laydate-icon form-control dateipt"
+										<input id="menu_sno" name="menu_sno" 
+											class="form-control dateipt"
 											value="${menu.menu_sno}" readonly>
 									</div>
 								</div>

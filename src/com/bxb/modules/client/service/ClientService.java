@@ -306,6 +306,18 @@ public class ClientService extends BaseService implements IClientService {
 
 		// 电话
 		client.setPhoneString();
+		
+		// 性别
+		String sex = client.getSex() ;
+		if (StringUtil.isEmpty(sex)){
+			client.setSex_name("男");
+		}else{
+			if (sex.equals("1")){
+				client.setSex_name("男");
+			}else{
+				client.setSex_name("女");
+			}
+		}
 
 		// 地区类型
 		String region_type = client.getRegion_type();

@@ -15,14 +15,13 @@
 </head>
 
 <body>
-	<input type="hidden" id="_id" name="_id" value="${_id}" />
-
-
-
 	<sf:form modelAttribute="client" class="form-horizontal">
+		<input type="hidden" id="_id" name="_id" value="${_id}" />
+		<input type="hidden" id="owner_user_id" name="owner_user_id"
+			value="${owner_user_id}">
 		<div class="container-fluid" style="margin-top: 10px">
 			<jsp:include
-				page="/WEB-INF/jsp/front/client/client_info/include_seg/base_info.jsp"></jsp:include>
+				page="/WEB-INF/jsp/front/client/client_info/include_seg/work_info.jsp"></jsp:include>
 
 			<div class="col-sm-12">
 				<button type="button" id="btn_save"
@@ -35,24 +34,24 @@
 	<script>
 		$().ready(function() {
 			$("#btn_save").bind("click", save);
+			
+			var height = $('form').height() + 70;
+			parent.setPWindowH(2,height);
 		});
 
 		var closeEditWindow = function() {
-			parent.refreshBase();
-			parent.closeEditBase();
+			parent.refreshWork();
+			parent.closeEditWork();
 		}
 		//保存
 		var save = function() {
 
-			var values = getValues();
-
 			var paramForm = $('form').getFormParam_ux();
-			paramForm = $.extend(paramForm, values);
 
 			$.logJson(paramForm, "修改--提交服务器的参数");
 			var successstr = "修改成功";
 
-			var url_to = $.getSitePath() + "/front/client/${_id}/update_part?part_flg=0";
+			var url_to = $.getSitePath() + "/front/client/${_id}/update_part?part_flg=2";
 
 			$.logJson(url_to, "提交url");
 

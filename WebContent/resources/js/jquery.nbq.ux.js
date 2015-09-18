@@ -33,6 +33,19 @@
 		loadPage : function(url_to) {
 			window.location.href = url_to;
 		},
+		setPWindowH:function(key,$obj,H){
+			var index = $obj.attr(key);
+			
+			$.logJson("index--" + index);
+			$.logJson("H--" + H);
+			
+			var pWindow = $("#xubox_layer" + index);
+			pWindow.height(H);
+
+			var pWindowIframe = $("#xubox_iframe" + index);
+			pWindowIframe.height(H - 40);
+			
+		},
 		closeWindow : function(key, $obj) {
 			layer.close($obj.attr(key));
 		},

@@ -1,21 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
 
+
 <div class="panel panel-info">
 	<div class="panel-heading">基本信息</div>
 	<div class="panel-body">
-		<div class="row">
-			<div class="col-xs-6">
-				<div class="form-group form-group-sm  ">
-					<label for="owner_user_id" class="col-sm-3 control-label">
-						归属用户id </label>
-					<div class="col-sm-8">
-						<input type="text" class="form-control" id="owner_user_id"
-							name="owner_user_id" value="${owner_user_id}" placeholder="">
-					</div>
-				</div>
-			</div>
-		</div>
 		<div class="row">
 			<div class="col-xs-6">
 				<div class="row">
@@ -25,7 +14,7 @@
 								客户姓名 </label>
 							<div class="col-sm-8">
 								<input type="text" class="form-control" id="client_name"
-									name="client_name" value="${clientbaseinfo.client_name}"
+									name="client_name" value="${client.client_name}"
 									placeholder="">
 							</div>
 						</div>
@@ -35,14 +24,14 @@
 							<div class="col-sm-8">
 								<input id="birth_date" name="birth_date" placeholder="请输入日期"
 									class="laydate-icon form-control dateipt"
-									value="${clientbaseinfo.birth_date}">
+									value="${client.birth_date}">
 							</div>
 						</div>
 						<div class="form-group ">
 							<label for="age" class="col-sm-3 control-label"> 年龄 </label>
 							<div class="col-sm-8">
 								<input type="text" class="form-control" id="age" name="age"
-									value="${clientbaseinfo.age}">
+									value="${client.age}">
 							</div>
 						</div>
 						<div id="region" class="form-group form-group-sm regin-container">
@@ -73,7 +62,7 @@
 							<label for="sex" class="col-sm-3 control-label">性别 </label>
 							<div class="col-sm-8">
 								<select id="sex" name="sex" class="form-control"
-									data-value="${clientbaseinfo.sex}">
+									data-value="${client.sex}">
 									<option value="1">男</option>
 									<option value="0">女</option>
 								</select>
@@ -84,7 +73,7 @@
 								身份证号 </label>
 							<div class="col-sm-8">
 								<input type="text" class="form-control" id="id_number"
-									name="id_number" value="${clientbaseinfo.id_number}"
+									name="id_number" value="${client.id_number}"
 									placeholder="">
 							</div>
 						</div>
@@ -93,7 +82,7 @@
 								邮箱 </label>
 							<div class="col-sm-8">
 								<input type="text" class="form-control" id="email_info"
-									name="email_info" value="${clientbaseinfo.email_info}"
+									name="email_info" value="${client.email_info}"
 									placeholder="">
 							</div>
 						</div>
@@ -104,7 +93,7 @@
 								<select id="education_type" name="education_type"
 									class="form-control" data-src="constant"
 									data-typecode="EDUCATION_TYPE"
-									data-value="${clientbaseinfo.education_type}"></select>
+									data-value="${client.education_type}"></select>
 							</div>
 
 						</div>
@@ -114,7 +103,7 @@
 							<div class="col-sm-8">
 								<select id="region_type" name="region_type" class="form-control"
 									data-src="constant" data-typecode="REGION_TYPE"
-									data-value="${clientbaseinfo.region_type}"></select>
+									data-value="${client.region_type}"></select>
 							</div>
 						</div>
 					</div>
@@ -404,7 +393,7 @@
 	// 初始化电话信息
 	function iniPhone() {
 
-		var data_phone = eval('${clientbaseinfo.phone_info }');
+		var data_phone = eval('${client.phone_info }');
 		if (data_phone && data_phone.length > 0) {
 			for ( var item in data_phone) {
 				var phone_temp = data_phone[item];
@@ -429,7 +418,7 @@
 	// 初始化地址信息
 	function iniAddress() {
 
-		var address_info = eval('${clientbaseinfo.address_info }');
+		var address_info = eval('${client.address_info }');
 		//console.log(JSON.stringify(address_info))
 		if (address_info && address_info.length > 0) {
 			for ( var item in address_info) {
@@ -461,7 +450,7 @@
 	// 初始化所属地区
 	function iniRegion() {
 
-		var region_code = '${clientbaseinfo.region_code }';
+		var region_code = '${client.region_code }';
 		//$.logJson(region_code);
 
 		if (region_code != '') {

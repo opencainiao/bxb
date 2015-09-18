@@ -180,25 +180,25 @@ var data_manage = {
 		}, {
 			display : '身份证号',
 			name : 'id_number',
-			width : 150
+			width : 130
 		}, {
 			display : '生日',
 			name : 'birth_date',
-			width : 120
+			width : 70
 		}, {
 			display : '年龄',
 			name : 'age',
 			width : 40
 		}, {
-			display : '客户的地址信息',
+			display : '地址信息',
 			name : 'address_info_name',
 			width : 160
 		}, {
-			display : '客户的电话信息',
+			display : '电话信息',
 			name : 'phone_info_name',
 			width : 120
 		}, {
-			display : '客户的邮箱信息',
+			display : '邮箱',
 			name : 'email_info',
 			width : 120
 		}, {

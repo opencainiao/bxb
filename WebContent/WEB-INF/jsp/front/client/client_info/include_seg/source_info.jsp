@@ -12,7 +12,7 @@
 							介绍人 </label>
 						<div class="col-sm-8">
 							<input type="text" class="form-control" id="introducer_name"
-								name="introducer_name" value="${clientbaseinfo.introducer_name}"
+								name="introducer_name" value="${client.introducer_name}"
 								placeholder="">
 						</div>
 					</div>
@@ -22,7 +22,7 @@
 						<div class="col-sm-8">
 							<select id="source_type" name="source_type" class="form-control"
 								data-src="constant" data-typecode="SOURCE_TYPE"
-								data-value="${clientbaseinfo.source_type}">
+								data-value="${client.source_type}">
 							</select>
 						</div>
 					</div>
@@ -32,7 +32,7 @@
 						<div class="col-sm-8">
 							<select id="contact_type" name="contact_type" data-src="constant"
 								data-typecode="CONTACT_TYPE" class="form-control"
-								data-value="${clientbaseinfo.contact_type}">
+								data-value="${client.contact_type}">
 							</select>
 						</div>
 					</div>
@@ -48,7 +48,7 @@
 								<select id="introducer_relationship"
 									name="introducer_relationship" class="form-control"
 									data-src="constant" data-typecode="INTRODUCER_RELATIONSHIP"
-									data-value="${clientbaseinfo.introducer_relationship}">
+									data-value="${client.introducer_relationship}">
 								</select>
 							</div>
 						</div>
@@ -59,7 +59,7 @@
 								<select id="introducer_closeness" name="introducer_closeness"
 									class="form-control"
 									data-src="constant" data-typecode="INTRODUCER_CLOSENESS"
-									data-value="${clientbaseinfo.introducer_closeness}">
+									data-value="${client.introducer_closeness}">
 								</select>
 							</div>
 						</div>
@@ -77,7 +77,7 @@
 							<div class="col-xs-9">
 								<input type="text" class="form-control"
 									id="introducer_evaluation" name="introducer_evaluation"
-									value="${clientbaseinfo.introducer_evaluation}" placeholder=""
+									value="${client.introducer_evaluation}" placeholder=""
 									style="width: 480px;">
 							</div>
 						</div>
@@ -87,7 +87,7 @@
 							<div class="col-xs-9">
 								<input type="text" class="form-control" id="contact_attention"
 									name="contact_attention"
-									value="${clientbaseinfo.contact_attention}" placeholder=""
+									value="${client.contact_attention}" placeholder=""
 									style="width: 480px;">
 							</div>
 						</div>

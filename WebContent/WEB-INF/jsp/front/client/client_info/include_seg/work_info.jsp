@@ -12,7 +12,7 @@
 						</label>
 						<div class="col-sm-8">
 							<input type="text" class="form-control" id="company"
-								name="company" value="${clientbaseinfo.company}" placeholder="">
+								name="company" value="${client.company}" placeholder="">
 						</div>
 					</div>
 					<div class="form-group form-group-sm  ">
@@ -21,7 +21,7 @@
 						<div class="col-sm-8">
 							<select id="trade_type" name="trade_type" class="form-control"
 								data-src="constant" data-typecode="TRADE_TYPE"
-								data-value="${clientbaseinfo.trade_type}">
+								data-value="${client.trade_type}">
 							</select>
 						</div>
 					</div>
@@ -31,7 +31,7 @@
 						<div class="col-sm-8">
 							<select id="job_position" name="job_position" data-src="constant"
 								data-typecode="JOB_POSITION" class="form-control"
-								data-value="${clientbaseinfo.job_position}">
+								data-value="${client.job_position}">
 							</select>
 						</div>
 					</div>
@@ -47,7 +47,7 @@
 								<select id="company_nature" name="company_nature"
 									class="form-control" data-src="constant"
 									data-typecode="COMPANY_NATURE"
-									data-value="${clientbaseinfo.company_nature}">
+									data-value="${client.company_nature}">
 								</select>
 							</div>
 						</div>
@@ -57,7 +57,7 @@
 							<div class="col-sm-8">
 								<select id="career_type" name="career_type" class="form-control"
 									data-src="constant" data-typecode="CAREER_TYPE"
-									data-value="${clientbaseinfo.career_type}">
+									data-value="${client.career_type}">
 								</select>
 							</div>
 						</div>
@@ -67,7 +67,7 @@
 							<div class="col-sm-8">
 								<select id="job_level" name="job_level" class="form-control"
 									data-src="constant" data-typecode="JOB_LEVEL"
-									data-value="${clientbaseinfo.job_level}">
+									data-value="${client.job_level}">
 								</select>
 							</div>
 						</div>

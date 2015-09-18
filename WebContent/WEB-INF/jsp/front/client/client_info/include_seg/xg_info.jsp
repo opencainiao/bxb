@@ -13,7 +13,7 @@
 						<div class="col-sm-8">
 							<select id="birth_ages" name="birth_ages" class="form-control"
 								data-src="constant" data-typecode="BIRTH_AGES"
-								data-value="${clientbaseinfo.birth_ages}">
+								data-value="${client.birth_ages}">
 							</select>
 						</div>
 					</div>
@@ -23,7 +23,7 @@
 						<div class="col-sm-8">
 							<select id="blood_group" name="blood_group" class="form-control"
 								data-src="constant" data-typecode="BLOOD_GROUP"
-								data-value="${clientbaseinfo.blood_group}">
+								data-value="${client.blood_group}">
 							</select>
 						</div>
 					</div>
@@ -33,7 +33,7 @@
 						<div class="col-sm-8">
 							<select id="pdp_type" name="pdp_type" class="form-control"
 								data-src="constant" data-typecode="PDP_TYPE"
-								data-value="${clientbaseinfo.pdp_type}">
+								data-value="${client.pdp_type}">
 							</select>
 						</div>
 					</div>
@@ -48,7 +48,7 @@
 							<div class="col-sm-8">
 								<select id="age_group" name="age_group" class="form-control"
 									data-src="constant" data-typecode="AGE_GROUP"
-									data-value="${clientbaseinfo.age_group}">
+									data-value="${client.age_group}">
 								</select>
 							</div>
 						</div>
@@ -59,7 +59,7 @@
 								<select id="constellation" name="constellation"
 									class="form-control" data-src="constant"
 									data-typecode="CONSTELLATION"
-									data-value="${clientbaseinfo.constellation}">
+									data-value="${client.constellation}">
 								</select>
 							</div>
 						</div>
@@ -77,7 +77,7 @@
 							<div class="col-xs-9">
 								<input type="text" class="form-control" id="temperament_type"
 									name="temperament_type"
-									value="${clientbaseinfo.temperament_type}" placeholder=""
+									value="${client.temperament_type}" placeholder=""
 									style="width: 480px;">
 							</div>
 						</div>
@@ -86,7 +86,7 @@
 								兴趣爱好 </label>
 							<div class="col-xs-9">
 								<input type="text" class="form-control" id="hobbies"
-									name="hobbies" value="${clientbaseinfo.hobbies}" placeholder=""
+									name="hobbies" value="${client.hobbies}" placeholder=""
 									style="width: 480px;">
 							</div>
 						</div>
