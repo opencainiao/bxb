@@ -35,10 +35,9 @@ import com.bxb.modules.global.service.ThumbParam;
 @RequestMapping("/attachmentupload")
 public class AttachmentUploadController extends BaseController {
 
-	private static final Logger logger = LogManager
-			.getLogger(AttachmentUploadController.class);
+	private static final Logger logger = LogManager.getLogger(AttachmentUploadController.class);
 
-	@Resource(name="fileUplodService")  
+	@Resource(name = "fileUplodService")
 	private IFileUpload fileUplodService;
 
 	/****
@@ -48,7 +47,7 @@ public class AttachmentUploadController extends BaseController {
 	 * @return 返回生成的附件信息
 	 */
 	@SuppressWarnings("rawtypes")
-	@RequestMapping(value = "/ajaxUploadOneAttachment", method = RequestMethod.POST)
+	@RequestMapping(value = "/ajaxUploadOneAttachment1", method = RequestMethod.POST)
 	@ResponseBody
 	public Object ajaxUploadOneAttachment(HttpServletRequest request) {
 
@@ -61,25 +60,25 @@ public class AttachmentUploadController extends BaseController {
 		String dirpath = DateUtil.getCurdate();
 
 		String iscompress = request.getParameter("iscompress");
-		
+
 		boolean isCompress = false;
-		if(!StringUtil.isEmpty(iscompress)&& iscompress.equals("1")){
+		if (!StringUtil.isEmpty(iscompress) && iscompress.equals("1")) {
 			isCompress = true;
 		}
-		
+
 		Attachment attach = null;
 
 		try {
 			List<ThumbParam> tps = null;
-			
+
 			String tpsStr = request.getParameter("cp_param");
-			if (StringUtil.isNotEmpty(tpsStr)){
+			if (StringUtil.isNotEmpty(tpsStr)) {
 				tps = new ArrayList<ThumbParam>();
-				
+
 				String[] alltps = tpsStr.split(",");
-				for (String tpstmp:alltps){
+				for (String tpstmp : alltps) {
 					String[] tp_arr = tpstmp.split("x");
-					
+
 					ThumbParam tp = new ThumbParam();
 					tp.setWidth(Integer.parseInt(tp_arr[0]));
 					tp.setHeight(Integer.parseInt(tp_arr[1]));
@@ -87,13 +86,12 @@ public class AttachmentUploadController extends BaseController {
 					tps.add(tp);
 				}
 			}
-			
-			
+
 			for (Iterator it = multipartRequest.getFileNames(); it.hasNext();) {
 				String key = (String) it.next();
 				MultipartFile fileIn = multipartRequest.getFile(key);
 
-				attach = this.fileUplodService.uploadOneAttachment(fileIn,
+				attach = this.fileUplodService.uploadOneAttachmentToServerDisk(fileIn,
 						multipartRequest, dirpath, isCompress, tps);
 			}
 
@@ -115,8 +113,7 @@ public class AttachmentUploadController extends BaseController {
 	 */
 	@RequestMapping(value = "/ajaxDeleteOneAttachment", method = RequestMethod.POST)
 	@ResponseBody
-	public Object ajaxDeleteOneAttachment(String _id_m,
-			HttpServletRequest request) {
+	public Object ajaxDeleteOneAttachment(String _id_m, HttpServletRequest request) {
 
 		Map<String, Object> result = new HashMap<String, Object>();
 		if (StringUtil.isEmpty(_id_m)) {
@@ -131,6 +128,70 @@ public class AttachmentUploadController extends BaseController {
 			result.put("success", "n");
 			result.put("message", StringUtil.getStackTrace(e));
 		}
+		return result;
+	}
+
+	/****
+	 * 上传一个附件 上传附件时，默认对图片生成缩略图
+	 * 
+	 * @param request
+	 * @return 返回生成的附件信息
+	 */
+	@SuppressWarnings("rawtypes")
+	@RequestMapping(value = "/ajaxUploadOneAttachment", method = RequestMethod.POST)
+	@ResponseBody
+	public Object ajaxUploadOneAttachmentToMongo(HttpServletRequest request) {
+
+		logger.debug("ajaxUploadOneAttachment");
+
+		Map<String, Object> result = new HashMap<String, Object>();
+
+		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+
+		String dirpath = DateUtil.getCurdate();
+
+		String iscompress = request.getParameter("iscompress");
+
+		boolean isCompress = false;
+		if (!StringUtil.isEmpty(iscompress) && iscompress.equals("1")) {
+			isCompress = true;
+		}
+
+		Attachment attach = null;
+
+		try {
+			List<ThumbParam> tps = null;
+
+			String tpsStr = request.getParameter("cp_param");
+			if (StringUtil.isNotEmpty(tpsStr)) {
+				tps = new ArrayList<ThumbParam>();
+
+				String[] alltps = tpsStr.split(",");
+				for (String tpstmp : alltps) {
+					String[] tp_arr = tpstmp.split("x");
+
+					ThumbParam tp = new ThumbParam();
+					tp.setWidth(Integer.parseInt(tp_arr[0]));
+					tp.setHeight(Integer.parseInt(tp_arr[1]));
+					tp.setThumbType(tp_arr[2]);
+					tps.add(tp);
+				}
+			}
+
+			for (Iterator it = multipartRequest.getFileNames(); it.hasNext();) {
+				String key = (String) it.next();
+				MultipartFile fileIn = multipartRequest.getFile(key);
+
+				attach = this.fileUplodService.uploadOneAttachmentToMongo(fileIn, multipartRequest,
+						isCompress, tps);
+			}
+
+			result.put("success", "y");
+			result.put("attach", attach);
+		} catch (Exception e) {
+			return this.handleException(e);
+		}
+
 		return result;
 	}
 }

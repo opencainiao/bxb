@@ -20,6 +20,8 @@ public class Attachment {
 
 	private String _id_m;
 
+	private String file_id;// 文件存储在gridfs中的id
+
 	// 上传日期
 	private String uploadDate;
 
@@ -145,6 +147,14 @@ public class Attachment {
 			this.isImg = "0";
 		}
 	}
+	
+	public boolean isImage(){
+		if (this.isImg.equals("1")) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 
 	public String getIsAttach() {
 		return isAttach;
@@ -243,6 +253,14 @@ public class Attachment {
 
 	public void setUploadFileAbsolutePath(String uploadFileAbsolutePath) {
 		this.uploadFileAbsolutePath = uploadFileAbsolutePath;
+	}
+
+	public String getFile_id() {
+		return file_id;
+	}
+
+	public void setFile_id(String file_id) {
+		this.file_id = file_id;
 	}
 
 }

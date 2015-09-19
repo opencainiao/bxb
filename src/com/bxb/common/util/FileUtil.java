@@ -60,13 +60,13 @@ public class FileUtil {
 	/****
 	 * 判断一个文件是否为图像
 	 * 
-	 * @param file
+	 * @param fileOrInputStream
 	 * @return
 	 */
-	public static boolean isImage(File file) {
+	public static boolean isImage(Object fileOrInputStream) {
 		boolean flag = false;
 		try {
-			ImageInputStream is = ImageIO.createImageInputStream(file);
+			ImageInputStream is = ImageIO.createImageInputStream(fileOrInputStream);
 
 			Iterator<ImageReader> iter = ImageIO.getImageReaders(is);
 			if (!iter.hasNext()) {// 文件不是图片

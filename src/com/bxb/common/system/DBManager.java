@@ -1,12 +1,13 @@
 package com.bxb.common.system;
 
-import mou.mongodb.MongoClientManager;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.mou.common.StringUtil;
 
+import com.mongodb.DB;
 import com.mongodb.DBCollection;
+
+import mou.mongodb.MongoClientManager;
 
 public class DBManager {
 
@@ -37,6 +38,10 @@ public class DBManager {
 			e.printStackTrace();
 			System.exit(0);
 		}
+	}
+	
+	public static DB getDB(){
+		return MongoClientManager.getDb();
 	}
 
 	/****

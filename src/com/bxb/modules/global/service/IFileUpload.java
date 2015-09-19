@@ -2,6 +2,7 @@ package com.bxb.modules.global.service;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,7 +27,7 @@ public interface IFileUpload {
 	 * @param dirpath
 	 * @throws IOException
 	 */
-	public File doUploadOneFile(MultipartFile attach, String newFileName,
+	public File doUploadOneFileToServerDisk(MultipartFile attach, String newFileName,
 			String dirpath) throws IOException;
 
 	/****
@@ -39,9 +40,9 @@ public interface IFileUpload {
 	 * @return
 	 * @throws IOException
 	 */
-	public Attachment uploadOneAttachment(MultipartFile attach,
-			HttpServletRequest request, String dirpath, boolean needCompress,
-			List<ThumbParam> tps) throws IOException;
+	public Attachment uploadOneAttachmentToServerDisk(MultipartFile attach,
+			HttpServletRequest request, String dirpath, boolean needCompress, List<ThumbParam> tps)
+					throws IOException;
 
 	/****
 	 * 删除一个附件<br>
@@ -52,4 +53,37 @@ public interface IFileUpload {
 	 * @param _id_m
 	 */
 	public void deleteOneAttachment(String _id_m, HttpServletRequest request);
+
+	/****
+	 * 上传一个文件，以新文件名命名，上传到MongoDB数据库
+	 * 
+	 * 以文件的MD5值做id
+	 * 
+	 * @param attach
+	 * @param newFileName
+	 * @return 文件的ID
+	 */
+	public String doUploadOneFileToMongo(MultipartFile attach, String newFileName)
+			throws IOException;
+
+	/****
+	 * 上传一个附件
+	 * 
+	 * @param attach
+	 * @param request
+	 * @param needCompress
+	 * @param tps
+	 * @return
+	 * @throws IOException
+	 */
+	public Attachment uploadOneAttachmentToMongo(MultipartFile attach, HttpServletRequest request,
+			boolean needCompress, List<ThumbParam> tps) throws IOException;
+
+	/****
+	 * 查询id对应的mongo存储的文件，并输出到输出流中
+	 * 
+	 * @param out
+	 * @param id
+	 */
+	public void findFileFromMongo(OutputStream out, String id);
 }

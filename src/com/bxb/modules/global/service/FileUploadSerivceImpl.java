@@ -2,33 +2,37 @@ package com.bxb.modules.global.service;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
-import mou.mongodb.MongoCollectionUtil;
-
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.bson.types.ObjectId;
 import org.mou.common.DateUtil;
 import org.mou.common.StringUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.bxb.common.system.DBManager;
 import com.bxb.common.util.EncoderHandler;
 import com.bxb.common.util.FileUtil;
 import com.bxb.modules.base.BaseService;
 import com.bxb.modules.global.model.Attachment;
+import com.mongodb.gridfs.GridFS;
+import com.mongodb.gridfs.GridFSInputFile;
+
+import mou.mongodb.MongoCollectionUtil;
 
 @Service("fileUplodService")
 public class FileUploadSerivceImpl extends BaseService implements IFileUpload {
 
-	private static final Logger logger = LogManager
-			.getLogger(FileUploadSerivceImpl.class);
+	private static final Logger logger = LogManager.getLogger(FileUploadSerivceImpl.class);
 
 	// 默认上传文件的路径
 	public final static String UPLOAD_PATH = "/resources/upload";
@@ -39,7 +43,7 @@ public class FileUploadSerivceImpl extends BaseService implements IFileUpload {
 	private IPicThumb picThumbService;
 
 	@Override
-	public File doUploadOneFile(MultipartFile attach, String newFileName,
+	public File doUploadOneFileToServerDisk(MultipartFile attach, String newFileName,
 			String dirpath) throws IOException {
 		if (StringUtil.isEmpty(dirpath) || StringUtil.isEmpty(newFileName)) {
 			return null;
@@ -56,26 +60,24 @@ public class FileUploadSerivceImpl extends BaseService implements IFileUpload {
 	}
 
 	@Override
-	public Attachment uploadOneAttachment(MultipartFile attach,
-			HttpServletRequest request, String dirpath, boolean needCompress,
-			List<ThumbParam> tps) throws IOException {
+	public Attachment uploadOneAttachmentToServerDisk(MultipartFile attach,
+			HttpServletRequest request, String dirpath, boolean needCompress, List<ThumbParam> tps)
+					throws IOException {
 
 		if (attach.isEmpty()) {
 			return null;
 		}
 		String ext = FilenameUtils.getExtension(attach.getOriginalFilename());
-		String newFileName = EncoderHandler.encodeByAES(this.getUserId()
-				+ String.valueOf(new Date().getTime()))
-				+ "." + ext;
+		String newFileName = EncoderHandler
+				.encodeByAES(this.getUserId() + String.valueOf(new Date().getTime())) + "." + ext;
 
-		String uploadDir = request.getSession().getServletContext()
-				.getRealPath(UPLOAD_PATH);
+		String uploadDir = request.getSession().getServletContext().getRealPath(UPLOAD_PATH);
 		if (StringUtil.isNotEmpty(dirpath)) {
 			uploadDir = uploadDir + "/" + dirpath;
 		}
 
 		// 1.进行文件上传
-		File uploadedFile = doUploadOneFile(attach, newFileName, uploadDir);
+		File uploadedFile = doUploadOneFileToServerDisk(attach, newFileName, uploadDir);
 
 		// 2.创建附件文件
 		Attachment att = new Attachment();
@@ -116,8 +118,7 @@ public class FileUploadSerivceImpl extends BaseService implements IFileUpload {
 
 				this.picThumbService.thumbFile(uploadedFile, tps);
 
-				String compressedDir = dirpath + "/"
-						+ tps.get(0).getFolderName();
+				String compressedDir = dirpath + "/" + tps.get(0).getFolderName();
 				if (StringUtil.isEmpty(dirpath)) {
 					compressedDir = tps.get(0).getFolderName();
 				}
@@ -127,13 +128,11 @@ public class FileUploadSerivceImpl extends BaseService implements IFileUpload {
 		}
 
 		// 3.将附件写入附件表
-		String _id = MongoCollectionUtil.insertObj(COLLECTION_NAME_ATTACHMENT,
-				att);
+		String _id = MongoCollectionUtil.insertObj(COLLECTION_NAME_ATTACHMENT, att);
 		att.set_id(_id);
 
 		logger.debug("上传文件完毕，上传之后的文件信息");
-		logger.debug(MongoCollectionUtil.findOneByIdFields(
-				COLLECTION_NAME_ATTACHMENT, _id, null));
+		logger.debug(MongoCollectionUtil.findOneByIdFields(COLLECTION_NAME_ATTACHMENT, _id, null));
 
 		return att;
 	}
@@ -149,8 +148,8 @@ public class FileUploadSerivceImpl extends BaseService implements IFileUpload {
 	public void deleteOneAttachment(String _id_m, HttpServletRequest request) {
 
 		logger.debug("remove[" + _id_m + "]");
-		Attachment att = MongoCollectionUtil.findOneByIdObject(
-				COLLECTION_NAME_ATTACHMENT, _id_m, Attachment.class);
+		Attachment att = MongoCollectionUtil.findOneByIdObject(COLLECTION_NAME_ATTACHMENT, _id_m,
+				Attachment.class);
 
 		// 1.删除数据库文件
 		MongoCollectionUtil.removeById(COLLECTION_NAME_ATTACHMENT, _id_m);
@@ -174,5 +173,98 @@ public class FileUploadSerivceImpl extends BaseService implements IFileUpload {
 				}
 			}
 		}
+	}
+
+	@Override
+	public String doUploadOneFileToMongo(MultipartFile attach, String newFileName)
+			throws IOException {
+
+		GridFS gridFS = new GridFS(DBManager.getDB());
+		GridFSInputFile gridFSInputFile = gridFS.createFile(attach.getInputStream(), newFileName);
+		gridFSInputFile.save();
+
+		String _id = ((ObjectId) (gridFSInputFile.get("_id"))).toString();
+		logger.debug("保存到数据库，数据库的_id是{}", _id);
+		logger.debug("保存到数据库，文件的md5是{}", gridFSInputFile.getMD5());
+		return _id;
+	}
+
+	@Override
+	public Attachment uploadOneAttachmentToMongo(MultipartFile attach, HttpServletRequest request,
+			boolean needCompress, List<ThumbParam> tps) throws IOException {
+		if (attach.isEmpty()) {
+			return null;
+		}
+
+		String ext = FilenameUtils.getExtension(attach.getOriginalFilename());
+		String newFileName = EncoderHandler
+				.encodeByAES(this.getUserId() + String.valueOf(new Date().getTime())) + "." + ext;
+
+		// 0.存储到本地
+		String uploadDir = request.getSession().getServletContext().getRealPath(UPLOAD_PATH);
+		File savedFile = new File(uploadDir + "/" + newFileName);
+		FileUtils.copyInputStreamToFile(attach.getInputStream(), savedFile);
+
+		logger.debug("本地文件存放路径:\n{}", savedFile.getParentFile().getAbsolutePath());
+
+		// 1.进行文件上传
+		String id = doUploadOneFileToMongo(attach, newFileName);
+
+		// 2.创建附件文件
+		Attachment att = new Attachment();
+		att.setFile_id(id);
+		att.setSuffix(ext);
+		att.setIsAttach(request.getParameter("isattach"));
+		att.setIsIndexPic(request.getParameter("isindexpic"));
+		att.setOriName(FilenameUtils.getBaseName(attach.getOriginalFilename()));
+		att.setNewName(newFileName);
+		att.setType(attach.getContentType());
+		att.setSize(attach.getSize());
+		att.setUploadDate(DateUtil.getCurdate());
+		att.setUploadTime(DateUtil.getCurrentTimsmp());
+		if (FileUtil.isImage(attach.getInputStream())) {
+			att.setIsImg(true);
+		} else {
+			att.setIsImg(false);
+		}
+
+		// 3.进行缩略图压缩
+		if (att.isImage()) {
+			if (needCompress && tps != null && tps.size() > 0) {
+
+				for (ThumbParam tp : tps) {
+
+					String folderName = tp.getFolderName();
+
+					String thisFolderPath = uploadDir + "/" + folderName + "/";
+					String thisThumbPath = thisFolderPath + newFileName;
+
+					tp.setThumbParmPath(thisThumbPath);
+
+					logger.debug(tp);
+				}
+
+				this.picThumbService.thumbFile(savedFile, tps);
+
+				att.setThumb_info(tps);
+			}
+		}
+
+		// 4.将附件写入附件表
+		String _id = MongoCollectionUtil.insertObj(COLLECTION_NAME_ATTACHMENT, att);
+		att.set_id(_id);
+
+		// 5.删除本地原文件（不删除压缩文件）
+		boolean deletedflag = savedFile.delete();
+
+		logger.debug("上传文件完毕，上传之后的文件信息");
+		logger.debug(MongoCollectionUtil.findOneByIdFields(COLLECTION_NAME_ATTACHMENT, _id, null));
+		logger.debug("删除文件结果: {}", deletedflag);
+		return att;
+	}
+
+	@Override
+	public void findFileFromMongo(OutputStream out, String id) {
+
 	}
 }
