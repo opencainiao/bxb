@@ -86,4 +86,12 @@ public interface IFileUpload {
 	 * @return
 	 */
 	public GridFSDBFile getById(String _id);
+
+	/****
+	 * 根据_id查询附件信息
+	 * 
+	 * @param _id
+	 * @return
+	 */
+	public Attachment getAttachMent(String _id);
 }

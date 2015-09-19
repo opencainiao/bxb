@@ -1,5 +1,9 @@
 package com.bxb.modules.global.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -8,12 +12,14 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.mou.common.DateUtil;
 import org.mou.common.StringUtil;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -24,6 +30,7 @@ import com.bxb.modules.base.BaseController;
 import com.bxb.modules.global.model.Attachment;
 import com.bxb.modules.global.service.IFileUpload;
 import com.bxb.modules.global.service.ThumbParam;
+import com.mongodb.gridfs.GridFSDBFile;
 
 /****
  * 全局文件上传控制器
@@ -132,7 +139,7 @@ public class AttachmentUploadController extends BaseController {
 	}
 
 	/****
-	 * 上传一个附件 上传附件时，默认不对图片生成缩略图
+	 * 上传一个附件到mongo数据库。 上传附件时，默认不对图片生成缩略图
 	 * 
 	 * @param request
 	 * @return 返回生成的附件信息
@@ -191,5 +198,48 @@ public class AttachmentUploadController extends BaseController {
 		}
 
 		return result;
+	}
+
+	/****
+	 * 查看文件(55fd2c08b0fa0219b46804a0)
+	 * 
+	 * @param request
+	 * @param response
+	 * @param _id
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/{_id}", method = RequestMethod.GET)
+	public void downloadFile(@PathVariable String _id, HttpServletRequest request,
+			HttpServletResponse response) throws IOException {
+
+		Attachment att = this.fileUplodService.getAttachMent(_id);
+
+		if (att != null) {
+
+			if (att.isImage()) {
+				response.setContentType("image/gif");
+			} else {
+				// 文件下载
+				String header = "attachment; filename=#FILENAME#";
+				String fileName = att.getOriName() + "." + att.getSuffix();
+
+				header = header.replace("#FILENAME#", fileName);
+				response.setHeader("Content-Disposition", header);
+				response.setContentType("application/octet-stream; charset=UTF-8");
+
+				logger.debug("header[{}]", header);
+			}
+
+			// 查询真正的file
+			String _idFile = att.getFile_id();
+			GridFSDBFile gfsFile = this.fileUplodService.getById(_idFile);
+
+			logger.debug("_idFile[{}]", _idFile);
+
+			if (gfsFile != null) {
+				gfsFile.writeTo(response.getOutputStream());
+			}
+		}
 	}
 }

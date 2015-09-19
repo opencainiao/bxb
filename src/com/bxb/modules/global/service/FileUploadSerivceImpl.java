@@ -289,4 +289,11 @@ public class FileUploadSerivceImpl extends BaseService implements IFileUpload {
 
 		logger.debug("新文件\n{}", writeFile);
 	}
+
+	@Override
+	public Attachment getAttachMent(String _id) {
+
+		return MongoCollectionUtil.findOneByIdObject(COLLECTION_NAME_ATTACHMENT, _id,
+				Attachment.class);
+	}
 }

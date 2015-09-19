@@ -27,13 +27,16 @@ public class TestUpload {
 
 			HttpPost httppost = new HttpPost(url);
 
-			FileBody bin = new FileBody(new File("F:\\11.png"));
+			//FileBody bin = new FileBody(new File("F:\\11.png"));
+
+			FileBody bin = new FileBody(new File("F:\\11.docx"));
 
 			StringBody comment = new StringBody("11.png");
 
 			MultipartEntity reqEntity = new MultipartEntity();
 
 			reqEntity.addPart("file1", bin);// file1为请求后台的File upload;属性
+			//reqEntity.addPart("file2", bin2);
 			reqEntity.addPart("filename1", comment);// filename1为请求后台的普通参数;属性
 			httppost.setEntity(reqEntity);
 
