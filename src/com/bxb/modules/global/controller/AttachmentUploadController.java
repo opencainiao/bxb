@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -143,11 +144,16 @@ public class AttachmentUploadController extends BaseController {
 	 * 
 	 * @param request
 	 * @return 返回生成的附件信息
+	 * @throws UnsupportedEncodingException 
 	 */
 	@SuppressWarnings("rawtypes")
 	@RequestMapping(value = "/upload", method = RequestMethod.POST)
 	@ResponseBody
-	public Object ajaxUploadOneAttachmentToMongo(HttpServletRequest request) {
+	public Object ajaxUploadOneAttachmentToMongo(HttpServletRequest request) throws UnsupportedEncodingException {
+
+		if (request.getCharacterEncoding() == null) {
+			request.setCharacterEncoding("UTF-8");// 你的编码格式
+		}
 
 		logger.debug("ajaxUploadOneAttachment");
 

@@ -199,7 +199,7 @@ public class FileUploadSerivceImpl extends BaseService implements IFileUpload {
 		String ext = FilenameUtils.getExtension(attach.getOriginalFilename());
 		String newFileName = EncoderHandler
 				.encodeByAES(this.getUserId() + String.valueOf(new Date().getTime())) + "." + ext;
-
+		 
 		// 0.存储到本地
 		String uploadDir = request.getSession().getServletContext().getRealPath(UPLOAD_PATH);
 		File savedFile = new File(uploadDir + "/" + newFileName);
