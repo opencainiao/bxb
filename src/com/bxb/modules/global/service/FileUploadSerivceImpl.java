@@ -2,7 +2,6 @@ package com.bxb.modules.global.service;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.util.Date;
 import java.util.List;
 
@@ -25,6 +24,7 @@ import com.bxb.common.util.FileUtil;
 import com.bxb.modules.base.BaseService;
 import com.bxb.modules.global.model.Attachment;
 import com.mongodb.gridfs.GridFS;
+import com.mongodb.gridfs.GridFSDBFile;
 import com.mongodb.gridfs.GridFSInputFile;
 
 import mou.mongodb.MongoCollectionUtil;
@@ -264,7 +264,29 @@ public class FileUploadSerivceImpl extends BaseService implements IFileUpload {
 	}
 
 	@Override
-	public void findFileFromMongo(OutputStream out, String id) {
+	public GridFSDBFile getById(String _id) {
 
+		GridFS gridFS = new GridFS(DBManager.getDB());
+		return gridFS.findOne(new ObjectId(_id));
+	}
+
+	public static void main(String[] args) throws IOException {
+
+		DBManager.initDB("bxb");
+
+		FileUploadSerivceImpl imp = new FileUploadSerivceImpl();
+
+		GridFSDBFile gdf = imp.getById("55fd2a8eb0fa021834f027f8");
+
+		System.out.println(gdf.keySet());
+
+		System.out.println(gdf);
+
+		File writeFile = new File("F:/" + gdf.getFilename());
+		FileUtil.ensureNewFile(writeFile);
+
+		gdf.writeTo(writeFile);
+
+		logger.debug("新文件\n{}", writeFile);
 	}
 }

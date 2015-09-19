@@ -20,7 +20,7 @@ public class TestUpload {
 
 	public static void main(String[] args) throws ClientProtocolException, IOException {
 
-		String url = "http://localhost:8080/bxb/attachmentupload/ajaxUploadOneAttachment";
+		String url = "http://localhost:8080/bxb/attachment/upload";
 		HttpClient httpclient = new DefaultHttpClient();
 
 		try {

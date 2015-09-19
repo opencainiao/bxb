@@ -2,7 +2,6 @@ package com.bxb.modules.global.service;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -10,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.bxb.modules.global.model.Attachment;
+import com.mongodb.gridfs.GridFSDBFile;
 
 /****
  * 全局文件上传Service
@@ -80,10 +80,10 @@ public interface IFileUpload {
 			boolean needCompress, List<ThumbParam> tps) throws IOException;
 
 	/****
-	 * 查询id对应的mongo存储的文件，并输出到输出流中
+	 * 根据_id查询存储在mongodb中的文件
 	 * 
-	 * @param out
-	 * @param id
+	 * @param _id
+	 * @return
 	 */
-	public void findFileFromMongo(OutputStream out, String id);
+	public GridFSDBFile getById(String _id);
 }

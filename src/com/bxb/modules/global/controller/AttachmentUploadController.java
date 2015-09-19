@@ -32,7 +32,7 @@ import com.bxb.modules.global.service.ThumbParam;
  *
  */
 @Controller
-@RequestMapping("/attachmentupload")
+@RequestMapping("/attachment")
 public class AttachmentUploadController extends BaseController {
 
 	private static final Logger logger = LogManager.getLogger(AttachmentUploadController.class);
@@ -132,13 +132,13 @@ public class AttachmentUploadController extends BaseController {
 	}
 
 	/****
-	 * 上传一个附件 上传附件时，默认对图片生成缩略图
+	 * 上传一个附件 上传附件时，默认不对图片生成缩略图
 	 * 
 	 * @param request
 	 * @return 返回生成的附件信息
 	 */
 	@SuppressWarnings("rawtypes")
-	@RequestMapping(value = "/ajaxUploadOneAttachment", method = RequestMethod.POST)
+	@RequestMapping(value = "/upload", method = RequestMethod.POST)
 	@ResponseBody
 	public Object ajaxUploadOneAttachmentToMongo(HttpServletRequest request) {
 
@@ -147,8 +147,6 @@ public class AttachmentUploadController extends BaseController {
 		Map<String, Object> result = new HashMap<String, Object>();
 
 		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
-
-		String dirpath = DateUtil.getCurdate();
 
 		String iscompress = request.getParameter("iscompress");
 
