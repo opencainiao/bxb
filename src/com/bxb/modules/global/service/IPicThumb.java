@@ -50,6 +50,16 @@ public interface IPicThumb {
 	 */
 	public void thumbFileExactlyNoCompress(File oriFile, ThumbParam tp)
 			throws IOException;
+	
+	/****
+	 * 图片输入流进行裁剪，生成裁剪后的图片到指定的文件路径下，指定的坐标进行裁剪
+	 * 
+	 * @param oriFile
+	 * @param tp
+	 * @throws IOException
+	 */
+	public void thumbFileExactlyNoCompressFixed(File oriFile, ThumbParam tp)
+			throws IOException;
 
 	/****
 	 * 图片输入流进行裁剪（先压缩，后裁剪），生成裁剪后的图片到指定的文件路径下，从中心原点裁剪成指定的大小

@@ -155,6 +155,7 @@ public class AdminLoginController {
 
 			// 6. 将缓存对象放入session
 			HttpSession session = request.getSession(true);
+			session.setAttribute("userid", user.get_id_m());
 			session.setAttribute("username", user.getUsername());
 			session.setAttribute("nickname", user.getNick());
 			model.addAttribute("state", user.getState());

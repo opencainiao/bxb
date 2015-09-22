@@ -18,21 +18,25 @@ public class CaijianTest {
 	public static void crop(int width, int height) {
 		StaticLoggerBinder aa = null;
 		try {
-			Thumbnails.of("F:\\项目\\饶阳果蔬微网站\\图片\\zzdh000.png")
+			Thumbnails.of("F:\\li.png")
 					// 从原图哪里开始裁剪 裁减多少
-					.sourceRegion(Positions.CENTER, 400, 400)
+					.sourceRegion(30, 22, 146, 146)
+					.size(146, 146)
 					// 新图的大小
-					.size(width, height).keepAspectRatio(false)
-					.toFile("F:\\项目\\饶阳果蔬微网站\\图片\\zzdh000_1.png");
+					.keepAspectRatio(false)
+					.toFile("F:\\li.png");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
+		
 		
 	}
 
 	public static void main(String[] args) {
 		
-
+		crop(110, 70);
+		
 		List<String> names = new ArrayList<String>();
 		names.add("李四");
 		names.add("张三");
@@ -46,7 +50,7 @@ public class CaijianTest {
 		if (names.size() > 0) {
 			return;
 		}
-		// crop(110, 70);
+		
 
 		String aa = "张三abC";
 		System.out.println(aa);

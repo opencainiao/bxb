@@ -18,7 +18,6 @@ import org.springframework.stereotype.Service;
 
 import com.bxb.common.util.FileUtil;
 
-
 @Service("picThumbService")
 public class IPicThumbImpl implements IPicThumb {
 
@@ -171,4 +170,34 @@ public class IPicThumbImpl implements IPicThumb {
 		System.out.println("finished");
 	}
 
+	@Override
+	public void thumbFileExactlyNoCompressFixed(File oriFile, ThumbParam tp)
+			throws IOException {
+		if (oriFile == null || !oriFile.exists() || tp == null) {
+			return;
+		}
+		String thumbPath = tp.getThumbParmPath();
+
+		if (StringUtil.isEmpty(thumbPath)) {
+			return;
+		}
+
+		FileUtil.creatParentDir(thumbPath);
+
+		InputStream is = new FileInputStream(oriFile);
+		BufferedImage oriBi = ImageIO.read(is);
+
+		int param_width = tp.getWidth();
+		int param_height = tp.getHeight();
+
+		Thumbnails
+				.of(oriBi)
+				// 从原图哪里开始裁剪 裁减多少
+				.sourceRegion((int) tp.getX1(), (int) tp.getY1(), param_width,
+						param_height)
+				// 新图的大小
+				.size(param_width, param_height).keepAspectRatio(false)
+				.toFile(thumbPath);
+		
+	}
 }

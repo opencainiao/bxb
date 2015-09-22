@@ -7,6 +7,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.bxb.modules.global.model.Attachment;
 import com.mongodb.gridfs.GridFSDBFile;
@@ -27,8 +28,8 @@ public interface IFileUpload {
 	 * @param dirpath
 	 * @throws IOException
 	 */
-	public File doUploadOneFileToServerDisk(MultipartFile attach, String newFileName,
-			String dirpath) throws IOException;
+	public File doUploadOneFileToServerDisk(MultipartFile attach,
+			String newFileName, String dirpath) throws IOException;
 
 	/****
 	 * 上传一个附件
@@ -41,8 +42,8 @@ public interface IFileUpload {
 	 * @throws IOException
 	 */
 	public Attachment uploadOneAttachmentToServerDisk(MultipartFile attach,
-			HttpServletRequest request, String dirpath, boolean needCompress, List<ThumbParam> tps)
-					throws IOException;
+			HttpServletRequest request, String dirpath, boolean needCompress,
+			List<ThumbParam> tps) throws IOException;
 
 	/****
 	 * 删除一个附件<br>
@@ -63,8 +64,8 @@ public interface IFileUpload {
 	 * @param newFileName
 	 * @return 文件的ID
 	 */
-	public String doUploadOneFileToMongo(MultipartFile attach, String newFileName)
-			throws IOException;
+	public String doUploadOneFileToMongo(MultipartFile attach,
+			String newFileName) throws IOException;
 
 	/****
 	 * 上传一个附件
@@ -76,8 +77,9 @@ public interface IFileUpload {
 	 * @return
 	 * @throws IOException
 	 */
-	public Attachment uploadOneAttachmentToMongo(MultipartFile attach, HttpServletRequest request,
-			boolean needCompress, List<ThumbParam> tps) throws IOException;
+	public Attachment uploadOneAttachmentToMongo(MultipartFile attach,
+			HttpServletRequest request, boolean needCompress,
+			List<ThumbParam> tps) throws IOException;
 
 	/****
 	 * 根据_id查询存储在mongodb中的文件
@@ -94,4 +96,26 @@ public interface IFileUpload {
 	 * @return
 	 */
 	public Attachment getAttachMent(String _id);
+
+	/****
+	 * 上传一个图片附件（如果有裁剪参数，则只保存裁剪图片）
+	 * 
+	 * @param fileIn
+	 * @param multipartRequest
+	 * @param isCompress
+	 * @param tp
+	 * @return
+	 */
+	public Attachment uploadOneAttachmentToMongoOnlyCj(MultipartFile fileIn,
+			MultipartHttpServletRequest multipartRequest, boolean isCompress,
+			ThumbParam tp) throws IOException;
+
+	/****
+	 * 把文件上传到数据库
+	 * 
+	 * @param file
+	 * @return
+	 * @throws IOException
+	 */
+	String doUploadOneFileToMongo(File file) throws IOException;
 }

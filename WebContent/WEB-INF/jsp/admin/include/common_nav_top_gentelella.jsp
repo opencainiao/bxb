@@ -15,12 +15,12 @@
 				</a>
 					<ul
 						class="dropdown-menu dropdown-usermenu animated fadeInDown pull-right">
-						<li><a href="javascript:;"> Profile</a></li>
-						<li><a href="javascript:;"> <span
+						<li><a href="javascript:;" data-link="profile/${userid}/update" > 个人信息</a></li>
+						<li class='hide'><a href="javascript:;"> <span
 								class="badge bg-red pull-right">50%</span> <span>Settings</span>
 						</a></li>
 						<li><a href="javascript:;">Help</a></li>
-						<li><a href="" data-link="adminlogout" id="logout"><i
+						<li><a href="javascript:;" data-link="adminlogout" id="logout"><i
 								class="fa fa-sign-out pull-right"></i> 退出</a></li>
 					</ul></li>
 
@@ -103,6 +103,8 @@
             	}else{
             		$("#frame_content_id")[0].src = url;
             	}
+            	
+            	$("#nav_menu").trigger("click");
 			}
 		});
 

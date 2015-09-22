@@ -294,4 +294,9 @@ public class UserService extends BaseService implements IUserService {
 
 		logger.debug("更新后,{}", updateResult);
 	}
+
+	@Override
+	public DBObject updateProfile(Object object, User user) {
+		return null;
+	}
 }

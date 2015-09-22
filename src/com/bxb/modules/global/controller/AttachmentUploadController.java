@@ -1,9 +1,6 @@
 package com.bxb.modules.global.controller;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,10 +24,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.bxb.common.util.HttpServletRequestUtil;
+import com.bxb.common.util.ValidateUtil;
 import com.bxb.modules.base.BaseController;
 import com.bxb.modules.global.model.Attachment;
 import com.bxb.modules.global.service.IFileUpload;
 import com.bxb.modules.global.service.ThumbParam;
+import com.bxb.modules.global.service.ThumbType;
 import com.mongodb.gridfs.GridFSDBFile;
 
 /****
@@ -43,7 +43,8 @@ import com.mongodb.gridfs.GridFSDBFile;
 @RequestMapping("/attachment")
 public class AttachmentUploadController extends BaseController {
 
-	private static final Logger logger = LogManager.getLogger(AttachmentUploadController.class);
+	private static final Logger logger = LogManager
+			.getLogger(AttachmentUploadController.class);
 
 	@Resource(name = "fileUplodService")
 	private IFileUpload fileUplodService;
@@ -99,8 +100,8 @@ public class AttachmentUploadController extends BaseController {
 				String key = (String) it.next();
 				MultipartFile fileIn = multipartRequest.getFile(key);
 
-				attach = this.fileUplodService.uploadOneAttachmentToServerDisk(fileIn,
-						multipartRequest, dirpath, isCompress, tps);
+				attach = this.fileUplodService.uploadOneAttachmentToServerDisk(
+						fileIn, multipartRequest, dirpath, isCompress, tps);
 			}
 
 			result.put("success", "y");
@@ -121,7 +122,8 @@ public class AttachmentUploadController extends BaseController {
 	 */
 	@RequestMapping(value = "/ajaxDeleteOneAttachment", method = RequestMethod.POST)
 	@ResponseBody
-	public Object ajaxDeleteOneAttachment(String _id_m, HttpServletRequest request) {
+	public Object ajaxDeleteOneAttachment(String _id_m,
+			HttpServletRequest request) {
 
 		Map<String, Object> result = new HashMap<String, Object>();
 		if (StringUtil.isEmpty(_id_m)) {
@@ -144,12 +146,13 @@ public class AttachmentUploadController extends BaseController {
 	 * 
 	 * @param request
 	 * @return 返回生成的附件信息
-	 * @throws UnsupportedEncodingException 
+	 * @throws UnsupportedEncodingException
 	 */
 	@SuppressWarnings("rawtypes")
 	@RequestMapping(value = "/upload", method = RequestMethod.POST)
 	@ResponseBody
-	public Object ajaxUploadOneAttachmentToMongo(HttpServletRequest request) throws UnsupportedEncodingException {
+	public Object ajaxUploadOneAttachmentToMongo(HttpServletRequest request)
+			throws UnsupportedEncodingException {
 
 		if (request.getCharacterEncoding() == null) {
 			request.setCharacterEncoding("UTF-8");// 你的编码格式
@@ -185,6 +188,14 @@ public class AttachmentUploadController extends BaseController {
 					tp.setWidth(Integer.parseInt(tp_arr[0]));
 					tp.setHeight(Integer.parseInt(tp_arr[1]));
 					tp.setThumbType(tp_arr[2]);
+
+					if (tp_arr.length > 3) {
+						tp.setX1(Double.parseDouble(tp_arr[3]));
+						tp.setY1(Double.parseDouble(tp_arr[4]));
+						tp.setX2(Double.parseDouble(tp_arr[5]));
+						tp.setY2(Double.parseDouble(tp_arr[6]));
+					}
+
 					tps.add(tp);
 				}
 			}
@@ -193,12 +204,75 @@ public class AttachmentUploadController extends BaseController {
 				String key = (String) it.next();
 				MultipartFile fileIn = multipartRequest.getFile(key);
 
-				attach = this.fileUplodService.uploadOneAttachmentToMongo(fileIn, multipartRequest,
-						isCompress, tps);
+				attach = this.fileUplodService.uploadOneAttachmentToMongo(
+						fileIn, multipartRequest, isCompress, tps);
 			}
 
 			result.put("success", "y");
 			result.put("attach", attach);
+
+			logger.debug("上传文件完毕，上传结果\n{}", attach);
+		} catch (Exception e) {
+			return this.handleException(e);
+		}
+
+		return result;
+	}
+
+	/****
+	 * 上传一个要裁剪的图片到mongo数据库。 只存储裁剪后的图片
+	 * 
+	 * @param request
+	 * @return 返回生成的附件信息
+	 * @throws UnsupportedEncodingException
+	 */
+	@SuppressWarnings("rawtypes")
+	@RequestMapping(value = "/upload_pic_cj", method = RequestMethod.POST)
+	@ResponseBody
+	public Object ajaxUploadOneAttachmentToMongoOnlyCJ(
+			HttpServletRequest request, String x1, String y1, String x2,
+			String y2, String w, String h) throws UnsupportedEncodingException {
+
+		HttpServletRequestUtil.debugParams(request);
+		logger.debug("upload_pic_cj");
+
+		Attachment attach = null;
+		Map<String, Object> result = new HashMap<String, Object>();
+
+		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+
+		ThumbParam tp = new ThumbParam();
+		tp.setWidth(Integer.parseInt(w));
+		tp.setHeight(Integer.parseInt(h));
+
+		boolean isCompress = false;
+
+		if (StringUtil.isNotEmpty(x1) && ValidateUtil.isNumericOrDouble(x1)) {
+
+			tp.setX1(Double.parseDouble(x1));
+			tp.setY1(Double.parseDouble(y1));
+			tp.setX2(Double.parseDouble(x2));
+			tp.setY2(Double.parseDouble(y2));
+
+			tp.setThumbType(ThumbType.NO_COMPRESS_CAIJIAN); // 不压缩直接裁剪
+			isCompress = true;
+		}
+
+		try {
+
+			for (Iterator it = multipartRequest.getFileNames(); it.hasNext();) {
+				String key = (String) it.next();
+				MultipartFile fileIn = multipartRequest.getFile(key);
+
+				attach = this.fileUplodService
+						.uploadOneAttachmentToMongoOnlyCj(fileIn,
+								multipartRequest, isCompress, tp);
+			}
+
+			result.put("success", "y");
+			result.put("attach", attach);
+
+			logger.debug("上传文件完毕，上传结果\n{}", attach);
 		} catch (Exception e) {
 			return this.handleException(e);
 		}
@@ -216,8 +290,9 @@ public class AttachmentUploadController extends BaseController {
 	 * @throws IOException
 	 */
 	@RequestMapping(value = "/{_id}", method = RequestMethod.GET)
-	public void downloadFile(@PathVariable String _id, HttpServletRequest request,
-			HttpServletResponse response) throws IOException {
+	public void downloadFile(@PathVariable String _id,
+			HttpServletRequest request, HttpServletResponse response)
+			throws IOException {
 
 		Attachment att = this.fileUplodService.getAttachMent(_id);
 

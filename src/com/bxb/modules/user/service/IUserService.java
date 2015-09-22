@@ -61,8 +61,7 @@ public interface IUserService extends IBaseService {
 	 * @param statuscod
 	 * @return
 	 */
-	public DBObject updatestatus(String userid, UserState userstate,
-			String time);
+	public DBObject updatestatus(String userid, UserState userstate, String time);
 
 	/****
 	 * 更新用户激活码
@@ -101,4 +100,13 @@ public interface IUserService extends IBaseService {
 	 */
 	public void updateresetpwdcode(String email, String password,
 			String resetpwdcode);
+
+	/****
+	 * 更新个人信息
+	 * 
+	 * @param object
+	 * @param user
+	 * @return
+	 */
+	public DBObject updateProfile(Object object, User user);
 }
