@@ -30,31 +30,39 @@
 
 </head>
 <body class="nav-md">
-	<div class="page-title">
-		<div class="title_left">
-			<h3>用户信息</h3>
+	<sf:form modelAttribute="user" class="form-horizontal center-block">
+		<input type="hidden" id="_id_m" name="_id_m" value="${_id }" />
+		<div class="page-title" style="padding-left: 15px">
+			<div class="title_left">
+				<h4>用户信息</h4>
+			</div>
+			<div class="pull-right">
+				<button name="btn_save" id="btn_save" type="button"
+					class="btn btn-primary" style="border-radius: 4px">保存</button>
+			</div>
 		</div>
-	</div>
-	<div class="clearfix"></div>
+		<div class="clearfix"></div>
 
-	<div id="page_content" class="row">
-		<div class="col-md-3 col-sm-3 col-xs-12 profile_left">
-			<div id="profile_img" class="profile_img" style="margin-left: 15px;">
-				<div class="avatar-view" title="Change the avatar">
-					<img id="head_img" src="images/picture.jpg" alt="头像">
+		<div id="page_content" class="row">
+			<div class="col-md-3 col-sm-3 col-xs-12 profile_left">
+				<div id="profile_img" class="profile_img" style="margin-left: 15px;">
+					<div class="avatar-view" title="Change the avatar">
+						<input type="hidden" id="headImageId" name="headImageId"
+							value="${user.headImageId }" /> <img id="head_img"
+							src="${ctx }/attachment/${user.headImageId }" alt="头像">
+					</div>
+				</div>
+			</div>
+			<div class="col-md-9 col-sm-9 col-xs-12">
+				<div class="profile_title">
+					<div class="col-md-6">
+						<h4>User Activity Report</h4>
+					</div>
 				</div>
 			</div>
 		</div>
-		<div class="col-md-9 col-sm-9 col-xs-12">
-			<div class="profile_title">
-				<div class="col-md-6">
-					<h4>User Activity Report</h4>
-				</div>
-			</div>
-		</div>
-	</div>
 
-
+	</sf:form>
 	<!-- image cropping -->
 	<script
 		src="<%=request.getContextPath()%>/resources/gentelella/production/js/cropping/cropper.min.js"></script>
@@ -63,29 +71,68 @@
 
 	<!-- datepicker -->
 	<script type="text/javascript">
-		
-		function refreshHeadImg(_id_m){
-			
+		function refreshHeadImg(_id_m) {
+
 			var new_src = $.getSitePath() + "/attachment/" + _id_m;
 			//console.log(new_src);
 			//alert(new_src);
+			$("#headImageId").val(_id_m);
 			$("#head_img").attr("src", new_src);
 		}
-		
-		function closeUploadHeadImg(){
+
+		function closeUploadHeadImg() {
 			$.closeWindow("profile_img", $("#page_content"));
 		}
-	
+
 		function toUploadHeadImg() {
 			var url = $.getSitePath() + '/profile/to_upload_head_img';
 			//alert(url);
 			$.popUpWindow("上传用户头像", url, "90%", "90%", "profile_img", $("#page_content"));
 		}
 
+		//保存
+		var save = function() {
+
+			// 控制按钮为禁用
+			$.disableButton("btn_save");
+
+			var paramForm = $('form').getFormParam_ux();
+
+			var successstr = "修改成功";
+
+			var url_to = window.location.href;
+
+			$.ajax({
+				type : 'POST',
+				url : url_to,
+				data : $.extend({
+					ts : new Date().getTime()
+				}, paramForm),
+				dataType : 'json',
+				success : function(data) {
+
+					if (data['success'] == 'n') {
+						if (data['brErrors']) {
+							$.showBRErrors_mou_abs(data['brErrors'], $("#edit_div"));
+						} else {
+							$.alertError(data['message']);
+						}
+					} else {
+						$.alertSuccessCallback("修改成功", successstr, closeEditWindow);
+					}
+				},
+				complete : function(XMLHttpRequest, textStatus) {
+					$.enableButton("btn_save");
+				}
+			});
+		};
+
 		$(document).ready(function() {
-			$("#profile_img").click(function(){
+			$("#profile_img").click(function() {
 				toUploadHeadImg();
 			})
+
+			$("#btn_save").bind("click", save);
 		});
 	</script>
 	<!-- /datepicker -->

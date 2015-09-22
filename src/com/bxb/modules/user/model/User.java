@@ -26,6 +26,7 @@ public class User extends BaseModel {
 	private String nick;// 用户的昵称
 	private String email;// 用户的邮件
 	private String phone;// 用户的联系电话
+	private String headImageId; // 头像id
 
 	private String sex; // 1-男，0-女
 	private String state;// 用户状态
@@ -153,6 +154,14 @@ public class User extends BaseModel {
 		System.out.println(user);
 	}
 
+	public String getHeadImageId() {
+		return headImageId;
+	}
+
+	public void setHeadImageId(String headImageId) {
+		this.headImageId = headImageId;
+	}
+
 	public String getState() {
 		return state;
 	}
@@ -248,7 +257,8 @@ public class User extends BaseModel {
 	public boolean canLoginBackend() {
 
 		if (UserCharacter.BACKEND_MANAGER_USER.getCode().equals(this.character)
-				|| UserCharacter.BOTH_MANAGE_AND_FRONTUSER.getCode().equals(this.character)) {
+				|| UserCharacter.BOTH_MANAGE_AND_FRONTUSER.getCode().equals(
+						this.character)) {
 			return true;
 		}
 

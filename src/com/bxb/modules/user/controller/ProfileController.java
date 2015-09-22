@@ -67,13 +67,14 @@ public class ProfileController extends BaseController {
 	 */
 	@RequestMapping(value = "/{_id}/update", method = RequestMethod.POST)
 	@ResponseBody
-	public Object update(@PathVariable String _id, @Validated User user,
+	public Object update(@PathVariable String _id, User user,
 			BindingResult br, HttpServletRequest request) {
 
 		if (br.hasErrors()) {
 			return ErrorHandler.getRequestResultFromBindingResult(br);
 		}
 
+		user.set_id_m(request.getParameter("_id_m"));
 		try {
 			DBObject updateResult = this.userService.updateProfile(null, user);
 

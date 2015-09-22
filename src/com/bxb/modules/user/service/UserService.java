@@ -297,6 +297,19 @@ public class UserService extends BaseService implements IUserService {
 
 	@Override
 	public DBObject updateProfile(Object object, User user) {
-		return null;
+
+		String userId = user.get_id_m();
+
+		DBObject update = new BasicDBObject();
+		DBObject updateSet = new BasicDBObject();
+
+		updateSet.put("headImageId", user.getHeadImageId());
+		update.put("$set", updateSet);
+
+		DBObject updateResult = this.userdao.updateOneById(userId, null, updateSet);
+		
+		logger.debug("更新后,{}", updateResult);
+
+		return updateResult;
 	}
 }
