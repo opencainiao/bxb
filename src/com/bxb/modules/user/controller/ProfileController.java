@@ -52,8 +52,7 @@ public class ProfileController extends BaseController {
 	@Resource(name = "fileUplodService")
 	private IFileUpload fileUplodService;
 
-	private static final Logger logger = LogManager
-			.getLogger(ProfileController.class);
+	private static final Logger logger = LogManager.getLogger(ProfileController.class);
 
 	/****
 	 * 进入更新页面
@@ -135,9 +134,9 @@ public class ProfileController extends BaseController {
 	@SuppressWarnings({ "rawtypes", "unused" })
 	@RequestMapping(value = "/{_id}/update_head_img", method = RequestMethod.POST)
 	@ResponseBody
-	public Object upDateHeadImg(@PathVariable String _id,
-			HttpServletRequest request, String x1, String y1, String x2,
-			String y2, String w, String h) throws UnsupportedEncodingException {
+	public Object upDateHeadImg(@PathVariable String _id, HttpServletRequest request, String x1,
+			String y1, String x2, String y2, String w, String h)
+					throws UnsupportedEncodingException {
 
 		HttpServletRequestUtil.debugParams(request);
 
@@ -147,8 +146,8 @@ public class ProfileController extends BaseController {
 		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
 
 		ThumbParam tp = new ThumbParam();
-		tp.setWidth(Integer.parseInt(w));
-		tp.setHeight(Integer.parseInt(h));
+		tp.setWidth((int) Double.parseDouble(w));
+		tp.setHeight((int) Double.parseDouble(h));
 
 		boolean isCompress = false;
 
@@ -170,15 +169,13 @@ public class ProfileController extends BaseController {
 				String key = (String) it.next();
 				MultipartFile fileIn = multipartRequest.getFile(key);
 
-				attach = this.fileUplodService
-						.uploadOneAttachmentToMongoOnlyCj(fileIn,
-								multipartRequest, isCompress, tp);
+				attach = this.fileUplodService.uploadOneAttachmentToMongoOnlyCj(fileIn,
+						multipartRequest, isCompress, tp);
 			}
 
 			// 更新头像图片
 			String headImgAttachId = attach.get_id_m();
-			DBObject updateResult = this.userService.updateHeadImage(_id,
-					headImgAttachId);
+			DBObject updateResult = this.userService.updateHeadImage(_id, headImgAttachId);
 
 			// 更新session级的头像缓存
 			HttpSession session = request.getSession(true);

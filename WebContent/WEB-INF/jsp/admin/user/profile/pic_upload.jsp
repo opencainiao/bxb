@@ -24,14 +24,15 @@
 </head>
 <body>
 	<form id="upload_form" enctype="multipart/form-data">
-		<input type="hidden" id="_id" name="_id" value=${userid }/>
+		<input type="hidden" id="_id" name="_id" value=${userid } />
 		<div class="input-group" style="padding: 8px; padding-left: 10px">
 			<input type="file" name="image_file" id="image_file"
-				style="width: 88px;" onChange="fileSelectHandler()"
-				class="pull-left" required />
+				style="width: 88px;" onChange=fileSelectHandler() class="pull-left"
+				required />
 
 			<div class="input-group-btn pull-left" style="margin-left: 10px">
-				<button name="btn_up" id="btn_up" type="button" class="btn btn-primary"
+				<button name="btn_up" id="btn_up" type="button"
+					class="btn btn-primary"
 					style="border-radius: 4px; margin-top: 2px;">提交</button>
 			</div>
 		</div>
@@ -56,6 +57,11 @@
 			</div>
 		</div>
 	</form>
+
+
+	<script>
+	
+	</script>
 	<script>
 		function validate() {
 

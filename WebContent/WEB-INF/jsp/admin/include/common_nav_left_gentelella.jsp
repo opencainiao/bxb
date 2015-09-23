@@ -37,7 +37,7 @@
 			</div>
 			<div class="profile_info">
 				<span>欢迎</span>
-				<h2>系统管理员</h2>
+				<h2>${nickname}</h2>
 			</div>
 		</div>
 		<!-- /menu prile quick info -->

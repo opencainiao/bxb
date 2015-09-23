@@ -242,8 +242,8 @@ public class AttachmentUploadController extends BaseController {
 		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
 
 		ThumbParam tp = new ThumbParam();
-		tp.setWidth(Integer.parseInt(w));
-		tp.setHeight(Integer.parseInt(h));
+		tp.setWidth((int) Double.parseDouble(w));
+		tp.setHeight((int) Double.parseDouble(h));
 
 		boolean isCompress = false;
 
