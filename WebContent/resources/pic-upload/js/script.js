@@ -75,7 +75,7 @@ function fileSelectHandler() {
 
         // e.target.result contains the DataURL which we can use as a source of the image
         oImage.src = e.target.result;
-        console.log(oImage.src);
+       // console.log(oImage.src);
         
         oImage.onload = function () { // onload event handler
 

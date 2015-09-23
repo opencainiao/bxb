@@ -109,4 +109,13 @@ public interface IUserService extends IBaseService {
 	 * @return
 	 */
 	public DBObject updateProfile(Object object, User user);
+
+	/****
+	 * 更新个人头像
+	 * 
+	 * @param _id
+	 * @param headImgAttachId
+	 * @return
+	 */
+	public DBObject updateHeadImage(String _id, String headImgAttachId);
 }

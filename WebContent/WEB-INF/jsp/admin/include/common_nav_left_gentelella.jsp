@@ -30,8 +30,9 @@
 		<!-- menu prile quick info -->
 		<div class="profile">
 			<div class="profile_pic">
-				<img
-					src="<%=request.getContextPath()%>/resources/gentelella/production/images/img.jpg"
+				<img id="head_img_left"
+					src="${ctx }/attachment/${user_head_img }" 
+					src1="<%=request.getContextPath()%>/resources/gentelella/production/images/img.jpg"
 					alt="..." class="img-circle profile_img">
 			</div>
 			<div class="profile_info">

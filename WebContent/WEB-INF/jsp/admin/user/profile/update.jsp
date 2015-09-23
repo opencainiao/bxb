@@ -32,9 +32,9 @@
 <body class="nav-md">
 	<sf:form modelAttribute="user" class="form-horizontal center-block">
 		<input type="hidden" id="_id_m" name="_id_m" value="${_id }" />
-		<div class="page-title" style="padding-left: 15px">
+		<div class="page-title" style="height: 55px;padding-left: 15px; border-bottom: 1px solid #f5f7fa; margin-bottom: 10px;">
 			<div class="title_left">
-				<h4>用户信息</h4>
+				<h4 style="margin-bottom: 0px;margin-top: 8px ">用户信息</h4>
 			</div>
 			<div class="pull-right">
 				<button name="btn_save" id="btn_save" type="button"
@@ -56,7 +56,31 @@
 			<div class="col-md-9 col-sm-9 col-xs-12">
 				<div class="profile_title">
 					<div class="col-md-6">
-						<h4>User Activity Report</h4>
+						<h4>${user.username}</h4>
+					</div>
+				</div>
+				<div class="form-group "  style="margin-top: 15px;">
+					<label for="nick" class="col-sm-2 control-label">
+						昵称 </label>
+					<div class="col-sm-5">
+						<input type="text" class="form-control" id="nick"
+							name="nick" value="${user.nick }">
+					</div>
+				</div>
+				<div class="form-group ">
+					<label for="email" class="col-sm-2 control-label">
+						邮箱 </label>
+					<div class="col-sm-5">
+						<input type="text" class="form-control" id="email"
+							name="email" value="${user.email }">
+					</div>
+				</div>
+				<div class="form-group ">
+					<label for="phone" class="col-sm-2 control-label">
+						联系电话 </label>
+					<div class="col-sm-5">
+						<input type="text" class="form-control" id="phone"
+							name="phone" value="${user.phone }">
 					</div>
 				</div>
 			</div>
@@ -118,7 +142,7 @@
 							$.alertError(data['message']);
 						}
 					} else {
-						$.alertSuccessCallback("修改成功", successstr, closeEditWindow);
+						$.alertSuccessCallback("修改成功", successstr, closeUploadHeadImg);
 					}
 				},
 				complete : function(XMLHttpRequest, textStatus) {

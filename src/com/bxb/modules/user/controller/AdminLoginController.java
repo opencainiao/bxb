@@ -158,6 +158,7 @@ public class AdminLoginController {
 			session.setAttribute("userid", user.get_id_m());
 			session.setAttribute("username", user.getUsername());
 			session.setAttribute("nickname", user.getNick());
+			session.setAttribute("user_head_img", user.getHeadImageId());
 			model.addAttribute("state", user.getState());
 			model.addAttribute("statename", user.getStatename());
 			session.setAttribute(Constant.SESSION_CASH_PUBLICDATA, sPublicData);

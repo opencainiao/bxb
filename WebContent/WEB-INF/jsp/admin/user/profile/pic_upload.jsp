@@ -24,6 +24,7 @@
 </head>
 <body>
 	<form id="upload_form" enctype="multipart/form-data">
+		<input type="hidden" id="_id" name="_id" value=${userid }/>
 		<div class="input-group" style="padding: 8px; padding-left: 10px">
 			<input type="file" name="image_file" id="image_file"
 				style="width: 88px;" onChange="fileSelectHandler()"
@@ -31,7 +32,7 @@
 
 			<div class="input-group-btn pull-left" style="margin-left: 10px">
 				<button name="btn_up" id="btn_up" type="button" class="btn btn-primary"
-					style="border-radius: 4px">提交</button>
+					style="border-radius: 4px; margin-top: 2px;">提交</button>
 			</div>
 		</div>
 		<div class="bbody" style="border-top: 1px solid black">
@@ -81,7 +82,7 @@
 			//$.logJson(fd, "参数");
 			xhr.addEventListener("load", uploadComplete, false);
 			xhr.addEventListener("error", uploadFailed, false);
-			xhr.open("POST", "${ctx}/attachment/upload_pic_cj");
+			xhr.open("POST", "${ctx}/profile/${userid}/update_head_img");
 
 			xhr.send(fd);
 		}
@@ -92,15 +93,16 @@
 			
 			var data = JSON.parse(evt.target.responseText);
 			
-			//$.logJson(data);
+			$.logJson(data);
 
 			if (data['success'] == 'n') {
 				
 				$.alertError(data['message']);
 				
 			} else {
-				var _id_m = data["attach"]["_id_m"];
+				var _id_m = data["attach_id"];
 				parent.refreshHeadImg(_id_m);
+				window.top.refreshHeadImg(_id_m);
 				parent.closeUploadHeadImg();
 			}
 		}

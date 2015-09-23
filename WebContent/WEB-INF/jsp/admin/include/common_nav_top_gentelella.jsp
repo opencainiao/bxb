@@ -9,8 +9,8 @@
 			<ul class="nav navbar-nav navbar-right">
 				<li class=""><a href="javascript:;"
 					class="user-profile dropdown-toggle" data-toggle="dropdown"
-					aria-expanded="false"> <img
-						src="<%=request.getContextPath()%>/resources/gentelella/production/images/img.jpg"
+					aria-expanded="false"> <img id="head_img_top" 
+						src="${ctx }/attachment/${user_head_img }"
 						alt="">${nickname} <span class=" fa fa-angle-down"></span>
 				</a>
 					<ul

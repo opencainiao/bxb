@@ -303,12 +303,33 @@ public class UserService extends BaseService implements IUserService {
 		DBObject update = new BasicDBObject();
 		DBObject updateSet = new BasicDBObject();
 
-		updateSet.put("headImageId", user.getHeadImageId());
+		updateSet.put("nick", user.getNick());
+		updateSet.put("email", user.getEmail());
+		updateSet.put("phone", user.getPhone());
+		
 		update.put("$set", updateSet);
 
-		DBObject updateResult = this.userdao.updateOneById(userId, null, updateSet);
-		
+		DBObject updateResult = this.userdao
+				.updateOneById(userId, null, update);
+
 		logger.debug("更新后,{}", updateResult);
+
+		return updateResult;
+	}
+
+	@Override
+	public DBObject updateHeadImage(String userId, String headImgAttachId) {
+
+		DBObject update = new BasicDBObject();
+		DBObject updateSet = new BasicDBObject();
+
+		updateSet.put("headImageId", headImgAttachId);
+		update.put("$set", updateSet);
+
+		DBObject updateResult = this.userdao
+				.updateOneById(userId, null, update);
+
+		logger.debug("更新用户头像后,{}", updateResult);
 
 		return updateResult;
 	}
