@@ -116,6 +116,7 @@ public interface IUserService extends IBaseService {
 	 * @param _id
 	 * @param headImgAttachId
 	 * @return
+	 * @throws Exception 
 	 */
-	public DBObject updateHeadImage(String _id, String headImgAttachId);
+	public DBObject updateHeadImage(String _id, String headImgAttachId) throws Exception;
 }

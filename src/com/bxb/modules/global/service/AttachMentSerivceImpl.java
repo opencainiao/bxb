@@ -8,6 +8,8 @@ import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import mou.mongodb.MongoCollectionUtil;
+
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.logging.log4j.LogManager;
@@ -24,17 +26,18 @@ import com.bxb.common.util.EncoderHandler;
 import com.bxb.common.util.FileUtil;
 import com.bxb.modules.base.BaseService;
 import com.bxb.modules.global.model.Attachment;
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBObject;
 import com.mongodb.gridfs.GridFS;
 import com.mongodb.gridfs.GridFSDBFile;
 import com.mongodb.gridfs.GridFSInputFile;
 
-import mou.mongodb.MongoCollectionUtil;
-
-@Service("fileUplodService")
-public class FileUploadSerivceImpl extends BaseService implements IFileUpload {
+@Service("attachmentService")
+public class AttachMentSerivceImpl extends BaseService implements
+		IAttachmentService {
 
 	private static final Logger logger = LogManager
-			.getLogger(FileUploadSerivceImpl.class);
+			.getLogger(AttachMentSerivceImpl.class);
 
 	// 默认上传文件的路径
 	public final static String UPLOAD_PATH = "/resources/upload";
@@ -210,6 +213,14 @@ public class FileUploadSerivceImpl extends BaseService implements IFileUpload {
 		logger.debug("保存到数据库，文件的md5是{}", gridFSInputFile.getMD5());
 		return _id;
 	}
+	
+	public void doRemoveOneFileFromMongo(String fileId) throws IOException {
+
+		GridFS gridFS = new GridFS(DBManager.getDB());
+		gridFS.remove(new ObjectId(fileId));
+
+		logger.debug("从数据库中删除文件，文件的_id【{}】", fileId);
+	}
 
 	@Override
 	public Attachment uploadOneAttachmentToMongo(MultipartFile attach,
@@ -302,7 +313,7 @@ public class FileUploadSerivceImpl extends BaseService implements IFileUpload {
 
 		DBManager.initDB("bxb");
 
-		FileUploadSerivceImpl imp = new FileUploadSerivceImpl();
+		AttachMentSerivceImpl imp = new AttachMentSerivceImpl();
 
 		GridFSDBFile gdf = imp.getById("55fd2a8eb0fa021834f027f8");
 
@@ -369,7 +380,7 @@ public class FileUploadSerivceImpl extends BaseService implements IFileUpload {
 						tp);
 
 				logger.debug("裁剪文件路径\n{}", thumbPath);
-			}else{
+			} else {
 				thumbPath = savedFile.getAbsolutePath();
 			}
 		}
@@ -407,5 +418,53 @@ public class FileUploadSerivceImpl extends BaseService implements IFileUpload {
 				COLLECTION_NAME_ATTACHMENT, _id, null));
 
 		return att;
+	}
+
+	@Override
+	public void updateAttachById(String attachId, DBObject update) {
+		MongoCollectionUtil.updateOneById(COLLECTION_NAME_ATTACHMENT, attachId,
+				update);
+	}
+
+	@Override
+	public void updateAttachOwnerIdById(String attachId, String ownerId) {
+
+		DBObject update = new BasicDBObject();
+		DBObject updateSet = new BasicDBObject();
+
+		updateSet.put("owner_id", ownerId);
+		update.put("$set", updateSet);
+
+		this.updateAttachById(attachId, update);
+		;
+	}
+
+	@Override
+	public void deleteOneAttachment(String _id_m) throws IOException {
+
+		Attachment att = MongoCollectionUtil.findOneByIdObject(
+				COLLECTION_NAME_ATTACHMENT, _id_m, Attachment.class);
+		if (att == null){
+			return;
+		}
+		
+		// 1.删除附件对应的存储在数据库文件
+		String fileId = att.getFile_id();
+		doRemoveOneFileFromMongo(fileId);
+
+		// 2.删除attachment
+		MongoCollectionUtil.removeById(COLLECTION_NAME_ATTACHMENT, _id_m);
+
+		// 3.删除图片缩略图文件
+		if (att.getIsImg().equals("1")) {
+
+			List<ThumbParam> tps = att.getThumb_info();
+
+			if (tps != null && tps.size() > 0) {
+				for (ThumbParam tp : tps) {
+				}
+			}
+		}
+
 	}
 }

@@ -28,7 +28,7 @@ import com.bxb.common.util.HttpServletRequestUtil;
 import com.bxb.common.util.ValidateUtil;
 import com.bxb.modules.base.BaseController;
 import com.bxb.modules.global.model.Attachment;
-import com.bxb.modules.global.service.IFileUpload;
+import com.bxb.modules.global.service.IAttachmentService;
 import com.bxb.modules.global.service.ThumbParam;
 import com.bxb.modules.global.service.ThumbType;
 import com.bxb.modules.user.model.User;
@@ -49,10 +49,11 @@ public class ProfileController extends BaseController {
 	@Resource(name = "userService")
 	private IUserService userService;
 
-	@Resource(name = "fileUplodService")
-	private IFileUpload fileUplodService;
+	@Resource(name = "attachmentService")
+	private IAttachmentService attachmentService;
 
-	private static final Logger logger = LogManager.getLogger(ProfileController.class);
+	private static final Logger logger = LogManager
+			.getLogger(ProfileController.class);
 
 	/****
 	 * 进入更新页面
@@ -134,9 +135,9 @@ public class ProfileController extends BaseController {
 	@SuppressWarnings({ "rawtypes", "unused" })
 	@RequestMapping(value = "/{_id}/update_head_img", method = RequestMethod.POST)
 	@ResponseBody
-	public Object upDateHeadImg(@PathVariable String _id, HttpServletRequest request, String x1,
-			String y1, String x2, String y2, String w, String h)
-					throws UnsupportedEncodingException {
+	public Object upDateHeadImg(@PathVariable String _id,
+			HttpServletRequest request, String x1, String y1, String x2,
+			String y2, String w, String h) throws UnsupportedEncodingException {
 
 		HttpServletRequestUtil.debugParams(request);
 
@@ -169,13 +170,15 @@ public class ProfileController extends BaseController {
 				String key = (String) it.next();
 				MultipartFile fileIn = multipartRequest.getFile(key);
 
-				attach = this.fileUplodService.uploadOneAttachmentToMongoOnlyCj(fileIn,
-						multipartRequest, isCompress, tp);
+				attach = this.attachmentService
+						.uploadOneAttachmentToMongoOnlyCj(fileIn,
+								multipartRequest, isCompress, tp);
 			}
 
 			// 更新头像图片
 			String headImgAttachId = attach.get_id_m();
-			DBObject updateResult = this.userService.updateHeadImage(_id, headImgAttachId);
+			DBObject updateResult = this.userService.updateHeadImage(_id,
+					headImgAttachId);
 
 			// 更新session级的头像缓存
 			HttpSession session = request.getSession(true);

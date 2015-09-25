@@ -22,13 +22,16 @@ import com.bxb.modules.global.model.UploadedFile;
 import com.bxb.modules.global.service.UploadFileService;
 
 /****
- * 全局文件上传控制器
+ * 全局文件上传控制器<br>
+ * 已废弃<br>
+ * 统一使用AttachmentUploadController做文件的上传与下载
  * 
  * @author sks
  *
  */
 @Controller
 @RequestMapping("/fileupload")
+@Deprecated()
 public class FileUploadController {
 
 	/****

@@ -28,7 +28,7 @@ import com.bxb.common.util.HttpServletRequestUtil;
 import com.bxb.common.util.ValidateUtil;
 import com.bxb.modules.base.BaseController;
 import com.bxb.modules.global.model.Attachment;
-import com.bxb.modules.global.service.IFileUpload;
+import com.bxb.modules.global.service.IAttachmentService;
 import com.bxb.modules.global.service.ThumbParam;
 import com.bxb.modules.global.service.ThumbType;
 import com.mongodb.gridfs.GridFSDBFile;
@@ -46,8 +46,8 @@ public class AttachmentUploadController extends BaseController {
 	private static final Logger logger = LogManager
 			.getLogger(AttachmentUploadController.class);
 
-	@Resource(name = "fileUplodService")
-	private IFileUpload fileUplodService;
+	@Resource(name = "attachmentService")
+	private IAttachmentService attachmentService;
 
 	/****
 	 * 上传一个附件 上传附件时，默认对图片生成缩略图
@@ -100,7 +100,7 @@ public class AttachmentUploadController extends BaseController {
 				String key = (String) it.next();
 				MultipartFile fileIn = multipartRequest.getFile(key);
 
-				attach = this.fileUplodService.uploadOneAttachmentToServerDisk(
+				attach = this.attachmentService.uploadOneAttachmentToServerDisk(
 						fileIn, multipartRequest, dirpath, isCompress, tps);
 			}
 
@@ -132,7 +132,7 @@ public class AttachmentUploadController extends BaseController {
 		}
 
 		try {
-			fileUplodService.deleteOneAttachment(_id_m, request);
+			attachmentService.deleteOneAttachment(_id_m, request);
 			result.put("success", "y");
 		} catch (Exception e) {
 			result.put("success", "n");
@@ -204,7 +204,7 @@ public class AttachmentUploadController extends BaseController {
 				String key = (String) it.next();
 				MultipartFile fileIn = multipartRequest.getFile(key);
 
-				attach = this.fileUplodService.uploadOneAttachmentToMongo(
+				attach = this.attachmentService.uploadOneAttachmentToMongo(
 						fileIn, multipartRequest, isCompress, tps);
 			}
 
@@ -264,7 +264,7 @@ public class AttachmentUploadController extends BaseController {
 				String key = (String) it.next();
 				MultipartFile fileIn = multipartRequest.getFile(key);
 
-				attach = this.fileUplodService
+				attach = this.attachmentService
 						.uploadOneAttachmentToMongoOnlyCj(fileIn,
 								multipartRequest, isCompress, tp);
 			}
@@ -294,7 +294,7 @@ public class AttachmentUploadController extends BaseController {
 			HttpServletRequest request, HttpServletResponse response)
 			throws IOException {
 
-		Attachment att = this.fileUplodService.getAttachMent(_id);
+		Attachment att = this.attachmentService.getAttachMent(_id);
 
 		if (att != null) {
 
@@ -314,7 +314,7 @@ public class AttachmentUploadController extends BaseController {
 
 			// 查询真正的file
 			String _idFile = att.getFile_id();
-			GridFSDBFile gfsFile = this.fileUplodService.getById(_idFile);
+			GridFSDBFile gfsFile = this.attachmentService.getById(_idFile);
 
 			logger.debug("_idFile[{}]", _idFile);
 

@@ -56,7 +56,7 @@ public class Attachment {
 	private String isImg;
 
 	// 附件归属id
-	private String ownerid;
+	private String owner_id;
 
 	// 是否是附件信息，0表示不是，1表示是，如果是附件信息就在文章的附件栏进行显示
 	private String isAttach;
@@ -70,12 +70,12 @@ public class Attachment {
 	// 150x120压缩图片的路径
 	private String name150x120;
 
-	public String getOwnerid() {
-		return ownerid;
+	public String getOwner_id() {
+		return owner_id;
 	}
 
-	public void setOwnerid(String ownerid) {
-		this.ownerid = ownerid;
+	public void setOwner_id(String owner_id) {
+		this.owner_id = owner_id;
 	}
 
 	public String getNewName() {
@@ -147,8 +147,8 @@ public class Attachment {
 			this.isImg = "0";
 		}
 	}
-	
-	public boolean isImage(){
+
+	public boolean isImage() {
 		if (this.isImg.equals("1")) {
 			return true;
 		} else {

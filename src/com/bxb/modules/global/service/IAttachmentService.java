@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.bxb.modules.global.model.Attachment;
+import com.mongodb.DBObject;
 import com.mongodb.gridfs.GridFSDBFile;
 
 /****
@@ -18,7 +19,7 @@ import com.mongodb.gridfs.GridFSDBFile;
  * @author NBQ
  *
  */
-public interface IFileUpload {
+public interface IAttachmentService {
 
 	/****
 	 * 上传一个文件，以新文件名命名，上传到指定目录
@@ -118,4 +119,28 @@ public interface IFileUpload {
 	 * @throws IOException
 	 */
 	String doUploadOneFileToMongo(File file) throws IOException;
+
+	/****
+	 * 更新一个附件
+	 * 
+	 * @param id
+	 * @param update
+	 */
+	public void updateAttachById(String attachId, DBObject update);
+
+	/****
+	 * 更新一个附件所属的ownerid
+	 * 
+	 * @param id
+	 * @param update
+	 */
+	public void updateAttachOwnerIdById(String attachId, String ownerId);
+
+	/****
+	 * 删除一个附件
+	 * 
+	 * @param oriHeadImg
+	 * @throws IOException 
+	 */
+	public void deleteOneAttachment(String oriHeadImg) throws IOException;
 }

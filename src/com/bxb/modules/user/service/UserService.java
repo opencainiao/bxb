@@ -10,6 +10,7 @@ import org.mou.common.security.EncryptMou;
 import org.springframework.stereotype.Service;
 
 import com.bxb.modules.base.BaseService;
+import com.bxb.modules.global.service.IAttachmentService;
 import com.bxb.modules.user.dao.UserDao;
 import com.bxb.modules.user.enumes.ResetpwdResult;
 import com.bxb.modules.user.enumes.UserState;
@@ -30,6 +31,9 @@ public class UserService extends BaseService implements IUserService {
 
 	@Resource(name = "userdao")
 	private UserDao userdao;
+
+	@Resource(name = "attachmentService")
+	private IAttachmentService attachmentService;
 
 	/****
 	 * 根据id获取用户信息
@@ -306,7 +310,7 @@ public class UserService extends BaseService implements IUserService {
 		updateSet.put("nick", user.getNick());
 		updateSet.put("email", user.getEmail());
 		updateSet.put("phone", user.getPhone());
-		
+
 		update.put("$set", updateSet);
 
 		DBObject updateResult = this.userdao
@@ -318,7 +322,7 @@ public class UserService extends BaseService implements IUserService {
 	}
 
 	@Override
-	public DBObject updateHeadImage(String userId, String headImgAttachId) {
+	public DBObject updateHeadImage(String userId, String headImgAttachId) throws Exception {
 
 		DBObject update = new BasicDBObject();
 		DBObject updateSet = new BasicDBObject();
@@ -326,10 +330,22 @@ public class UserService extends BaseService implements IUserService {
 		updateSet.put("headImageId", headImgAttachId);
 		update.put("$set", updateSet);
 
+		// 0.删除原头像附件信息
+		User user = this.getUserInfById(userId);
+		String oriHeadImg = user.getHeadImageId();
+		logger.debug("用户原头像 attach_id[{}]",oriHeadImg);
+		if (StringUtil.isNotEmpty(oriHeadImg)){
+			this.attachmentService.deleteOneAttachment(oriHeadImg);
+		}
+
+		// 1.更新用户的头像id
 		DBObject updateResult = this.userdao
 				.updateOneById(userId, null, update);
 
 		logger.debug("更新用户头像后,{}", updateResult);
+
+		// 2.更新附件的所属id为用户id
+		this.attachmentService.updateAttachOwnerIdById(headImgAttachId, userId);
 
 		return updateResult;
 	}
