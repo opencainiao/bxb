@@ -1,8 +1,7 @@
 package com.bxb.common.util;
 
 import java.io.UnsupportedEncodingException;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
+import java.lang.reflect.Field;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -80,6 +79,21 @@ public class ExportUtils {
 		}
 	}
 
+	public static String getType(Object obj, String propertyName) {
+		Field field[] = obj.getClass().getDeclaredFields();
+
+		for (Field f : field) {
+			String fName = f.getName();
+			String fType = f.getType().getSimpleName();
+
+			if (fName.equals(propertyName)) {
+				return fType;
+			}
+		}
+
+		return "String";
+	}
+
 	public static void outputColumns(String[] headersInfo, List columnsInfo,
 			HSSFSheet sheet, int rowIndex) {
 		HSSFRow row;
@@ -91,8 +105,26 @@ public class ExportUtils {
 			Object obj = columnsInfo.get(i);
 			// 循环每行多少列
 			for (int j = 0; j < headersInfo.length; j++) {
-				Object value = getFieldValueByName(headersInfo[j], obj);
-				row.createCell(j).setCellValue(value.toString());
+
+				String propertyName = headersInfo[j];
+				String type = getType(obj, propertyName);
+
+				System.out.println(propertyName + "---[" + type + "]");
+
+				Object value = getFieldValueByName(propertyName, obj);
+
+				if (type.equalsIgnoreCase("String")) {
+					row.createCell(j).setCellValue(value.toString());
+				} else if (type.equalsIgnoreCase("int")
+						|| type.equalsIgnoreCase("integer")) {
+					row.createCell(j).setCellValue(
+							Integer.parseInt(String.valueOf(value)));
+				} else if (type.equalsIgnoreCase("double")) {
+					row.createCell(j).setCellValue(
+							Double.parseDouble(String.valueOf(value)));
+				} else {
+					row.createCell(j).setCellValue(value.toString());
+				}
 			}
 		}
 
@@ -110,11 +142,16 @@ public class ExportUtils {
 		Object value = null;
 		try {
 			value = BeanUtils.getProperty(obj, fieldName);
-		} catch (IllegalAccessException | InvocationTargetException
-				| NoSuchMethodException e) {
+		} catch (Exception e) {
+			value = "";
 			e.printStackTrace();
 		}
 
+		if (value == null) {
+			value = "";
+		}
+
+		System.out.println(fieldName + "--[" + value + "]");
 		return value;
 
 		// String firstLetter = fieldName.substring(0, 1).toUpperCase();

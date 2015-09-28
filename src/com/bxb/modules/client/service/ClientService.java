@@ -51,7 +51,8 @@ public class ClientService extends BaseService implements IClientService {
 	@Resource(name = "cityService")
 	private ICityService cityService;
 
-	private static final Logger logger = LogManager.getLogger(ClientService.class);
+	private static final Logger logger = LogManager
+			.getLogger(ClientService.class);
 
 	@Override
 	public Client findOneByIdObject(String _id, boolean isRedisplay) {
@@ -66,11 +67,13 @@ public class ClientService extends BaseService implements IClientService {
 	}
 
 	@Override
-	public PageVO batchSearchPage(DBObject queryCondition, DBObject sort, DBObject returnFields) {
+	public PageVO batchSearchPage(DBObject queryCondition, DBObject sort,
+			DBObject returnFields) {
 
 		queryCondition.put("delflg", "0");
 
-		PageVO pagevo = this.clientdao.batchSearchPage(queryCondition, sort, returnFields);
+		PageVO pagevo = this.clientdao.batchSearchPage(queryCondition, sort,
+				returnFields);
 
 		List<DBObject> data = pagevo.getRows();
 
@@ -82,7 +85,8 @@ public class ClientService extends BaseService implements IClientService {
 				StringBuffer sbphone = new StringBuffer();
 				for (Object phone : phone_info) {
 					StringBuffer sb_this = new StringBuffer();
-					sb_this.append(((DBObject) phone).get("type_name")).append("-")
+					sb_this.append(((DBObject) phone).get("type_name"))
+							.append("-")
 							.append(((DBObject) phone).get("phone_number"));
 
 					sbphone.append(sb_this).append("&lt;br&gt;"); // 添加一个换行符,
@@ -99,19 +103,26 @@ public class ClientService extends BaseService implements IClientService {
 				for (Object address : address_info) {
 					StringBuffer sb_this = new StringBuffer();
 
-					Integer province = (Integer) ((DBObject) address).get("province"); // 省
-					String province_name = this.cityService.findNameById(province); // 省
+					Integer province = (Integer) ((DBObject) address)
+							.get("province"); // 省
+					String province_name = this.cityService
+							.findNameById(province); // 省
 
 					Integer city = (Integer) ((DBObject) address).get("city"); // 市
 					String city_name = this.cityService.findNameById(city); // 市
 
-					Integer district = (Integer) ((DBObject) address).get("district"); // 区
-					String district_name = this.cityService.findNameById(district); // 区
+					Integer district = (Integer) ((DBObject) address)
+							.get("district"); // 区
+					String district_name = this.cityService
+							.findNameById(district); // 区
 
-					String detail_address = (String) ((DBObject) address).get("detail_address");
+					String detail_address = (String) ((DBObject) address)
+							.get("detail_address");
 
-					sb_this.append("(").append(((DBObject) address).get("type_name")).append(")")
-							.append(province_name).append(city_name).append(district_name)
+					sb_this.append("(")
+							.append(((DBObject) address).get("type_name"))
+							.append(")").append(province_name)
+							.append(city_name).append(district_name)
 							.append("&lt;br&gt;").append(detail_address);
 
 					sbAddress.append(sb_this).append("&lt;br&gt;"); // 添加一个换行符,
@@ -127,7 +138,8 @@ public class ClientService extends BaseService implements IClientService {
 	}
 
 	@Override
-	public PageVO batchSearchOnePage(DBObject query, DBObject sort, DBObject returnFields) {
+	public PageVO batchSearchOnePage(DBObject query, DBObject sort,
+			DBObject returnFields) {
 
 		query.put("delflg", "0");
 
@@ -184,8 +196,8 @@ public class ClientService extends BaseService implements IClientService {
 			for (Phone phone : phone_info) {
 				String type = phone.getType_value();
 
-				String type_name = sysConstService
-						.findDispValByTypecodAndVal(SysConstTypeEnum.PHONE_TYPE.getCode(), type);
+				String type_name = sysConstService.findDispValByTypecodAndVal(
+						SysConstTypeEnum.PHONE_TYPE.getCode(), type);
 				phone.setType_name(type_name);
 			}
 		}
@@ -196,8 +208,8 @@ public class ClientService extends BaseService implements IClientService {
 			for (Address address : address_info) {
 
 				String type = address.getType_value();
-				String type_name = sysConstService
-						.findDispValByTypecodAndVal(SysConstTypeEnum.ADDRESS_TYPE.getCode(), type);
+				String type_name = sysConstService.findDispValByTypecodAndVal(
+						SysConstTypeEnum.ADDRESS_TYPE.getCode(), type);
 				address.setType_name(type_name);
 			}
 		}
@@ -207,7 +219,8 @@ public class ClientService extends BaseService implements IClientService {
 	public DBObject updatePart(DBObject returnFields, Client client) {
 
 		DBObject toUpdate = makeUpdate(client);
-		return this.clientdao.updateOneById(client.get_id_m(), returnFields, toUpdate);
+		return this.clientdao.updateOneById(client.get_id_m(), returnFields,
+				toUpdate);
 	}
 
 	/****
@@ -256,7 +269,8 @@ public class ClientService extends BaseService implements IClientService {
 		queryCondition.put("useflg", "1");
 		queryCondition.put("delflg", "0");
 
-		DBObject result = this.clientdao.findOneByConditionPart(queryCondition, returnFields);
+		DBObject result = this.clientdao.findOneByConditionPart(queryCondition,
+				returnFields);
 
 		if (result != null && result.get("_id") != null) {
 			return result.get("_id").toString();
@@ -306,15 +320,15 @@ public class ClientService extends BaseService implements IClientService {
 
 		// 电话
 		client.setPhoneString();
-		
+
 		// 性别
-		String sex = client.getSex() ;
-		if (StringUtil.isEmpty(sex)){
+		String sex = client.getSex();
+		if (StringUtil.isEmpty(sex)) {
 			client.setSex_name("男");
-		}else{
-			if (sex.equals("1")){
+		} else {
+			if (sex.equals("1")) {
 				client.setSex_name("男");
-			}else{
+			} else {
 				client.setSex_name("女");
 			}
 		}
@@ -322,8 +336,9 @@ public class ClientService extends BaseService implements IClientService {
 		// 地区类型
 		String region_type = client.getRegion_type();
 		if (StringUtil.isNotEmpty(region_type)) {
-			String region_type_name = sysConstService.findDispValByTypecodAndVal(
-					SysConstTypeEnum.REGION_TYPE.getCode(), region_type);
+			String region_type_name = sysConstService
+					.findDispValByTypecodAndVal(
+							SysConstTypeEnum.REGION_TYPE.getCode(), region_type);
 
 			client.setRegion_type_name(region_type_name);
 		}
@@ -331,8 +346,10 @@ public class ClientService extends BaseService implements IClientService {
 		// 教育类型
 		String education_type = client.getEducation_type();
 		if (StringUtil.isNotEmpty(education_type)) {
-			String education_type_name = sysConstService.findDispValByTypecodAndVal(
-					SysConstTypeEnum.EDUCATION_TYPE.getCode(), education_type);
+			String education_type_name = sysConstService
+					.findDispValByTypecodAndVal(
+							SysConstTypeEnum.EDUCATION_TYPE.getCode(),
+							education_type);
 
 			client.setEducation_type_name(education_type_name);
 		}
@@ -340,8 +357,10 @@ public class ClientService extends BaseService implements IClientService {
 		// 婚姻状况
 		String marital_status = client.getMarital_status();
 		if (StringUtil.isNotEmpty(marital_status)) {
-			String marital_status_name = sysConstService.findDispValByTypecodAndVal(
-					SysConstTypeEnum.MARITAL_STATUS.getCode(), marital_status);
+			String marital_status_name = sysConstService
+					.findDispValByTypecodAndVal(
+							SysConstTypeEnum.MARITAL_STATUS.getCode(),
+							marital_status);
 
 			client.setMarital_status_name(marital_status_name);
 		}
@@ -349,8 +368,10 @@ public class ClientService extends BaseService implements IClientService {
 		// 企业性质
 		String company_nature = client.getCompany_nature();
 		if (StringUtil.isNotEmpty(company_nature)) {
-			String company_nature_name = sysConstService.findDispValByTypecodAndVal(
-					SysConstTypeEnum.COMPANY_NATURE.getCode(), company_nature);
+			String company_nature_name = sysConstService
+					.findDispValByTypecodAndVal(
+							SysConstTypeEnum.COMPANY_NATURE.getCode(),
+							company_nature);
 
 			client.setCompany_nature_name(company_nature_name);
 		}
@@ -359,7 +380,8 @@ public class ClientService extends BaseService implements IClientService {
 		String trade_type = client.getTrade_type();
 		if (StringUtil.isNotEmpty(trade_type)) {
 			String trade_type_name = sysConstService
-					.findDispValByTypecodAndVal(SysConstTypeEnum.TRADE_TYPE.getCode(), trade_type);
+					.findDispValByTypecodAndVal(
+							SysConstTypeEnum.TRADE_TYPE.getCode(), trade_type);
 
 			client.setTrade_type_name(trade_type_name);
 		}
@@ -367,8 +389,9 @@ public class ClientService extends BaseService implements IClientService {
 		// 职业类型
 		String career_type = client.getCareer_type();
 		if (StringUtil.isNotEmpty(career_type)) {
-			String career_type_name = sysConstService.findDispValByTypecodAndVal(
-					SysConstTypeEnum.CAREER_TYPE.getCode(), career_type);
+			String career_type_name = sysConstService
+					.findDispValByTypecodAndVal(
+							SysConstTypeEnum.CAREER_TYPE.getCode(), career_type);
 
 			client.setCareer_type_name(career_type_name);
 		}
@@ -376,8 +399,10 @@ public class ClientService extends BaseService implements IClientService {
 		// 职位
 		String job_position = client.getJob_position();
 		if (StringUtil.isNotEmpty(job_position)) {
-			String job_position_name = sysConstService.findDispValByTypecodAndVal(
-					SysConstTypeEnum.JOB_POSITION.getCode(), job_position);
+			String job_position_name = sysConstService
+					.findDispValByTypecodAndVal(
+							SysConstTypeEnum.JOB_POSITION.getCode(),
+							job_position);
 
 			client.setJob_position_name(job_position_name);
 		}
@@ -385,28 +410,32 @@ public class ClientService extends BaseService implements IClientService {
 		// 职级
 		String job_level = client.getJob_level();
 		if (StringUtil.isNotEmpty(job_level)) {
-			String job_level_name = sysConstService
-					.findDispValByTypecodAndVal(SysConstTypeEnum.JOB_LEVEL.getCode(), job_level);
+			String job_level_name = sysConstService.findDispValByTypecodAndVal(
+					SysConstTypeEnum.JOB_LEVEL.getCode(), job_level);
 
 			client.setJob_level_name(job_level_name);
 		}
 
 		// （个人）年收入分类
-		String annual_income_personal_type = client.getAnnual_income_personal_type();
+		String annual_income_personal_type = client
+				.getAnnual_income_personal_type();
 		if (StringUtil.isNotEmpty(annual_income_personal_type)) {
-			String annual_income_personal_type_name = sysConstService.findDispValByTypecodAndVal(
-					SysConstTypeEnum.ANNUAL_INCOME_PERSONAL_TYPE.getCode(),
-					annual_income_personal_type);
+			String annual_income_personal_type_name = sysConstService
+					.findDispValByTypecodAndVal(
+							SysConstTypeEnum.ANNUAL_INCOME_PERSONAL_TYPE
+									.getCode(), annual_income_personal_type);
 
 			client.setAnnual_income_personal_type_name(annual_income_personal_type_name);
 		}
 
 		// （家庭）年收入分类
-		String annual_income_family_type = client.getAnnual_income_family_type();
+		String annual_income_family_type = client
+				.getAnnual_income_family_type();
 		if (StringUtil.isNotEmpty(annual_income_family_type)) {
-			String annual_income_family_type_name = sysConstService.findDispValByTypecodAndVal(
-					SysConstTypeEnum.ANNUAL_INCOME_FAMILY_TYPE.getCode(),
-					annual_income_family_type);
+			String annual_income_family_type_name = sysConstService
+					.findDispValByTypecodAndVal(
+							SysConstTypeEnum.ANNUAL_INCOME_FAMILY_TYPE
+									.getCode(), annual_income_family_type);
 
 			client.setAnnual_income_family_type_name(annual_income_family_type_name);
 		}
@@ -414,18 +443,22 @@ public class ClientService extends BaseService implements IClientService {
 		// 家庭收入特点
 		String family_income_feature = client.getFamily_income_feature();
 		if (StringUtil.isNotEmpty(family_income_feature)) {
-			String family_income_feature_name = sysConstService.findDispValByTypecodAndVal(
-					SysConstTypeEnum.FAMILY_INCOME_FEATURE.getCode(), family_income_feature);
+			String family_income_feature_name = sysConstService
+					.findDispValByTypecodAndVal(
+							SysConstTypeEnum.FAMILY_INCOME_FEATURE.getCode(),
+							family_income_feature);
 
 			client.setFamily_income_feature_name(family_income_feature_name);
 		}
 
 		// 财务状况
-		String family_financial_standing = client.getFamily_financial_standing();
+		String family_financial_standing = client
+				.getFamily_financial_standing();
 		if (StringUtil.isNotEmpty(family_financial_standing)) {
-			String family_financial_standing_name = sysConstService.findDispValByTypecodAndVal(
-					SysConstTypeEnum.FAMILY_FINANCIAL_STANDING.getCode(),
-					family_financial_standing);
+			String family_financial_standing_name = sysConstService
+					.findDispValByTypecodAndVal(
+							SysConstTypeEnum.FAMILY_FINANCIAL_STANDING
+									.getCode(), family_financial_standing);
 
 			client.setFamily_financial_standing_name(family_financial_standing_name);
 		}
@@ -433,8 +466,9 @@ public class ClientService extends BaseService implements IClientService {
 		// 客户来源
 		String source_type = client.getSource_type();
 		if (StringUtil.isNotEmpty(source_type)) {
-			String source_type_name = sysConstService.findDispValByTypecodAndVal(
-					SysConstTypeEnum.SOURCE_TYPE.getCode(), source_type);
+			String source_type_name = sysConstService
+					.findDispValByTypecodAndVal(
+							SysConstTypeEnum.SOURCE_TYPE.getCode(), source_type);
 
 			client.setSource_type_name(source_type_name);
 		}
@@ -442,8 +476,10 @@ public class ClientService extends BaseService implements IClientService {
 		// 与介绍人关系
 		String introducer_relationship = client.getIntroducer_relationship();
 		if (StringUtil.isNotEmpty(introducer_relationship)) {
-			String introducer_relationship_name = sysConstService.findDispValByTypecodAndVal(
-					SysConstTypeEnum.INTRODUCER_RELATIONSHIP.getCode(), introducer_relationship);
+			String introducer_relationship_name = sysConstService
+					.findDispValByTypecodAndVal(
+							SysConstTypeEnum.INTRODUCER_RELATIONSHIP.getCode(),
+							introducer_relationship);
 
 			client.setIntroducer_relationship_name(introducer_relationship_name);
 		}
@@ -451,8 +487,10 @@ public class ClientService extends BaseService implements IClientService {
 		// 与介绍人亲密度
 		String introducer_closeness = client.getIntroducer_relationship();
 		if (StringUtil.isNotEmpty(introducer_closeness)) {
-			String introducer_closeness_name = sysConstService.findDispValByTypecodAndVal(
-					SysConstTypeEnum.INTRODUCER_CLOSENESS.getCode(), introducer_closeness);
+			String introducer_closeness_name = sysConstService
+					.findDispValByTypecodAndVal(
+							SysConstTypeEnum.INTRODUCER_CLOSENESS.getCode(),
+							introducer_closeness);
 
 			client.setIntroducer_closeness_name(introducer_closeness_name);
 		}
@@ -460,8 +498,10 @@ public class ClientService extends BaseService implements IClientService {
 		// 可接触度
 		String contact_type = client.getContact_type();
 		if (StringUtil.isNotEmpty(contact_type)) {
-			String contact_type_name = sysConstService.findDispValByTypecodAndVal(
-					SysConstTypeEnum.CONTACT_TYPE.getCode(), contact_type);
+			String contact_type_name = sysConstService
+					.findDispValByTypecodAndVal(
+							SysConstTypeEnum.CONTACT_TYPE.getCode(),
+							contact_type);
 
 			client.setContact_type_name(contact_type_name);
 		}
@@ -470,7 +510,8 @@ public class ClientService extends BaseService implements IClientService {
 		String birth_ages = client.getBirth_ages();
 		if (StringUtil.isNotEmpty(birth_ages)) {
 			String birth_ages_name = sysConstService
-					.findDispValByTypecodAndVal(SysConstTypeEnum.BIRTH_AGES.getCode(), birth_ages);
+					.findDispValByTypecodAndVal(
+							SysConstTypeEnum.BIRTH_AGES.getCode(), birth_ages);
 
 			client.setBirth_ages_name(birth_ages_name);
 		}
@@ -478,8 +519,8 @@ public class ClientService extends BaseService implements IClientService {
 		// 年龄段
 		String age_group = client.getAge_group();
 		if (StringUtil.isNotEmpty(age_group)) {
-			String age_group_name = sysConstService
-					.findDispValByTypecodAndVal(SysConstTypeEnum.AGE_GROUP.getCode(), age_group);
+			String age_group_name = sysConstService.findDispValByTypecodAndVal(
+					SysConstTypeEnum.AGE_GROUP.getCode(), age_group);
 
 			client.setAge_group_name(age_group_name);
 		}
@@ -487,8 +528,10 @@ public class ClientService extends BaseService implements IClientService {
 		// 星座
 		String constellation = client.getConstellation();
 		if (StringUtil.isNotEmpty(constellation)) {
-			String constellation_name = sysConstService.findDispValByTypecodAndVal(
-					SysConstTypeEnum.CONSTELLATION.getCode(), constellation);
+			String constellation_name = sysConstService
+					.findDispValByTypecodAndVal(
+							SysConstTypeEnum.CONSTELLATION.getCode(),
+							constellation);
 
 			client.setConstellation_name(constellation_name);
 		}
@@ -496,8 +539,9 @@ public class ClientService extends BaseService implements IClientService {
 		// 血型
 		String blood_group = client.getBlood_group();
 		if (StringUtil.isNotEmpty(blood_group)) {
-			String blood_group_name = sysConstService.findDispValByTypecodAndVal(
-					SysConstTypeEnum.BLOOD_GROUP.getCode(), blood_group);
+			String blood_group_name = sysConstService
+					.findDispValByTypecodAndVal(
+							SysConstTypeEnum.BLOOD_GROUP.getCode(), blood_group);
 
 			client.setBlood_group_name(blood_group_name);
 		}
@@ -511,8 +555,10 @@ public class ClientService extends BaseService implements IClientService {
 			for (String temperament_t : temperament_type) {
 				if (StringUtil.isNotEmpty(temperament_t)) {
 
-					String temperament_type_name = sysConstService.findDispValByTypecodAndVal(
-							SysConstTypeEnum.TEMPERAMENT_TYPE.getCode(), temperament_t);
+					String temperament_type_name = sysConstService
+							.findDispValByTypecodAndVal(
+									SysConstTypeEnum.TEMPERAMENT_TYPE.getCode(),
+									temperament_t);
 
 					sb.append(temperament_type_name).append(" ");
 				}
@@ -524,8 +570,8 @@ public class ClientService extends BaseService implements IClientService {
 		// PDP类型
 		String pdp_type = client.getPdp_type();
 		if (StringUtil.isNotEmpty(pdp_type)) {
-			String pdp_type_name = sysConstService
-					.findDispValByTypecodAndVal(SysConstTypeEnum.PDP_TYPE.getCode(), pdp_type);
+			String pdp_type_name = sysConstService.findDispValByTypecodAndVal(
+					SysConstTypeEnum.PDP_TYPE.getCode(), pdp_type);
 
 			client.setPdp_type_name(pdp_type_name);
 		}
@@ -539,8 +585,10 @@ public class ClientService extends BaseService implements IClientService {
 			for (String interesting_service_t : interesting_service) {
 				if (StringUtil.isNotEmpty(interesting_service_t)) {
 
-					String interesting_service_name = sysConstService.findDispValByTypecodAndVal(
-							SysConstTypeEnum.INTERESTING_SERVICE.getCode(), interesting_service_t);
+					String interesting_service_name = sysConstService
+							.findDispValByTypecodAndVal(
+									SysConstTypeEnum.INTERESTING_SERVICE
+											.getCode(), interesting_service_t);
 
 					sb.append(interesting_service_name).append(" ");
 				}
@@ -551,7 +599,8 @@ public class ClientService extends BaseService implements IClientService {
 	}
 
 	@Override
-	public List<DBObject> findAllClientsByUserId(String userId, String last_op_time) {
+	public List<DBObject> findAllClientsByUserId(String userId,
+			String last_op_time) {
 
 		DBObject query = new BasicDBObject();
 		query.put("owner_user_id", userId);
@@ -561,7 +610,8 @@ public class ClientService extends BaseService implements IClientService {
 			last_op_time = last_op_time.trim();
 			if (last_op_time.length() >= 10) {
 				query.put("last_op_date", last_op_time.substring(0, 10));
-				query.put("last_op_time", new BasicDBObject("$gte", last_op_time));
+				query.put("last_op_time", new BasicDBObject("$gte",
+						last_op_time));
 			}
 		}
 
@@ -577,7 +627,8 @@ public class ClientService extends BaseService implements IClientService {
 
 		query.put("delflg", "0");
 
-		Client client = this.clientdao.findOneByConditionObject(query, Client.class);
+		Client client = this.clientdao.findOneByConditionObject(query,
+				Client.class);
 
 		if (client != null && isRedisplay) {
 			this.reDisplay(client);
@@ -617,7 +668,8 @@ public class ClientService extends BaseService implements IClientService {
 		returnFields.put("last_op_user_name", 0);
 		returnFields.put("last_op_date", 0);
 
-		return this.clientdao.updateOneById(client.get_id_m(), returnFields, toUpdate);
+		return this.clientdao.updateOneById(client.get_id_m(), returnFields,
+				toUpdate);
 	}
 
 	private String validatForUpdate(Client client) {
@@ -659,17 +711,24 @@ public class ClientService extends BaseService implements IClientService {
 		updateSet.put("boy_num", client.getBoy_num());
 		updateSet.put("girl_num", client.getGirl_num());
 		updateSet.put("children_num", client.getChildren_num());
-		updateSet.put("annual_income_personal", client.getAnnual_income_personal());
-		updateSet.put("annual_income_personal_type", client.getAnnual_income_personal_type());
+		updateSet.put("annual_income_personal",
+				client.getAnnual_income_personal());
+		updateSet.put("annual_income_personal_type",
+				client.getAnnual_income_personal_type());
 		updateSet.put("annual_income_family", client.getAnnual_income_family());
-		updateSet.put("annual_income_family_type", client.getAnnual_income_family_type());
-		updateSet.put("family_income_feature", client.getFamily_income_feature());
-		updateSet.put("family_financial_standing", client.getFamily_financial_standing());
+		updateSet.put("annual_income_family_type",
+				client.getAnnual_income_family_type());
+		updateSet.put("family_income_feature",
+				client.getFamily_income_feature());
+		updateSet.put("family_financial_standing",
+				client.getFamily_financial_standing());
 		updateSet.put("source_type", client.getSource_type());
 		updateSet.put("introducer_name", client.getIntroducer_name());
-		updateSet.put("introducer_relationship", client.getIntroducer_relationship());
+		updateSet.put("introducer_relationship",
+				client.getIntroducer_relationship());
 		updateSet.put("introducer_closeness", client.getIntroducer_closeness());
-		updateSet.put("introducer_evaluation", client.getIntroducer_evaluation());
+		updateSet.put("introducer_evaluation",
+				client.getIntroducer_evaluation());
 		updateSet.put("contact_type", client.getContact_type());
 		updateSet.put("contact_attention", client.getContact_attention());
 		updateSet.put("birth_ages", client.getBirth_ages());
@@ -685,5 +744,28 @@ public class ClientService extends BaseService implements IClientService {
 		update.put("$set", updateSet);
 
 		return update;
+	}
+
+	@Override
+	public List<Client> downLoadAllClientByUserId(String userId) {
+
+		DBObject query = new BasicDBObject();
+		query.put("owner_user_id", userId);
+		query.put("useflg", "1");
+		query.put("delflg", "0");
+
+		DBObject sort = new BasicDBObject();
+		sort.put("client_name_full_py", 1);
+
+		List<Client> clients = this.clientdao.findBatchObject(query, Client.class, sort);
+
+		for (Client client : clients) {
+
+			reDisplay(client);
+			
+			logger.debug(client);
+		}
+		
+		return clients;
 	}
 }

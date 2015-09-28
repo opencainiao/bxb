@@ -42,9 +42,8 @@ public class DownLoadExcelController extends BaseController {
 	 * @param response
 	 * @return
 	 */
-
 	@RequestMapping(value = "/single", method = RequestMethod.POST)
-	public void resetpasswordsuccess(Model model, HttpServletRequest request,
+	public void single(Model model, HttpServletRequest request,
 			HttpServletResponse response, String titles, String fields,
 			String fileName, String beanName, String methodName) {
 
@@ -57,8 +56,6 @@ public class DownLoadExcelController extends BaseController {
 			Class clazz = o.getClass();
 			Method m = clazz.getDeclaredMethod(methodName);
 			List list = (List) m.invoke(o);
-
-			// titles = new String(titles.getBytes("ISO-8859-1"), "UTF-8");
 
 			String[] titleNames = titles.split(",");
 			String[] fieldNames = fields.split(",");

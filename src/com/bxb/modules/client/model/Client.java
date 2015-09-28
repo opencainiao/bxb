@@ -1,8 +1,11 @@
 package com.bxb.modules.client.model;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.hibernate.validator.constraints.NotEmpty;
+import org.mou.common.JsonUtil;
 import org.mou.common.StringUtil;
 
 import com.bxb.common.util.PinyinUtil;
@@ -809,5 +812,111 @@ public class Client extends BaseModel {
 		clientBaseInfo.setEducation_type_name(education_type_name);
 
 		return clientBaseInfo;
+	}
+
+	public static String[] getFieldsForDownLoad() {
+
+		List<String> rtnList = new ArrayList<String>();
+
+		rtnList.add("client_name");
+		rtnList.add("id_number");
+		rtnList.add("birth_date");
+		rtnList.add("age");
+		rtnList.add("sex_name");
+		rtnList.add("phone_info_name");
+		rtnList.add("address_info_name");
+		rtnList.add("email_info");
+		rtnList.add("region_code");
+		rtnList.add("region_name");
+		rtnList.add("company");
+		rtnList.add("wedding_date");
+		rtnList.add("boy_num");
+		rtnList.add("girl_num");
+		rtnList.add("children_num");
+		rtnList.add("annual_income_personal");
+		rtnList.add("annual_income_personal_type_name");// （个人）年收入分类
+		rtnList.add("annual_income_family");
+		rtnList.add("annual_income_family_type_name");// （家庭）年收入分类
+		rtnList.add("family_income_feature_name"); // 家庭收入特点
+		rtnList.add("family_financial_standing_name");// 财务状况
+		rtnList.add("introducer_name");
+		rtnList.add("contact_attention");
+		rtnList.add("hobbies");
+		rtnList.add("interesting_service"); // 关注的服务
+		rtnList.add("region_type_name");// 地区分类
+		rtnList.add("education_type_name");// 教育程度
+		rtnList.add("marital_status_name");// 婚姻状况
+		rtnList.add("company_nature_name");// 企业性质
+		rtnList.add("trade_type_name");// 行业类型
+		rtnList.add("career_type_name");// 职业类型
+		rtnList.add("job_position_name");// 职位
+		rtnList.add("job_level_name");// 职级
+		rtnList.add("source_type_name");// 客户来源码
+		rtnList.add("introducer_relationship_name"); // 与介绍人关系
+		rtnList.add("introducer_closeness_name");// 与介绍人亲密度
+		rtnList.add("contact_type_name"); // 可接触度
+		rtnList.add("birth_ages_name");// 出生年代
+		rtnList.add("age_group_name"); // 年龄段
+		rtnList.add("constellation_name");// 星座
+		rtnList.add("blood_group_name");// 血型
+		rtnList.add("temperament_type_name"); // 性格特点
+		rtnList.add("pdp_type_name");// PDP类型
+
+		return rtnList.toArray(new String[] {});
+	}
+
+	public static String[] getTitlesForDownLoad() {
+		List<String> rtnList = new ArrayList<String>();
+
+		rtnList.add("姓名");
+		rtnList.add("身份证号");
+		rtnList.add("出生日期");
+		rtnList.add("年龄");
+		rtnList.add("性别");
+		rtnList.add("电话");
+		rtnList.add("地址");
+		rtnList.add("邮箱");
+		rtnList.add("地区码");
+		rtnList.add("地区名");
+		rtnList.add("公司");
+		rtnList.add("结婚纪念日");
+		rtnList.add("男孩");
+		rtnList.add("女孩");
+		rtnList.add("孩子数");
+		rtnList.add("年收入（个人）");
+		rtnList.add("年收入分类（个人）");// （个人）
+		rtnList.add("年收入（家庭）");
+		rtnList.add("年收入分类（家庭）");// （家庭）
+		rtnList.add("家庭收入特点"); //
+		rtnList.add("财务状况");//
+		rtnList.add("介绍人");
+		rtnList.add("联系注意事项");
+		rtnList.add("兴趣爱好");
+		rtnList.add("关注的服务"); //
+		rtnList.add("地区分类");//
+		rtnList.add("教育程度");//
+		rtnList.add(" 婚姻状况");//
+		rtnList.add("企业性质");//
+		rtnList.add("行业类型");//
+		rtnList.add("职业类型");//
+		rtnList.add("职位");//
+		rtnList.add("职级");//
+		rtnList.add("客户来源码");//
+		rtnList.add("与介绍人关系"); //
+		rtnList.add("与介绍人亲密度");//
+		rtnList.add("可接触度"); //
+		rtnList.add("出生年代");//
+		rtnList.add("年龄段"); //
+		rtnList.add("星座");//
+		rtnList.add("血型");//
+		rtnList.add("性格特点"); //
+		rtnList.add("PDP类型");//
+
+		return (String[]) (rtnList.toArray(new String[] {}));
+	}
+
+	public static void main(String[] args) {
+
+		System.out.println(JsonUtil.toJsonStr(Client.getTitlesForDownLoad()));
 	}
 }

@@ -30,7 +30,7 @@ public class ValidateUtil {
 	 * @return
 	 */
 	public static boolean isNumeric(String str) {
-		Pattern pattern = Pattern.compile("[0-9]*");
+		Pattern pattern = Pattern.compile("[0-9]+");
 		Matcher isNum = pattern.matcher(str);
 		if (!isNum.matches()) {
 			return false;
@@ -78,6 +78,7 @@ public class ValidateUtil {
 		System.out.println(isDouble("123.10"));
 		System.out.println(isDouble("123.1.0"));
 		System.out.println("is_numeric------------");
+		System.out.println(isNumeric(""));
 		System.out.println(isNumeric("123"));
 		System.out.println(isNumeric("123.1"));
 		System.out.println(isNumeric("123.10"));
@@ -87,5 +88,6 @@ public class ValidateUtil {
 		System.out.println(isNumericOrDouble("123.1"));
 		System.out.println(isNumericOrDouble("123.10"));
 		System.out.println(isNumericOrDouble("123.1.0"));
+		System.out.println(isNumericOrDouble(""));
 	}
 }

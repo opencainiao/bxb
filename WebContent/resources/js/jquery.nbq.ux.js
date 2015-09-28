@@ -255,8 +255,13 @@
 				if (!colModelT.hide){
 					
 					if (colModelT.display && colModelT.name){
-						titles.push(colModelT.display);
-						fields.push(colModelT.name);
+						
+						if (colModelT.m_type && colModelT.m_type == 'buttons'){
+							
+						}else{
+							titles.push(colModelT.display);
+							fields.push(colModelT.name);
+						}
 					}
 				}
 			}

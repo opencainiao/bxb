@@ -15,6 +15,8 @@
 
 <body>
 	<input type="hidden" name="ctx" value="<%=request.getContextPath()%>" />
+	<input type="hidden" name="_id_m" value="${_id_m }" />
+	
 
 	<ul class="breadcrumb">
 		<li class="active">客户管理</li>
@@ -31,6 +33,9 @@
 		        </button>
 		        <button class="btn btn-primary" type="button" id="btn_add" style="margin-left: 50px ;">
 		            添加客户
+		        </button>
+		        <button class="btn btn-primary" type="button" id="btn_download" style="margin-left: 50px ;">
+		            <span class="glyphicon glyphicon-download-alt" aria-hidden="true"  style="margin-right: 8px;"></span>下载客户信息
 		        </button>
 		    </form>
 		</div>

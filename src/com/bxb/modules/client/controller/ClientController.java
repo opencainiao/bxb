@@ -3,10 +3,13 @@ package com.bxb.modules.client.controller;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.mou.common.JsonUtil;
 import org.mou.common.StringUtil;
 import org.springframework.stereotype.Controller;
@@ -23,8 +26,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.bxb.common.globalhandler.ErrorHandler;
 import com.bxb.common.globalobj.RequestResult;
+import com.bxb.common.globalobj.WorkbookConfig;
+import com.bxb.common.util.ExportUtils;
 import com.bxb.common.util.HttpServletRequestUtil;
-import com.bxb.common.util.JSONHelper;
 import com.bxb.common.util.WebContextUtil;
 import com.bxb.common.util.propertyeditor.CustomerDoubleEditor;
 import com.bxb.common.util.propertyeditor.CustomerIntegerEditor;
@@ -168,6 +172,8 @@ public class ClientController extends BaseController {
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public String list(Model model) {
+
+		model.addAttribute("_id_m", this.getUserId());
 
 		return "front/client/client_info/full/list";
 	}
@@ -346,7 +352,7 @@ public class ClientController extends BaseController {
 	@ResponseBody
 	public Object update_part(@PathVariable String _id, Client client,
 			HttpServletRequest request, String part_flg) {
-		
+
 		String user_id = client.getOwner_user_id();
 		if (!this.isValidObjId(_id)) {
 			return this.handleValidateFalse("非法的客户主键");
@@ -359,9 +365,9 @@ public class ClientController extends BaseController {
 		if (!PartFlgEnum.isValidPartFlg(part_flg)) {
 			return this.handleValidateFalse("非法的更新参数part_flg");
 		}
-		
+
 		client.set_id_m(_id);
-		
+
 		String phone_info = request.getParameter("phone_info");
 		String address_info = request.getParameter("address_info");
 		String interesting_services = request
@@ -387,7 +393,8 @@ public class ClientController extends BaseController {
 
 		try {
 			IModifyClientInfoService modifyClientService = getModifyService(part_flg);
-			DBObject updateResult = modifyClientService.updatePart(null, client);
+			DBObject updateResult = modifyClientService
+					.updatePart(null, client);
 
 			logger.debug("更新后的结果[{}]", updateResult);
 
@@ -438,5 +445,52 @@ public class ClientController extends BaseController {
 		}
 
 		return modifyClientInfoService;
+	}
+
+	/****
+	 * 下载整表,单sheet文件
+	 * 
+	 * @param model
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping(value = "/download_clients", method = RequestMethod.POST)
+	public void single(Model model, HttpServletRequest request,
+			HttpServletResponse response, String titles, String fields,
+			String fileName) {
+
+		logger.debug("下载单sheet文件");
+		HttpServletRequestUtil.debugParams(request);
+
+		try {
+			// 获取类
+			List list = this.clientService.downLoadAllClientByUserId(this
+					.getUserId());
+
+			String[] titleNames = Client.getTitlesForDownLoad();
+			String[] fieldNames = Client.getFieldsForDownLoad();
+			String sheetName = "sheet0";
+
+			WorkbookConfig wcg = new WorkbookConfig();
+			wcg.setWorkbookName(fileName);
+			wcg.addSheetName(sheetName);
+			wcg.addSheetField(sheetName, fieldNames);
+			wcg.addSheetTitle(sheetName, titleNames);
+
+			HSSFWorkbook wb = ExportUtils
+					.createSingSheetHSSFWorkbook(wcg, list);
+
+			ExportUtils.setHeader(response, fileName);
+			// 获取输出流，写入excel 并关闭
+			ServletOutputStream out = response.getOutputStream();
+
+			wb.write(out);
+			out.flush();
+			out.close();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }

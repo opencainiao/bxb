@@ -53,6 +53,14 @@ public interface IClientService {
 			DBObject returnFields);
 
 	/****
+	 * 下载用户的所有客户
+	 * 
+	 * @param userId
+	 * @return
+	 */
+	public List<Client> downLoadAllClientByUserId(String userId);
+
+	/****
 	 * 查询用户的所有客户
 	 * 
 	 * @param userId

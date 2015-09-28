@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
 
-
+<input type="hidden" id="owner_user_id" name ="owner_user_id" value="${userid}" />
 <div class="panel panel-info">
 	<div class="panel-heading">基本信息</div>
 	<div class="panel-body">

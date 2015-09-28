@@ -11,6 +11,37 @@ $().ready(function() {
 	$("#btn_search").click(function() {
 		data_manage.search();
 	});
+	
+	$("#btn_download").click(function() {
+
+		var config = $.getTitleAndFieldFromGrid(data_manage.gridsetting);
+
+		$.logJson(config);
+
+		// return;
+		var titles = config["titles"];
+		var fields = config["fields"];
+		var fileName = "客户信息表";
+		var beanName = "clientService";
+		var methodName = "downLoadAllClientByUserId";
+
+		var url = $.getSitePath() + '/front/client/download_clients';
+		
+		var config = {
+				url:url,
+				params:{
+					titles:titles,
+					fields:fields,
+					fileName:fileName,
+					beanName,beanName,
+					methodName,methodName
+				}
+		}
+		
+		// $.logJson(config);
+		
+		$.downLoadFile(config);
+	});
 });
 
 var data_manage_functions = {
