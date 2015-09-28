@@ -22,16 +22,17 @@ import com.bxb.common.util.WebContextUtil;
 import com.bxb.modules.base.BaseController;
 
 /****
- * 通用下载控制器
+ * 通用Excel导出控制器
  * 
  * @author NBQ
  */
 @Controller
 @RequestMapping("/download_excel")
-public class DownloadController extends BaseController {
+@SuppressWarnings({ "unchecked", "rawtypes" })
+public class DownLoadExcelController extends BaseController {
 
 	private static final Logger logger = LogManager
-			.getLogger(DownloadController.class);
+			.getLogger(DownLoadExcelController.class);
 
 	/****
 	 * 下载整表,单sheet文件
@@ -41,6 +42,7 @@ public class DownloadController extends BaseController {
 	 * @param response
 	 * @return
 	 */
+
 	@RequestMapping(value = "/single", method = RequestMethod.POST)
 	public void resetpasswordsuccess(Model model, HttpServletRequest request,
 			HttpServletResponse response, String titles, String fields,
@@ -71,7 +73,7 @@ public class DownloadController extends BaseController {
 			HSSFWorkbook wb = ExportUtils
 					.createSingSheetHSSFWorkbook(wcg, list);
 
-			ExportUtils.setHeader(response,fileName);
+			ExportUtils.setHeader(response, fileName);
 			// 获取输出流，写入excel 并关闭
 			ServletOutputStream out = response.getOutputStream();
 
