@@ -32,6 +32,9 @@
 		        <button class="btn btn-primary" type="button" id="btn_add" style="margin-left: 50px ;">
 		            添加常量类型
 		        </button>
+		        <button class="btn btn-primary" type="button" id="btn_download" style="margin-left: 50px ;">
+		            <span class="glyphicon glyphicon-download-alt" aria-hidden="true"  style="margin-right: 8px;"></span>下载所有常量信息
+		        </button>
 		    </form>
 		</div>
 

@@ -11,8 +11,103 @@ $().ready(function() {
 	$("#btn_search").click(function() {
 		data_manage.search();
 	});
+
+	$("#btn_download").click(function() {
+
+		// var config = $.getTitleAndFieldFromGrid(data_manage.gridsetting);
+
+		var config = getDownloadConfig();
+		$.logJson(config);
+
+		// return;
+		var titles = config["titles"];
+		var fields = config["fields"];
+		var fileName = "系统常量表";
+		var beanName = "sysConstService";
+		var methodName = "findAllConstBySysconstTypecode";
+
+		var url = $.getSitePath() + '/download_excel/single';
+
+		//
+		var form = $("<form>");//定义一个form表单
+		form.attr('style','display:none');
+		form.attr('target','');
+		form.attr('method','post');
+		form.attr('action',url);
+		//添加input
+		var input1 = $("<input>");
+		input1.attr('type','hidden');
+		input1.attr('name','fields');
+		input1.attr('value',fields);
+		
+		var input2 = $("<input>");
+		input2.attr('type','hidden');
+		input2.attr('name','titles');
+		input2.attr('value',titles);
+		
+		var input3 = $("<input>");
+		input3.attr('type','hidden');
+		input3.attr('name','fileName');
+		input3.attr('value',fileName);
+		
+		var input4 = $("<input>");
+		input4.attr('type','hidden');
+		input4.attr('name','beanName');
+		input4.attr('value',beanName);
+		
+		var input5 = $("<input>");
+		input5.attr('type','hidden');
+		input5.attr('name','methodName');
+		input5.attr('value',methodName);
+		
+		
+		//将表单放到body中
+		$('body').append(form);
+		form.append(input1);
+		form.append(input2);
+		form.append(input3);
+		form.append(input4);
+		form.append(input5);
+		form.submit();//提交表单
+		
+		return;
+		
+		$.disableButton("btn_download");
+
+		$.ajax({
+			type : 'POST',
+			async : false,
+			url : url,
+			data : {
+				titles : titles,
+				fields : fields,
+				fileName : fileName,
+				beanName : beanName,
+				methodName : methodName,
+				ts : new Date().getTime()
+			},
+			dataType : 'json',
+			success : function(data) {
+
+			},
+			complete : function(XMLHttpRequest, textStatus) {
+				$.enableButton("btn_download");
+			}
+		});
+	});
+
 });
 
+function getDownloadConfig() {
+
+	var fields = "typecode,typename,val,dspval,valordernum";
+	var titles = "常量类型,常量类型名称,常量值,常量显示值,常量值顺序号";
+
+	return {
+		titles : titles,
+		fields : fields
+	};
+}
 var data_manage_functions = {
 
 	/***************************************************************************
@@ -32,17 +127,17 @@ var data_manage_functions = {
 			}, data),
 			dataType : 'json',
 			success : function(data) {
-				
-				 if (data['success'] == 'n') {
-	                 if (data['brErrors']) {
-	                    $.showBRErrors_mou_abs(data['brErrors'], $("#add_div"));
-	                 } else {
-	                  	$.alertError(data['message']);
-	                 }
-	                 
-	                 return;
-	             } 
-				 
+
+				if (data['success'] == 'n') {
+					if (data['brErrors']) {
+						$.showBRErrors_mou_abs(data['brErrors'], $("#add_div"));
+					} else {
+						$.alertError(data['message']);
+					}
+
+					return;
+				}
+
 				data_manage.gridsetting.params = [ {
 					name : 'reload',
 					value : true
@@ -80,35 +175,35 @@ var data_manage_functions = {
 	closeEditWindow : function() {
 		$.closeWindow("edit", $("#data_manage"));
 	},
-	refreshPage:function(){
+	refreshPage : function() {
 		data_manage.search();
 	},
-	addConst:function(data){
-		
+	addConst : function(data) {
+
 		var url = $.getSitePath() + "/backend/sysconst/add";
-		
+
 		var params = [];
 		params.push("typecode=" + data["typecode"]);
 		params.push("typename=" + data["typename"]);
 		params.push("ts=" + new Date().getTime());
-		
+
 		url = url + "?" + params.join("&");
-		
-		//alert(url);
-		
+
+		// alert(url);
+
 		$.loadPage(url);
 	},
-	manageConst:function(data){
-		
+	manageConst : function(data) {
+
 		var url = $.getSitePath() + "/backend/sysconsttype/manage_sysconst";
-		
+
 		var params = [];
 		params.push("typecode=" + data["typecode"]);
 		params.push("typename=" + data["typename"]);
 		params.push("ts=" + new Date().getTime());
-		
+
 		url = url + "?" + params.join("&");
-		
+
 		$.loadPage(url);
 	}
 };
@@ -148,7 +243,7 @@ var data_manage = {
 		data_manage.gridsetting.url = $.getSitePath() + '/backend/sysconsttype/list';
 		// alert(data_manage.gridsetting.url);
 		$("#list").flexigrid(data_manage.gridsetting);
-		
+
 		$("#data_manage").attr("s_times", 1);
 
 		data_manage.pageLayout();
@@ -232,7 +327,7 @@ var data_manage = {
 				r_name : 'del',
 				text : '删除',
 				callback : data_manage_functions.delOne,
-				paramConfig : [ "_id_m" ,"typecode"],
+				paramConfig : [ "_id_m", "typecode" ],
 				css : "btn btn-xs btn-danger"
 			}, {
 				r_name : 'toEdit',
@@ -242,9 +337,9 @@ var data_manage = {
 			}, {
 				r_name : 'manageConst',
 				text : '管理常量值',
-				css :"btn btn-xs btn-warning",
+				css : "btn btn-xs btn-warning",
 				callback : data_manage_functions.manageConst,
-				paramConfig : [ "typecode" ,"typename"]
+				paramConfig : [ "typecode", "typename" ]
 			} ]
 		} ]
 

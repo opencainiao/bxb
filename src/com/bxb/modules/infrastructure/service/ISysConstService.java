@@ -100,6 +100,15 @@ public interface ISysConstService {
 	 * @return
 	 */
 	public List<DBObject> findAllConstBySysconstTypecode(String typecode);
+	
+	/****
+	 * 查询常量类型下的所有常量
+	 * 
+	 * @param typecode
+	 * @return
+	 */
+	public List<DBObject> findAllConstBySysconstTypecode();
+
 
 	/****
 	 * 根据常量类型，查询下面所有的常量

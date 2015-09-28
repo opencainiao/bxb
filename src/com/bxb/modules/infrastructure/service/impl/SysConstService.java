@@ -160,7 +160,9 @@ public class SysConstService extends BaseService implements ISysConstService {
 		queryCondition.put("useflg", "1");
 
 		DBObject sort = new BasicDBObject();
+		sort.put("typecode", 1);
 		sort.put("valordernum", 1);
+		sort.put("val", 1);
 
 		return this.sysconstdao.findBatchDbOjbect(queryCondition, sort, null);
 	}
@@ -211,5 +213,12 @@ public class SysConstService extends BaseService implements ISysConstService {
 		queryCondition.put("useflg", "1");
 
 		return this.sysconstdao.findBatchDbOjbect(queryCondition, sort, returnFields);
+	}
+
+	@Override
+	public List<DBObject> findAllConstBySysconstTypecode() {
+		
+		return this.findAllConstBySysconstTypecode(null);
+
 	}
 }

@@ -243,6 +243,29 @@
 				}
 			});
 		},
+		getTitleAndFieldFromGrid:function(cfg){
+			var colModel = cfg.colModel;
+			
+			var titles = [];
+			var fields = [];
+			
+			for (var i=0;i<colModel.length; ++i){
+				var colModelT = colModel[i];
+				
+				if (!colModelT.hide){
+					
+					if (colModelT.display && colModelT.name){
+						titles.push(colModelT.display);
+						fields.push(colModelT.name);
+					}
+				}
+			}
+			
+			return {
+				titles : titles,
+				fields : fields
+			};
+		},
 		getEncodVal : function($obj) {
 			return $.htmlEncode($obj.val().trim());
 		},
