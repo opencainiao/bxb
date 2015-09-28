@@ -368,6 +368,34 @@
 
 			return iframeDoc;
 		},
+		downLoadFile : function(config) {
+			
+			var url = config.url; //  下载路径
+			
+			var form = $("<form>");//定义一个form表单
+			form.attr('style','display:none');
+			form.attr('target','');
+			form.attr('method','post');
+			form.attr('action',url);
+			
+			var params = config.params;
+			
+			for (var i in params){
+				var param_name = i;
+				var param_value = params[i];
+				
+				var input = $("<input>");
+				input.attr('type','hidden');
+				input.attr('name',param_name);
+				input.attr('value',param_value);
+				
+				form.append(input);
+			}
+			
+			//将表单放到body中
+			$('body').append(form);
+			form.submit();//提交表单
+		},
 		/***********************************************************************
 		 * 取iframe的页面的window
 		 */

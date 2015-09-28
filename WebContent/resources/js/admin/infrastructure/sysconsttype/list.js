@@ -17,7 +17,7 @@ $().ready(function() {
 		// var config = $.getTitleAndFieldFromGrid(data_manage.gridsetting);
 
 		var config = getDownloadConfig();
-		$.logJson(config);
+		//$.logJson(config);
 
 		// return;
 		var titles = config["titles"];
@@ -27,75 +27,22 @@ $().ready(function() {
 		var methodName = "findAllConstBySysconstTypecode";
 
 		var url = $.getSitePath() + '/download_excel/single';
-
-		//
-		var form = $("<form>");//定义一个form表单
-		form.attr('style','display:none');
-		form.attr('target','');
-		form.attr('method','post');
-		form.attr('action',url);
-		//添加input
-		var input1 = $("<input>");
-		input1.attr('type','hidden');
-		input1.attr('name','fields');
-		input1.attr('value',fields);
 		
-		var input2 = $("<input>");
-		input2.attr('type','hidden');
-		input2.attr('name','titles');
-		input2.attr('value',titles);
+		var config = {
+				url:url,
+				params:{
+					titles:titles,
+					fields:fields,
+					fileName:fileName,
+					beanName,beanName,
+					methodName,methodName
+				}
+		}
 		
-		var input3 = $("<input>");
-		input3.attr('type','hidden');
-		input3.attr('name','fileName');
-		input3.attr('value',fileName);
+		//$.logJson(config);
 		
-		var input4 = $("<input>");
-		input4.attr('type','hidden');
-		input4.attr('name','beanName');
-		input4.attr('value',beanName);
-		
-		var input5 = $("<input>");
-		input5.attr('type','hidden');
-		input5.attr('name','methodName');
-		input5.attr('value',methodName);
-		
-		
-		//将表单放到body中
-		$('body').append(form);
-		form.append(input1);
-		form.append(input2);
-		form.append(input3);
-		form.append(input4);
-		form.append(input5);
-		form.submit();//提交表单
-		
-		return;
-		
-		$.disableButton("btn_download");
-
-		$.ajax({
-			type : 'POST',
-			async : false,
-			url : url,
-			data : {
-				titles : titles,
-				fields : fields,
-				fileName : fileName,
-				beanName : beanName,
-				methodName : methodName,
-				ts : new Date().getTime()
-			},
-			dataType : 'json',
-			success : function(data) {
-
-			},
-			complete : function(XMLHttpRequest, textStatus) {
-				$.enableButton("btn_download");
-			}
-		});
+		$.downLoadFile(config);
 	});
-
 });
 
 function getDownloadConfig() {
