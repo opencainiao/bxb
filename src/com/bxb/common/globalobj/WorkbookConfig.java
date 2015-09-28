@@ -12,6 +12,7 @@ public class WorkbookConfig {
 
 	private Map<String, String[]> sheetTitles;
 	private Map<String, String[]> sheetFields;
+	private Map<String, Map<String, Integer>> sheetWidths;// sheet的表头对应的列宽
 
 	public String getWorkbookName() {
 		return workbookName;
@@ -50,6 +51,18 @@ public class WorkbookConfig {
 			this.sheetNames = new ArrayList<String>();
 		}
 		this.sheetNames.add(sheetName);
+	}
+
+	public void addSheetWidth(String sheetName, Map<String, Integer> fieldWidths) {
+
+		if (this.sheetWidths == null) {
+			this.sheetWidths = new HashMap<String, Map<String, Integer>>();
+		}
+		this.sheetWidths.put(sheetName, fieldWidths);
+	}
+
+	public Map<String, Map<String, Integer>> getSheetWidths() {
+		return sheetWidths;
 	}
 
 	public void addSheetField(String sheetName, String[] Fields) {

@@ -1,8 +1,9 @@
 package com.bxb.modules.client.model;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.hibernate.validator.constraints.NotEmpty;
 import org.mou.common.JsonUtil;
@@ -771,7 +772,11 @@ public class Client extends BaseModel {
 			}
 		}
 
-		this.setPhone_info_name(sb.toString());
+		if (sb.length() > 0) {
+			this.setPhone_info_name(sb.substring(0, sb.lastIndexOf("<br>")));
+		} else {
+			this.setPhone_info_name("");
+		}
 	}
 
 	public void setAddressString() {
@@ -784,7 +789,11 @@ public class Client extends BaseModel {
 			}
 		}
 
-		this.setAddress_info_name(sb.toString());
+		if (sb.length() > 0) {
+			this.setAddress_info_name(sb.substring(0, sb.lastIndexOf("<br>")));
+		} else {
+			this.setAddress_info_name("");
+		}
 	}
 
 	public String getEmail_info() {
@@ -916,7 +925,20 @@ public class Client extends BaseModel {
 	}
 
 	public static void main(String[] args) {
-
 		System.out.println(JsonUtil.toJsonStr(Client.getTitlesForDownLoad()));
+	}
+
+	/****
+	 * 设置列宽
+	 * 
+	 * @return
+	 */
+	public static Map<String, Integer> getWidthsForDownLoad() {
+
+		Map<String, Integer> rtnMap = new HashMap<String, Integer>();
+
+		rtnMap.put("address_info_name", 6000);
+
+		return rtnMap;
 	}
 }

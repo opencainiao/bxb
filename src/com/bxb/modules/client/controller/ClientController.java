@@ -1,6 +1,7 @@
 package com.bxb.modules.client.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletOutputStream;
@@ -470,6 +471,7 @@ public class ClientController extends BaseController {
 
 			String[] titleNames = Client.getTitlesForDownLoad();
 			String[] fieldNames = Client.getFieldsForDownLoad();
+			Map<String, Integer> fieldWidths = Client.getWidthsForDownLoad();
 			String sheetName = "sheet0";
 
 			WorkbookConfig wcg = new WorkbookConfig();
@@ -477,6 +479,7 @@ public class ClientController extends BaseController {
 			wcg.addSheetName(sheetName);
 			wcg.addSheetField(sheetName, fieldNames);
 			wcg.addSheetTitle(sheetName, titleNames);
+			wcg.addSheetWidth(sheetName, fieldWidths);
 
 			HSSFWorkbook wb = ExportUtils
 					.createSingSheetHSSFWorkbook(wcg, list);
