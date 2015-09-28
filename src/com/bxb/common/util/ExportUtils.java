@@ -155,6 +155,8 @@ public class ExportUtils {
 
 						cellValue = cellValue.replace("<br>", "\r\n");
 						cell.setCellValue(cellValue);
+					}else{
+						cell.setCellValue(cellValue);
 					}
 				} else if (type.equalsIgnoreCase("int")
 						|| type.equalsIgnoreCase("integer")) {
@@ -171,6 +173,8 @@ public class ExportUtils {
 						cell.setCellStyle(cellStyle);
 
 						cellValue = cellValue.replace("<br>", "\r\n");
+						cell.setCellValue(cellValue);
+					}else{
 						cell.setCellValue(cellValue);
 					}
 				}
