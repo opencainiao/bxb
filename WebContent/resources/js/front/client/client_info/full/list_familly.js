@@ -15,6 +15,19 @@ $().ready(function() {
 });
 
 /****
+ * 弹出选择客户窗口
+ */
+var popUpChooseClient = function(){
+	var url_to = $.getSitePath() + '/front/familly/choose_client?user_id=#USERID#&user_name=#USERNAME#&user_sex=#USERSEX#';
+	
+	url_to = url_to.replaceAll("#USERID#",$("#_id_m").val());
+	url_to = url_to.replaceAll("#USERNAME#",$("#client_name").val());
+	url_to = url_to.replaceAll("#USERSEX#",$("#client_sex").val());
+
+	$.popUpWindow("选择客户", url_to, "90%", "90%", "choose_client", $("#btn_add"));
+}
+
+/****
  * 关闭添家亲属弹出框
  */
 var closeAddFamillyWindow = function() {

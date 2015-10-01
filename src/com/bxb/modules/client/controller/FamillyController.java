@@ -117,7 +117,7 @@ public class FamillyController extends BaseController {
 	}
 
 	/****
-	 * 查询系统用户信息（条件查询，查询多笔，按照系统用户码或名称）
+	 * 查询亲属信息
 	 * 
 	 * @param model
 	 * @param request
@@ -435,5 +435,19 @@ public class FamillyController extends BaseController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	/****
+	 * 进入选择客户页面
+	 * 
+	 * @return
+	 */
+	@RequestMapping(value = "/choose_client", method = RequestMethod.GET)
+	public String chooseClient(HttpServletRequest request, Model model, String user_id,
+			String user_name, String user_sex) {
+
+
+		// 开启modelDriven
+		return "front/client/client_info/full/choose_client";
 	}
 }

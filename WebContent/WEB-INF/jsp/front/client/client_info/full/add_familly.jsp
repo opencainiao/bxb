@@ -27,7 +27,7 @@
 				value="${clientrelationship.f_sex}">
 
 			<input type="hidden" id="s_id" name="s_id"
-				value="${clientrelationship.s_id}11" >
+				value="${clientrelationship.s_id}11">
 			<input type="hidden" id="s_name" name="s_name"
 				value="${clientrelationship.s_name}12">
 			<input type="hidden" id=s_sex name="s_sex"
@@ -70,9 +70,16 @@
 										<label for="family_income_feature"
 											class="col-sm-3 control-label">选择 </label>
 										<div class="col-sm-8">
-											<input type="text" id="family_income_feature"
-												name="family_income_feature" class="form-control"
-												value="${clientrelationship.f_sex}">
+											<div class="input-group" id="family_choose_div">
+												<input type="text" id="family_choose" name="family_choose"
+													class="form-control" readonly>
+												<span class="input-group-btn">
+													<button class="btn btn-default btn-sm" type="button">
+														<span class="glyphicon glyphicon-chevron-right"
+															aria-hidden="true"></span>
+													</button>
+												</span>
+											</div>
 										</div>
 									</div>
 								</div>
@@ -110,7 +117,9 @@
 		$().ready(function() {
 
 			$("#btn_save").bind("click", save);
-
+			
+			$("#family_choose_div").bind("click", parent.popUpChooseClient);
+			
 			document.onkeydown = function(event) {
 				if (event.keyCode == 13) {
 					return false;
@@ -118,7 +127,7 @@
 			}
 		});
 		
-		function refresh_parent(){
+		function refresh_parent() {
 			parent.refreshFamillyWindow();
 			parent.closeAddFamillyWindow();
 		}
@@ -140,10 +149,7 @@
 				type : 'POST',
 				url : url_to,
 				data : $.extend({
-					ts : new Date().getTime(),
-					s_id: "11",
-					s_name:"第二个",
-					s_sex: 0
+					ts : new Date().getTime()
 				}, paramForm),
 				type : 'POST',
 				dataType : 'json',
@@ -157,8 +163,8 @@
 						}
 					} else {
 						var callback = refresh_parent;
-	                	
-	                	$.alertSuccessCallback("成功", successstr,callback, [ '30px', '' ]);
+
+						$.alertSuccessCallback("成功", successstr, callback, [ '30px', '' ]);
 					}
 				},
 				complete : function(XMLHttpRequest, textStatus) {
