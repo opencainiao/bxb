@@ -118,7 +118,7 @@ var data_manage_familly_relationship = {
 	 * 表格配置
 	 */
 	gridsetting : {
-		showTableToggleBtn : true,
+		showTableToggleBtn : false,
 		resizable : false,
 		url : '',
 		method : 'POST',

@@ -44,7 +44,11 @@ dl dd {
 
 <script>
 
-var client = ${client};
+var client = {};
+
+<c:if test="${client != null}">
+	client = ${client};
+</c:if>
 //$.alertObjJson(client);
 
 // 生成内容
@@ -454,18 +458,18 @@ function setPWindowH(part_flag,H){
 
 $().ready(function() {
 	
+	$("button").each(function(e){
+		$(this).css("margin-left","10px");
+		$(this).addClass("btn-sm");
+		$(this).addClass("btn-primary");
+	})
+	
 	initBase();
 	initFamily();
 	initIncome();
 	initSource();
 	initWork();
 	initXg();
-	
-	$("button").each(function(e){
-		$(this).css("margin-left","10px");
-		$(this).addClass("btn-sm");
-		$(this).addClass("btn-primary");
-	})
 });
 
 </script>
