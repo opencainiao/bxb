@@ -26,8 +26,7 @@
 <link
 	href="<%=request.getContextPath()%>/resources/gentelella/production/css/floatexamples.css"
 	rel="stylesheet" type="text/css" />
-<link
-	href="<%=request.getContextPath()%>/resources/css/idialog.css"
+<link href="<%=request.getContextPath()%>/resources/css/idialog.css"
 	rel="stylesheet" type="text/css">
 <style>
 <!--
@@ -63,10 +62,18 @@
 }
 
 .right_col {
-	min-height:600px;
+	min-height: 600px;
 }
 
-
+a {
+	outline: none;
+}
+a:active {
+	star: expression(this.onFocus = this.blur ());
+}
+a:focus {
+	outline: 0;
+}
 -->
 </style>
 

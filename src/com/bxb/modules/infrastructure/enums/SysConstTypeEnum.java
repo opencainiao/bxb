@@ -27,7 +27,8 @@ public enum SysConstTypeEnum {
 	INTERESTING_SERVICE("INTERESTING_SERVICE", "关注的服务"),
 	REGION_TYPE("REGION_TYPE","地区分类"),
 	PHONE_TYPE("PHONE_TYPE","电话类型"),
-	ADDRESS_TYPE("ADDRESS_TYPE","地址类型");
+	ADDRESS_TYPE("ADDRESS_TYPE","地址类型"),
+	FAMILLY_RELATIONSHIP("FAMILLY_RELATIONSHIP","亲属关系类型");
 	
 
 	private String code;

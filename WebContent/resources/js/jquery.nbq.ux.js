@@ -118,12 +118,15 @@
 				}
 			})
 		},
-		alertSuccessCallback : function(title, message, callback) {
+		alertSuccessCallback : function(title, message, callback, offset) {
 			var obj = {};
 
 			obj["type"] = "success";
 			obj["title"] = title;
 			obj["message"] = message;
+			if (offset) {
+				obj["offset"] = offset;
+			}
 
 			if (callback) {
 				$.alertMsg(obj, callback);

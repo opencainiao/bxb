@@ -73,6 +73,12 @@ div.laydate_yms {
 			}
 		}
 
+		$("a").bind("focus", function() {
+			if (this.blur) {
+				this.blur();
+			}
+		});
+
 		//给面板添加折叠
 		$(".panel-heading").each(function() {
 			$(this).append('<span class="glyphicon glyphicon-chevron-down pull-right spncollapse"></span>');
@@ -85,7 +91,7 @@ div.laydate_yms {
 		});
 
 		// 将页面的按钮图标，换成小图标
-		$("button",$(".navbar")).each(function(e) {
+		$("button", $(".navbar")).each(function(e) {
 			$(this).addClass("btn-sm");
 		})
 

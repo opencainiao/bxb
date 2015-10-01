@@ -80,13 +80,13 @@
 <script type="text/javascript"
 	src="<%=request.getContextPath()%>/resources/js/mou.data.js"></script>
 <script type="text/javascript"
-	src="<%=request.getContextPath()%>/resources/js/mou.multiselectpanel.js"></script>	
-	
+	src="<%=request.getContextPath()%>/resources/js/mou.multiselectpanel.js"></script>
+
 
 
 <script type="text/javascript"
 	src="<%=request.getContextPath()%>/resources/js/jquery.artDialog.js"></script>
-	
+
 <script
 	src="<%=request.getContextPath()%>/resources/laydate-v1.1/laydate/laydate.js"></script>
 
@@ -102,6 +102,12 @@
 			}
 		}
 
+		$("a").bind("focus", function() {
+			if (this.blur) {
+				this.blur();
+			}
+		});
+		
 		//给面板添加折叠
 		$(".panel-heading").each(function() {
 			$(this).append('<span class="glyphicon glyphicon-chevron-down pull-right spncollapse"></span>');
