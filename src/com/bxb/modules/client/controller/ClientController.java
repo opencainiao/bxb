@@ -2,6 +2,7 @@ package com.bxb.modules.client.controller;
 
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletOutputStream;
@@ -30,6 +31,7 @@ import com.bxb.common.globalobj.RequestResult;
 import com.bxb.common.globalobj.WorkbookConfig;
 import com.bxb.common.util.ExportUtils;
 import com.bxb.common.util.HttpServletRequestUtil;
+import com.bxb.common.util.RegexPatternUtil;
 import com.bxb.common.util.WebContextUtil;
 import com.bxb.common.util.propertyeditor.CustomerDoubleEditor;
 import com.bxb.common.util.propertyeditor.CustomerIntegerEditor;
@@ -48,6 +50,7 @@ import com.bxb.modules.client.model.partinfo.ClientXgInfo;
 import com.bxb.modules.client.service.IClientService;
 import com.bxb.modules.client.service.modifyclientinfo.IModifyClientInfoService;
 import com.google.gson.reflect.TypeToken;
+import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 
@@ -61,8 +64,7 @@ import com.mongodb.DBObject;
 @RequestMapping("/front/client")
 public class ClientController extends BaseController {
 
-	private static final Logger logger = LogManager
-			.getLogger(ClientController.class);
+	private static final Logger logger = LogManager.getLogger(ClientController.class);
 
 	@Resource(name = "clientService")
 	private IClientService clientService;
@@ -80,8 +82,8 @@ public class ClientController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
-	public String add(@ModelAttribute("client") Client client,
-			HttpServletRequest request, Model model) {
+	public String add(@ModelAttribute("client") Client client, HttpServletRequest request,
+			Model model) {
 
 		String userId = this.getUserId();
 		if (StringUtil.isEmpty(userId)) {
@@ -101,26 +103,23 @@ public class ClientController extends BaseController {
 	 */
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	@ResponseBody
-	public Object add(@Validated Client client, BindingResult br,
-			HttpServletRequest request) {
+	public Object add(@Validated Client client, BindingResult br, HttpServletRequest request) {
 
 		HttpServletRequestUtil.debugParams(request);
 
 		String phone_info = request.getParameter("phone_info");
 		String address_info = request.getParameter("address_info");
-		String interesting_services = request
-				.getParameter("interesting_service");
+		String interesting_services = request.getParameter("interesting_service");
 
-		List<Phone> phones = JsonUtil.getGson().fromJson(phone_info,
-				new TypeToken<List<Phone>>() {
-				}.getType());
+		List<Phone> phones = JsonUtil.getGson().fromJson(phone_info, new TypeToken<List<Phone>>() {
+		}.getType());
 
 		List<Address> addresses = JsonUtil.getGson().fromJson(address_info,
 				new TypeToken<List<Address>>() {
 				}.getType());
 
-		List<String> interesting_service = JsonUtil.getGson().fromJson(
-				interesting_services, new TypeToken<List<String>>() {
+		List<String> interesting_service = JsonUtil.getGson().fromJson(interesting_services,
+				new TypeToken<List<String>>() {
 				}.getType());
 
 		client.setInteresting_service(interesting_service);
@@ -188,7 +187,8 @@ public class ClientController extends BaseController {
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.POST)
 	@ResponseBody
-	public Object list(Model model, HttpServletRequest request, String userId) {
+	public Object list(Model model, HttpServletRequest request, String userId,
+			String search_condition) {
 
 		HttpServletRequestUtil.debugParams(request);
 		try {
@@ -199,13 +199,25 @@ public class ClientController extends BaseController {
 			}
 			query.put("useflg", "1");
 
+			if (StringUtil.isNotEmpty(search_condition)) {
+				String name = search_condition.trim();
+
+				Pattern namePattern = RegexPatternUtil.getLikePattern(name);
+
+				BasicDBList values = new BasicDBList();
+				values.add(new BasicDBObject("client_name", namePattern));
+				values.add(new BasicDBObject("pinyin_name", namePattern));
+				values.add(new BasicDBObject("first_char_header", namePattern));
+				values.add(new BasicDBObject("all_char_header", namePattern));
+				query.put("$or", values);
+			}
+
 			DBObject sort = new BasicDBObject();
 			sort.put("client_name_full_py", 1);
 
 			DBObject returnFields = null;
 
-			return this.clientService
-					.batchSearchPage(query, sort, returnFields);
+			return this.clientService.batchSearchPage(query, sort, returnFields);
 
 		} catch (Exception e) {
 			return this.handleException(e);
@@ -277,8 +289,8 @@ public class ClientController extends BaseController {
 	 */
 	@RequestMapping(value = "/{_id}/update", method = RequestMethod.POST)
 	@ResponseBody
-	public Object update(@PathVariable String _id, @Validated Client client,
-			BindingResult br, HttpServletRequest request) {
+	public Object update(@PathVariable String _id, @Validated Client client, BindingResult br,
+			HttpServletRequest request) {
 
 		if (br.hasErrors()) {
 			return ErrorHandler.getRequestResultFromBindingResult(br);
@@ -351,8 +363,8 @@ public class ClientController extends BaseController {
 	 */
 	@RequestMapping(value = "/{_id}/update_part", method = RequestMethod.POST)
 	@ResponseBody
-	public Object update_part(@PathVariable String _id, Client client,
-			HttpServletRequest request, String part_flg) {
+	public Object update_part(@PathVariable String _id, Client client, HttpServletRequest request,
+			String part_flg) {
 
 		String user_id = client.getOwner_user_id();
 		if (!this.isValidObjId(_id)) {
@@ -371,19 +383,17 @@ public class ClientController extends BaseController {
 
 		String phone_info = request.getParameter("phone_info");
 		String address_info = request.getParameter("address_info");
-		String interesting_services = request
-				.getParameter("interesting_service");
+		String interesting_services = request.getParameter("interesting_service");
 
-		List<Phone> phones = JsonUtil.getGson().fromJson(phone_info,
-				new TypeToken<List<Phone>>() {
-				}.getType());
+		List<Phone> phones = JsonUtil.getGson().fromJson(phone_info, new TypeToken<List<Phone>>() {
+		}.getType());
 
 		List<Address> addresses = JsonUtil.getGson().fromJson(address_info,
 				new TypeToken<List<Address>>() {
 				}.getType());
 
-		List<String> interesting_service = JsonUtil.getGson().fromJson(
-				interesting_services, new TypeToken<List<String>>() {
+		List<String> interesting_service = JsonUtil.getGson().fromJson(interesting_services,
+				new TypeToken<List<String>>() {
 				}.getType());
 
 		client.setInteresting_service(interesting_service);
@@ -394,8 +404,7 @@ public class ClientController extends BaseController {
 
 		try {
 			IModifyClientInfoService modifyClientService = getModifyService(part_flg);
-			DBObject updateResult = modifyClientService
-					.updatePart(null, client);
+			DBObject updateResult = modifyClientService.updatePart(null, client);
 
 			logger.debug("更新后的结果[{}]", updateResult);
 
@@ -457,17 +466,15 @@ public class ClientController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value = "/download_clients", method = RequestMethod.POST)
-	public void single(Model model, HttpServletRequest request,
-			HttpServletResponse response, String titles, String fields,
-			String fileName) {
+	public void single(Model model, HttpServletRequest request, HttpServletResponse response,
+			String titles, String fields, String fileName) {
 
 		logger.debug("下载单sheet文件");
 		HttpServletRequestUtil.debugParams(request);
 
 		try {
 			// 获取类
-			List list = this.clientService.downLoadAllClientByUserId(this
-					.getUserId());
+			List list = this.clientService.downLoadAllClientByUserId(this.getUserId());
 
 			String[] titleNames = Client.getTitlesForDownLoad();
 			String[] fieldNames = Client.getFieldsForDownLoad();
@@ -481,8 +488,7 @@ public class ClientController extends BaseController {
 			wcg.addSheetTitle(sheetName, titleNames);
 			wcg.addSheetWidth(sheetName, fieldWidths);
 
-			HSSFWorkbook wb = ExportUtils
-					.createSingSheetHSSFWorkbook(wcg, list);
+			HSSFWorkbook wb = ExportUtils.createSingSheetHSSFWorkbook(wcg, list);
 
 			ExportUtils.setHeader(response, fileName);
 			// 获取输出流，写入excel 并关闭
