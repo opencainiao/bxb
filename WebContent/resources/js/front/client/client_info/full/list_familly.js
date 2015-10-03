@@ -97,7 +97,7 @@ var data_manage_functions = {
 	 */
 	toDetail : function(data) {
 
-		var url = $.getSitePath() + '/front/client/' + data["_id_m"];
+		var url = $.getSitePath() + '/front/client/' + data["s_id"];
 
 		$.loadPage(url);
 
@@ -173,8 +173,8 @@ var data_manage_familly_relationship = {
 			name : '_id_m',
 			hide : true
 		}, {
-			display : '归属用户id',
-			name : 'owner_user_id',
+			display : 's_id',
+			name : 's_id',
 			width : 120,
 			hide : true
 		}, {
@@ -182,7 +182,7 @@ var data_manage_familly_relationship = {
 			name : 's_name',
 			width : 110,
 			m_type : 'link',
-			select : [ "_id_m" ],
+			select : [ "s_id" ],
 			hide : false,
 			callback : data_manage_functions.toDetail
 		}, {

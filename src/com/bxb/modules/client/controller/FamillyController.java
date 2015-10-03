@@ -92,7 +92,7 @@ public class FamillyController extends BaseController {
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	@ResponseBody
 	public Object add(@Validated ClientRelationShip clientrelationship, BindingResult br,
-			HttpServletRequest request) {
+			HttpServletRequest request, String relationship_s, String relationship_f) {
 
 		HttpServletRequestUtil.debugParams(request);
 
@@ -101,10 +101,17 @@ public class FamillyController extends BaseController {
 		if (br.hasErrors()) {
 			return ErrorHandler.getRequestResultFromBindingResult(br);
 		}
+
 		try {
 
-			// 2.新增
+			// 1.新增第一个人的关系
+			clientrelationship.setRelationship(relationship_s);
 			String _id = this.famillyRelationShipService.add(clientrelationship);
+
+			// 2.新增第二个人的关系
+			clientrelationship.converse();
+			clientrelationship.setRelationship(relationship_f);
+			_id = this.famillyRelationShipService.add(clientrelationship);
 
 			RequestResult rr = new RequestResult();
 			rr.setSuccess(true);

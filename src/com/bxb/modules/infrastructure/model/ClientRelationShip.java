@@ -89,4 +89,17 @@ public class ClientRelationShip extends BaseModel {
 		this.relationship_cmt = relationship_cmt;
 	}
 
+	public void converse() {
+		String f_id = this.f_id;
+		String f_name = this.f_name;
+		String f_sex = this.f_sex;
+
+		this.f_id = this.s_id;
+		this.f_name = this.s_name;
+		this.f_sex = this.s_sex;
+		
+		this.s_id = f_id;
+		this.s_name = f_name;
+		this.s_sex = f_sex;
+	}
 }

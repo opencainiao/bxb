@@ -99,6 +99,12 @@ public abstract class BaseDao implements IBaseDao {
 				pageInfo.put("total", Integer.parseInt(String
 						.valueOf(MongoCollectionUtil.findBatchCount(
 								getCollectionName(), query))));
+			}else{
+				if (pageInfo.get("total") == 0 && list!=null && list.size()>0) {
+					pageInfo.put("total", Integer.parseInt(String
+							.valueOf(MongoCollectionUtil.findBatchCount(
+									getCollectionName(), query))));
+				}
 			}
 		}
 

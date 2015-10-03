@@ -15,6 +15,7 @@ import com.bxb.modules.client.model.Address;
 import com.bxb.modules.infrastructure.model.ClientRelationShip;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
+import com.mongodb.WriteResult;
 
 /****
  * 地址服务实现
@@ -50,7 +51,8 @@ public class FamillyRelationShipService extends BaseService implements IFamillyR
 	public DBObject updatePart(DBObject returnFields, Address address) {
 
 		DBObject toUpdate = makeUpdate(address);
-		return this.famillyRelationShipDao.updateOneById(address.get_id_m(), returnFields, toUpdate);
+		return this.famillyRelationShipDao.updateOneById(address.get_id_m(), returnFields,
+				toUpdate);
 	}
 
 	/****
@@ -81,6 +83,20 @@ public class FamillyRelationShipService extends BaseService implements IFamillyR
 
 	@Override
 	public DBObject RemoveOneById(String _id) {
+
+		DBObject dbo = this.famillyRelationShipDao.findOneByIdPart(_id, null);
+
+		String f_id = dbo.get("f_id").toString();
+		String s_id = dbo.get("s_id").toString();
+		
+		DBObject dboQuery = new BasicDBObject();
+		dboQuery.put("f_id", s_id);
+		dboQuery.put("s_id", f_id);
+		
+		WriteResult wr = this.famillyRelationShipDao.remove(dboQuery);
+
+		logger.debug(dbo);
+
 		return this.famillyRelationShipDao.findAndRemoveOneById(_id);
 	}
 
@@ -101,7 +117,8 @@ public class FamillyRelationShipService extends BaseService implements IFamillyR
 
 		// 2.设置返回结果
 
-		List<DBObject> allAddress = this.famillyRelationShipDao.findBatchDbOjbect(queryCondition, null, null);
+		List<DBObject> allAddress = this.famillyRelationShipDao.findBatchDbOjbect(queryCondition,
+				null, null);
 
 		return allAddress;
 	}

@@ -51,29 +51,35 @@
 									</div>
 								</div>
 							</div>
+							<div class="col-xs-6">
+								<div class="row">
+									<div class="col-md-12 form-horizontal">
+										<div class="form-group form-group-sm  ">
+											<label for="relationshi_f" class="col-sm-3 control-label">身份
+											</label>
+											<div class="col-sm-8">
+												<select id="relationship_f" name="relationship_f"
+													class="form-control" data-src="constant"
+													data-typecode="FAMILLY_RELATIONSHIP"
+													data-value="${clientrelationship.relationship}">
+												</select>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
 						</div>
 						<div class="row">
 							<div class="col-xs-6">
 								<div class="row">
-									<div class="form-group form-group-sm  ">
-										<label for="relationship" class="col-sm-3 control-label">关系
-										</label>
-										<div class="col-sm-8">
-											<select id="relationship" name="relationship"
-												class="form-control" data-src="constant"
-												data-typecode="FAMILLY_RELATIONSHIP"
-												data-value="${clientrelationship.relationship}">
-											</select>
-										</div>
-									</div>
 									<div class="form-group form-group-sm  ">
 										<label for="family_income_feature"
 											class="col-sm-3 control-label">选择 </label>
 										<div class="col-sm-8">
 											<div class="input-group" id="family_choose_div">
 												<input type="text" id="family_choose" name="family_choose"
-													class="form-control" readonly>
-												<span class="input-group-btn">
+													class="form-control" readonly> <span
+													class="input-group-btn">
 													<button class="btn btn-default btn-sm" type="button">
 														<span class="glyphicon glyphicon-chevron-right"
 															aria-hidden="true"></span>
@@ -82,19 +88,30 @@
 											</div>
 										</div>
 									</div>
+									<div class="form-group form-group-sm  ">
+										<label for="relationship_cmt" class="col-sm-3 control-label">
+											关系说明 </label>
+										<div class="col-sm-8">
+											<input type="text" class="form-control" id="relationship_cmt"
+												name="relationship_cmt"
+												value="${clientrelationship.relationship_cmt}"
+												placeholder="">
+										</div>
+									</div>
 								</div>
 							</div>
 							<div class="col-xs-6">
 								<div class="row">
 									<div class="col-md-12 form-horizontal">
 										<div class="form-group form-group-sm  ">
-											<label for="relationship_cmt" class="col-sm-3 control-label">
-												关系说明 </label>
+											<label for="relationship_s" class="col-sm-3 control-label">身份
+											</label>
 											<div class="col-sm-8">
-												<input type="text" class="form-control"
-													id="relationship_cmt" name="relationship_cmt"
-													value="${clientrelationship.relationship_cmt}"
-													placeholder="">
+												<select id="relationship_s" name="relationship_s"
+													class="form-control" data-src="constant"
+													data-typecode="FAMILLY_RELATIONSHIP"
+													data-value="${clientrelationship.relationship}">
+												</select>
 											</div>
 										</div>
 									</div>
@@ -117,27 +134,27 @@
 		$().ready(function() {
 
 			$("#btn_save").bind("click", save);
-			
+
 			$("#family_choose_div").bind("click", parent.popUpChooseClient);
-			
+
 			document.onkeydown = function(event) {
 				if (event.keyCode == 13) {
 					return false;
 				}
 			}
 		});
-		
+
 		//设置选择的客户		
-		function setSelectedClient(obj){
+		function setSelectedClient(obj) {
 			//$.alertObjJson(obj);
-			
+
 			$("#s_id").val(obj["_id_m"]);
 			$("#s_name").val(obj["client_name"]);
-			$("#s_sex").val(obj["sex"]=='男'?1:0);
-			
+			$("#s_sex").val(obj["sex"] == '男' ? 1 : 0);
+
 			$("#family_choose").val(obj["client_name"]);
 		}
-		
+
 		function refresh_parent() {
 			parent.refreshFamillyWindow();
 			parent.closeAddFamillyWindow();
