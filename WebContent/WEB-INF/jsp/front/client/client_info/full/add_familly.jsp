@@ -27,11 +27,11 @@
 				value="${clientrelationship.f_sex}">
 
 			<input type="hidden" id="s_id" name="s_id"
-				value="${clientrelationship.s_id}11">
+				value="${clientrelationship.s_id}">
 			<input type="hidden" id="s_name" name="s_name"
-				value="${clientrelationship.s_name}12">
+				value="${clientrelationship.s_name}">
 			<input type="hidden" id=s_sex name="s_sex"
-				value="${clientrelationship.s_sex}0">
+				value="${clientrelationship.s_sex}">
 
 			<div class="container-fluid" style="margin-top: 30px">
 
@@ -126,6 +126,17 @@
 				}
 			}
 		});
+		
+		//设置选择的客户		
+		function setSelectedClient(obj){
+			//$.alertObjJson(obj);
+			
+			$("#s_id").val(obj["_id_m"]);
+			$("#s_name").val(obj["client_name"]);
+			$("#s_sex").val(obj["sex"]=='男'?1:0);
+			
+			$("#family_choose").val(obj["client_name"]);
+		}
 		
 		function refresh_parent() {
 			parent.refreshFamillyWindow();

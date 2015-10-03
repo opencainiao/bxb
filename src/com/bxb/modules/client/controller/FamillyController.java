@@ -445,7 +445,9 @@ public class FamillyController extends BaseController {
 	@RequestMapping(value = "/choose_client", method = RequestMethod.GET)
 	public String chooseClient(HttpServletRequest request, Model model, String user_id,
 			String user_name, String user_sex) {
-
+		model.addAttribute("f_id", user_id);
+		model.addAttribute("f_name", user_name);
+		model.addAttribute("f_sex", user_sex);
 
 		// 开启modelDriven
 		return "front/client/client_info/full/choose_client";

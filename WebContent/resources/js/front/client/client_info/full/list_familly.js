@@ -28,6 +28,19 @@ var popUpChooseClient = function(){
 }
 
 /****
+ * 设置选择的客户信息（在弹出的选择客户页面）
+ */
+var setSelectedClient=function(selectedObj){
+	
+	// 设置选择客户信息
+	var layerIndex = $("#btn_add").attr("add");
+	$.callLayerFunc(layerIndex, "setSelectedClient", selectedObj) ;
+	
+	// 关闭选择客户弹出窗口
+	$.closeWindow("choose_client", $("#btn_add"));
+}
+
+/****
  * 关闭添家亲属弹出框
  */
 var closeAddFamillyWindow = function() {

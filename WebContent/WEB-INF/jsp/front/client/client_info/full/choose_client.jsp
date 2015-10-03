@@ -14,7 +14,7 @@
 <jsp:include page="/WEB-INF/jsp/include/common_flexigrid.jsp"></jsp:include>
 
 <script type="text/javascript"
-		src="${ctx }/resources/bootbox-master/bootbox.js"></script>
+	src="${ctx }/resources/bootbox-master/bootbox.js"></script>
 
 </head>
 
@@ -23,10 +23,11 @@
 
 	<div id="choose_div">
 		<input type="hidden" id="f_id" name="f_id"
-			value="${clientrelationship.f_id}"> <input type="hidden"
-			id="f_name" name="f_name" value="${clientrelationship.f_name}">
+			value="${f_id}">
+		<input type="hidden" id="f_name" name="f_name"
+			value="${f_name}">
 		<input type="hidden" id="f_sex" name="f_sex"
-			value="${clientrelationship.f_sex}">
+			value="${f_sex}">
 
 		<div class="navbar navbar-default">
 			<form class="navbar-form navbar-left">
@@ -55,14 +56,19 @@
 			$("#btn_search").bind("click", data_manage.search);
 			$("#btn_confirm").bind("click", function() {
 				var selected = mou_grid_ux.getSelectedAllGrid("list");
-				if (selected.length == 0){
+				if (selected.length == 0) {
 					bootbox.alert("<span style='color:red'>请选择一个客户</span>");
 					return;
 				}
 				
 				var selectedObj = selected[0];
 				
-				$.logJson(selectedObj);
+				if ($("#f_id").val() == selectedObj["_id_m"]){
+					bootbox.alert("<span style='color:red'>不能选择自己</span>");
+					return;
+				}
+				//$.logJson(selectedObj);
+				parent.setSelectedClient(selectedObj);
 			});
 
 			document.onkeydown = function(event) {
