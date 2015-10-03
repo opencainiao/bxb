@@ -144,6 +144,7 @@
 		}
 
 		//保存
+		// 同步（因为要添加成功后，刷新父页面的亲属列表）
 		var save = function() {
 
 			var paramForm = $('form').getFormParam_ux();
@@ -162,8 +163,8 @@
 				data : $.extend({
 					ts : new Date().getTime()
 				}, paramForm),
-				type : 'POST',
 				dataType : 'json',
+				async : false,
 				success : function(data) {
 
 					if (data['success'] == 'n') {
