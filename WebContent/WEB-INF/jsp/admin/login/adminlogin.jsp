@@ -114,7 +114,7 @@
 			</form>
 		</div>
 		<div id="loginFooter">
-			<button type="submit"  id="submitBtn" class="btn-info btn-large" style="font-size:25px">登陆系统</button>
+			<button type="submit"  id="submitBtn" class="btn-primary btn-large" style="width: 350px; height: 50px; border-width: 0px; font-size: 23px;" type="submit">登陆系统</button>
 		</div>
 	</div>
   </body>
